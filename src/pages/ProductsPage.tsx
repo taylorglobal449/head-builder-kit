@@ -1,9 +1,9 @@
 import { Header } from "@/components/Header";
 import { ProductGrid } from "@/components/products/ProductGrid";
-import { useProducts } from "@/hooks/useProducts";
+import { useMockProducts } from "@/hooks/useMockProducts";
 
 export default function ProductsPage() {
-  const { products, loading } = useProducts(24);
+  const { products, loading } = useMockProducts(24);
 
   return (
     <div className="min-h-screen bg-background">

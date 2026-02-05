@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Search, User, Menu, X, FlameKindling, DollarSign, Sparkles, ShoppingBag, Tag, Truck } from "lucide-react";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { SearchModal } from "@/components/search/SearchModal";
 
 const navCategories = [
   { 
@@ -124,6 +125,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [activeCategoryDropdown, setActiveCategoryDropdown] = useState<string | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   return (
     <header className="w-full font-sans">
@@ -194,14 +196,18 @@ export function Header() {
             />
           </a>
 
-          {/* Search Bar - Centered, Longer */}
+          {/* Search Bar - Centered, Longer - Opens Modal */}
           <div className="flex-1 max-w-[800px] mx-auto hidden sm:block relative">
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="w-full border-2 border-header-border rounded px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-header-primary focus:border-transparent pr-12"
-            />
-            <button className="absolute right-0 top-0 h-full w-12 bg-header-primary text-white rounded-r flex items-center justify-center hover:bg-header-primary-hover transition-colors">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="w-full border-2 border-header-border rounded px-4 py-2.5 text-sm text-left text-muted-foreground hover:border-header-primary transition-colors pr-12 bg-white"
+            >
+              Search products, brands, categories...
+            </button>
+            <button 
+              onClick={() => setSearchOpen(true)}
+              className="absolute right-0 top-0 h-full w-12 bg-header-primary text-white rounded-r flex items-center justify-center hover:bg-header-primary-hover transition-colors"
+            >
               <Search className="w-5 h-5" />
             </button>
           </div>
@@ -218,17 +224,17 @@ export function Header() {
 
         {/* Mobile Search */}
         <div className="sm:hidden px-4 mt-3">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="w-full border-2 border-header-border rounded px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-header-primary focus:border-transparent pr-12"
-            />
-            <button className="absolute right-0 top-0 h-full w-12 bg-header-primary text-white rounded-r flex items-center justify-center">
-              <Search className="w-5 h-5" />
-            </button>
-          </div>
+          <button
+            onClick={() => setSearchOpen(true)}
+            className="w-full border-2 border-header-border rounded px-4 py-2.5 text-sm text-left text-muted-foreground hover:border-header-primary transition-colors bg-white flex items-center justify-between"
+          >
+            <span>Search products...</span>
+            <Search className="w-5 h-5 text-header-primary" />
+          </button>
         </div>
+        
+        {/* Search Modal */}
+        <SearchModal open={searchOpen} onOpenChange={setSearchOpen} />
       </div>
 
       {/* Navigation Bar - Single Line, Seamless White */}
