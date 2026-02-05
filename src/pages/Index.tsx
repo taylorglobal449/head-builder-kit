@@ -6,10 +6,10 @@ import { PromoBanners } from "@/components/home/PromoBanners";
 import { TodaysDeals } from "@/components/home/TodaysDeals";
 import { CategoryCards } from "@/components/home/CategoryCards";
 import { ProductGrid } from "@/components/products/ProductGrid";
-import { useProducts } from "@/hooks/useProducts";
+import { useMockProducts } from "@/hooks/useMockProducts";
 
 const Index = () => {
-  const { products, loading } = useProducts(12);
+  const { products, loading } = useMockProducts(12);
 
   return (
     <div className="min-h-screen bg-background">

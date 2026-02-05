@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
-import { useProduct } from "@/hooks/useProducts";
+import { useMockProduct } from "@/hooks/useMockProducts";
 import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
 import { Loader2, ShoppingCart, ChevronLeft, Minus, Plus, Truck, Shield, RotateCcw } from "lucide-react";
@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 export default function ProductPage() {
   const { handle } = useParams<{ handle: string }>();
-  const { product, loading, error } = useProduct(handle || '');
+  const { product, loading, error } = useMockProduct(handle || '');
   const addItem = useCartStore(state => state.addItem);
   const isCartLoading = useCartStore(state => state.isLoading);
   
