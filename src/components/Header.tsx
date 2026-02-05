@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Search, User, ShoppingCart, Menu, X, FlameKindling, DollarSign, Sparkles, ShoppingBag, Tag, Truck } from "lucide-react";
+import { Search, User, Menu, X, FlameKindling, DollarSign, Sparkles, ShoppingBag, Tag, Truck } from "lucide-react";
+import { CartDrawer } from "@/components/cart/CartDrawer";
 
 const navCategories = [
   { 
@@ -211,10 +212,7 @@ export function Header() {
               <User className="w-5 h-5" />
               <span className="text-[11px] text-header-muted mt-0.5 hidden sm:block">Account</span>
             </a>
-            <a href="#" className="flex flex-col items-center text-header-text hover:text-header-primary transition-colors">
-              <ShoppingCart className="w-6 h-6" />
-              <span className="text-[11px] text-header-muted mt-0.5 hidden sm:block">0 item(s)</span>
-            </a>
+            <CartDrawer />
           </div>
         </div>
 
