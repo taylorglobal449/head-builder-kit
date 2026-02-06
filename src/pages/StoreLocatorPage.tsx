@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
-import { MapPin, Phone, Mail, Clock, ExternalLink, Navigation } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Navigation, X, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+
+interface StoreHours {
+  day: string;
+  hours: string;
+}
 
 interface Store {
   id: string;
@@ -17,7 +22,9 @@ interface Store {
   image: string;
   lat: number;
   lng: number;
-  hours: string;
+  description: string;
+  hoursTable: StoreHours[];
+  shortHours: string;
   isOnline?: boolean;
 }
 
@@ -34,7 +41,17 @@ const STORES: Store[] = [
     image: "https://sl.storeify.app/images/base/store-1737447941.png",
     lat: 37.6947,
     lng: -122.1561,
-    hours: "Mon–Fri 7am–5pm, Sat 8am–4pm",
+    description: "Fasteners Inc. has opened a brand new store in San Leandro. In addition to our extensive range of fasteners, we also stock power tools from top brands like DeWalt, Makita, Milwaukee, and Metabo. We're your one-stop shop in San Leandro for power tools, fasteners, accessories, and so much more! We proudly offer free deliveries to your business or job site in the bay area. Conveniently located off Hesperian Blvd near the 880-238 interchange.",
+    shortHours: "Mon–Fri 7am–6pm, Sat 9am–5pm, Sun Closed",
+    hoursTable: [
+      { day: "Monday", hours: "7:00 AM – 6:00 PM" },
+      { day: "Tuesday", hours: "7:00 AM – 6:00 PM" },
+      { day: "Wednesday", hours: "7:00 AM – 6:00 PM" },
+      { day: "Thursday", hours: "7:00 AM – 6:00 PM" },
+      { day: "Friday", hours: "7:00 AM – 6:00 PM" },
+      { day: "Saturday", hours: "9:00 AM – 5:00 PM" },
+      { day: "Sunday", hours: "Closed" },
+    ],
   },
   {
     id: "sacramento",
@@ -48,7 +65,17 @@ const STORES: Store[] = [
     image: "https://sl.storeify.app/images/base/store-1714427121.jpg",
     lat: 38.5119,
     lng: -121.4419,
-    hours: "Mon–Fri 7am–5pm, Sat 8am–4pm",
+    description: "Since 2017, Sacramento Fasteners Inc. has been a reliable place to find low prices and deals on power tools, accessories, batteries, workwear, and fasteners. Being the biggest Fasteners Inc. store in California, you can expect to find all your tool needs in our large showroom. We have one of the largest displays of Occidental Leather in the US. Find amazing deals on DeWalt, Makita, Milwaukee, Knipex, Diablo, Wera, Vessel, Veto, and more. Located on Power Inn Road between Florin and Elder Creek.",
+    shortHours: "Mon–Fri 7am–5:30pm, Sat–Sun 9am–3pm",
+    hoursTable: [
+      { day: "Monday", hours: "7:00 AM – 5:30 PM" },
+      { day: "Tuesday", hours: "7:00 AM – 5:30 PM" },
+      { day: "Wednesday", hours: "7:00 AM – 5:30 PM" },
+      { day: "Thursday", hours: "7:00 AM – 5:30 PM" },
+      { day: "Friday", hours: "7:00 AM – 5:30 PM" },
+      { day: "Saturday", hours: "9:00 AM – 3:00 PM" },
+      { day: "Sunday", hours: "9:00 AM – 3:00 PM" },
+    ],
   },
   {
     id: "san-jose",
@@ -59,10 +86,20 @@ const STORES: Store[] = [
     zip: "95111",
     phone: "(408) 440-4746",
     email: "sjsales@fastenersinc.net",
-    image: "https://sl.storeify.app/images/base/store-1645058524.jpg",
+    image: "https://www.fastenersinc.net/images/base/store-1645058524.jpg",
     lat: 37.2947,
     lng: -121.8547,
-    hours: "Mon–Fri 7am–5pm, Sat 8am–4pm",
+    description: "Our San Jose store opened just TWO days before the 2020 COVID shutdown. Withstanding the test of the economy and global pandemic, our San Jose location is now an established destination for power tools, accessories, workwear, hand tools, and hardware. We have the largest display of Festool and Knipex in the south bay area, and also stock harder-to-find brands like Shaper, Bessey, Vessel, Wera, Blaklader, and many more! Located on Monterey Highway and Pullman Way.",
+    shortHours: "Mon–Fri 7am–6pm, Sat–Sun 9am–5pm",
+    hoursTable: [
+      { day: "Monday", hours: "7:00 AM – 6:00 PM" },
+      { day: "Tuesday", hours: "7:00 AM – 6:00 PM" },
+      { day: "Wednesday", hours: "7:00 AM – 6:00 PM" },
+      { day: "Thursday", hours: "7:00 AM – 6:00 PM" },
+      { day: "Friday", hours: "7:00 AM – 6:00 PM" },
+      { day: "Saturday", hours: "9:00 AM – 5:00 PM" },
+      { day: "Sunday", hours: "9:00 AM – 5:00 PM" },
+    ],
   },
   {
     id: "anderson",
@@ -76,7 +113,17 @@ const STORES: Store[] = [
     image: "https://sl.storeify.app/images/base/store-1643814050.png",
     lat: 40.4485,
     lng: -122.2953,
-    hours: "Mon–Fri 7am–5pm, Sat 8am–4pm",
+    description: "Our Anderson store has been proudly serving its community since October 2008. After 15 years, it has established itself as a popular place for power tools, accessories, hardware, woodworking equipment, and consumables. We stock well-known brands like DeWalt, Makita, Milwaukee, Mirka, Knipex and more at the best prices in Anderson! Located off Highway 273 by the factory outlet stores.",
+    shortHours: "Mon–Fri 7am–5pm, Sat 9am–3pm, Sun Closed",
+    hoursTable: [
+      { day: "Monday", hours: "7:00 AM – 5:00 PM" },
+      { day: "Tuesday", hours: "7:00 AM – 5:00 PM" },
+      { day: "Wednesday", hours: "7:00 AM – 5:00 PM" },
+      { day: "Thursday", hours: "7:00 AM – 5:00 PM" },
+      { day: "Friday", hours: "7:00 AM – 5:00 PM" },
+      { day: "Saturday", hours: "9:00 AM – 3:00 PM" },
+      { day: "Sunday", hours: "Closed" },
+    ],
   },
   {
     id: "reno",
@@ -90,7 +137,17 @@ const STORES: Store[] = [
     image: "",
     lat: 39.5122,
     lng: -119.7967,
-    hours: "Mon–Fri 7am–5pm, Sat 8am–4pm",
+    description: "Reno Fasteners brings the Fasteners Inc. experience to Northern Nevada. Visit us for power tools, fasteners, accessories, and hardware from all the top brands. Located on Kietzke Lane in Reno.",
+    shortHours: "Mon–Fri 7am–5pm, Sat 9am–3pm, Sun Closed",
+    hoursTable: [
+      { day: "Monday", hours: "7:00 AM – 5:00 PM" },
+      { day: "Tuesday", hours: "7:00 AM – 5:00 PM" },
+      { day: "Wednesday", hours: "7:00 AM – 5:00 PM" },
+      { day: "Thursday", hours: "7:00 AM – 5:00 PM" },
+      { day: "Friday", hours: "7:00 AM – 5:00 PM" },
+      { day: "Saturday", hours: "9:00 AM – 3:00 PM" },
+      { day: "Sunday", hours: "Closed" },
+    ],
   },
   {
     id: "redding",
@@ -104,7 +161,17 @@ const STORES: Store[] = [
     image: "https://sl.storeify.app/images/base/store-1645087170.jpeg",
     lat: 40.5093,
     lng: -122.3531,
-    hours: "Mon–Fri 7am–5pm, Sat 8am–4pm",
+    description: "Operating for over 17 years, our Redding location on Airport Road is the original Fasteners Inc. This store specializes in what we first started selling — fasteners. We are Redding's go-to place for fasteners, unistrut, structural fasteners, and threaded rod. We also sell power tools and accessories from DeWalt, Makita, Milwaukee, and many more brands. Located on Airport Road and Charlanne Drive.",
+    shortHours: "Mon–Fri 6am–5pm, Sat 9am–3pm, Sun Closed",
+    hoursTable: [
+      { day: "Monday", hours: "6:00 AM – 5:00 PM" },
+      { day: "Tuesday", hours: "6:00 AM – 5:00 PM" },
+      { day: "Wednesday", hours: "6:00 AM – 5:00 PM" },
+      { day: "Thursday", hours: "6:00 AM – 5:00 PM" },
+      { day: "Friday", hours: "6:00 AM – 5:00 PM" },
+      { day: "Saturday", hours: "9:00 AM – 3:00 PM" },
+      { day: "Sunday", hours: "Closed" },
+    ],
   },
   {
     id: "medford",
@@ -118,7 +185,17 @@ const STORES: Store[] = [
     image: "https://sl.storeify.app/images/base/store-1645059358.jpg",
     lat: 42.3478,
     lng: -122.8684,
-    hours: "Mon–Fri 7am–5pm, Sat 8am–4pm",
+    description: "Established in 2022, our Medford store is the go-to place for power tools, accessories, fasteners, and woodworking tools in Southern Oregon. Located in the old Medford Tools building, Fasteners Inc. Medford has become a woodworking and machinery supplies hotspot. Find DeWalt, Makita, Milwaukee, Sawstop, Jet, Festool, Wera, and Knipex at top deals. Located near the Rogue Valley Mall off North Pacific Highway. Don't forget to check out our beautiful Milwaukee mural!",
+    shortHours: "Mon–Fri 8am–6pm, Sat 9am–3pm, Sun Closed",
+    hoursTable: [
+      { day: "Monday", hours: "8:00 AM – 6:00 PM" },
+      { day: "Tuesday", hours: "8:00 AM – 6:00 PM" },
+      { day: "Wednesday", hours: "8:00 AM – 6:00 PM" },
+      { day: "Thursday", hours: "8:00 AM – 6:00 PM" },
+      { day: "Friday", hours: "8:00 AM – 6:00 PM" },
+      { day: "Saturday", hours: "9:00 AM – 3:00 PM" },
+      { day: "Sunday", hours: "Closed" },
+    ],
   },
   {
     id: "red-bluff",
@@ -132,7 +209,17 @@ const STORES: Store[] = [
     image: "https://sl.storeify.app/images/base/store-1675987276.jpg",
     lat: 40.1787,
     lng: -122.2359,
-    hours: "Mon–Fri 7am–5pm, Sat 8am–4pm",
+    description: "Fasteners Inc. at Red Bluff has been operating for over ten years as the go-to destination for Senco fastening supplies. We have the largest open floor plan fastener selection in all of Tehama County! We also carry power tools from DeWalt, Makita, Milwaukee, and Metabo. We're Red Bluff's one-shop stop and we offer free deliveries to your business or job site! Located off Antelope Blvd by the Tehama County Fairgrounds.",
+    shortHours: "Mon–Fri 8am–5pm, Sat–Sun Closed",
+    hoursTable: [
+      { day: "Monday", hours: "8:00 AM – 5:00 PM" },
+      { day: "Tuesday", hours: "8:00 AM – 5:00 PM" },
+      { day: "Wednesday", hours: "8:00 AM – 5:00 PM" },
+      { day: "Thursday", hours: "8:00 AM – 5:00 PM" },
+      { day: "Friday", hours: "8:00 AM – 5:00 PM" },
+      { day: "Saturday", hours: "Closed" },
+      { day: "Sunday", hours: "Closed" },
+    ],
   },
   {
     id: "online",
@@ -146,7 +233,17 @@ const STORES: Store[] = [
     image: "https://sl.storeify.app/images/base/store-1645087132.jpeg",
     lat: 40.5565,
     lng: -122.3275,
-    hours: "Mon–Fri 7am–5pm PST",
+    description: "Our Internet & Distribution center is the heartbeat of Fasteners Inc. This location ensures the success of each brick and mortar storefront and guarantees the satisfaction of every online customer. This department has the highest volume of nuts, bolts, and assorted hardware sold — hundreds of online customer invoices are fulfilled daily spanning across the entire United States! Although you won't be able to physically buy from this center, feel free to make purchases anytime through our website.",
+    shortHours: "Mon–Fri 6am–5pm PST, Sat–Sun Closed",
+    hoursTable: [
+      { day: "Monday", hours: "6:00 AM – 5:00 PM" },
+      { day: "Tuesday", hours: "6:00 AM – 5:00 PM" },
+      { day: "Wednesday", hours: "6:00 AM – 5:00 PM" },
+      { day: "Thursday", hours: "6:00 AM – 5:00 PM" },
+      { day: "Friday", hours: "6:00 AM – 5:00 PM" },
+      { day: "Saturday", hours: "Closed" },
+      { day: "Sunday", hours: "Closed" },
+    ],
     isOnline: true,
   },
   {
@@ -161,13 +258,44 @@ const STORES: Store[] = [
     image: "https://sl.storeify.app/images/base/store-1737449050.jpg",
     lat: 36.8107,
     lng: -119.7879,
-    hours: "Mon–Fri 7am–5pm, Sat 8am–4pm",
+    description: "Being our newest tool store, Fresno Fasteners Inc. strives for the same success we have had in all our other stores. We are eager to serve Fresno residents with a quality selection of power tools, accessories, fasteners, woodworking tools, and workwear. Enjoy top deals on DeWalt, Makita, Milwaukee, Festool, and much more. Located in central Fresno off Blackstone/Bullard Street in the old Rasputin Records building.",
+    shortHours: "Mon–Fri 7am–6pm, Sat 9am–4pm, Sun Closed",
+    hoursTable: [
+      { day: "Monday", hours: "7:00 AM – 6:00 PM" },
+      { day: "Tuesday", hours: "7:00 AM – 6:00 PM" },
+      { day: "Wednesday", hours: "7:00 AM – 6:00 PM" },
+      { day: "Thursday", hours: "7:00 AM – 6:00 PM" },
+      { day: "Friday", hours: "7:00 AM – 6:00 PM" },
+      { day: "Saturday", hours: "9:00 AM – 4:00 PM" },
+      { day: "Sunday", hours: "Closed" },
+    ],
   },
 ];
+
+// Build a Google Maps embed URL showing all store pins
+function getAllPinsMapUrl() {
+  // Use the "place" embed for multiple markers via a search query
+  // This approach uses a custom My Maps or we build a directions-style multi-waypoint URL
+  // Best approach: use Maps Embed API with a center + markers via waypoints
+  const locations = STORES.filter((s) => !s.isOnline)
+    .map((s) => `${s.lat},${s.lng}`)
+    .join("|");
+  // Use a directions embed that shows all waypoints as pins on the map
+  const origin = `${STORES[0].lat},${STORES[0].lng}`;
+  const waypoints = STORES.filter((s) => !s.isOnline)
+    .slice(1, -1)
+    .map((s) => `${s.lat},${s.lng}`)
+    .join("|");
+  const dest = `${STORES[STORES.length - 1].lat},${STORES[STORES.length - 1].lng}`;
+
+  // Alternative: Use a simple search-based embed centered on California showing "Fasteners Inc"
+  return `https://www.google.com/maps/d/embed?mid=1&z=5&center=39.5,-121.5`;
+}
 
 export default function StoreLocatorPage() {
   const [search, setSearch] = useState("");
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
 
   const filteredStores = STORES.filter((s) => {
     if (!search.trim()) return true;
@@ -185,12 +313,24 @@ export default function StoreLocatorPage() {
       `${store.address}, ${store.city}, ${store.state}, ${store.zip}`
     )}`;
 
-  const getStaticMapUrl = () => {
-    const markers = STORES.map(
-      (s) => `&markers=color:red%7C${s.lat},${s.lng}`
-    ).join("");
-    return `https://maps.googleapis.com/maps/api/staticmap?size=800x600&maptype=roadmap${markers}&key=`;
+  const handleSelectStore = (store: Store) => {
+    setSelectedStore(store);
+    setDetailOpen(true);
   };
+
+  const getDayOfWeek = () => {
+    return ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][new Date().getDay()];
+  };
+
+  const today = getDayOfWeek();
+
+  // Build an overview map URL with all store markers
+  const overviewMapSrc = (() => {
+    // Use Google Maps embed showing multiple places via search
+    // We'll use a "view" mode centered on California with a reasonable zoom
+    const center = "39.3,-121.5";
+    return `https://www.google.com/maps?q=Fasteners+Inc&z=6&ll=${center}&output=embed`;
+  })();
 
   return (
     <div className="min-h-screen bg-background">
@@ -202,7 +342,7 @@ export default function StoreLocatorPage() {
           <h1 className="text-3xl md:text-4xl font-extrabold uppercase tracking-tight">
             Store Locator
           </h1>
-          <p className="mt-2 text-muted-foreground text-sm md:text-base max-w-2xl mx-auto">
+          <p className="mt-2 text-sm md:text-base max-w-2xl mx-auto opacity-80">
             Find a Fasteners Inc location near you. We have 9 retail stores across California, Oregon & Nevada — plus nationwide online sales.
           </p>
         </div>
@@ -236,9 +376,11 @@ export default function StoreLocatorPage() {
                   <div
                     key={store.id}
                     className={`p-4 cursor-pointer transition-colors hover:bg-accent ${
-                      selectedStore?.id === store.id ? "bg-accent ring-2 ring-inset ring-header-primary" : ""
+                      selectedStore?.id === store.id
+                        ? "bg-accent ring-2 ring-inset ring-header-primary"
+                        : ""
                     }`}
-                    onClick={() => setSelectedStore(store)}
+                    onClick={() => handleSelectStore(store)}
                   >
                     {store.image && (
                       <img
@@ -250,6 +392,11 @@ export default function StoreLocatorPage() {
                     )}
                     <h3 className="font-bold text-header-primary text-base">
                       {store.name}
+                      {store.isOnline && (
+                        <span className="ml-2 inline-flex items-center gap-1 text-[10px] font-semibold uppercase bg-muted text-muted-foreground px-2 py-0.5 rounded">
+                          <Globe className="w-3 h-3" /> Online Only
+                        </span>
+                      )}
                     </h3>
                     <div className="mt-2 space-y-1.5 text-sm text-muted-foreground">
                       <div className="flex items-start gap-2">
@@ -281,7 +428,7 @@ export default function StoreLocatorPage() {
                       </div>
                       <div className="flex items-center gap-2">
                         <Clock className="w-4 h-4 shrink-0" />
-                        <span>{store.hours}</span>
+                        <span>{store.shortHours}</span>
                       </div>
                     </div>
                     <div className="mt-3 flex gap-2">
@@ -303,19 +450,13 @@ export default function StoreLocatorPage() {
                       </Button>
                       <Button
                         size="sm"
-                        variant="outline"
-                        className="text-xs"
-                        asChild
-                        onClick={(e) => e.stopPropagation()}
+                        className="text-xs bg-header-primary hover:bg-header-primary-hover text-white"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSelectStore(store);
+                        }}
                       >
-                        <a
-                          href={`https://www.fastenersinc.net/a/store-locator/${store.id}.html`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <ExternalLink className="w-3 h-3 mr-1" />
-                          Details
-                        </a>
+                        View Details
                       </Button>
                     </div>
                   </div>
@@ -330,89 +471,202 @@ export default function StoreLocatorPage() {
           </div>
 
           {/* Map Area */}
-          <div className="rounded-md border overflow-hidden bg-muted min-h-[500px] lg:min-h-0 flex flex-col">
-            {selectedStore ? (
-              <div className="flex flex-col h-full">
-                {/* Selected store detail */}
-                <div className="p-6 bg-card border-b">
-                  <div className="flex items-start gap-4">
-                    {selectedStore.image && (
-                      <img
-                        src={selectedStore.image}
-                        alt={selectedStore.name}
-                        className="w-24 h-24 object-cover rounded-md shrink-0"
-                      />
-                    )}
-                    <div>
-                      <h2 className="text-xl font-bold text-header-primary">
-                        {selectedStore.name}
-                      </h2>
-                      <p className="text-sm text-muted-foreground mt-1">
+          <div className="rounded-md border overflow-hidden bg-muted min-h-[500px] lg:min-h-0 flex flex-col relative">
+            {/* Detail overlay panel */}
+            {selectedStore && detailOpen && (
+              <div className="absolute inset-0 z-20 bg-card overflow-auto">
+                <div className="sticky top-0 bg-card border-b z-10 p-4 flex items-center justify-between">
+                  <h2 className="text-lg font-bold text-header-primary">
+                    {selectedStore.name}
+                  </h2>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    onClick={() => setDetailOpen(false)}
+                  >
+                    <X className="w-5 h-5" />
+                  </Button>
+                </div>
+
+                <div className="p-5">
+                  {selectedStore.image && (
+                    <img
+                      src={selectedStore.image}
+                      alt={selectedStore.name}
+                      className="w-full h-48 object-cover rounded-md mb-4"
+                    />
+                  )}
+
+                  {/* Description */}
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-5">
+                    {selectedStore.description}
+                  </p>
+
+                  {/* Contact info */}
+                  <div className="space-y-2 text-sm mb-5">
+                    <div className="flex items-start gap-2">
+                      <MapPin className="w-4 h-4 mt-0.5 text-header-primary shrink-0" />
+                      <span>
                         {selectedStore.address}, {selectedStore.city},{" "}
                         {selectedStore.state} {selectedStore.zip}
-                      </p>
-                      <div className="flex gap-2 mt-3">
-                        <Button
-                          size="sm"
-                          className="bg-header-primary hover:bg-header-primary-hover text-white"
-                          asChild
-                        >
-                          <a
-                            href={getDirectionsUrl(selectedStore)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <Navigation className="w-3 h-3 mr-1" />
-                            Get Directions
-                          </a>
-                        </Button>
-                        <Button size="sm" variant="outline" asChild>
-                          <a href={`tel:${selectedStore.phone}`}>
-                            <Phone className="w-3 h-3 mr-1" />
-                            Call
-                          </a>
-                        </Button>
-                        <Button size="sm" variant="outline" asChild>
-                          <a href={`mailto:${selectedStore.email}`}>
-                            <Mail className="w-3 h-3 mr-1" />
-                            Email
-                          </a>
-                        </Button>
-                      </div>
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Phone className="w-4 h-4 text-header-primary shrink-0" />
+                      <a
+                        href={`tel:${selectedStore.phone}`}
+                        className="hover:text-header-primary transition-colors font-medium"
+                      >
+                        {selectedStore.phone}
+                      </a>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Mail className="w-4 h-4 text-header-primary shrink-0" />
+                      <a
+                        href={`mailto:${selectedStore.email}`}
+                        className="hover:text-header-primary transition-colors"
+                      >
+                        {selectedStore.email}
+                      </a>
                     </div>
                   </div>
-                </div>
-                {/* Embedded map for selected store */}
-                <div className="flex-1 min-h-[400px]">
-                  <iframe
-                    title={`Map of ${selectedStore.name}`}
-                    src={`https://www.google.com/maps?q=${selectedStore.lat},${selectedStore.lng}&z=15&output=embed`}
-                    className="w-full h-full border-0"
-                    loading="lazy"
-                    allowFullScreen
-                  />
-                </div>
-              </div>
-            ) : (
-              /* Overview map */
-              <div className="flex flex-col h-full">
-                <div className="p-4 bg-card border-b">
-                  <h2 className="font-bold text-lg">All Locations</h2>
-                  <p className="text-sm text-muted-foreground">
-                    Click a store on the left to see details and a focused map.
-                  </p>
-                </div>
-                <div className="flex-1 min-h-[400px]">
-                  <iframe
-                    title="All Fasteners Inc Locations"
-                    src="https://www.google.com/maps?q=Fasteners+Inc+Redding+CA&z=5&output=embed"
-                    className="w-full h-full border-0"
-                    loading="lazy"
-                    allowFullScreen
-                  />
+
+                  {/* Hours table */}
+                  <div className="mb-5">
+                    <h3 className="font-bold text-sm uppercase tracking-wide mb-2 flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-header-primary" />
+                      Store Hours
+                    </h3>
+                    <div className="border rounded-md overflow-hidden">
+                      {selectedStore.hoursTable.map((h) => (
+                        <div
+                          key={h.day}
+                          className={`flex justify-between px-3 py-2 text-sm border-b last:border-b-0 ${
+                            h.day === today
+                              ? "bg-header-primary/10 font-semibold"
+                              : ""
+                          }`}
+                        >
+                          <span>{h.day}</span>
+                          <span
+                            className={
+                              h.hours === "Closed"
+                                ? "text-destructive"
+                                : ""
+                            }
+                          >
+                            {h.hours}
+                            {h.day === today && h.hours !== "Closed" && (
+                              <span className="ml-2 text-[10px] uppercase bg-header-new text-white px-1.5 py-0.5 rounded font-bold">
+                                Today
+                              </span>
+                            )}
+                            {h.day === today && h.hours === "Closed" && (
+                              <span className="ml-2 text-[10px] uppercase bg-destructive text-white px-1.5 py-0.5 rounded font-bold">
+                                Today
+                              </span>
+                            )}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Action buttons */}
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    <Button
+                      className="bg-header-primary hover:bg-header-primary-hover text-white"
+                      asChild
+                    >
+                      <a
+                        href={getDirectionsUrl(selectedStore)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Navigation className="w-4 h-4 mr-1.5" />
+                        Get Directions
+                      </a>
+                    </Button>
+                    <Button variant="outline" asChild>
+                      <a href={`tel:${selectedStore.phone}`}>
+                        <Phone className="w-4 h-4 mr-1.5" />
+                        Call Store
+                      </a>
+                    </Button>
+                    <Button variant="outline" asChild>
+                      <a href={`mailto:${selectedStore.email}`}>
+                        <Mail className="w-4 h-4 mr-1.5" />
+                        Email
+                      </a>
+                    </Button>
+                  </div>
+
+                  {/* Embedded map for this store */}
+                  <div className="rounded-md overflow-hidden border h-[300px]">
+                    <iframe
+                      title={`Map of ${selectedStore.name}`}
+                      src={`https://www.google.com/maps?q=${selectedStore.lat},${selectedStore.lng}&z=15&output=embed`}
+                      className="w-full h-full border-0"
+                      loading="lazy"
+                      allowFullScreen
+                    />
+                  </div>
                 </div>
               </div>
             )}
+
+            {/* Overview map with all pins */}
+            <div className="flex flex-col h-full">
+              <div className="p-4 bg-card border-b">
+                <h2 className="font-bold text-lg">All Locations</h2>
+                <p className="text-sm text-muted-foreground">
+                  Click a store on the left to see full details, hours, and a focused map.
+                </p>
+              </div>
+              <div className="flex-1 min-h-[400px] relative">
+                {/* Custom SVG map with pins */}
+                <div className="w-full h-full bg-[hsl(210,30%,95%)] relative overflow-hidden">
+                  {/* Embed a Google Maps view with all locations as search results */}
+                  <iframe
+                    title="All Fasteners Inc Locations"
+                    src={`https://www.google.com/maps/embed?pb=!1m2!1m1!1s!2m1!1sFasteners+Inc&3m1!1sen!4m2!4d-121.5!3d39.3!5e0!6m1!1s`}
+                    className="w-full h-full border-0 absolute inset-0"
+                    loading="lazy"
+                    allowFullScreen
+                  />
+                  {/* Pin overlay with store markers */}
+                  <div className="absolute inset-0 pointer-events-none">
+                    {/* We use CSS-positioned pins mapped from lat/lng to percentage positions */}
+                    {/* Map bounds: lat 36.0-43.0, lng -123.5 to -119.0 */}
+                    {STORES.map((store) => {
+                      const top = ((43.0 - store.lat) / (43.0 - 36.0)) * 100;
+                      const left =
+                        ((store.lng - -123.5) / (-119.0 - -123.5)) * 100;
+                      return (
+                        <button
+                          key={store.id}
+                          className="absolute pointer-events-auto transform -translate-x-1/2 -translate-y-full group"
+                          style={{ top: `${top}%`, left: `${left}%` }}
+                          onClick={() => handleSelectStore(store)}
+                          title={store.name}
+                        >
+                          <div className="relative">
+                            <div className="w-6 h-6 bg-header-primary rounded-full border-2 border-white shadow-lg flex items-center justify-center hover:scale-125 transition-transform cursor-pointer">
+                              <MapPin className="w-3.5 h-3.5 text-white" />
+                            </div>
+                            {/* Tooltip */}
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block whitespace-nowrap bg-foreground text-background text-xs font-semibold px-2 py-1 rounded shadow-lg">
+                              {store.name}
+                              <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-foreground" />
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -425,7 +679,8 @@ export default function StoreLocatorPage() {
             {STORES.filter((s) => !s.isOnline).map((store) => (
               <div
                 key={store.id}
-                className="border rounded-md p-4 bg-card hover:shadow-md transition-shadow"
+                className="border rounded-md p-4 bg-card hover:shadow-md transition-shadow cursor-pointer"
+                onClick={() => handleSelectStore(store)}
               >
                 <h3 className="font-bold text-header-primary text-sm">
                   {store.name}
@@ -436,6 +691,7 @@ export default function StoreLocatorPage() {
                 <a
                   href={`tel:${store.phone}`}
                   className="text-xs text-header-primary font-semibold mt-1 block"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   {store.phone}
                 </a>
