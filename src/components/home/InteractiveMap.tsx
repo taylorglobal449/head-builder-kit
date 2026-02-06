@@ -108,35 +108,38 @@ const locations: Location[] = [
 
 export function InteractiveMap() {
   return (
-    <section className="py-8 border-t border-border">
+    <section className="py-8 border-t border-border bg-card rounded-lg">
       {/* Compact horizontal layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Map Image - 1/4 width on desktop */}
-        <div className="lg:col-span-3 rounded-lg overflow-hidden border border-border h-fit">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
+        {/* Map Image - left side */}
+        <div className="lg:col-span-3 p-4">
           <img 
             src={locationMapImage}
             alt="Fasteners Inc Locations Map"
-            className="w-full h-auto object-contain"
+            className="w-full h-auto object-contain rounded-lg"
           />
         </div>
 
-        {/* Locations List */}
-        <div className="lg:col-span-5">
-          <h2 className="text-xl font-black text-foreground uppercase tracking-wide mb-4">
+        {/* Locations List - center */}
+        <div className="lg:col-span-5 p-6">
+          <h2 className="text-xl font-black text-foreground uppercase tracking-wide mb-6 text-center">
             Our Locations
           </h2>
           
-          <div className="max-h-[320px] overflow-y-auto pr-2 border-l-2 border-header-primary pl-4">
-            <div className="space-y-4">
+          <div className="relative">
+            {/* Red vertical line */}
+            <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-header-primary" />
+            
+            <div className="max-h-[280px] overflow-y-auto pl-6 space-y-5">
               {locations.map((location) => (
                 <div key={location.id}>
-                  <h4 className="font-bold text-sm text-header-primary mb-1">
+                  <h4 className="font-bold text-header-primary mb-1">
                     {location.name}
                   </h4>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-sm text-muted-foreground">
                     {location.address}, {location.city}, {location.state} {location.zip}
                   </p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-sm text-muted-foreground">
                     Phone: <a href={`tel:${location.phone}`} className="hover:text-header-primary">{location.phone}</a>
                   </p>
                 </div>
@@ -145,13 +148,13 @@ export function InteractiveMap() {
           </div>
         </div>
 
-        {/* Who We Are */}
-        <div className="lg:col-span-4">
-          <h2 className="text-xl font-black text-foreground uppercase tracking-wide mb-4">
+        {/* Who We Are - right side */}
+        <div className="lg:col-span-4 p-6 border-l border-border">
+          <h2 className="text-xl font-black text-foreground uppercase tracking-wide mb-6 text-center">
             Who We Are
           </h2>
           
-          <div className="text-xs text-foreground leading-relaxed space-y-3">
+          <div className="text-sm text-foreground leading-relaxed space-y-4">
             <p>
               We are a proud, family-owned business built on trust, hard work, and a passion for quality tools. With 9 retail locations—and many more on the way—we've been serving communities across California, Nevada, and Oregon for years. Our commitment has always been simple: <strong>Better Tools, Better Prices.</strong> Whether you're a professional contractor, a weekend DIYer, or somewhere in between, we're here to help you get the job done right.
             </p>
