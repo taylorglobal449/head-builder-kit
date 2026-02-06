@@ -41,17 +41,18 @@ export function BrandsSection() {
         </Link>
       </div>
       
-      <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-7 gap-4">
+      {/* 2 rows of rectangular brand cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
         {brands.map((brand, index) => (
           <Link
             key={index}
             to={brand.href}
-            className="group bg-card border border-border rounded-lg p-3 flex items-center justify-center aspect-square hover:shadow-md hover:border-header-primary/30 transition-all overflow-hidden"
+            className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-md hover:border-header-primary/30 transition-all"
           >
             <img
               src={brand.logo}
               alt={brand.name}
-              className="w-full h-full object-cover rounded transition-all"
+              className="w-full h-auto object-contain"
             />
           </Link>
         ))}

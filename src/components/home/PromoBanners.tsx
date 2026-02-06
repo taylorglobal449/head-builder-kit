@@ -16,7 +16,7 @@ const promos: PromoBannerProps[] = [
   {
     title: "SAVE $80-$400",
     subtitle: "on select Milwaukee M18 orders of $350+",
-    bgColor: "bg-[hsl(350,74%,44%)]",
+    bgColor: "bg-red-700",
     brandName: "Milwaukee",
     linkUrl: "/brands/milwaukee",
     linkText: "SHOP NOW"
@@ -24,51 +24,67 @@ const promos: PromoBannerProps[] = [
   {
     title: "YARD WORK DEALS",
     subtitle: "Get up to $50 OFF select EGO outdoor power equipment",
-    bgColor: "bg-[hsl(85,40%,45%)]",
+    bgColor: "bg-green-700",
     brandName: "EGO",
     linkUrl: "/brands/ego",
     linkText: "SHOP NOW"
+  },
+  {
+    title: "FREE SHIPPING",
+    subtitle: "On orders over $99 — Fast delivery to your door",
+    bgColor: "bg-blue-700",
+    brandName: "All Orders",
+    linkUrl: "/shipping",
+    linkText: "LEARN MORE"
+  },
+  {
+    title: "BULK DISCOUNTS",
+    subtitle: "Save more when you buy more — Custom quotes available",
+    bgColor: "bg-amber-600",
+    brandName: "Contractors",
+    linkUrl: "/bulk-pricing",
+    linkText: "GET A QUOTE"
   }
 ];
 
 export function PromoBanners() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
       {promos.map((promo, index) => (
         <Link 
           key={index}
           to={promo.linkUrl}
-          className={`${promo.bgColor} rounded-lg p-6 text-white hover:opacity-95 transition-opacity relative overflow-hidden group min-h-[180px] flex flex-col justify-between`}
+          className={`${promo.bgColor} rounded-lg p-4 text-white hover:opacity-95 transition-opacity relative overflow-hidden group min-h-[140px] flex flex-col justify-between`}
         >
           {/* Brand Name */}
           {promo.brandName && (
-            <div className="text-2xl font-black opacity-90 mb-auto">
+            <div className="text-sm font-bold opacity-80 uppercase tracking-wide">
               {promo.brandName}
             </div>
           )}
           
           <div>
             {/* Title */}
-            <h3 className="text-2xl lg:text-3xl font-black leading-tight">
+            <h3 className="text-lg lg:text-xl font-black leading-tight">
               {promo.title}
             </h3>
             
             {/* Subtitle */}
-            <p className="text-sm mt-1 opacity-90 max-w-[250px]">
+            <p className="text-xs mt-1 opacity-90 line-clamp-2">
               {promo.subtitle}
             </p>
             
             {/* Code if present */}
             {promo.code && (
-              <p className="text-xs mt-2 opacity-80">
-                with code: <span className="font-bold">{promo.code}</span>
+              <p className="text-xs mt-1 opacity-80">
+                code: <span className="font-bold">{promo.code}</span>
               </p>
             )}
             
             {/* CTA */}
-            <div className="inline-flex items-center gap-2 mt-4 font-bold text-sm bg-white/20 px-4 py-2 rounded-lg group-hover:bg-white/30 transition-colors">
+            <div className="inline-flex items-center gap-1 mt-3 font-bold text-xs bg-white/20 px-3 py-1.5 rounded group-hover:bg-white/30 transition-colors">
               {promo.linkText || "SHOP NOW"}
-              <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-3 h-3 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </div>
