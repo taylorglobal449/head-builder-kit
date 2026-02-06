@@ -93,13 +93,13 @@ export function ProductCard({ product }: ProductCardProps) {
           </span>
         )}
         
-        {/* Title */}
-        <h3 className="font-medium text-card-foreground group-hover:text-header-primary transition-colors line-clamp-2 flex-1">
+        {/* Title - always 2 lines */}
+        <h3 className="font-medium text-card-foreground group-hover:text-header-primary transition-colors line-clamp-2 min-h-[2.5rem] leading-5">
           {node.title}
         </h3>
         
-        {/* Price */}
-        <div className="mt-3 flex items-baseline gap-2">
+        {/* Price - pushed to bottom */}
+        <div className="mt-auto pt-3 flex items-baseline gap-2">
           <span className="text-lg font-bold text-header-primary">
             ${parseFloat(price.amount).toFixed(2)}
           </span>
@@ -112,7 +112,7 @@ export function ProductCard({ product }: ProductCardProps) {
         
         {/* Availability */}
         {firstVariant && !firstVariant.availableForSale && (
-          <span className="mt-2 text-xs text-destructive font-medium">
+          <span className="mt-1 text-xs text-destructive font-medium">
             Out of Stock
           </span>
         )}
