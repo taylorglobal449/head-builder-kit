@@ -1,10 +1,8 @@
 import { Header } from "@/components/Header";
-import { HeroBanner } from "@/components/home/HeroBanner";
-import { TrendingSidebar } from "@/components/home/TrendingSidebar";
-import { TrendingProducts } from "@/components/home/TrendingProducts";
+import { HeroSection } from "@/components/home/HeroSection";
+import { QuickCategories } from "@/components/home/QuickCategories";
 import { PromoBanners } from "@/components/home/PromoBanners";
 import { TodaysDeals } from "@/components/home/TodaysDeals";
-import { CategoryCards } from "@/components/home/CategoryCards";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { useMockProducts } from "@/hooks/useMockProducts";
 
@@ -15,30 +13,21 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <main className="max-w-[1600px] mx-auto px-4 py-6">
-        {/* Category Cards - Top */}
-        <section className="mb-6">
-          <CategoryCards />
+      <main className="max-w-[1600px] mx-auto px-4 py-4">
+        {/* Quick Category Links */}
+        <section className="mb-4">
+          <QuickCategories />
         </section>
 
-        {/* Main Content Area - 3 Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr_280px] gap-6 mb-8">
-          {/* Left Sidebar - Trending Categories */}
-          <aside className="hidden lg:block">
-            <TrendingSidebar />
-          </aside>
+        {/* Hero + Quick Deals */}
+        <section className="mb-6">
+          <HeroSection products={products} />
+        </section>
 
-          {/* Center - Hero Banner + Promo Banners */}
-          <div className="space-y-4">
-            <HeroBanner />
-            <PromoBanners />
-          </div>
-
-          {/* Right Sidebar - Trending Products */}
-          <aside className="hidden lg:block">
-            <TrendingProducts products={products} />
-          </aside>
-        </div>
+        {/* Promo Banners */}
+        <section className="mb-6">
+          <PromoBanners />
+        </section>
 
         {/* Today's Deals */}
         <TodaysDeals />
