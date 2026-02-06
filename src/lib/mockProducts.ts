@@ -1,9 +1,17 @@
 import type { ShopifyProduct } from './shopify/types';
 
 // Extended product type with template info
+export interface QuantityDiscount {
+  minQty: number;
+  maxQty: number | null;
+  priceEach: number;
+  discount?: number;
+  label: string;
+}
+
 export interface MockProductExtras {
   templateType?: 'standard' | 'quantity';
-  quantityDiscounts?: Array<{ minQty: number; discount: string }>;
+  quantityDiscounts?: QuantityDiscount[];
   sku?: string;
   features?: string[];
   includes?: string[];
@@ -16,90 +24,171 @@ export const TEST_PRODUCTS: MockShopifyProduct[] = [
   {
     node: {
       id: 'gid://shopify/Product/test-1',
-      title: 'Stand Product - DeWalt DCD446B 20V MAX XR Brushless Cordless 1/2 in. Compact Stud Joist Drill',
-      description: 'Tackle a wide range of jobs with the 20V MAX XR 1/2 in. Keyed Chuck Compact Stud & Joist Drill. Featuring up to 1,845 Max Watts Out, the DEWALT DCD446 using DCB2108 battery produces up to 70% more Max Watts Out vs. using DCB205 battery (batteries sold separately). To help in tough applications, this drill comes equipped with the ANTI-ROTATION system that senses the rotational motion of the tool and shuts it down if the motion is excessive.',
+      title: 'Stand Product',
+      description: `The DEWALT DCF860B 20V MAX Brushless Cordless 3-Speed High Torque 1/4 in. Impact Driver delivers exceptional power and control for the most demanding fastening applications. This professional-grade tool is designed for contractors, electricians, and serious DIY enthusiasts who need reliable performance day after day.
+
+POWERFUL PERFORMANCE: This impact driver features a brushless motor that delivers up to 1,825 in-lbs of torque, making it ideal for driving large fasteners into dense materials. The 3-speed settings allow you to match the speed and power to your specific application, giving you precise control whether you're working with delicate materials or driving lag bolts.
+
+PRECISION CONTROL: The variable speed trigger provides precise control over fastening speed, while the 3 LED lights illuminate your work area for improved visibility in dark spaces. The 1/4" hex quick-release chuck allows for quick and easy bit changes, keeping you productive on the jobsite.
+
+ERGONOMIC DESIGN: The compact, lightweight design (only 5.1" front to back) reduces fatigue during extended use, while the overmolded grip provides comfort and control. The belt clip allows for convenient storage when not in use. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+DEWALT BUILD QUALITY: Built with the legendary DEWALT durability you expect, this tool is designed to withstand tough jobsite conditions. The brushless motor provides longer runtime and extended tool life compared to brushed motors. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+COMPATIBILITY: This tool is part of the DEWALT 20V MAX system - one of the largest cordless tool systems in the world. All DEWALT 20V MAX batteries are interchangeable with all DEWALT 20V MAX tools and chargers. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Note: This is a bare tool only. Battery and charger sold separately.`,
       handle: 'stand-product',
-      vendor: 'DeWalt',
-      productType: 'Drills',
-      tags: ['cordless', 'drill', '20v', 'brushless', 'standard-template'],
       priceRange: {
-        minVariantPrice: { amount: '329.00', currencyCode: 'USD' }
+        minVariantPrice: { amount: '149.00', currencyCode: 'USD' }
       },
-      compareAtPriceRange: null,
+      compareAtPriceRange: {
+        minVariantPrice: { amount: '179.00', currencyCode: 'USD' }
+      },
       images: {
         edges: [
-          { node: { url: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=600&h=600&fit=crop', altText: 'DeWalt Compact Stud Joist Drill' } },
-          { node: { url: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=600&h=600&fit=crop', altText: 'Product angle 2' } },
-          { node: { url: 'https://images.unsplash.com/photo-1426927308491-6380b6a9936f?w=600&h=600&fit=crop', altText: 'Product angle 3' } }
+          { node: { url: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=800&h=800&fit=crop', altText: 'Stand Product - Main View' } },
+          { node: { url: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=800&h=800&fit=crop', altText: 'Stand Product - Side View' } },
+          { node: { url: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=800&h=800&fit=crop', altText: 'Stand Product - In Use' } },
+          { node: { url: 'https://images.unsplash.com/photo-1581147036324-c17ac41f3050?w=800&h=800&fit=crop', altText: 'Stand Product - Detail' } },
+          { node: { url: 'https://images.unsplash.com/photo-1426927308491-6380b6a9936f?w=800&h=800&fit=crop', altText: 'Stand Product - Accessories' } }
         ]
       },
       variants: {
         edges: [
-          { node: { id: 'variant-test-1', title: 'Tool Only', price: { amount: '329.00', currencyCode: 'USD' }, compareAtPrice: null, availableForSale: false, selectedOptions: [{ name: 'Configuration', value: 'Tool Only' }] } }
+          {
+            node: {
+              id: 'gid://shopify/ProductVariant/test-1-1',
+              title: 'Default Title',
+              price: { amount: '149.00', currencyCode: 'USD' },
+              compareAtPrice: { amount: '179.00', currencyCode: 'USD' },
+              availableForSale: true,
+              selectedOptions: [{ name: 'Title', value: 'Default Title' }]
+            }
+          }
         ]
       },
-      options: [{ name: 'Configuration', values: ['Tool Only'] }]
+      options: [{ name: 'Title', values: ['Default Title'] }],
+      vendor: 'DEWALT',
+      productType: 'Power Tools',
+      tags: ['power-tools', 'impact-driver', 'cordless', '20v']
     },
     extras: {
       templateType: 'standard',
-      sku: 'DEW-DCD446B',
+      sku: 'DCF860B',
       features: [
-        'Help maximize control - equipped with the anti-rotation system that senses the rotational motion of the tool and shuts it down if the motion is excessive, the red LED indicator illuminates when the anti-rotation system is engaged.',
-        'Large drilling capacity - drill up to a 4 in. hole with a hole saw and a 2-9/16 in. hole with a self-feed bit.',
-        'Simplify asset management - track and manage this tool connect chip ready tool (chip sold separately) with the site manager app.',
-        'Powerful performance - take on tough applications with up to 1,845 max watts out, the DEWALT dcd446 using dcb2108 battery produces up to 70% more max watts out vs. using dcb205 battery (batteries sold separately).',
-        'Maximize productivity - drill up to 267 holes per charge in 1.5 in. thick douglas fir wood using 7/8 in. x 18 in. auger bit and dcb2108 battery (sold separately).',
-        'Part of our best performing line of 20V MAX power tools - innovative power tools designed to deliver certainty for the world\'s toughest pros.'
+        'Brushless motor delivers up to 1,825 in-lbs of torque for demanding applications',
+        '3-speed settings (0-1,000 / 0-2,800 / 0-3,250 RPM) for application versatility',
+        'Variable speed trigger for precise control over fastening speed',
+        '3 LED lights with 20-second delay after trigger release for visibility',
+        '1/4" hex quick-release chuck for fast and easy bit changes',
+        'Compact, lightweight design (5.1" front to back) reduces fatigue',
+        'Part of the DEWALT 20V MAX System with cross-compatible batteries'
       ],
       includes: [
-        '(1) DCD446 20V MAX XR 1/2 in. Compact Stud & Joist Drill',
-        '(1) Chuck Key',
-        '(1) Key Holder'
+        'DCF860B 20V MAX Brushless 1/4" Impact Driver',
+        'Belt Clip',
+        'Documentation Kit'
       ]
     }
   },
   {
     node: {
       id: 'gid://shopify/Product/test-2',
-      title: 'Qty Product - DeWalt DWA8281CTR 4-1/2 x 7/8 60G T27 XP Ceramic Trim Flap Disc',
-      description: 'The MAXTRIM trimmable flap discs can blend or grind. The DEWALT ELITE SERIES trimmable flap discs range has ceramic grains and is excellent for aggressive grinding.',
+      title: 'Qty Product',
+      description: `Premium Grade 8 Hex Cap Screws - The ultimate choice for high-strength fastening applications requiring maximum tensile strength and durability. These fasteners are manufactured to the highest industry standards and are perfect for critical applications across automotive, construction, and industrial sectors.
+
+SUPERIOR STRENGTH: Grade 8 fasteners are manufactured from medium carbon alloy steel, quenched and tempered to achieve a minimum tensile strength of 150,000 PSI. This makes them ideal for critical applications where failure is not an option. The high strength rating ensures reliable performance under heavy loads and dynamic stress conditions.
+
+PRECISION MANUFACTURING: Each fastener is manufactured to meet or exceed SAE J429 specifications. The hex head design provides maximum wrenching surface for secure installation with standard tools. Threads are rolled, not cut, providing superior strength and fatigue resistance. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+CORROSION PROTECTION: These fasteners feature a yellow zinc chromate finish that provides excellent corrosion resistance for both indoor and outdoor applications. The finish also serves as a visual identifier for Grade 8 strength. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+VERSATILE APPLICATIONS: Perfect for automotive, heavy equipment, agricultural machinery, construction equipment, and any application requiring high-strength fastening. The coarse thread design provides excellent holding power in most materials. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+QUALITY ASSURANCE: Every batch is tested for hardness, tensile strength, and dimensional accuracy. Full traceability and certifications available upon request. Made in USA from domestic materials. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+BULK PRICING AVAILABLE: Take advantage of our quantity discount pricing for larger orders. The more you buy, the more you save! Contact us for custom quantities or special requirements. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
       handle: 'qty-product',
-      vendor: 'DeWalt',
-      productType: 'Blades & Abrasives',
-      tags: ['abrasives', 'flap disc', 'grinding', 'quantity-template'],
       priceRange: {
-        minVariantPrice: { amount: '5.00', currencyCode: 'USD' }
-      },
-      compareAtPriceRange: {
-        minVariantPrice: { amount: '9.75', currencyCode: 'USD' }
+        minVariantPrice: { amount: '0.45', currencyCode: 'USD' }
       },
       images: {
         edges: [
-          { node: { url: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=600&h=600&fit=crop', altText: 'DeWalt Flap Disc' } },
-          { node: { url: 'https://images.unsplash.com/photo-1580901368919-7738efb0f87e?w=600&h=600&fit=crop', altText: 'Product angle 2' } }
+          { node: { url: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&h=800&fit=crop', altText: 'Qty Product - Main View' } },
+          { node: { url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=800&fit=crop', altText: 'Qty Product - Bulk Pack' } },
+          { node: { url: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&h=800&fit=crop', altText: 'Qty Product - Close Up' } },
+          { node: { url: 'https://images.unsplash.com/photo-1590959651373-a3db0f38a961?w=800&h=800&fit=crop', altText: 'Qty Product - Application' } },
+          { node: { url: 'https://images.unsplash.com/photo-1597484661643-2f5fef26aa4e?w=800&h=800&fit=crop', altText: 'Qty Product - Packaging' } }
         ]
       },
       variants: {
         edges: [
-          { node: { id: 'variant-test-2', title: 'Default', price: { amount: '5.00', currencyCode: 'USD' }, compareAtPrice: { amount: '9.75', currencyCode: 'USD' }, availableForSale: true, selectedOptions: [] } }
+          {
+            node: {
+              id: 'gid://shopify/ProductVariant/test-2-1',
+              title: '1/4"-20 x 1"',
+              price: { amount: '0.45', currencyCode: 'USD' },
+              availableForSale: true,
+              selectedOptions: [{ name: 'Size', value: '1/4"-20 x 1"' }]
+            }
+          },
+          {
+            node: {
+              id: 'gid://shopify/ProductVariant/test-2-2',
+              title: '1/4"-20 x 1-1/2"',
+              price: { amount: '0.52', currencyCode: 'USD' },
+              availableForSale: true,
+              selectedOptions: [{ name: 'Size', value: '1/4"-20 x 1-1/2"' }]
+            }
+          },
+          {
+            node: {
+              id: 'gid://shopify/ProductVariant/test-2-3',
+              title: '5/16"-18 x 1"',
+              price: { amount: '0.68', currencyCode: 'USD' },
+              availableForSale: true,
+              selectedOptions: [{ name: 'Size', value: '5/16"-18 x 1"' }]
+            }
+          },
+          {
+            node: {
+              id: 'gid://shopify/ProductVariant/test-2-4',
+              title: '3/8"-16 x 1"',
+              price: { amount: '0.89', currencyCode: 'USD' },
+              availableForSale: true,
+              selectedOptions: [{ name: 'Size', value: '3/8"-16 x 1"' }]
+            }
+          }
         ]
       },
-      options: []
+      options: [{ name: 'Size', values: ['1/4"-20 x 1"', '1/4"-20 x 1-1/2"', '5/16"-18 x 1"', '3/8"-16 x 1"'] }],
+      vendor: 'Fasteners Inc',
+      productType: 'Fasteners',
+      tags: ['fasteners', 'bolts', 'grade-8', 'hex-cap']
     },
     extras: {
       templateType: 'quantity',
-      sku: 'DEW-DWA8281CTR',
+      sku: 'GR8-HEX-CAP',
       quantityDiscounts: [
-        { minQty: 10, discount: '2% Off' },
-        { minQty: 100, discount: '5% Off' }
+        { minQty: 1, maxQty: 24, priceEach: 0.45, label: '1-24' },
+        { minQty: 25, maxQty: 99, priceEach: 0.42, discount: 7, label: '25-99' },
+        { minQty: 100, maxQty: 499, priceEach: 0.38, discount: 16, label: '100-499' },
+        { minQty: 500, maxQty: 999, priceEach: 0.34, discount: 24, label: '500-999' },
+        { minQty: 1000, maxQty: null, priceEach: 0.29, discount: 36, label: '1000+' }
       ],
       features: [
-        'Engineered to last - high quality ceramic grain allows DEWALT ELITE SERIES flap disc to last up to 75% longer than 3M flap disc (based on DWA8280CTR (4.5") versus 3M 51845 (4.5") grinding 1/4" 45# steel.',
-        'Trimmable backer - by trimming away the edge of the backing plate, the user gains access to an otherwise unutilized portion of the flap, allowing for long wheel life.',
-        'Versatile backing - Type 27 backing provides grinding angle of 0-18 degrees.'
+        'Grade 8 medium carbon alloy steel construction',
+        'Minimum tensile strength: 150,000 PSI',
+        'Yellow zinc chromate finish for corrosion resistance',
+        'Meets or exceeds SAE J429 specifications',
+        'Rolled threads for superior strength and fatigue resistance',
+        'Full traceability and certifications available',
+        'Made in USA from domestic materials'
       ],
       includes: [
-        '(1) Flap Disc'
+        'Hex Cap Screws (quantity as ordered)',
+        'Material certification available upon request'
       ]
     }
   }

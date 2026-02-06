@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { useMockProduct } from "@/hooks/useMockProducts";
@@ -6,16 +6,37 @@ import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
 import { Loader2, ShoppingCart, ChevronLeft, Minus, Plus, Truck, Shield, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
+import type { QuantityDiscount } from "@/lib/mockProducts";
 
 export default function ProductPage() {
   const { handle } = useParams<{ handle: string }>();
-  const { product, loading, error } = useMockProduct(handle || '');
+  const { product, extras, loading, error } = useMockProduct(handle || '');
   const addItem = useCartStore(state => state.addItem);
   const isCartLoading = useCartStore(state => state.isLoading);
   
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+
+  // Calculate current price based on quantity discounts
+  const currentPricing = useMemo(() => {
+    if (!extras?.quantityDiscounts || extras.quantityDiscounts.length === 0) {
+      return null;
+    }
+    
+    const basePrice = parseFloat(product?.variants.edges[selectedVariantIndex]?.node.price.amount || '0');
+    const discount = extras.quantityDiscounts.find(d => 
+      quantity >= d.minQty && (d.maxQty === null || quantity <= d.maxQty)
+    );
+    
+    if (!discount) return { priceEach: basePrice, total: basePrice * quantity, discount: 0 };
+    
+    return {
+      priceEach: discount.priceEach,
+      total: discount.priceEach * quantity,
+      discount: discount.discount || 0
+    };
+  }, [extras?.quantityDiscounts, quantity, product, selectedVariantIndex]);
 
   if (loading) {
     return (
@@ -49,6 +70,7 @@ export default function ProductPage() {
   const selectedVariant = product.variants.edges[selectedVariantIndex]?.node;
   const images = product.images.edges;
   const hasMultipleVariants = product.variants.edges.length > 1 && product.variants.edges[0].node.title !== 'Default Title';
+  const hasQuantityDiscounts = extras?.quantityDiscounts && extras.quantityDiscounts.length > 0;
 
   const handleAddToCart = async () => {
     if (!selectedVariant) {
@@ -141,9 +163,14 @@ export default function ProductPage() {
             {/* Price */}
             <div className="flex items-baseline gap-3">
               <span className="text-3xl font-bold text-header-primary">
-                ${parseFloat(selectedVariant?.price.amount || '0').toFixed(2)}
+                ${currentPricing ? currentPricing.priceEach.toFixed(2) : parseFloat(selectedVariant?.price.amount || '0').toFixed(2)}
               </span>
-              {selectedVariant?.compareAtPrice && parseFloat(selectedVariant.compareAtPrice.amount) > parseFloat(selectedVariant.price.amount) && (
+              {currentPricing && currentPricing.discount > 0 && (
+                <span className="text-sm font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded">
+                  {currentPricing.discount}% OFF
+                </span>
+              )}
+              {!currentPricing && selectedVariant?.compareAtPrice && parseFloat(selectedVariant.compareAtPrice.amount) > parseFloat(selectedVariant.price.amount) && (
                 <>
                   <span className="text-lg text-muted-foreground line-through">
                     ${parseFloat(selectedVariant.compareAtPrice.amount).toFixed(2)}
@@ -154,6 +181,45 @@ export default function ProductPage() {
                 </>
               )}
             </div>
+
+            {/* Quantity Price Breaks */}
+            {hasQuantityDiscounts && extras?.quantityDiscounts && (
+              <div className="border border-border rounded-lg overflow-hidden">
+                <div className="bg-muted px-4 py-2 border-b border-border">
+                  <h3 className="font-semibold text-foreground text-sm">Quantity Pricing</h3>
+                </div>
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-border bg-muted/50">
+                      <th className="text-left px-4 py-2 font-medium text-muted-foreground">Quantity</th>
+                      <th className="text-right px-4 py-2 font-medium text-muted-foreground">Price Each</th>
+                      <th className="text-right px-4 py-2 font-medium text-muted-foreground">Discount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {extras.quantityDiscounts.map((tier, index) => {
+                      const isActive = quantity >= tier.minQty && (tier.maxQty === null || quantity <= tier.maxQty);
+                      return (
+                        <tr 
+                          key={index} 
+                          className={`border-b border-border last:border-b-0 ${isActive ? 'bg-header-primary/10 font-medium' : ''}`}
+                        >
+                          <td className="px-4 py-2 text-foreground">{tier.label}</td>
+                          <td className="px-4 py-2 text-right text-foreground">${tier.priceEach.toFixed(2)}</td>
+                          <td className="px-4 py-2 text-right">
+                            {tier.discount ? (
+                              <span className="text-green-600 font-medium">{tier.discount}% OFF</span>
+                            ) : (
+                              <span className="text-muted-foreground">—</span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
 
             {/* Variants */}
             {hasMultipleVariants && (
@@ -215,6 +281,24 @@ export default function ProductPage() {
                 </div>
               </div>
             </div>
+
+            {/* Total Price for Quantity Orders */}
+            {currentPricing && quantity > 1 && (
+              <div className="bg-muted/50 rounded-lg p-4 border border-border">
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Subtotal ({quantity} items):</span>
+                  <span className="text-xl font-bold text-foreground">${currentPricing.total.toFixed(2)}</span>
+                </div>
+                {currentPricing.discount > 0 && (
+                  <div className="flex justify-between items-center mt-1">
+                    <span className="text-sm text-green-600">You save:</span>
+                    <span className="text-sm font-medium text-green-600">
+                      ${((parseFloat(selectedVariant?.price.amount || '0') * quantity) - currentPricing.total).toFixed(2)}
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Add to Cart */}
             <Button 
