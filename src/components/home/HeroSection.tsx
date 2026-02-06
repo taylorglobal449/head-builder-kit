@@ -25,46 +25,80 @@ export function HeroSection({ products }: HeroSectionProps) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-4">
-      {/* Left: Hero Banner */}
-      <div className="relative overflow-hidden rounded-lg bg-gradient-to-br from-header-primary via-header-primary to-header-secondary min-h-[200px] lg:min-h-[260px]">
-        {/* Background pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{ 
-            backgroundImage: 'radial-gradient(circle at 25% 25%, white 1px, transparent 1px)',
-            backgroundSize: '20px 20px'
-          }} />
-        </div>
-        
-        {/* Content */}
-        <div className="relative z-10 p-6 lg:p-8 flex flex-col justify-center h-full">
-          {/* Flash Sale Badge */}
-          <div className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-3 py-1 rounded-full w-fit mb-3">
-            <FlameKindling className="w-4 h-4" />
-            <span className="font-bold text-xs tracking-wide">FLASH SALE</span>
+      {/* Left: Hero Banner + Side Banner */}
+      <div className="flex flex-col gap-4">
+        {/* Main row: Hero + vertical banner on mobile, hero full width on desktop */}
+        <div className="grid grid-cols-[1fr_auto] lg:grid-cols-1 gap-4">
+          {/* Main Hero Banner */}
+          <div className="relative overflow-hidden rounded-lg bg-gradient-to-br from-header-primary via-header-primary to-header-secondary min-h-[200px] lg:min-h-[220px]">
+            {/* Background pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0" style={{ 
+                backgroundImage: 'radial-gradient(circle at 25% 25%, white 1px, transparent 1px)',
+                backgroundSize: '20px 20px'
+              }} />
+            </div>
+            
+            {/* Content */}
+            <div className="relative z-10 p-6 lg:p-8 flex flex-col justify-center h-full">
+              {/* Flash Sale Badge */}
+              <div className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-3 py-1 rounded-full w-fit mb-3">
+                <FlameKindling className="w-4 h-4" />
+                <span className="font-bold text-xs tracking-wide">FLASH SALE</span>
+              </div>
+              
+              {/* Main Title */}
+              <h2 className="text-primary-foreground text-2xl lg:text-4xl font-black mb-2 max-w-sm leading-tight">
+                ORGANIZE FOR LESS
+              </h2>
+              
+              {/* Promo Code */}
+              <p className="text-primary-foreground/90 text-sm mb-1">
+                Get <span className="font-bold text-accent">10% OFF</span> select tool storage
+              </p>
+              <p className="text-primary-foreground/70 text-xs mb-4">
+                with code: <span className="font-bold text-primary-foreground bg-primary-foreground/20 px-2 py-0.5 rounded">STORAGE10</span>
+              </p>
+              
+              {/* CTA Button */}
+              <Link 
+                to="/deals"
+                className="inline-flex items-center gap-2 bg-background text-header-primary font-bold px-5 py-2.5 rounded-lg hover:bg-muted transition-colors w-fit text-sm group"
+              >
+                SHOP NOW
+                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
           </div>
-          
-          {/* Main Title */}
-          <h2 className="text-primary-foreground text-2xl lg:text-4xl font-black mb-2 max-w-sm leading-tight">
-            ORGANIZE FOR LESS
-          </h2>
-          
-          {/* Promo Code */}
-          <p className="text-primary-foreground/90 text-sm mb-1">
-            Get <span className="font-bold text-accent">10% OFF</span> select tool storage
-          </p>
-          <p className="text-primary-foreground/70 text-xs mb-4">
-            with code: <span className="font-bold text-primary-foreground bg-primary-foreground/20 px-2 py-0.5 rounded">STORAGE10</span>
-          </p>
-          
-          {/* CTA Button */}
+
+          {/* Vertical Side Banner - visible on mobile/tablet only */}
           <Link 
-            to="/deals"
-            className="inline-flex items-center gap-2 bg-background text-header-primary font-bold px-5 py-2.5 rounded-lg hover:bg-muted transition-colors w-fit text-sm group"
+            to="/brands/dewalt"
+            className="lg:hidden relative overflow-hidden rounded-lg bg-gradient-to-b from-yellow-500 to-yellow-600 min-h-[200px] w-[100px] flex flex-col items-center justify-center p-3 hover:opacity-95 transition-opacity"
           >
-            SHOP NOW
-            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            <span className="text-black font-black text-xs uppercase tracking-wide text-center mb-2">DEWALT</span>
+            <span className="text-black font-bold text-sm text-center leading-tight">UP TO 40% OFF</span>
+            <span className="text-black/80 text-[10px] text-center mt-1">Select Tools</span>
+            <div className="mt-3 bg-black/20 rounded px-2 py-1">
+              <span className="text-black text-[10px] font-bold">SHOP →</span>
+            </div>
           </Link>
         </div>
+
+        {/* Horizontal Banner - visible on desktop only */}
+        <Link 
+          to="/brands/dewalt"
+          className="hidden lg:flex relative overflow-hidden rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-600 h-[50px] items-center justify-between px-6 hover:opacity-95 transition-opacity"
+        >
+          <div className="flex items-center gap-4">
+            <span className="text-black font-black text-sm uppercase tracking-wide">DEWALT</span>
+            <span className="text-black font-bold text-sm">UP TO 40% OFF SELECT TOOLS</span>
+          </div>
+          <div className="flex items-center gap-2 bg-black/20 rounded px-3 py-1">
+            <span className="text-black text-xs font-bold">SHOP NOW</span>
+            <ChevronRight className="w-4 h-4 text-black" />
+          </div>
+        </Link>
       </div>
       
       {/* Right: Quick Product Strip */}
