@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -15,7 +14,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-const selectedIcon = new L.Icon({
+const selectedIconOptions: L.IconOptions = {
   iconUrl: markerIcon,
   iconRetinaUrl: markerIcon2x,
   shadowUrl: markerShadow,
@@ -23,7 +22,7 @@ const selectedIcon = new L.Icon({
   iconAnchor: [17, 56],
   popupAnchor: [1, -44],
   shadowSize: [56, 56],
-});
+};
 
 interface StorePin {
   id: string;
@@ -41,63 +40,77 @@ interface StoreMapProps {
   onSelectStore: (id: string) => void;
 }
 
-function FitBounds({ stores }: { stores: StorePin[] }) {
-  const map = useMap();
-  const fitted = useRef(false);
-  useEffect(() => {
-    if (fitted.current) return;
-    const physical = stores.filter((s) => !s.isOnline);
-    if (physical.length === 0) return;
-    const bounds = L.latLngBounds(physical.map((s) => [s.lat, s.lng]));
-    map.fitBounds(bounds, { padding: [40, 40] });
-    fitted.current = true;
-  }, [stores, map]);
-  return null;
-}
+export function StoreMap({ stores, selectedStoreId, onSelectStore }: StoreMapProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<L.Map | null>(null);
+  const markersRef = useRef<Map<string, L.Marker>>(new Map());
 
-function FlyToSelected({ store }: { store: StorePin | undefined }) {
-  const map = useMap();
+  const physicalStores = stores.filter((s) => !s.isOnline);
+
+  // Initialize map
   useEffect(() => {
+    if (!containerRef.current || mapRef.current) return;
+
+    const map = L.map(containerRef.current, {
+      center: [39.5, -121.5],
+      zoom: 6,
+      scrollWheelZoom: true,
+    });
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+
+    mapRef.current = map;
+
+    // Fit bounds to all stores
+    if (physicalStores.length > 0) {
+      const bounds = L.latLngBounds(physicalStores.map((s) => [s.lat, s.lng] as L.LatLngTuple));
+      map.fitBounds(bounds, { padding: [40, 40] });
+    }
+
+    return () => {
+      map.remove();
+      mapRef.current = null;
+      markersRef.current.clear();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Add/update markers
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    // Remove old markers
+    markersRef.current.forEach((m) => m.remove());
+    markersRef.current.clear();
+
+    physicalStores.forEach((store) => {
+      const isSelected = store.id === selectedStoreId;
+      const icon = isSelected
+        ? L.icon(selectedIconOptions)
+        : new L.Icon.Default();
+
+      const marker = L.marker([store.lat, store.lng], { icon })
+        .addTo(map)
+        .bindPopup(`<strong>${store.name}</strong><br/>${store.city}, ${store.state}`);
+
+      marker.on("click", () => onSelectStore(store.id));
+      markersRef.current.set(store.id, marker);
+    });
+  }, [physicalStores, selectedStoreId, onSelectStore]);
+
+  // Fly to selected store
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !selectedStoreId) return;
+    const store = physicalStores.find((s) => s.id === selectedStoreId);
     if (store) {
       map.flyTo([store.lat, store.lng], 12, { duration: 0.8 });
     }
-  }, [store, map]);
-  return null;
-}
+  }, [selectedStoreId, physicalStores]);
 
-export function StoreMap({ stores, selectedStoreId, onSelectStore }: StoreMapProps) {
-  const physicalStores = stores.filter((s) => !s.isOnline);
-  const selected = physicalStores.find((s) => s.id === selectedStoreId);
-
-  return (
-    <MapContainer
-      center={[39.5, -121.5]}
-      zoom={6}
-      className="w-full h-full z-0"
-      scrollWheelZoom
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <FitBounds stores={physicalStores} />
-      {selected && <FlyToSelected store={selected} />}
-      {physicalStores.map((store) => (
-        <Marker
-          key={store.id}
-          position={[store.lat, store.lng]}
-          icon={store.id === selectedStoreId ? selectedIcon : new L.Icon.Default()}
-          eventHandlers={{
-            click: () => onSelectStore(store.id),
-          }}
-        >
-          <Popup>
-            <strong>{store.name}</strong>
-            <br />
-            {store.city}, {store.state}
-          </Popup>
-        </Marker>
-      ))}
-    </MapContainer>
-  );
+  return <div ref={containerRef} className="w-full h-full z-0" />;
 }
