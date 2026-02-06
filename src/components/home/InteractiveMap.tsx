@@ -156,8 +156,8 @@ export function InteractiveMap() {
                 onClick={() => setSelectedLocation(location)}
                 className={`w-full text-left px-4 py-3 transition-colors ${
                   selectedLocation?.id === location.id 
-                    ? 'bg-header-primary/10' 
-                    : 'hover:bg-muted'
+                    ? 'bg-muted' 
+                    : 'hover:bg-muted/50'
                 }`}
               >
                 <div className="flex items-start justify-between gap-2">
