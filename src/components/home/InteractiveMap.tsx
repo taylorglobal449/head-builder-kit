@@ -107,16 +107,10 @@ const locations: Location[] = [
 ];
 
 export function InteractiveMap() {
-  const [selectedLocation, setSelectedLocation] = useState<Location | null>(locations[0]);
-
   return (
     <section className="py-8 border-t border-border">
-      <h2 className="text-xl font-black text-foreground uppercase tracking-wide mb-4">
-        Find A Location Near You
-      </h2>
-
       {/* Compact horizontal layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Map Image - 1/4 width on desktop */}
         <div className="lg:col-span-3 rounded-lg overflow-hidden border border-border h-fit">
           <img 
@@ -126,73 +120,47 @@ export function InteractiveMap() {
           />
         </div>
 
-        {/* Company Story - 5/12 width */}
-        <div className="lg:col-span-5 bg-muted/50 rounded-lg p-4">
-          <p className="text-sm text-foreground leading-relaxed mb-3">
-            We are a proud, family-owned business built on trust, hard work, and a passion for quality tools. With 9 retail locations—and many more on the way—we've been serving communities across California, Nevada, and Oregon for years. Our commitment has always been simple: <strong>Better Tools, Better Prices.</strong>
-          </p>
-          <p className="text-sm text-foreground leading-relaxed mb-3">
-            At our stores and online, you'll find over 40,000 different items—from bolts, nuts, and fasteners to power tools, safety gear, and more. We're more than just a hardware store; we're your one-stop shop for everything you need to build, repair, and create.
-          </p>
-          <p className="text-sm text-foreground leading-relaxed">
-            We know that when you need a tool, you need it now. That's why we offer a variety of convenient shipping options to get your order to you quickly—no matter where you are. From our family to yours, we'll always be there when you need a new tool.
-          </p>
-        </div>
-        
-        {/* Location List - 4/12 width */}
-        <div className="lg:col-span-4 bg-card border border-border rounded-lg overflow-hidden h-fit">
-          <div className="bg-header-secondary px-4 py-2 flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-primary-foreground" />
-            <h3 className="text-primary-foreground font-bold text-xs uppercase tracking-wide">
-              Our {locations.length} Locations
-            </h3>
-          </div>
+        {/* Locations List */}
+        <div className="lg:col-span-5">
+          <h2 className="text-xl font-black text-foreground uppercase tracking-wide mb-4">
+            Our Locations
+          </h2>
           
-          <div className="divide-y divide-border max-h-[280px] overflow-y-auto">
-            {locations.map((location) => (
-              <button
-                key={location.id}
-                onClick={() => setSelectedLocation(location)}
-                className={`w-full text-left px-3 py-2 transition-colors ${
-                  selectedLocation?.id === location.id 
-                    ? 'bg-muted' 
-                    : 'hover:bg-muted/50'
-                }`}
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex-1 min-w-0">
-                    <h4 className={`font-bold text-xs mb-0.5 ${
-                      selectedLocation?.id === location.id ? 'text-header-primary' : 'text-foreground'
-                    }`}>
-                      {location.name}
-                    </h4>
-                    <p className="text-xs text-muted-foreground truncate">
-                      {location.city}, {location.state}
-                    </p>
-                    
-                    {selectedLocation?.id === location.id && (
-                      <div className="mt-1 space-y-0.5">
-                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                          <Phone className="w-3 h-3 flex-shrink-0" />
-                          <a href={`tel:${location.phone}`} className="hover:text-header-primary">
-                            {location.phone}
-                          </a>
-                        </div>
-                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                          <Clock className="w-3 h-3 flex-shrink-0" />
-                          <span>{location.hours}</span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  <ChevronRight className={`w-3 h-3 flex-shrink-0 mt-0.5 transition-transform ${
-                    selectedLocation?.id === location.id 
-                      ? 'text-header-primary rotate-90' 
-                      : 'text-muted-foreground'
-                  }`} />
+          <div className="max-h-[320px] overflow-y-auto pr-2 border-l-2 border-header-primary pl-4">
+            <div className="space-y-4">
+              {locations.map((location) => (
+                <div key={location.id}>
+                  <h4 className="font-bold text-sm text-header-primary mb-1">
+                    {location.name}
+                  </h4>
+                  <p className="text-xs text-muted-foreground">
+                    {location.address}, {location.city}, {location.state} {location.zip}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Phone: <a href={`tel:${location.phone}`} className="hover:text-header-primary">{location.phone}</a>
+                  </p>
                 </div>
-              </button>
-            ))}
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Who We Are */}
+        <div className="lg:col-span-4">
+          <h2 className="text-xl font-black text-foreground uppercase tracking-wide mb-4">
+            Who We Are
+          </h2>
+          
+          <div className="text-xs text-foreground leading-relaxed space-y-3">
+            <p>
+              We are a proud, family-owned business built on trust, hard work, and a passion for quality tools. With 9 retail locations—and many more on the way—we've been serving communities across California, Nevada, and Oregon for years. Our commitment has always been simple: <strong>Better Tools, Better Prices.</strong> Whether you're a professional contractor, a weekend DIYer, or somewhere in between, we're here to help you get the job done right.
+            </p>
+            <p>
+              At our stores and online, you'll find over 40,000 different items—from bolts, nuts, and fasteners to power tools, safety gear, and more. We're more than just a hardware store; we're your one-stop shop for everything you need to build, repair, and create. We also offer bulk discounts and custom quotes, ensuring you always get the best value no matter the size of your project.
+            </p>
+            <p>
+              We know that when you need a tool, you need it now. That's why we offer a variety of convenient shipping options to get your order to you quickly—no matter where you are. Our team is dedicated to delivering the products, service, and support you can rely on, every single time. From our family to yours, we'll always be there when you need a new tool.
+            </p>
           </div>
         </div>
       </div>
