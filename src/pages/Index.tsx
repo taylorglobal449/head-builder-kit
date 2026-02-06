@@ -1,6 +1,5 @@
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/home/HeroSection";
-import { QuickCategories } from "@/components/home/QuickCategories";
 import { PromoBanners } from "@/components/home/PromoBanners";
 import { TodaysDeals } from "@/components/home/TodaysDeals";
 import { ProductGrid } from "@/components/products/ProductGrid";
@@ -17,11 +16,6 @@ const Index = () => {
       <Header />
       
       <main className="max-w-[1600px] mx-auto px-4 py-4">
-        {/* Quick Category Links */}
-        <section className="mb-4">
-          <QuickCategories />
-        </section>
-
         {/* Hero + Quick Deals */}
         <section className="mb-6">
           <HeroSection products={products} />
