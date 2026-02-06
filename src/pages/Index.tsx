@@ -10,7 +10,7 @@ import { InteractiveMap } from "@/components/home/InteractiveMap";
 import { useMockProducts } from "@/hooks/useMockProducts";
 
 const Index = () => {
-  const { products, loading } = useMockProducts(12);
+  const { products, loading } = useMockProducts(8);
 
   return (
     <div className="min-h-screen bg-background">
@@ -45,14 +45,14 @@ const Index = () => {
               href="/products" 
               className="text-sm font-bold text-header-primary hover:underline flex items-center gap-1"
             >
-              View All
+              See All
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </a>
           </div>
           <ProductGrid 
-            products={products} 
+            products={products.slice(0, 8)} 
             loading={loading}
             emptyMessage="No products available yet. Products from your Shopify store will appear here."
           />

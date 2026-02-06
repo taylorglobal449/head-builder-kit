@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MapPin, Phone, Clock, ChevronRight } from "lucide-react";
+import locationMapImage from "@/assets/location-map.jpg";
 
 interface Location {
   id: string;
@@ -15,59 +16,103 @@ interface Location {
 
 const locations: Location[] = [
   {
-    id: "minneapolis",
-    name: "Minneapolis Headquarters",
-    address: "1234 Industrial Blvd",
-    city: "Minneapolis",
-    state: "MN",
-    zip: "55401",
-    phone: "(612) 555-0100",
-    hours: "Mon-Fri 7AM-6PM, Sat 8AM-4PM",
-    coords: { x: 48, y: 32 }
-  },
-  {
-    id: "chicago",
-    name: "Chicago Distribution",
-    address: "5678 Commerce Way",
-    city: "Chicago",
-    state: "IL",
-    zip: "60601",
-    phone: "(312) 555-0200",
-    hours: "Mon-Fri 7AM-5PM, Sat 8AM-2PM",
-    coords: { x: 52, y: 38 }
-  },
-  {
-    id: "denver",
-    name: "Denver Branch",
-    address: "910 Mountain View Dr",
-    city: "Denver",
-    state: "CO",
-    zip: "80201",
-    phone: "(303) 555-0300",
+    id: "anderson",
+    name: "Anderson Fasteners Inc",
+    address: "2030 Ponderosa Dr",
+    city: "Anderson",
+    state: "CA",
+    zip: "96007",
+    phone: "(530) 365-1777",
     hours: "Mon-Fri 7AM-5PM",
-    coords: { x: 32, y: 42 }
+    coords: { x: 18, y: 22 }
   },
   {
-    id: "dallas",
-    name: "Dallas Warehouse",
-    address: "2468 Texas Trade Pkwy",
-    city: "Dallas",
-    state: "TX",
-    zip: "75201",
-    phone: "(214) 555-0400",
-    hours: "Mon-Fri 6AM-6PM, Sat 7AM-3PM",
-    coords: { x: 42, y: 62 }
+    id: "fresno",
+    name: "Fresno Fasteners Inc",
+    address: "5611 N Blackstone Ave",
+    city: "Fresno",
+    state: "CA",
+    zip: "93710",
+    phone: "(559) 353-2099",
+    hours: "Mon-Fri 7AM-5PM",
+    coords: { x: 22, y: 62 }
   },
   {
-    id: "phoenix",
-    name: "Phoenix Service Center",
-    address: "1357 Desert Industrial",
-    city: "Phoenix",
-    state: "AZ",
-    zip: "85001",
-    phone: "(602) 555-0500",
-    hours: "Mon-Fri 6AM-5PM",
-    coords: { x: 22, y: 58 }
+    id: "medford",
+    name: "Medford Fasteners Inc",
+    address: "2160 N Pacific Hwy",
+    city: "Medford",
+    state: "OR",
+    zip: "97501",
+    phone: "(541) 772-0144",
+    hours: "Mon-Fri 7AM-5PM",
+    coords: { x: 15, y: 8 }
+  },
+  {
+    id: "red-bluff",
+    name: "Red Bluff Fasteners Inc",
+    address: "585 Antelope Blvd",
+    city: "Red Bluff",
+    state: "CA",
+    zip: "96080",
+    phone: "(530) 690-2641",
+    hours: "Mon-Fri 7AM-5PM",
+    coords: { x: 20, y: 28 }
+  },
+  {
+    id: "redding",
+    name: "Redding Fasteners Inc",
+    address: "8912 Airport Rd",
+    city: "Redding",
+    state: "CA",
+    zip: "96002",
+    phone: "(530) 223-4002",
+    hours: "Mon-Fri 7AM-5PM",
+    coords: { x: 16, y: 25 }
+  },
+  {
+    id: "reno",
+    name: "Reno Fasteners",
+    address: "570 Kietzke Lane",
+    city: "Reno",
+    state: "NV",
+    zip: "89502",
+    phone: "(775) 516-6050",
+    hours: "Mon-Fri 7AM-5PM",
+    coords: { x: 38, y: 38 }
+  },
+  {
+    id: "sacramento",
+    name: "Sacramento Fasteners Inc",
+    address: "6701 Power Inn Rd",
+    city: "Sacramento",
+    state: "CA",
+    zip: "95828",
+    phone: "(916) 661-6975",
+    hours: "Mon-Fri 7AM-5PM",
+    coords: { x: 25, y: 45 }
+  },
+  {
+    id: "san-jose",
+    name: "San Jose Fasteners Inc",
+    address: "2897 Monterey Hwy",
+    city: "San Jose",
+    state: "CA",
+    zip: "95111",
+    phone: "(408) 440-4746",
+    hours: "Mon-Fri 7AM-5PM",
+    coords: { x: 18, y: 55 }
+  },
+  {
+    id: "san-leandro",
+    name: "San Leandro Fasteners Inc",
+    address: "534 Lewelling Blvd",
+    city: "San Leandro",
+    state: "CA",
+    zip: "94579",
+    phone: "(510) 777-6050",
+    hours: "Mon-Fri 7AM-5PM",
+    coords: { x: 15, y: 50 }
   },
 ];
 
@@ -84,23 +129,14 @@ export function InteractiveMap() {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-6">
         {/* Map Container */}
         <div className="relative bg-muted rounded-lg overflow-hidden min-h-[400px]">
-          {/* Simple US Map Background */}
-          <svg 
-            viewBox="0 0 100 60" 
-            className="w-full h-full absolute inset-0"
-            preserveAspectRatio="xMidYMid slice"
-          >
-            {/* Simplified US outline */}
-            <path
-              d="M10,15 L25,12 L40,10 L55,8 L70,10 L85,15 L90,25 L88,35 L90,45 L85,55 L70,58 L55,55 L40,58 L25,55 L15,50 L10,40 L8,30 L10,15 Z"
-              fill="hsl(var(--muted))"
-              stroke="hsl(var(--border))"
-              strokeWidth="0.5"
-              className="opacity-80"
-            />
-          </svg>
+          {/* Location Map Image */}
+          <img 
+            src={locationMapImage}
+            alt="Fasteners Inc Locations Map"
+            className="w-full h-full object-cover absolute inset-0"
+          />
           
-          {/* Location Pins */}
+          {/* Location Pins Overlay */}
           {locations.map((location) => (
             <button
               key={location.id}
@@ -115,7 +151,7 @@ export function InteractiveMap() {
               style={{ left: `${location.coords.x}%`, top: `${location.coords.y}%` }}
             >
               <MapPin 
-                className={`w-8 h-8 drop-shadow-lg transition-colors ${
+                className={`w-6 h-6 drop-shadow-lg transition-colors ${
                   selectedLocation?.id === location.id 
                     ? 'text-header-primary fill-header-primary/20' 
                     : 'text-destructive fill-destructive/20'
@@ -148,7 +184,7 @@ export function InteractiveMap() {
               <button
                 key={location.id}
                 onClick={() => setSelectedLocation(location)}
-                className={`w-full text-left px-4 py-4 transition-colors ${
+                className={`w-full text-left px-4 py-3 transition-colors ${
                   selectedLocation?.id === location.id 
                     ? 'bg-header-primary/10' 
                     : 'hover:bg-muted'
@@ -156,7 +192,7 @@ export function InteractiveMap() {
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <h4 className={`font-bold text-sm mb-1 ${
+                    <h4 className={`font-bold text-sm mb-0.5 ${
                       selectedLocation?.id === location.id ? 'text-header-primary' : 'text-foreground'
                     }`}>
                       {location.name}
@@ -166,19 +202,19 @@ export function InteractiveMap() {
                     </p>
                     
                     {selectedLocation?.id === location.id && (
-                      <div className="mt-3 space-y-2">
+                      <div className="mt-2 space-y-1">
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <Phone className="w-3.5 h-3.5" />
+                          <Phone className="w-3 h-3" />
                           <span>{location.phone}</span>
                         </div>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <Clock className="w-3.5 h-3.5" />
+                          <Clock className="w-3 h-3" />
                           <span>{location.hours}</span>
                         </div>
                       </div>
                     )}
                   </div>
-                  <ChevronRight className={`w-5 h-5 flex-shrink-0 transition-transform ${
+                  <ChevronRight className={`w-4 h-4 flex-shrink-0 transition-transform ${
                     selectedLocation?.id === location.id 
                       ? 'text-header-primary rotate-90' 
                       : 'text-muted-foreground'
