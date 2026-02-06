@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import dewaltLogo from "@/assets/brands/dewalt.png";
 import makitaLogo from "@/assets/brands/makita.png";
+import milwaukeeLogo from "@/assets/brands/milwaukee.png";
+import knipexLogo from "@/assets/brands/knipex.png";
+import occidentalLogo from "@/assets/brands/occidental.png";
+import diabloLogo from "@/assets/brands/diablo.png";
+import ironcladLogo from "@/assets/brands/ironclad.png";
 
 interface Brand {
   name: string;
@@ -11,12 +16,11 @@ interface Brand {
 const brands: Brand[] = [
   { name: "DeWalt", logo: dewaltLogo, href: "/brands/dewalt" },
   { name: "Makita", logo: makitaLogo, href: "/brands/makita" },
-  { name: "Milwaukee", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Milwaukee_Tool_Logo.svg/320px-Milwaukee_Tool_Logo.svg.png", href: "/brands/milwaukee" },
-  { name: "Bosch", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Robert_Bosch_GmbH_logo.svg/320px-Robert_Bosch_GmbH_logo.svg.png", href: "/brands/bosch" },
-  { name: "Stanley", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Stanley_logo.svg/320px-Stanley_logo.svg.png", href: "/brands/stanley" },
-  { name: "Klein Tools", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Klein_Tools_logo.svg/320px-Klein_Tools_logo.svg.png", href: "/brands/klein" },
-  { name: "Craftsman", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Craftsman_logo.svg/320px-Craftsman_logo.svg.png", href: "/brands/craftsman" },
-  { name: "Ridgid", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Ridgid_Logo.svg/320px-Ridgid_Logo.svg.png", href: "/brands/ridgid" },
+  { name: "Milwaukee", logo: milwaukeeLogo, href: "/brands/milwaukee" },
+  { name: "Knipex", logo: knipexLogo, href: "/brands/knipex" },
+  { name: "Occidental Leather", logo: occidentalLogo, href: "/brands/occidental" },
+  { name: "Diablo", logo: diabloLogo, href: "/brands/diablo" },
+  { name: "IronClad", logo: ironcladLogo, href: "/brands/ironclad" },
 ];
 
 export function BrandsSection() {
@@ -37,17 +41,17 @@ export function BrandsSection() {
         </Link>
       </div>
       
-      <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+      <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-7 gap-4">
         {brands.map((brand, index) => (
           <Link
             key={index}
             to={brand.href}
-            className="group bg-card border border-border rounded-lg p-4 flex items-center justify-center aspect-square hover:shadow-md hover:border-header-primary/30 transition-all"
+            className="group bg-card border border-border rounded-lg p-3 flex items-center justify-center aspect-square hover:shadow-md hover:border-header-primary/30 transition-all overflow-hidden"
           >
             <img
               src={brand.logo}
               alt={brand.name}
-              className="max-w-full max-h-12 object-contain grayscale group-hover:grayscale-0 transition-all opacity-70 group-hover:opacity-100"
+              className="w-full h-full object-cover rounded transition-all"
             />
           </Link>
         ))}
