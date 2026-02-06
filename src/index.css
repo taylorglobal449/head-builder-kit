@@ -120,3 +120,22 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Leaflet store name tooltip labels */
+.store-label-tooltip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-weight: 700;
+  font-size: 11px;
+  color: hsl(var(--foreground));
+  text-shadow: 
+    1px 1px 2px hsl(var(--background)),
+    -1px -1px 2px hsl(var(--background)),
+    1px -1px 2px hsl(var(--background)),
+    -1px 1px 2px hsl(var(--background));
+  padding: 0 !important;
+}
+.store-label-tooltip::before {
+  display: none !important;
+}
