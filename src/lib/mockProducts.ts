@@ -118,8 +118,7 @@ BULK PRICING AVAILABLE: Take advantage of our quantity discount pricing for larg
           { node: { url: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&h=800&fit=crop', altText: 'Qty Product - Main View' } },
           { node: { url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=800&fit=crop', altText: 'Qty Product - Bulk Pack' } },
           { node: { url: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&h=800&fit=crop', altText: 'Qty Product - Close Up' } },
-          { node: { url: 'https://images.unsplash.com/photo-1590959651373-a3db0f38a961?w=800&h=800&fit=crop', altText: 'Qty Product - Application' } },
-          { node: { url: 'https://images.unsplash.com/photo-1597484661643-2f5fef26aa4e?w=800&h=800&fit=crop', altText: 'Qty Product - Packaging' } }
+          { node: { url: 'https://images.unsplash.com/photo-1590959651373-a3db0f38a961?w=800&h=800&fit=crop', altText: 'Qty Product - Application' } }
         ]
       },
       variants: {
