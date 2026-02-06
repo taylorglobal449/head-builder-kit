@@ -4,6 +4,9 @@ import { QuickCategories } from "@/components/home/QuickCategories";
 import { PromoBanners } from "@/components/home/PromoBanners";
 import { TodaysDeals } from "@/components/home/TodaysDeals";
 import { ProductGrid } from "@/components/products/ProductGrid";
+import { CategoryMegaGrid } from "@/components/home/CategoryMegaGrid";
+import { BrandsSection } from "@/components/home/BrandsSection";
+import { InteractiveMap } from "@/components/home/InteractiveMap";
 import { useMockProducts } from "@/hooks/useMockProducts";
 
 const Index = () => {
@@ -54,6 +57,15 @@ const Index = () => {
             emptyMessage="No products available yet. Products from your Shopify store will appear here."
           />
         </section>
+
+        {/* Category Mega Grid */}
+        <CategoryMegaGrid />
+
+        {/* Shop By Brand */}
+        <BrandsSection />
+
+        {/* Interactive Map */}
+        <InteractiveMap />
       </main>
 
       {/* Footer */}

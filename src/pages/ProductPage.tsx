@@ -1,16 +1,21 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
-import { useMockProduct } from "@/hooks/useMockProducts";
+import { useMockProduct, useMockProducts } from "@/hooks/useMockProducts";
 import { useCartStore } from "@/stores/cartStore";
+import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 import { Button } from "@/components/ui/button";
 import { Loader2, ShoppingCart, ChevronLeft, Minus, Plus, Truck, Shield, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
+import { RecentlyViewed } from "@/components/product/RecentlyViewed";
+import { BoughtWith } from "@/components/product/BoughtWith";
 import type { QuantityDiscount } from "@/lib/mockProducts";
 
 export default function ProductPage() {
   const { handle } = useParams<{ handle: string }>();
   const { product, extras, loading, error } = useMockProduct(handle || '');
+  const { products: allProducts } = useMockProducts(12);
+  const { recentlyViewed, addToRecentlyViewed } = useRecentlyViewed();
   const addItem = useCartStore(state => state.addItem);
   const isCartLoading = useCartStore(state => state.isLoading);
   
@@ -37,6 +42,13 @@ export default function ProductPage() {
       discount: discount.discount || 0
     };
   }, [extras?.quantityDiscounts, quantity, product, selectedVariantIndex]);
+
+  // Track recently viewed
+  useEffect(() => {
+    if (product) {
+      addToRecentlyViewed({ node: product });
+    }
+  }, [product, addToRecentlyViewed]);
 
   if (loading) {
     return (
@@ -109,13 +121,13 @@ export default function ProductPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Images */}
           <div className="space-y-4">
-            {/* Main Image */}
+            {/* Main Image - Square */}
             <div className="aspect-square bg-muted rounded-lg overflow-hidden">
               {images[selectedImage]?.node ? (
                 <img 
                   src={images[selectedImage].node.url}
                   alt={images[selectedImage].node.altText || product.title}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-muted-foreground">
@@ -126,14 +138,14 @@ export default function ProductPage() {
               )}
             </div>
             
-            {/* Thumbnails */}
+            {/* Thumbnails - Square */}
             {images.length > 1 && (
               <div className="flex gap-2 overflow-x-auto pb-2">
                 {images.map((img, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`w-20 h-20 rounded-md overflow-hidden border-2 shrink-0 ${
+                    className={`w-20 h-20 rounded-md overflow-hidden border-2 shrink-0 aspect-square ${
                       selectedImage === index ? 'border-header-primary' : 'border-transparent'
                     }`}
                   >
@@ -339,6 +351,12 @@ export default function ProductPage() {
             )}
           </div>
         </div>
+
+        {/* Frequently Bought Together */}
+        <BoughtWith products={allProducts} currentHandle={handle} />
+
+        {/* Recently Viewed */}
+        <RecentlyViewed products={recentlyViewed} currentHandle={handle} />
       </main>
     </div>
   );
