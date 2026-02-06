@@ -111,7 +111,7 @@ export function InteractiveMap() {
     <section className="py-6 border-t border-border">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Map */}
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-4">
           <img
             src={locationMapImage}
             alt="Fasteners Inc locations map"
@@ -120,11 +120,11 @@ export function InteractiveMap() {
         </div>
 
         {/* Locations */}
-        <div className="lg:col-span-4">
+        <div className="lg:col-span-3">
           <h2 className="text-lg font-black uppercase tracking-wide mb-3 text-header-primary">
             Our Locations
           </h2>
-          <div className="h-[300px] overflow-y-auto pr-2 space-y-2">
+          <div className="h-[310px] overflow-y-auto pr-1 space-y-2">
             {locations.map((location) => (
               <div key={location.id} className="border-b border-border pb-2 last:border-b-0">
                 <h3 className="font-bold text-header-primary text-sm">{location.name}</h3>
@@ -142,7 +142,7 @@ export function InteractiveMap() {
           <h2 className="text-lg font-black uppercase tracking-wide mb-3 text-header-primary">
             Who We Are
           </h2>
-          <div className="h-[300px] overflow-y-auto pr-2 text-sm text-foreground leading-relaxed space-y-3">
+          <div className="h-[310px] overflow-y-auto pr-1 text-sm text-foreground leading-relaxed space-y-3">
             <p>
               We are a proud, family-owned business built on trust, hard work, and a passion for quality tools. With 9 retail locations—and many more on the way—we've been serving communities across California, Nevada, and Oregon for years. Our commitment has always been simple: <strong>Better Tools, Better Prices.</strong> Whether you're a professional contractor, a weekend DIYer, or somewhere in between, we're here to help you get the job done right.
             </p>
