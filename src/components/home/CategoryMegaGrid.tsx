@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ChevronRight, Snowflake, Home, Wrench, SprayCan, Zap, Hammer } from "lucide-react";
+import { ChevronRight, Snowflake, Home, Wrench, SprayCan, Zap, Hammer, HardHat, Cable, Bolt, Package } from "lucide-react";
 
 interface Subcategory {
   name: string;
@@ -9,7 +9,6 @@ interface Subcategory {
 interface CategoryColumn {
   title: string;
   icon: React.ReactNode;
-  color: string;
   subcategories: Subcategory[];
 }
 
@@ -17,7 +16,6 @@ const categories: CategoryColumn[] = [
   {
     title: "OUTDOOR LIVING",
     icon: <Snowflake className="w-5 h-5" />,
-    color: "bg-header-secondary",
     subcategories: [
       { name: "Coolers & Drinkware", href: "/category/coolers" },
       { name: "Outdoor Cooking", href: "/category/outdoor-cooking" },
@@ -29,7 +27,6 @@ const categories: CategoryColumn[] = [
   {
     title: "HOME IMPROVEMENT",
     icon: <Home className="w-5 h-5" />,
-    color: "bg-header-secondary",
     subcategories: [
       { name: "Lighting & Electrical", href: "/category/lighting" },
       { name: "Bathroom", href: "/category/bathroom" },
@@ -41,7 +38,6 @@ const categories: CategoryColumn[] = [
   {
     title: "EQUIPMENT",
     icon: <Wrench className="w-5 h-5" />,
-    color: "bg-header-secondary",
     subcategories: [
       { name: "Parts & Attachments", href: "/category/parts" },
       { name: "Aerial Lifts", href: "/category/aerial-lifts" },
@@ -53,7 +49,6 @@ const categories: CategoryColumn[] = [
   {
     title: "CLEANING SUPPLIES",
     icon: <SprayCan className="w-5 h-5" />,
-    color: "bg-header-secondary",
     subcategories: [
       { name: "Vacuums", href: "/category/vacuums" },
       { name: "Cleaning Tools", href: "/category/cleaning-tools" },
@@ -65,7 +60,6 @@ const categories: CategoryColumn[] = [
   {
     title: "OUTDOOR POWER",
     icon: <Zap className="w-5 h-5" />,
-    color: "bg-header-secondary",
     subcategories: [
       { name: "Chainsaws", href: "/category/chainsaws" },
       { name: "Lawn Mowers", href: "/category/lawn-mowers" },
@@ -77,7 +71,6 @@ const categories: CategoryColumn[] = [
   {
     title: "HAND TOOLS",
     icon: <Hammer className="w-5 h-5" />,
-    color: "bg-header-secondary",
     subcategories: [
       { name: "Wrenches & Sockets", href: "/category/wrenches" },
       { name: "Screwdrivers", href: "/category/screwdrivers" },
@@ -86,17 +79,61 @@ const categories: CategoryColumn[] = [
       { name: "Tool Storage", href: "/category/tool-storage" },
     ]
   },
+  {
+    title: "SAFETY & PPE",
+    icon: <HardHat className="w-5 h-5" />,
+    subcategories: [
+      { name: "Safety Glasses", href: "/category/safety-glasses" },
+      { name: "Hearing Protection", href: "/category/hearing-protection" },
+      { name: "Work Gloves", href: "/category/work-gloves" },
+      { name: "Hard Hats", href: "/category/hard-hats" },
+      { name: "Hi-Vis Clothing", href: "/category/hi-vis" },
+    ]
+  },
+  {
+    title: "ELECTRICAL",
+    icon: <Cable className="w-5 h-5" />,
+    subcategories: [
+      { name: "Wire & Cable", href: "/category/wire-cable" },
+      { name: "Conduit & Fittings", href: "/category/conduit" },
+      { name: "Electrical Boxes", href: "/category/electrical-boxes" },
+      { name: "Switches & Outlets", href: "/category/switches" },
+      { name: "Testing Equipment", href: "/category/testing" },
+    ]
+  },
+  {
+    title: "FASTENERS",
+    icon: <Bolt className="w-5 h-5" />,
+    subcategories: [
+      { name: "Screws", href: "/category/screws" },
+      { name: "Bolts & Nuts", href: "/category/bolts-nuts" },
+      { name: "Anchors", href: "/category/anchors" },
+      { name: "Nails & Staples", href: "/category/nails" },
+      { name: "Rivets", href: "/category/rivets" },
+    ]
+  },
+  {
+    title: "STORAGE",
+    icon: <Package className="w-5 h-5" />,
+    subcategories: [
+      { name: "Tool Boxes", href: "/category/tool-boxes" },
+      { name: "Tool Chests", href: "/category/tool-chests" },
+      { name: "Workbenches", href: "/category/workbenches" },
+      { name: "Cabinets", href: "/category/cabinets" },
+      { name: "Organizers", href: "/category/organizers" },
+    ]
+  },
 ];
 
 export function CategoryMegaGrid() {
   return (
-    <section className="py-8">
-      {/* 5 columns on desktop (2 rows), 3 on tablet, 2 on mobile */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+    <section className="py-6">
+      {/* 5 columns on desktop (2 rows of 5), 3 on tablet, 2 on mobile */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
         {categories.map((category, idx) => (
           <div key={idx} className="bg-card border border-border rounded-lg overflow-hidden">
             {/* Category Header */}
-            <div className={`${category.color} px-3 py-2 md:px-4 md:py-3 flex items-center gap-2`}>
+            <div className="bg-header-secondary px-3 py-2 flex items-center gap-2">
               <span className="text-primary-foreground">{category.icon}</span>
               <h3 className="text-primary-foreground font-bold text-xs uppercase tracking-wide">
                 {category.title}
@@ -104,17 +141,17 @@ export function CategoryMegaGrid() {
             </div>
             
             {/* Subcategories */}
-            <div className="p-1 md:p-2">
+            <div className="p-1">
               {category.subcategories.map((sub, subIdx) => (
                 <Link
                   key={subIdx}
                   to={sub.href}
-                  className="flex items-center justify-between px-2 py-1.5 md:px-3 md:py-2 hover:bg-muted rounded-md transition-colors group"
+                  className="flex items-center justify-between px-2 py-1.5 hover:bg-muted rounded-md transition-colors group"
                 >
-                  <span className="text-xs md:text-sm text-foreground group-hover:text-header-primary transition-colors">
+                  <span className="text-xs text-foreground group-hover:text-header-primary transition-colors">
                     {sub.name}
                   </span>
-                  <ChevronRight className="w-3 h-3 md:w-4 md:h-4 text-muted-foreground group-hover:text-header-primary transition-colors" />
+                  <ChevronRight className="w-3 h-3 text-muted-foreground group-hover:text-header-primary transition-colors" />
                 </Link>
               ))}
             </div>
@@ -124,4 +161,3 @@ export function CategoryMegaGrid() {
     </section>
   );
 }
-
