@@ -109,49 +109,51 @@ const locations: Location[] = [
 export function InteractiveMap() {
   return (
     <section className="py-6 border-t border-border">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-        {/* Map */}
-        <div className="lg:col-span-3">
-          <img
-            src={locationMapImage}
-            alt="Fasteners Inc locations map"
-            className="w-full h-[340px] object-cover rounded-lg border border-border"
-          />
-        </div>
-
-        {/* Locations */}
-        <div className="lg:col-span-4">
-          <h2 className="text-lg font-black uppercase tracking-wide mb-3 text-header-primary">
-            Our Locations
-          </h2>
-          <div className="h-[300px] overflow-y-auto pr-1 space-y-2">
-            {locations.map((location) => (
-              <div key={location.id} className="border-b border-border pb-2 last:border-b-0">
-                <h3 className="font-bold text-header-primary text-sm">{location.name}</h3>
-                <p className="text-xs text-muted-foreground">{location.address}, {location.city}, {location.state} {location.zip}</p>
-                <p className="text-xs text-muted-foreground">
-                  Phone: <a href={`tel:${location.phone}`} className="hover:text-header-primary">{location.phone}</a>
-                </p>
-              </div>
-            ))}
+      <div className="border border-border rounded-lg p-4 md:p-6 bg-card">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
+          {/* Map */}
+          <div className="lg:col-span-3">
+            <img
+              src={locationMapImage}
+              alt="Fasteners Inc locations map"
+              className="w-full h-[200px] md:h-[300px] lg:h-[340px] object-cover rounded-lg"
+            />
           </div>
-        </div>
 
-        {/* Who we are */}
-        <div className="lg:col-span-5">
-          <h2 className="text-lg font-black uppercase tracking-wide mb-3 text-header-primary">
-            Who We Are
-          </h2>
-          <div className="h-[300px] overflow-y-auto pr-1 text-sm text-foreground leading-relaxed space-y-3">
-            <p>
-              We are a proud, family-owned business built on trust, hard work, and a passion for quality tools. With 9 retail locations—and many more on the way—we've been serving communities across California, Nevada, and Oregon for years. Our commitment has always been simple: <strong>Better Tools, Better Prices.</strong> Whether you're a professional contractor, a weekend DIYer, or somewhere in between, we're here to help you get the job done right.
-            </p>
-            <p>
-              At our stores and online, you'll find over 40,000 different items—from bolts, nuts, and fasteners to power tools, safety gear, and more. We're more than just a hardware store; we're your one-stop shop for everything you need to build, repair, and create. We also offer bulk discounts and custom quotes, ensuring you always get the best value no matter the size of your project.
-            </p>
-            <p>
-              We know that when you need a tool, you need it now. That's why we offer a variety of convenient shipping options to get your order to you quickly—no matter where you are. Our team is dedicated to delivering the products, service, and support you can rely on, every single time. From our family to yours, we'll always be there when you need a new tool.
-            </p>
+          {/* Locations */}
+          <div className="lg:col-span-4">
+            <h2 className="text-lg font-black uppercase tracking-wide mb-3 text-header-primary">
+              Our Locations
+            </h2>
+            <div className="h-[250px] md:h-[260px] lg:h-[300px] overflow-y-auto pr-1 space-y-2">
+              {locations.map((location) => (
+                <div key={location.id} className="border-b border-border pb-2 last:border-b-0">
+                  <h3 className="font-bold text-header-primary text-sm">{location.name}</h3>
+                  <p className="text-xs text-muted-foreground">{location.address}, {location.city}, {location.state} {location.zip}</p>
+                  <p className="text-xs text-muted-foreground">
+                    Phone: <a href={`tel:${location.phone}`} className="hover:text-header-primary">{location.phone}</a>
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Who we are */}
+          <div className="lg:col-span-5">
+            <h2 className="text-lg font-black uppercase tracking-wide mb-3 text-header-primary">
+              Who We Are
+            </h2>
+            <div className="h-[250px] md:h-[260px] lg:h-[300px] overflow-y-auto pr-1 text-sm text-foreground leading-relaxed space-y-3">
+              <p>
+                We are a proud, family-owned business built on trust, hard work, and a passion for quality tools. With 9 retail locations—and many more on the way—we've been serving communities across California, Nevada, and Oregon for years. Our commitment has always been simple: <strong>Better Tools, Better Prices.</strong> Whether you're a professional contractor, a weekend DIYer, or somewhere in between, we're here to help you get the job done right.
+              </p>
+              <p>
+                At our stores and online, you'll find over 40,000 different items—from bolts, nuts, and fasteners to power tools, safety gear, and more. We're more than just a hardware store; we're your one-stop shop for everything you need to build, repair, and create. We also offer bulk discounts and custom quotes, ensuring you always get the best value no matter the size of your project.
+              </p>
+              <p>
+                We know that when you need a tool, you need it now. That's why we offer a variety of convenient shipping options to get your order to you quickly—no matter where you are. Our team is dedicated to delivering the products, service, and support you can rely on, every single time. From our family to yours, we'll always be there when you need a new tool.
+              </p>
+            </div>
           </div>
         </div>
       </div>
