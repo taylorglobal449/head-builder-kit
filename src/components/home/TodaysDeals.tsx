@@ -14,7 +14,7 @@ interface DealCard {
 const deals: DealCard[] = [
   {
     brand: "BOSCH",
-    brandColor: "bg-[hsl(210,100%,35%)]",
+    brandColor: "bg-blue-600",
     title: "BUY MORE FOR LESS",
     description: "Save $20 - $150 on select Bosch orders of $100+",
     imageUrl: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=300&auto=format&fit=crop&q=60",
@@ -22,7 +22,7 @@ const deals: DealCard[] = [
   },
   {
     brand: "Milwaukee",
-    brandColor: "bg-[hsl(350,74%,44%)]",
+    brandColor: "bg-red-600",
     title: "GET UP TO $200 OFF",
     description: "select Milwaukee purchases",
     imageUrl: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=300&auto=format&fit=crop&q=60",
@@ -30,7 +30,7 @@ const deals: DealCard[] = [
   },
   {
     brand: "Metabo HPT",
-    brandColor: "bg-[hsl(145,60%,35%)]",
+    brandColor: "bg-green-600",
     title: "FREE 2PK SAWHORSES",
     description: "with select Metabo HPT miter saw",
     imageUrl: "https://images.unsplash.com/photo-1586864387789-628af9feed72?w=300&auto=format&fit=crop&q=60",
@@ -38,7 +38,7 @@ const deals: DealCard[] = [
   },
   {
     brand: "DEWALT",
-    brandColor: "bg-[hsl(45,100%,45%)]",
+    brandColor: "bg-yellow-500",
     title: "FREE BATTERY",
     description: "with purchase of select DEWALT tool or charger",
     imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&auto=format&fit=crop&q=60",
@@ -46,7 +46,7 @@ const deals: DealCard[] = [
   },
   {
     brand: "Makita",
-    brandColor: "bg-[hsl(180,100%,30%)]",
+    brandColor: "bg-teal-600",
     title: "CREATE YOUR KIT",
     description: "Get a FREE tool with purchase of select Makita battery 2pk",
     imageUrl: "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=300&auto=format&fit=crop&q=60",
@@ -54,7 +54,7 @@ const deals: DealCard[] = [
   },
   {
     brand: "Klein Tools",
-    brandColor: "bg-[hsl(35,100%,50%)]",
+    brandColor: "bg-orange-500",
     title: "SAVE 14%",
     description: "on select Klein Tools items with code: 14SWEETKLEIN",
     code: "14SWEETKLEIN",
@@ -80,7 +80,7 @@ export function TodaysDeals() {
           <Link
             key={index}
             to={deal.linkUrl}
-            className="group relative overflow-hidden rounded-lg bg-gradient-to-b from-muted to-muted-foreground/20 flex flex-col"
+            className="group relative overflow-hidden rounded-lg bg-zinc-900 flex flex-col"
           >
             {/* Brand Badge */}
             <div className={`${deal.brandColor} px-3 py-1.5 text-white text-xs font-bold uppercase tracking-wide m-3 rounded self-start`}>
@@ -97,7 +97,7 @@ export function TodaysDeals() {
             </div>
             
             {/* Content */}
-            <div className="p-4 pt-2">
+            <div className="p-4 pt-3">
               <h3 className="text-white font-black text-sm leading-tight mb-1">
                 {deal.title}
               </h3>
