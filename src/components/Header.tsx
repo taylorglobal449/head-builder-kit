@@ -141,8 +141,8 @@ const navCategories = [
 const utilityLinks = [
   { name: "STORE LOCATOR", icon: "📍", href: "https://www.fastenersinc.net/a/store-locator" },
   { name: "SALES FLYERS", icon: "📰", href: "https://www.fastenersinc.net/pages/milwaukee-deals-direct" },
-  { name: "CALENDAR", icon: "📅", href: "https://www.fastenersinc.net/pages/events" },
-  { name: "CONTACT US", icon: "📞", href: "https://www.fastenersinc.net/pages/contact" },
+  { name: "CALENDAR", icon: "📅", href: "/events" },
+  { name: "CONTACT US", icon: "📞", href: "/contact" },
   { name: "REQUEST A QUOTE", icon: "📋", href: "/quote" },
   { name: "ORDER TRACKING", icon: "🚚", href: "https://www.fastenersinc.net/account" },
 ];
