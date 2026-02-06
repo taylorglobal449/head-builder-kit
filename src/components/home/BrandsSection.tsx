@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import dewaltLogo from "@/assets/brands/dewalt.png";
+import milwaukeeAltLogo from "@/assets/brands/milwaukee-alt.png";
 import makitaLogo from "@/assets/brands/makita.png";
 import milwaukeeLogo from "@/assets/brands/milwaukee.png";
 import knipexLogo from "@/assets/brands/knipex.png";
@@ -15,8 +16,9 @@ interface Brand {
 
 const brands: Brand[] = [
   { name: "DeWalt", logo: dewaltLogo, href: "/brands/dewalt" },
+  { name: "Milwaukee", logo: milwaukeeAltLogo, href: "/brands/milwaukee" },
   { name: "Makita", logo: makitaLogo, href: "/brands/makita" },
-  { name: "Milwaukee", logo: milwaukeeLogo, href: "/brands/milwaukee" },
+  { name: "Milwaukee Tools", logo: milwaukeeLogo, href: "/brands/milwaukee" },
   { name: "Knipex", logo: knipexLogo, href: "/brands/knipex" },
   { name: "Occidental Leather", logo: occidentalLogo, href: "/brands/occidental" },
   { name: "Diablo", logo: diabloLogo, href: "/brands/diablo" },
@@ -42,7 +44,7 @@ export function BrandsSection() {
       </div>
       
       {/* 2 rows of rectangular brand cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-2">
         {brands.map((brand, index) => (
           <Link
             key={index}
