@@ -91,8 +91,8 @@ const categories: CategoryColumn[] = [
 export function CategoryMegaGrid() {
   return (
     <section className="py-8">
-      {/* 2x3 grid on desktop, 2x3 on tablet, stacked on mobile */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      {/* 5 columns on desktop (2 rows), 3 on tablet, 2 on mobile */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {categories.map((category, idx) => (
           <div key={idx} className="bg-card border border-border rounded-lg overflow-hidden">
             {/* Category Header */}
