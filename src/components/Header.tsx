@@ -7,7 +7,7 @@ import { SearchModal } from "@/components/search/SearchModal";
 const subcategoryImages: Record<string, string> = {
   // Power Tools
   "Drills & Drivers": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=120&h=120&fit=crop",
-  "Saws": "https://images.unsplash.com/photo-1616401784845-180882c6e4ea?w=120&h=120&fit=crop",
+  "Saws": "https://images.unsplash.com/photo-1580402427914-a6cc60d7afc5?w=120&h=120&fit=crop",
   "Grinders & Sanders": "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop",
   "Rotary Tools": "https://images.unsplash.com/photo-1590959651373-a3db0f38a961?w=120&h=120&fit=crop",
   "Multi-Tools": "https://images.unsplash.com/photo-1586864387789-628af9feed72?w=120&h=120&fit=crop",
@@ -19,9 +19,9 @@ const subcategoryImages: Record<string, string> = {
   "Clamps & Vises": "https://images.unsplash.com/photo-1530124566582-a45a7c6ec40f?w=120&h=120&fit=crop",
   // Tool Accessories
   "Drill Bits": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=120&h=120&fit=crop",
-  "Saw Blades": "https://images.unsplash.com/photo-1616401784845-180882c6e4ea?w=120&h=120&fit=crop",
+  "Saw Blades": "https://images.unsplash.com/photo-1562259929-b4e1fd3aef09?w=120&h=120&fit=crop",
   "Abrasives": "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop",
-  "Batteries & Chargers": "https://images.unsplash.com/photo-1619641805634-98e89225b996?w=120&h=120&fit=crop",
+  "Batteries & Chargers": "https://images.unsplash.com/photo-1609692814857-d1b8d0c5e8c8?w=120&h=120&fit=crop",
   "Router Bits": "https://images.unsplash.com/photo-1590959651373-a3db0f38a961?w=120&h=120&fit=crop",
   // Fasteners
   "Screws": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=120&h=120&fit=crop",
@@ -143,16 +143,16 @@ const utilityLinks = [
   { name: "SALES FLYERS", icon: "📰", href: "https://www.fastenersinc.net/pages/milwaukee-deals-direct" },
   { name: "CALENDAR", icon: "📅", href: "https://www.fastenersinc.net/pages/events" },
   { name: "CONTACT US", icon: "📞", href: "https://www.fastenersinc.net/pages/contact" },
-  { name: "REQUEST A QUOTE", icon: "📋", href: "https://www.fastenersinc.net/pages/request-a-quote" },
+  { name: "REQUEST A QUOTE", icon: "📋", href: "/quote" },
   { name: "ORDER TRACKING", icon: "🚚", href: "https://www.fastenersinc.net/account" },
 ];
 
 const navButtons = [
-  { name: "SHOP ALL", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: ShoppingBag, hasDropdown: true, href: "https://www.fastenersinc.net/pages/search-results-page" },
-  { name: "BRANDS", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: Tag, hasDropdown: true, href: "https://www.fastenersinc.net/pages/brands" },
-  { name: "HOT DEALS", color: "bg-header-primary", hoverColor: "hover:bg-header-primary-hover", textColor: "text-white", icon: FlameKindling, hasDropdown: false, href: "https://www.fastenersinc.net/pages/top-deals-promotions" },
-  { name: "NEW PRODUCTS", color: "bg-[#2563eb]", hoverColor: "hover:bg-[#1d4ed8]", textColor: "text-white", icon: Sparkles, hasDropdown: false, href: "https://www.fastenersinc.net/pages/search-results-page?collection=new-release" },
-  { name: "CLOSEOUTS", color: "bg-[#16a34a]", hoverColor: "hover:bg-[#15803d]", textColor: "text-white", icon: DollarSign, hasDropdown: false, href: "https://www.fastenersinc.net/pages/flash-sale-1" },
+  { name: "SHOP ALL", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: ShoppingBag, hasDropdown: true, hasArrow: true, href: "https://www.fastenersinc.net/pages/search-results-page" },
+  { name: "BRANDS", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: Tag, hasDropdown: true, hasArrow: true, href: "https://www.fastenersinc.net/pages/brands" },
+  { name: "HOT DEALS", color: "bg-header-primary", hoverColor: "hover:bg-header-primary-hover", textColor: "text-white", icon: FlameKindling, hasDropdown: false, hasArrow: false, href: "https://www.fastenersinc.net/pages/top-deals-promotions" },
+  { name: "NEW PRODUCTS", color: "bg-[#2563eb]", hoverColor: "hover:bg-[#1d4ed8]", textColor: "text-white", icon: Sparkles, hasDropdown: false, hasArrow: false, href: "https://www.fastenersinc.net/pages/search-results-page?collection=new-release" },
+  { name: "CLOSEOUTS", color: "bg-[#16a34a]", hoverColor: "hover:bg-[#15803d]", textColor: "text-white", icon: DollarSign, hasDropdown: false, hasArrow: false, href: "https://www.fastenersinc.net/pages/flash-sale-1" },
 ];
 
 // Dropdown content with real links
@@ -331,6 +331,7 @@ export function Header() {
                     >
                       <IconComponent className="w-3 h-3" />
                       {btn.name}
+                      {btn.hasArrow && <ThickArrow className="text-header-primary" />}
                     </a>
                     
                     {/* Dropdown for SHOP ALL */}
