@@ -11,6 +11,7 @@ import SearchResultsPage from "./pages/SearchResultsPage";
 import QuotePage from "./pages/QuotePage";
 import ContactPage from "./pages/ContactPage";
 import EventsPage from "./pages/EventsPage";
+import StoreLocatorPage from "./pages/StoreLocatorPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ function AppContent() {
         <Route path="/quote" element={<QuotePage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/events" element={<EventsPage />} />
+        <Route path="/store-locator" element={<StoreLocatorPage />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
