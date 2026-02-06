@@ -5,26 +5,54 @@ import { SearchModal } from "@/components/search/SearchModal";
 
 // Image map for subcategory thumbnails
 const subcategoryImages: Record<string, string> = {
+  // Power Tools
   "Drills & Drivers": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=120&h=120&fit=crop",
   "Saws": "https://images.unsplash.com/photo-1616401784845-180882c6e4ea?w=120&h=120&fit=crop",
   "Grinders & Sanders": "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop",
   "Rotary Tools": "https://images.unsplash.com/photo-1590959651373-a3db0f38a961?w=120&h=120&fit=crop",
   "Multi-Tools": "https://images.unsplash.com/photo-1586864387789-628af9feed72?w=120&h=120&fit=crop",
+  // Hand Tools
   "Wrenches": "https://images.unsplash.com/photo-1581783898377-1c85bf937427?w=120&h=120&fit=crop",
   "Pliers & Cutters": "https://images.unsplash.com/photo-1513467535987-fd81bc7d62f8?w=120&h=120&fit=crop",
   "Screwdrivers": "https://images.unsplash.com/photo-1426927308491-6380b6a9936f?w=120&h=120&fit=crop",
   "Hammers": "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=120&h=120&fit=crop",
   "Clamps & Vises": "https://images.unsplash.com/photo-1530124566582-a45a7c6ec40f?w=120&h=120&fit=crop",
+  // Tool Accessories
   "Drill Bits": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=120&h=120&fit=crop",
   "Saw Blades": "https://images.unsplash.com/photo-1616401784845-180882c6e4ea?w=120&h=120&fit=crop",
   "Abrasives": "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop",
   "Batteries & Chargers": "https://images.unsplash.com/photo-1619641805634-98e89225b996?w=120&h=120&fit=crop",
   "Router Bits": "https://images.unsplash.com/photo-1590959651373-a3db0f38a961?w=120&h=120&fit=crop",
+  // Fasteners
   "Screws": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=120&h=120&fit=crop",
   "Bolts & Nuts": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=120&h=120&fit=crop",
   "Anchors": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=120&h=120&fit=crop",
   "Nails & Staples": "https://images.unsplash.com/photo-1586864387789-628af9feed72?w=120&h=120&fit=crop",
   "Rivets & Washers": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=120&h=120&fit=crop",
+  // Strut & Accessories
+  "Strut Channel": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=120&h=120&fit=crop",
+  "Strut Fittings": "https://images.unsplash.com/photo-1581783898377-1c85bf937427?w=120&h=120&fit=crop",
+  "Pipe Hangers": "https://images.unsplash.com/photo-1530124566582-a45a7c6ec40f?w=120&h=120&fit=crop",
+  "Hardware": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=120&h=120&fit=crop",
+  "Mounting": "https://images.unsplash.com/photo-1586864387789-628af9feed72?w=120&h=120&fit=crop",
+  // Safety & Workwear
+  "Eye Protection": "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=120&h=120&fit=crop",
+  "Hearing Protection": "https://images.unsplash.com/photo-1590959651373-a3db0f38a961?w=120&h=120&fit=crop",
+  "Gloves": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=120&h=120&fit=crop",
+  "Workwear": "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=120&h=120&fit=crop",
+  "Respiratory": "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop",
+  // Machine Tools
+  "Lathes": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=120&h=120&fit=crop",
+  "Milling": "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop",
+  "Metalworking": "https://images.unsplash.com/photo-1616401784845-180882c6e4ea?w=120&h=120&fit=crop",
+  "Woodworking": "https://images.unsplash.com/photo-1590959651373-a3db0f38a961?w=120&h=120&fit=crop",
+  "CNC & Digital": "https://images.unsplash.com/photo-1619641805634-98e89225b996?w=120&h=120&fit=crop",
+  // Other
+  "Air Tools & Compressors": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=120&h=120&fit=crop",
+  "Storage & Workspace": "https://images.unsplash.com/photo-1530124566582-a45a7c6ec40f?w=120&h=120&fit=crop",
+  "Jobsite Supplies": "https://images.unsplash.com/photo-1586864387789-628af9feed72?w=120&h=120&fit=crop",
+  "Measuring Tools": "https://images.unsplash.com/photo-1581783898377-1c85bf937427?w=120&h=120&fit=crop",
+  "Welding": "https://images.unsplash.com/photo-1616401784845-180882c6e4ea?w=120&h=120&fit=crop",
 };
 
 const navCategories = [
@@ -188,13 +216,13 @@ export function Header() {
           <span className="mx-4 opacity-70 hidden sm:inline">|</span>
           <div className="hidden sm:flex items-center gap-4 ml-2">
             {/* Facebook */}
-            <a href="#" className="opacity-90 hover:opacity-100 transition-opacity">
+            <a href="/" className="opacity-90 hover:opacity-100 transition-opacity">
               <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
               </svg>
             </a>
             {/* Instagram */}
-            <a href="#" className="opacity-90 hover:opacity-100 transition-opacity">
+            <a href="/" className="opacity-90 hover:opacity-100 transition-opacity">
               <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
@@ -299,7 +327,7 @@ export function Header() {
                   >
                     <a
                       href={btn.href}
-                      className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[11px] font-bold px-2.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-1`}
+                      className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[12px] font-bold px-2.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-1`}
                     >
                       <IconComponent className="w-3 h-3" />
                       {btn.name}
@@ -349,7 +377,7 @@ export function Header() {
                   onMouseLeave={() => setActiveCategoryDropdown(null)}
                 >
                   <a
-                    href="#"
+                    href="/"
                     className="flex items-center gap-1.5 px-3 py-2.5 text-[12px] font-bold text-header-text hover:text-header-primary transition-colors whitespace-nowrap"
                   >
                     {cat.name}
@@ -380,7 +408,7 @@ export function Header() {
                                   {subcat.items.slice(0, 4).map((item) => (
                                     <li key={item}>
                                       <a 
-                                        href="#" 
+                                        href="/" 
                                         className="text-sm text-foreground hover:text-header-primary hover:underline transition-colors"
                                       >
                                         {item}
@@ -389,7 +417,7 @@ export function Header() {
                                   ))}
                                 </ul>
                                 <a 
-                                  href="#" 
+                                  href="/" 
                                   className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-header-primary mt-2 font-medium"
                                 >
                                   View All
@@ -435,7 +463,7 @@ export function Header() {
             {navCategories.map((cat) => (
               <a
                 key={cat.name}
-                href="#"
+                href="/"
                 className="flex items-center justify-between py-2.5 text-sm font-bold text-header-text hover:text-header-primary transition-colors"
               >
                 {cat.name}
