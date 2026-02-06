@@ -3,14 +3,39 @@ import { Search, User, Menu, X, FlameKindling, DollarSign, Sparkles, ShoppingBag
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { SearchModal } from "@/components/search/SearchModal";
 
+// Image map for subcategory thumbnails
+const subcategoryImages: Record<string, string> = {
+  "Drills & Drivers": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=120&h=120&fit=crop",
+  "Saws": "https://images.unsplash.com/photo-1616401784845-180882c6e4ea?w=120&h=120&fit=crop",
+  "Grinders & Sanders": "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop",
+  "Rotary Tools": "https://images.unsplash.com/photo-1590959651373-a3db0f38a961?w=120&h=120&fit=crop",
+  "Multi-Tools": "https://images.unsplash.com/photo-1586864387789-628af9feed72?w=120&h=120&fit=crop",
+  "Wrenches": "https://images.unsplash.com/photo-1581783898377-1c85bf937427?w=120&h=120&fit=crop",
+  "Pliers & Cutters": "https://images.unsplash.com/photo-1513467535987-fd81bc7d62f8?w=120&h=120&fit=crop",
+  "Screwdrivers": "https://images.unsplash.com/photo-1426927308491-6380b6a9936f?w=120&h=120&fit=crop",
+  "Hammers": "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=120&h=120&fit=crop",
+  "Clamps & Vises": "https://images.unsplash.com/photo-1530124566582-a45a7c6ec40f?w=120&h=120&fit=crop",
+  "Drill Bits": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=120&h=120&fit=crop",
+  "Saw Blades": "https://images.unsplash.com/photo-1616401784845-180882c6e4ea?w=120&h=120&fit=crop",
+  "Abrasives": "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop",
+  "Batteries & Chargers": "https://images.unsplash.com/photo-1619641805634-98e89225b996?w=120&h=120&fit=crop",
+  "Router Bits": "https://images.unsplash.com/photo-1590959651373-a3db0f38a961?w=120&h=120&fit=crop",
+  "Screws": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=120&h=120&fit=crop",
+  "Bolts & Nuts": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=120&h=120&fit=crop",
+  "Anchors": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=120&h=120&fit=crop",
+  "Nails & Staples": "https://images.unsplash.com/photo-1586864387789-628af9feed72?w=120&h=120&fit=crop",
+  "Rivets & Washers": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=120&h=120&fit=crop",
+};
+
 const navCategories = [
   { 
     name: "POWER TOOLS",
     subcategories: [
       { title: "Drills & Drivers", items: ["Cordless Drills", "Impact Drivers", "Hammer Drills", "Drill Presses"] },
-      { title: "Saws", items: ["Circular Saws", "Miter Saws", "Table Saws", "Reciprocating Saws", "Jigsaws"] },
+      { title: "Saws", items: ["Circular Saws", "Miter Saws", "Table Saws", "Reciprocating Saws"] },
       { title: "Grinders & Sanders", items: ["Angle Grinders", "Bench Grinders", "Belt Sanders", "Orbital Sanders"] },
-      { title: "Rotary Tools", items: ["Rotary Hammers", "Demolition Hammers", "Die Grinders"] },
+      { title: "Rotary Tools", items: ["Rotary Hammers", "Demolition Hammers", "Die Grinders", "Oscillating Tools"] },
+      { title: "Multi-Tools", items: ["Oscillating Multi-Tools", "Combo Kits", "Cordless Systems", "Accessories"] },
     ]
   },
   { 
@@ -20,6 +45,7 @@ const navCategories = [
       { title: "Pliers & Cutters", items: ["Needle Nose Pliers", "Lineman's Pliers", "Wire Strippers", "Diagonal Cutters"] },
       { title: "Screwdrivers", items: ["Phillips Screwdrivers", "Flathead Screwdrivers", "Precision Sets", "Insulated Sets"] },
       { title: "Hammers", items: ["Claw Hammers", "Ball Peen Hammers", "Sledgehammers", "Mallets"] },
+      { title: "Clamps & Vises", items: ["Bar Clamps", "C-Clamps", "Bench Vises", "Spring Clamps"] },
     ]
   },
   { 
@@ -29,6 +55,7 @@ const navCategories = [
       { title: "Saw Blades", items: ["Circular Saw Blades", "Jigsaw Blades", "Reciprocating Blades", "Band Saw Blades"] },
       { title: "Abrasives", items: ["Grinding Wheels", "Sanding Discs", "Flap Discs", "Cut-Off Wheels"] },
       { title: "Batteries & Chargers", items: ["Battery Packs", "Chargers", "Power Stations", "Adapters"] },
+      { title: "Router Bits", items: ["Straight Bits", "Flush Trim", "Chamfer Bits", "Round Over Bits"] },
     ]
   },
   { 
@@ -38,6 +65,7 @@ const navCategories = [
       { title: "Bolts & Nuts", items: ["Hex Bolts", "Carriage Bolts", "Lag Bolts", "Lock Nuts"] },
       { title: "Anchors", items: ["Concrete Anchors", "Drywall Anchors", "Toggle Bolts", "Sleeve Anchors"] },
       { title: "Nails & Staples", items: ["Framing Nails", "Finish Nails", "Brad Nails", "Staples"] },
+      { title: "Rivets & Washers", items: ["Pop Rivets", "Blind Rivets", "Flat Washers", "Lock Washers"] },
     ]
   },
   { 
@@ -47,6 +75,7 @@ const navCategories = [
       { title: "Strut Fittings", items: ["Angle Brackets", "Flat Plates", "U-Bolts", "Beam Clamps"] },
       { title: "Pipe Hangers", items: ["Clevis Hangers", "Split Ring Hangers", "Riser Clamps", "Pipe Straps"] },
       { title: "Hardware", items: ["Channel Nuts", "Spring Nuts", "Strut Straps", "End Caps"] },
+      { title: "Mounting", items: ["Wall Brackets", "Ceiling Mounts", "Floor Stands", "Rail Clips"] },
     ]
   },
   { 
@@ -56,6 +85,7 @@ const navCategories = [
       { title: "Hearing Protection", items: ["Ear Plugs", "Ear Muffs", "Electronic Muffs", "Banded Plugs"] },
       { title: "Gloves", items: ["Work Gloves", "Cut Resistant", "Welding Gloves", "Disposable Gloves"] },
       { title: "Workwear", items: ["Hi-Vis Vests", "Hard Hats", "Steel Toe Boots", "Knee Pads"] },
+      { title: "Respiratory", items: ["Dust Masks", "Half Respirators", "Full Face Masks", "Filters"] },
     ]
   },
   { 
@@ -65,6 +95,7 @@ const navCategories = [
       { title: "Milling", items: ["Vertical Mills", "Drill Mills", "End Mills", "Milling Vises"] },
       { title: "Metalworking", items: ["Band Saws", "Cold Saws", "Iron Workers", "Sheet Metal Tools"] },
       { title: "Woodworking", items: ["Jointers", "Planers", "Shapers", "Dust Collectors"] },
+      { title: "CNC & Digital", items: ["CNC Routers", "Laser Cutters", "3D Printers", "Software"] },
     ]
   },
   { 
@@ -74,6 +105,7 @@ const navCategories = [
       { title: "Storage & Workspace", items: ["Tool Boxes", "Tool Chests", "Workbenches", "Cabinets"] },
       { title: "Jobsite Supplies", items: ["Extension Cords", "Work Lights", "Ladders", "Material Handling"] },
       { title: "Measuring Tools", items: ["Tape Measures", "Levels", "Laser Levels", "Squares"] },
+      { title: "Welding", items: ["MIG Welders", "TIG Welders", "Stick Welders", "Welding Accessories"] },
     ]
   },
 ];
@@ -88,11 +120,11 @@ const utilityLinks = [
 ];
 
 const navButtons = [
-  { name: "SHOP ALL", color: "bg-[#dc2626]", hoverColor: "hover:bg-[#b91c1c]", icon: ShoppingBag, hasDropdown: true },
-  { name: "BRANDS", color: "bg-[#5b21b6]", hoverColor: "hover:bg-[#4c1d95]", icon: Tag, hasDropdown: true },
-  { name: "HOT DEALS", color: "bg-[#ea580c]", hoverColor: "hover:bg-[#c2410c]", icon: FlameKindling, hasDropdown: false },
-  { name: "NEW PRODUCTS", color: "bg-[#2563eb]", hoverColor: "hover:bg-[#1d4ed8]", icon: Sparkles, hasDropdown: false },
-  { name: "CLOSEOUTS", color: "bg-[#16a34a]", hoverColor: "hover:bg-[#15803d]", icon: DollarSign, hasDropdown: false },
+  { name: "SHOP ALL", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: ShoppingBag, hasDropdown: true },
+  { name: "BRANDS", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: Tag, hasDropdown: true },
+  { name: "HOT DEALS", color: "bg-header-primary", hoverColor: "hover:bg-header-primary-hover", textColor: "text-white", icon: FlameKindling, hasDropdown: false },
+  { name: "NEW PRODUCTS", color: "bg-[#2563eb]", hoverColor: "hover:bg-[#1d4ed8]", textColor: "text-white", icon: Sparkles, hasDropdown: false },
+  { name: "CLOSEOUTS", color: "bg-[#16a34a]", hoverColor: "hover:bg-[#15803d]", textColor: "text-white", icon: DollarSign, hasDropdown: false },
 ];
 
 // Placeholder dropdown content
@@ -254,7 +286,7 @@ export function Header() {
                   >
                     <a
                       href="#"
-                      className={`${btn.color} ${btn.hoverColor} text-white text-[11px] font-bold px-2.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-1`}
+                      className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[11px] font-bold px-2.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-1`}
                     >
                       <IconComponent className="w-3 h-3" />
                       {btn.name}
@@ -315,15 +347,15 @@ export function Header() {
                   {activeCategoryDropdown === cat.name && (
                     <div className="fixed left-0 right-0 top-auto mt-0 bg-white border-t border-b border-header-border shadow-xl z-50">
                       <div className="max-w-[1600px] mx-auto px-6 py-8">
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-6">
+                        <div className="grid grid-cols-5 gap-x-6 gap-y-6">
                           {cat.subcategories.map((subcat) => (
-                            <div key={subcat.title} className="flex gap-4">
-                              {/* Category Image Placeholder */}
-                              <div className="w-20 h-20 bg-gray-100 rounded flex items-center justify-center shrink-0">
+                            <div key={subcat.title} className="flex gap-3">
+                              {/* Category Image */}
+                              <div className="w-16 h-16 bg-muted rounded flex items-center justify-center shrink-0 overflow-hidden">
                                 <img 
-                                  src="/placeholder.svg" 
+                                  src={subcategoryImages[subcat.title] || `https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop`}
                                   alt={subcat.title}
-                                  className="w-16 h-16 object-contain"
+                                  className="w-full h-full object-cover"
                                 />
                               </div>
                               {/* Category Content */}
@@ -332,11 +364,11 @@ export function Header() {
                                   {subcat.title}
                                 </h4>
                                 <ul className="space-y-1">
-                                  {subcat.items.slice(0, 5).map((item) => (
+                                  {subcat.items.slice(0, 4).map((item) => (
                                     <li key={item}>
                                       <a 
                                         href="#" 
-                                        className="text-sm text-header-text hover:text-header-primary hover:underline transition-colors"
+                                        className="text-sm text-foreground hover:text-header-primary hover:underline transition-colors"
                                       >
                                         {item}
                                       </a>
@@ -345,7 +377,7 @@ export function Header() {
                                 </ul>
                                 <a 
                                   href="#" 
-                                  className="inline-flex items-center gap-1 text-xs text-header-muted hover:text-header-primary mt-2 font-medium"
+                                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-header-primary mt-2 font-medium"
                                 >
                                   View All
                                   <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -378,7 +410,7 @@ export function Header() {
                   <a
                     key={btn.name}
                     href="#"
-                    className={`${btn.color} ${btn.hoverColor} text-white text-xs font-bold px-3 py-1.5 rounded transition-colors duration-300 flex items-center gap-1`}
+                    className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-xs font-bold px-3 py-1.5 rounded transition-colors duration-300 flex items-center gap-1`}
                   >
                     <IconComponent className="w-3 h-3" />
                     {btn.name}

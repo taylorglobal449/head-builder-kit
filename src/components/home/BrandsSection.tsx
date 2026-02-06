@@ -1,12 +1,5 @@
 import { Link } from "react-router-dom";
-import dewaltLogo from "@/assets/brands/dewalt.png";
-import milwaukeeAltLogo from "@/assets/brands/milwaukee-alt.png";
-import makitaLogo from "@/assets/brands/makita.png";
-import milwaukeeLogo from "@/assets/brands/milwaukee.png";
-import knipexLogo from "@/assets/brands/knipex.png";
-import occidentalLogo from "@/assets/brands/occidental.png";
-import diabloLogo from "@/assets/brands/diablo.png";
-import ironcladLogo from "@/assets/brands/ironclad.png";
+import { ChevronRight } from "lucide-react";
 
 interface Brand {
   name: string;
@@ -15,20 +8,24 @@ interface Brand {
 }
 
 const brands: Brand[] = [
-  { name: "DeWalt", logo: dewaltLogo, href: "/brands/dewalt" },
-  { name: "Milwaukee", logo: milwaukeeAltLogo, href: "/brands/milwaukee" },
-  { name: "Makita", logo: makitaLogo, href: "/brands/makita" },
-  { name: "Milwaukee Tools", logo: milwaukeeLogo, href: "/brands/milwaukee" },
-  { name: "Knipex", logo: knipexLogo, href: "/brands/knipex" },
-  { name: "Occidental Leather", logo: occidentalLogo, href: "/brands/occidental" },
-  { name: "Diablo", logo: diabloLogo, href: "/brands/diablo" },
-  { name: "IronClad", logo: ironcladLogo, href: "/brands/ironclad" },
+  { name: "Milwaukee", logo: "https://www.acmetools.com/on/demandware.static/-/Library-Sites-RefArchSharedLibrary/default/dwebd8b59f/images/Logos/milwaukee.svg", href: "/brands/milwaukee" },
+  { name: "DeWalt", logo: "https://www.acmetools.com/on/demandware.static/-/Library-Sites-RefArchSharedLibrary/default/dw18795603/images/Logos/dewalt-black.svg", href: "/brands/dewalt" },
+  { name: "Makita", logo: "https://www.acmetools.com/on/demandware.static/-/Library-Sites-RefArchSharedLibrary/default/dw831fe397/images/Logos/makita.svg", href: "/brands/makita" },
+  { name: "Bosch", logo: "https://www.acmetools.com/on/demandware.static/-/Library-Sites-RefArchSharedLibrary/default/dwa5c47e92/images/Logos/bosch-white.svg", href: "/brands/bosch" },
+  { name: "Klein Tools", logo: "https://www.acmetools.com/on/demandware.static/-/Library-Sites-RefArchSharedLibrary/default/dwba243228/images/Logos/klein-tools-black.svg", href: "/brands/klein" },
+  { name: "Knipex", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Knipex_logo.svg/320px-Knipex_logo.svg.png", href: "/brands/knipex" },
+  { name: "Diablo", logo: "https://www.acmetools.com/on/demandware.static/-/Library-Sites-RefArchSharedLibrary/default/dw890e73bd/home/assets/homepage-tc-tool-accessories.avif", href: "/brands/diablo" },
+  { name: "Metabo HPT", logo: "https://www.acmetools.com/on/demandware.static/-/Library-Sites-RefArchSharedLibrary/default/dw93c9cbac/images/Logos/metabo-hpt.svg", href: "/brands/metabo" },
+  { name: "Festool", logo: "https://www.acmetools.com/on/demandware.static/-/Library-Sites-RefArchSharedLibrary/default/dwb29bcb06/images/Logos/festool.svg", href: "/brands/festool" },
+  { name: "Honda", logo: "https://www.acmetools.com/on/demandware.static/-/Library-Sites-RefArchSharedLibrary/default/dwde906a05/images/Logos/honda-white.svg", href: "/brands/honda" },
+  { name: "Jet", logo: "https://www.acmetools.com/on/demandware.static/-/Library-Sites-RefArchSharedLibrary/default/dw2cb0528d/images/Logos/jet.svg", href: "/brands/jet" },
+  { name: "Toro", logo: "https://www.acmetools.com/on/demandware.static/-/Library-Sites-RefArchSharedLibrary/default/dw5ba4df66/images/Logos/toro.svg", href: "/brands/toro" },
 ];
 
 export function BrandsSection() {
   return (
-    <section className="py-8 border-t border-border">
-      <div className="flex items-center justify-between mb-6">
+    <section className="py-6 border-t border-border">
+      <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-black text-foreground uppercase tracking-wide">
           Shop By Brand
         </h2>
@@ -37,24 +34,25 @@ export function BrandsSection() {
           className="text-sm font-bold text-header-primary hover:underline flex items-center gap-1"
         >
           View All Brands
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
+          <ChevronRight className="w-4 h-4" />
         </Link>
       </div>
       
-      {/* 2 rows of rectangular brand cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-2">
+      {/* Acme-inspired 3-column x 4-row grid of brand cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
         {brands.map((brand, index) => (
           <Link
             key={index}
             to={brand.href}
-            className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-md hover:border-header-primary/30 transition-all"
+            className="group flex flex-col items-center justify-center bg-header-secondary rounded-lg p-4 h-24 hover:opacity-90 transition-all"
           >
+            <span className="text-primary-foreground/60 text-[10px] font-medium mb-1">
+              Shop {brand.name}
+            </span>
             <img
               src={brand.logo}
               alt={brand.name}
-              className="w-full h-auto object-contain"
+              className="max-h-8 w-auto object-contain brightness-0 invert"
             />
           </Link>
         ))}

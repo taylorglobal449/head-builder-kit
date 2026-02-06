@@ -39,16 +39,16 @@ All colors MUST be HSL.
     --radius: 0.5rem;
 
     /* Header Design System */
-    --header-primary: 350 74% 44%;
-    --header-primary-hover: 350 80% 35%;
-    --header-secondary: 240 40% 14%;
-    --header-text: 0 0% 20%;
+    --header-primary: 358 78% 50%;
+    --header-primary-hover: 358 78% 42%;
+    --header-secondary: 0 0% 10%;
+    --header-text: 0 0% 10%;
     --header-muted: 0 0% 40%;
     --header-border: 0 0% 90%;
     --header-utility: 0 0% 96%;
-    --header-deals: 0 84% 50%;
+    --header-deals: 358 78% 50%;
     --header-new: 145 63% 32%;
-    --header-closeouts: 350 74% 44%;
+    --header-closeouts: 358 78% 50%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -90,15 +90,15 @@ All colors MUST be HSL.
     --ring: 212.7 26.8% 83.9%;
 
     /* Header Design System - Dark */
-    --header-primary: 350 74% 44%;
-    --header-primary-hover: 350 74% 50%;
+    --header-primary: 358 78% 50%;
+    --header-primary-hover: 358 78% 58%;
     --header-secondary: 0 0% 98%;
     --header-text: 0 0% 90%;
     --header-muted: 0 0% 70%;
     --header-border: 0 0% 25%;
-    --header-deals: 0 84% 50%;
+    --header-deals: 358 78% 50%;
     --header-new: 145 63% 42%;
-    --header-closeouts: 350 74% 44%;
+    --header-closeouts: 358 78% 50%;
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;

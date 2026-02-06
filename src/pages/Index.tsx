@@ -2,7 +2,7 @@ import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PromoBanners } from "@/components/home/PromoBanners";
 import { TodaysDeals } from "@/components/home/TodaysDeals";
-import { ProductGrid } from "@/components/products/ProductGrid";
+import { ProductCard } from "@/components/products/ProductCard";
 import { CategoryMegaGrid } from "@/components/home/CategoryMegaGrid";
 import { BrandsSection } from "@/components/home/BrandsSection";
 import { InteractiveMap } from "@/components/home/InteractiveMap";
@@ -29,9 +29,9 @@ const Index = () => {
         {/* Today's Deals */}
         <TodaysDeals />
 
-        {/* Featured Products */}
-        <section className="py-8">
-          <div className="flex items-center justify-between mb-6">
+        {/* Featured Products - Horizontal Scroll */}
+        <section className="py-4">
+          <div className="flex items-center justify-between mb-3">
             <h2 className="text-xl font-black text-foreground uppercase tracking-wide">
               Featured Products
             </h2>
@@ -45,11 +45,13 @@ const Index = () => {
               </svg>
             </a>
           </div>
-          <ProductGrid 
-            products={products.slice(0, 8)} 
-            loading={loading}
-            emptyMessage="No products available yet. Products from your Shopify store will appear here."
-          />
+          <div className="flex gap-4 overflow-x-auto pb-2" style={{ scrollbarWidth: 'thin' }}>
+            {products.slice(0, 8).map((product) => (
+              <div key={product.node.id} className="min-w-[200px] max-w-[220px] flex-shrink-0">
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* Category Mega Grid */}
