@@ -624,24 +624,40 @@ export default function StoreLocatorPage() {
                 </p>
               </div>
               <div className="flex-1 min-h-[400px] relative">
-                {/* Custom SVG map with pins */}
-                <div className="w-full h-full bg-[hsl(210,30%,95%)] relative overflow-hidden">
-                  {/* Embed a Google Maps view with all locations as search results */}
+                <iframe
+                  title="All Fasteners Inc Locations"
+                  src={(() => {
+                    const markers = STORES.filter(s => !s.isOnline)
+                      .map(s => `markers=color:red%7Clabel:${s.city.charAt(0)}%7C${s.lat},${s.lng}`)
+                      .join("&");
+                    return `https://maps.google.com/maps?${markers.replace(/markers=/g, 'q=').split('&').map((_, i) => {
+                      // Build a simple multi-location embed
+                      return '';
+                    }).join('')}`;
+                  })()}
+                  className="w-full h-full border-0 absolute inset-0 hidden"
+                  loading="lazy"
+                  allowFullScreen
+                />
+                {/* Static map using Google Static Maps-style approach with OpenStreetMap */}
+                <div className="w-full h-full relative bg-[hsl(210,20%,92%)]">
+                  {/* Use an OSM-based embed that shows the correct region */}
                   <iframe
                     title="All Fasteners Inc Locations"
-                    src={`https://www.google.com/maps/embed?pb=!1m2!1m1!1s!2m1!1sFasteners+Inc&3m1!1sen!4m2!4d-121.5!3d39.3!5e0!6m1!1s`}
-                    className="w-full h-full border-0 absolute inset-0"
+                    src={`https://www.openstreetmap.org/export/embed.html?bbox=-123.5%2C36.5%2C-119.0%2C43.0&layer=mapnik`}
+                    className="w-full h-full border-0"
                     loading="lazy"
-                    allowFullScreen
                   />
-                  {/* Pin overlay with store markers */}
+                  {/* Pin overlay — now correctly mapped to OSM embed bounds */}
+                  {/* OSM embed bbox: lon -123.5 to -119.0, lat 36.5 to 43.0 */}
                   <div className="absolute inset-0 pointer-events-none">
-                    {/* We use CSS-positioned pins mapped from lat/lng to percentage positions */}
-                    {/* Map bounds: lat 36.0-43.0, lng -123.5 to -119.0 */}
-                    {STORES.map((store) => {
-                      const top = ((43.0 - store.lat) / (43.0 - 36.0)) * 100;
-                      const left =
-                        ((store.lng - -123.5) / (-119.0 - -123.5)) * 100;
+                    {STORES.filter(s => !s.isOnline).map((store) => {
+                      // Mercator projection for lat
+                      const toMercY = (lat: number) => Math.log(Math.tan(Math.PI / 4 + (lat * Math.PI / 180) / 2));
+                      const minLat = 36.5, maxLat = 43.0;
+                      const minLng = -123.5, maxLng = -119.0;
+                      const top = ((toMercY(maxLat) - toMercY(store.lat)) / (toMercY(maxLat) - toMercY(minLat))) * 100;
+                      const left = ((store.lng - minLng) / (maxLng - minLng)) * 100;
                       return (
                         <button
                           key={store.id}
@@ -651,12 +667,16 @@ export default function StoreLocatorPage() {
                           title={store.name}
                         >
                           <div className="relative">
-                            <div className="w-6 h-6 bg-header-primary rounded-full border-2 border-white shadow-lg flex items-center justify-center hover:scale-125 transition-transform cursor-pointer">
+                            <div
+                              className={`w-6 h-6 rounded-full border-2 border-white shadow-lg flex items-center justify-center hover:scale-125 transition-transform cursor-pointer ${
+                                selectedStore?.id === store.id ? "bg-foreground scale-125" : "bg-header-primary"
+                              }`}
+                            >
                               <MapPin className="w-3.5 h-3.5 text-white" />
                             </div>
                             {/* Tooltip */}
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block whitespace-nowrap bg-foreground text-background text-xs font-semibold px-2 py-1 rounded shadow-lg">
-                              {store.name}
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block whitespace-nowrap bg-foreground text-background text-xs font-semibold px-2 py-1 rounded shadow-lg z-10">
+                              {store.city}, {store.state}
                               <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-foreground" />
                             </div>
                           </div>
