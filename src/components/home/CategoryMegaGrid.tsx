@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { ChevronRight, Snowflake, Home, Wrench, SprayCan, Zap, Hammer, HardHat, Cable, Bolt, Package } from "lucide-react";
 
 interface Subcategory {
@@ -12,115 +11,117 @@ interface CategoryColumn {
   subcategories: Subcategory[];
 }
 
+const BASE = "https://www.fastenersinc.net/pages/search-results-page";
+
 const categories: CategoryColumn[] = [
   {
     title: "OUTDOOR LIVING",
     icon: <Snowflake className="w-5 h-5" />,
     subcategories: [
-      { name: "Coolers & Drinkware", href: "/category/coolers" },
-      { name: "Outdoor Cooking", href: "/category/outdoor-cooking" },
-      { name: "Sporting Goods", href: "/category/sporting-goods" },
-      { name: "Outdoor Repellents", href: "/category/repellents" },
-      { name: "Outdoor Shelters", href: "/category/shelters" },
+      { name: "Coolers & Drinkware", href: `${BASE}?q=coolers` },
+      { name: "Outdoor Cooking", href: `${BASE}?q=outdoor%20cooking` },
+      { name: "Sporting Goods", href: `${BASE}?q=sporting%20goods` },
+      { name: "Outdoor Repellents", href: `${BASE}?q=repellent` },
+      { name: "Outdoor Shelters", href: `${BASE}?q=shelter` },
     ]
   },
   {
     title: "HOME IMPROVEMENT",
     icon: <Home className="w-5 h-5" />,
     subcategories: [
-      { name: "Lighting & Electrical", href: "/category/lighting" },
-      { name: "Bathroom", href: "/category/bathroom" },
-      { name: "Door Hardware", href: "/category/door-hardware" },
-      { name: "Kitchen", href: "/category/kitchen" },
-      { name: "Ceiling Fans", href: "/category/ceiling-fans" },
+      { name: "Lighting & Electrical", href: `${BASE}?q=lighting` },
+      { name: "Bathroom", href: `${BASE}?q=bathroom` },
+      { name: "Door Hardware", href: `${BASE}?q=door%20hardware` },
+      { name: "Kitchen", href: `${BASE}?q=kitchen` },
+      { name: "Ceiling Fans", href: `${BASE}?q=ceiling%20fan` },
     ]
   },
   {
     title: "EQUIPMENT",
     icon: <Wrench className="w-5 h-5" />,
     subcategories: [
-      { name: "Parts & Attachments", href: "/category/parts" },
-      { name: "Aerial Lifts", href: "/category/aerial-lifts" },
-      { name: "Skid Steer Loaders", href: "/category/skid-steer" },
-      { name: "Snow Removal Equipment", href: "/category/snow-removal" },
-      { name: "Compact Equipment", href: "/category/compact-equipment" },
+      { name: "Parts & Attachments", href: `${BASE}?q=parts` },
+      { name: "Aerial Lifts", href: `${BASE}?q=aerial%20lift` },
+      { name: "Skid Steer Loaders", href: `${BASE}?q=skid%20steer` },
+      { name: "Snow Removal Equipment", href: `${BASE}?q=snow%20removal` },
+      { name: "Compact Equipment", href: `${BASE}?q=compact%20equipment` },
     ]
   },
   {
     title: "CLEANING SUPPLIES",
     icon: <SprayCan className="w-5 h-5" />,
     subcategories: [
-      { name: "Vacuums", href: "/category/vacuums" },
-      { name: "Cleaning Tools", href: "/category/cleaning-tools" },
-      { name: "Trash & Recycling", href: "/category/trash-recycling" },
-      { name: "Floor Cleaning", href: "/category/floor-cleaning" },
-      { name: "Accessories", href: "/category/cleaning-accessories" },
+      { name: "Vacuums", href: `${BASE}?q=vacuum` },
+      { name: "Cleaning Tools", href: `${BASE}?q=cleaning` },
+      { name: "Trash & Recycling", href: `${BASE}?q=trash` },
+      { name: "Floor Cleaning", href: `${BASE}?q=floor%20cleaning` },
+      { name: "Accessories", href: `${BASE}?q=cleaning%20accessories` },
     ]
   },
   {
     title: "OUTDOOR POWER",
     icon: <Zap className="w-5 h-5" />,
     subcategories: [
-      { name: "Chainsaws", href: "/category/chainsaws" },
-      { name: "Lawn Mowers", href: "/category/lawn-mowers" },
-      { name: "Trimmers & Edgers", href: "/category/trimmers" },
-      { name: "Generators", href: "/category/generators" },
-      { name: "Leaf Blowers & Vacs", href: "/category/leaf-blowers" },
+      { name: "Chainsaws", href: `${BASE}?q=chainsaw` },
+      { name: "Lawn Mowers", href: `${BASE}?q=lawn%20mower` },
+      { name: "Trimmers & Edgers", href: `${BASE}?q=trimmer` },
+      { name: "Generators", href: `${BASE}?q=generator` },
+      { name: "Leaf Blowers & Vacs", href: `${BASE}?q=leaf%20blower` },
     ]
   },
   {
     title: "HAND TOOLS",
     icon: <Hammer className="w-5 h-5" />,
     subcategories: [
-      { name: "Wrenches & Sockets", href: "/category/wrenches" },
-      { name: "Screwdrivers", href: "/category/screwdrivers" },
-      { name: "Pliers & Cutters", href: "/category/pliers" },
-      { name: "Measuring Tools", href: "/category/measuring" },
-      { name: "Tool Storage", href: "/category/tool-storage" },
+      { name: "Wrenches & Sockets", href: `${BASE}?q=wrench` },
+      { name: "Screwdrivers", href: `${BASE}?q=screwdriver` },
+      { name: "Pliers & Cutters", href: `${BASE}?q=pliers` },
+      { name: "Measuring Tools", href: `${BASE}?q=measuring` },
+      { name: "Tool Storage", href: `${BASE}?q=storage` },
     ]
   },
   {
     title: "SAFETY & PPE",
     icon: <HardHat className="w-5 h-5" />,
     subcategories: [
-      { name: "Safety Glasses", href: "/category/safety-glasses" },
-      { name: "Hearing Protection", href: "/category/hearing-protection" },
-      { name: "Work Gloves", href: "/category/work-gloves" },
-      { name: "Hard Hats", href: "/category/hard-hats" },
-      { name: "Hi-Vis Clothing", href: "/category/hi-vis" },
+      { name: "Safety Glasses", href: `${BASE}?q=safety%20glasses` },
+      { name: "Hearing Protection", href: `${BASE}?q=hearing%20protection` },
+      { name: "Work Gloves", href: `${BASE}?q=gloves` },
+      { name: "Hard Hats", href: `${BASE}?q=hard%20hat` },
+      { name: "Hi-Vis Clothing", href: `${BASE}?q=hi-vis` },
     ]
   },
   {
     title: "ELECTRICAL",
     icon: <Cable className="w-5 h-5" />,
     subcategories: [
-      { name: "Wire & Cable", href: "/category/wire-cable" },
-      { name: "Conduit & Fittings", href: "/category/conduit" },
-      { name: "Electrical Boxes", href: "/category/electrical-boxes" },
-      { name: "Switches & Outlets", href: "/category/switches" },
-      { name: "Testing Equipment", href: "/category/testing" },
+      { name: "Wire & Cable", href: `${BASE}?q=wire%20cable` },
+      { name: "Conduit & Fittings", href: `${BASE}?q=conduit` },
+      { name: "Electrical Boxes", href: `${BASE}?q=electrical%20box` },
+      { name: "Switches & Outlets", href: `${BASE}?q=switch%20outlet` },
+      { name: "Testing Equipment", href: `${BASE}?q=tester` },
     ]
   },
   {
     title: "FASTENERS",
     icon: <Bolt className="w-5 h-5" />,
     subcategories: [
-      { name: "Screws", href: "/category/screws" },
-      { name: "Bolts & Nuts", href: "/category/bolts-nuts" },
-      { name: "Anchors", href: "/category/anchors" },
-      { name: "Nails & Staples", href: "/category/nails" },
-      { name: "Rivets", href: "/category/rivets" },
+      { name: "Screws", href: `${BASE}?q=screws` },
+      { name: "Bolts & Nuts", href: `${BASE}?q=bolts` },
+      { name: "Anchors", href: `${BASE}?q=anchors` },
+      { name: "Nails & Staples", href: `${BASE}?q=nails` },
+      { name: "Rivets", href: `${BASE}?q=rivets` },
     ]
   },
   {
     title: "STORAGE",
     icon: <Package className="w-5 h-5" />,
     subcategories: [
-      { name: "Tool Boxes", href: "/category/tool-boxes" },
-      { name: "Tool Chests", href: "/category/tool-chests" },
-      { name: "Workbenches", href: "/category/workbenches" },
-      { name: "Cabinets", href: "/category/cabinets" },
-      { name: "Organizers", href: "/category/organizers" },
+      { name: "Tool Boxes", href: `${BASE}?q=tool%20box` },
+      { name: "Tool Chests", href: `${BASE}?q=tool%20chest` },
+      { name: "Workbenches", href: `${BASE}?q=workbench` },
+      { name: "Cabinets", href: `${BASE}?q=cabinet` },
+      { name: "Organizers", href: `${BASE}?q=organizer` },
     ]
   },
 ];
@@ -143,16 +144,16 @@ export function CategoryMegaGrid() {
             {/* Subcategories */}
             <div className="p-1">
               {category.subcategories.map((sub, subIdx) => (
-                <Link
+                <a
                   key={subIdx}
-                  to={sub.href}
+                  href={sub.href}
                   className="flex items-center justify-between px-2 py-1.5 hover:bg-muted rounded-md transition-colors group"
                 >
                   <span className="text-xs text-foreground group-hover:text-header-primary transition-colors">
                     {sub.name}
                   </span>
                   <ChevronRight className="w-3 h-3 text-muted-foreground group-hover:text-header-primary transition-colors" />
-                </Link>
+                </a>
               ))}
             </div>
           </div>
