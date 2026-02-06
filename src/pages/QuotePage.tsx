@@ -61,21 +61,27 @@ export default function QuotePage() {
           Request a Quote
         </h1>
 
-        <div className="text-sm text-foreground leading-relaxed mb-4">
+        <div className="text-sm text-foreground leading-relaxed mb-4 space-y-3">
           <p>
-            At Fasteners Inc, we occasionally offer volume discounts on select tools, equipment, and
-            accessories that may not be shown on our website. If you're planning to place a bulk order,
-            please complete the form below with the part numbers and quantities you're interested in.
+            At Fasteners Inc., we're happy to work out better pricing when folks are ordering in larger
+            quantities—especially on tools, equipment, and accessories that don't always show special
+            volume pricing online.
           </p>
-          <p className="mt-3">
-            Additionally, if you need a quote that includes freight for any piece of equipment or require
-            more information about a specific item, please fill out the form as well. A Fasteners Inc
-            representative will contact you within two business days.
+          <p>
+            If you're putting together a bigger order, just drop the part numbers and quantities you're
+            looking at into the form below. We'll review everything and get you our best possible numbers.
           </p>
+          <p>
+            Same goes if you need freight figured into a quote on any piece of equipment, or if you just
+            want more specs, availability, lead time—whatever—on a particular item. Fill out the form
+            with what you need and we'll have one of our team reach out within a couple business days
+            (usually sooner if we're not slammed).
+          </p>
+          <p className="font-medium">Looking forward to helping you get what you need at the right price.</p>
         </div>
 
         <p className="text-center text-header-primary font-bold text-sm uppercase mb-8">
-          Customer Support Hours: Monday – Friday 9:00am – 5:00pm CT
+          Customer Support Hours: Monday – Friday 9:00 AM – 5:00 PM PST
         </p>
 
         <form onSubmit={handleSubmit} className="bg-card border border-border rounded-lg p-6 md:p-8 space-y-5">
@@ -156,14 +162,23 @@ export default function QuotePage() {
           </div>
 
           {/* Opt-in */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-start gap-2">
             <Checkbox
               id="optIn"
               checked={emailOptIn}
               onCheckedChange={(v) => setEmailOptIn(v === true)}
+              className="mt-0.5"
             />
-            <Label htmlFor="optIn" className="text-sm font-normal cursor-pointer">
-              Email me with news and offers
+            <Label htmlFor="optIn" className="text-xs font-normal cursor-pointer leading-relaxed">
+              By checking this box, you agree to receive email notifications from Fasteners, Inc. for our newsletter and promotions.{" "}
+              <a
+                href="https://www.fastenersinc.net/pages/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-header-primary hover:text-header-primary-hover"
+              >
+                Privacy Policy
+              </a>
             </Label>
           </div>
 
@@ -174,12 +189,12 @@ export default function QuotePage() {
               {products.map((product, idx) => (
                 <div key={product.id} className="flex items-end gap-3">
                   <div className="flex-1 space-y-1.5">
-                    <Label htmlFor={`plink-${product.id}`}>Product Link / Part Number</Label>
+                    <Label htmlFor={`plink-${product.id}`}>SKU or Title</Label>
                     <Input
                       id={`plink-${product.id}`}
                       value={product.link}
                       onChange={(e) => updateProduct(product.id, "link", e.target.value)}
-                      placeholder="Paste product URL or enter part number"
+                      placeholder="Enter SKU or product title"
                     />
                   </div>
                   <div className="w-24 space-y-1.5">
