@@ -108,69 +108,50 @@ const locations: Location[] = [
 
 export function InteractiveMap() {
   return (
-    <section className="py-8 border-t border-border">
-      <div className="rounded-2xl border border-border bg-card overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-border">
-          {/* Map */}
-          <div className="md:col-span-3 p-4 md:p-6 flex items-stretch">
-            <div className="w-full rounded-xl border border-border bg-muted/30 p-3 flex items-center">
-              <img
-                src={locationMapImage}
-                alt="Fasteners Inc locations map"
-                className="w-full h-auto object-contain"
-              />
-            </div>
+    <section className="py-6 border-t border-border">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        {/* Map */}
+        <div className="lg:col-span-3">
+          <img
+            src={locationMapImage}
+            alt="Fasteners Inc locations map"
+            className="w-full h-full object-cover rounded-lg border border-border"
+          />
+        </div>
+
+        {/* Locations */}
+        <div className="lg:col-span-4">
+          <h2 className="text-lg font-black uppercase tracking-wide mb-3 text-header-primary">
+            Our Locations
+          </h2>
+          <div className="h-[300px] overflow-y-auto pr-2 space-y-2">
+            {locations.map((location) => (
+              <div key={location.id} className="border-b border-border pb-2 last:border-b-0">
+                <h3 className="font-bold text-header-primary text-sm">{location.name}</h3>
+                <p className="text-xs text-muted-foreground">{location.address}, {location.city}, {location.state} {location.zip}</p>
+                <p className="text-xs text-muted-foreground">
+                  Phone: <a href={`tel:${location.phone}`} className="hover:text-header-primary">{location.phone}</a>
+                </p>
+              </div>
+            ))}
           </div>
+        </div>
 
-          {/* Locations */}
-          <div className="md:col-span-4 p-4 md:p-6">
-            <h2 className="text-xl font-black uppercase tracking-wide mb-4 text-center text-header-primary">
-              Our Locations
-            </h2>
-
-            <div className="h-[320px] overflow-y-auto space-y-3">
-              {locations.map((location) => (
-                <div
-                  key={location.id}
-                  className="bg-background border border-border rounded-lg p-3"
-                >
-                  <h3 className="font-bold text-header-primary mb-1 text-sm">
-                    {location.name}
-                  </h3>
-                  <p className="text-xs text-muted-foreground whitespace-nowrap">
-                    {location.address}, {location.city}, {location.state} {location.zip}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Phone:{" "}
-                    <a
-                      href={`tel:${location.phone}`}
-                      className="hover:text-header-primary"
-                    >
-                      {location.phone}
-                    </a>
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Who we are */}
-          <div className="md:col-span-5 p-4 md:p-6">
-            <h2 className="text-xl font-black uppercase tracking-wide mb-4 text-center text-header-primary">
-              Who We Are
-            </h2>
-
-            <div className="text-sm text-foreground leading-relaxed space-y-4">
-              <p>
-                We are a proud, family-owned business built on trust, hard work, and a passion for quality tools. With 9 retail locations—and many more on the way—we've been serving communities across California, Nevada, and Oregon for years. Our commitment has always been simple: <strong>Better Tools, Better Prices.</strong> Whether you're a professional contractor, a weekend DIYer, or somewhere in between, we're here to help you get the job done right.
-              </p>
-              <p>
-                At our stores and online, you'll find over 40,000 different items—from bolts, nuts, and fasteners to power tools, safety gear, and more. We're more than just a hardware store; we're your one-stop shop for everything you need to build, repair, and create. We also offer bulk discounts and custom quotes, ensuring you always get the best value no matter the size of your project.
-              </p>
-              <p>
-                We know that when you need a tool, you need it now. That's why we offer a variety of convenient shipping options to get your order to you quickly—no matter where you are. Our team is dedicated to delivering the products, service, and support you can rely on, every single time. From our family to yours, we'll always be there when you need a new tool.
-              </p>
-            </div>
+        {/* Who we are */}
+        <div className="lg:col-span-5">
+          <h2 className="text-lg font-black uppercase tracking-wide mb-3 text-header-primary">
+            Who We Are
+          </h2>
+          <div className="h-[300px] overflow-y-auto pr-2 text-sm text-foreground leading-relaxed space-y-3">
+            <p>
+              We are a proud, family-owned business built on trust, hard work, and a passion for quality tools. With 9 retail locations—and many more on the way—we've been serving communities across California, Nevada, and Oregon for years. Our commitment has always been simple: <strong>Better Tools, Better Prices.</strong> Whether you're a professional contractor, a weekend DIYer, or somewhere in between, we're here to help you get the job done right.
+            </p>
+            <p>
+              At our stores and online, you'll find over 40,000 different items—from bolts, nuts, and fasteners to power tools, safety gear, and more. We're more than just a hardware store; we're your one-stop shop for everything you need to build, repair, and create. We also offer bulk discounts and custom quotes, ensuring you always get the best value no matter the size of your project.
+            </p>
+            <p>
+              We know that when you need a tool, you need it now. That's why we offer a variety of convenient shipping options to get your order to you quickly—no matter where you are. Our team is dedicated to delivering the products, service, and support you can rely on, every single time. From our family to yours, we'll always be there when you need a new tool.
+            </p>
           </div>
         </div>
       </div>
