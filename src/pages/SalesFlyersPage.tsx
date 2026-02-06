@@ -18,11 +18,12 @@ interface Flyer {
 const FLYERS: Flyer[] = [
   {
     id: "milwaukee-q1-2026",
-    title: "Milwaukee Deals Direct",
+    title: "Milwaukee & Makita Deals",
     subtitle: "M12 & M18 Deals — Build Your Kit & Save Big",
     validDates: "Deals Valid Through 4/30/2026",
-    coverImage: "https://www.fastenersinc.net/cdn/shop/files/P1_FLYER_REQUEST_BANNER_1_533x.png?v=1769715638",
+    coverImage: "https://cdn.shopify.com/s/files/1/0026/8976/1392/files/P1_MILWAUKEE_MAKITA_2026_UNPRICED_PAGE_1.png?v=1769457649",
     viewOnlineUrl: "https://www.fastenersinc.net/pages/milwaukee-deals-direct",
+    pdfUrl: "https://www.fastenersinc.net/pages/milwaukee-deals-direct",
     badge: "HOT",
     badgeColor: "bg-header-primary",
   },
@@ -31,8 +32,9 @@ const FLYERS: Flyer[] = [
     title: "DeWalt & Flex Direct Deals",
     subtitle: "Low Prices on DeWalt Kits, Batteries & Flex Power Tools",
     validDates: "Deals Valid Through 3/31/2026",
-    coverImage: "https://www.fastenersinc.net/cdn/shop/files/Q1_DEWALT_AND_FLEX_FLYER_REQUEST_BANNER_533x.png?v=1767375031",
+    coverImage: "https://cdn.shopify.com/s/files/1/0026/8976/1392/files/Q1_DEWALT_-_UNPRICED_PAGE_1.png?v=1767730265",
     viewOnlineUrl: "https://www.fastenersinc.net/pages/dewalt-flex-direct-deals",
+    pdfUrl: "https://www.fastenersinc.net/pages/dewalt-flex-direct-deals",
     badge: "NEW",
     badgeColor: "bg-header-new",
   },
@@ -131,17 +133,16 @@ export default function SalesFlyersPage() {
                   {flyer.pdfUrl && (
                     <Button
                       variant="outline"
-                      size="icon"
-                      className="shrink-0"
+                      className="shrink-0 font-bold uppercase text-xs tracking-wide"
                       asChild
                     >
                       <a
                         href={flyer.pdfUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        title="Download PDF"
                       >
-                        <Download className="w-4 h-4" />
+                        <Download className="w-3.5 h-3.5 mr-1.5" />
+                        Download PDF
                       </a>
                     </Button>
                   )}
