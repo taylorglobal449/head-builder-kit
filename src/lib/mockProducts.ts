@@ -1,7 +1,113 @@
 import type { ShopifyProduct } from './shopify/types';
 
+// Extended product type with template info
+export interface MockProductExtras {
+  templateType?: 'standard' | 'quantity';
+  quantityDiscounts?: Array<{ minQty: number; discount: string }>;
+  sku?: string;
+  features?: string[];
+  includes?: string[];
+}
+
+export type MockShopifyProduct = ShopifyProduct & { extras?: MockProductExtras };
+
+// Test products for product page development
+export const TEST_PRODUCTS: MockShopifyProduct[] = [
+  {
+    node: {
+      id: 'gid://shopify/Product/test-1',
+      title: 'Stand Product - DeWalt DCD446B 20V MAX XR Brushless Cordless 1/2 in. Compact Stud Joist Drill',
+      description: 'Tackle a wide range of jobs with the 20V MAX XR 1/2 in. Keyed Chuck Compact Stud & Joist Drill. Featuring up to 1,845 Max Watts Out, the DEWALT DCD446 using DCB2108 battery produces up to 70% more Max Watts Out vs. using DCB205 battery (batteries sold separately). To help in tough applications, this drill comes equipped with the ANTI-ROTATION system that senses the rotational motion of the tool and shuts it down if the motion is excessive.',
+      handle: 'stand-product',
+      vendor: 'DeWalt',
+      productType: 'Drills',
+      tags: ['cordless', 'drill', '20v', 'brushless', 'standard-template'],
+      priceRange: {
+        minVariantPrice: { amount: '329.00', currencyCode: 'USD' }
+      },
+      compareAtPriceRange: null,
+      images: {
+        edges: [
+          { node: { url: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=600&h=600&fit=crop', altText: 'DeWalt Compact Stud Joist Drill' } },
+          { node: { url: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=600&h=600&fit=crop', altText: 'Product angle 2' } },
+          { node: { url: 'https://images.unsplash.com/photo-1426927308491-6380b6a9936f?w=600&h=600&fit=crop', altText: 'Product angle 3' } }
+        ]
+      },
+      variants: {
+        edges: [
+          { node: { id: 'variant-test-1', title: 'Tool Only', price: { amount: '329.00', currencyCode: 'USD' }, compareAtPrice: null, availableForSale: false, selectedOptions: [{ name: 'Configuration', value: 'Tool Only' }] } }
+        ]
+      },
+      options: [{ name: 'Configuration', values: ['Tool Only'] }]
+    },
+    extras: {
+      templateType: 'standard',
+      sku: 'DEW-DCD446B',
+      features: [
+        'Help maximize control - equipped with the anti-rotation system that senses the rotational motion of the tool and shuts it down if the motion is excessive, the red LED indicator illuminates when the anti-rotation system is engaged.',
+        'Large drilling capacity - drill up to a 4 in. hole with a hole saw and a 2-9/16 in. hole with a self-feed bit.',
+        'Simplify asset management - track and manage this tool connect chip ready tool (chip sold separately) with the site manager app.',
+        'Powerful performance - take on tough applications with up to 1,845 max watts out, the DEWALT dcd446 using dcb2108 battery produces up to 70% more max watts out vs. using dcb205 battery (batteries sold separately).',
+        'Maximize productivity - drill up to 267 holes per charge in 1.5 in. thick douglas fir wood using 7/8 in. x 18 in. auger bit and dcb2108 battery (sold separately).',
+        'Part of our best performing line of 20V MAX power tools - innovative power tools designed to deliver certainty for the world\'s toughest pros.'
+      ],
+      includes: [
+        '(1) DCD446 20V MAX XR 1/2 in. Compact Stud & Joist Drill',
+        '(1) Chuck Key',
+        '(1) Key Holder'
+      ]
+    }
+  },
+  {
+    node: {
+      id: 'gid://shopify/Product/test-2',
+      title: 'Qty Product - DeWalt DWA8281CTR 4-1/2 x 7/8 60G T27 XP Ceramic Trim Flap Disc',
+      description: 'The MAXTRIM trimmable flap discs can blend or grind. The DEWALT ELITE SERIES trimmable flap discs range has ceramic grains and is excellent for aggressive grinding.',
+      handle: 'qty-product',
+      vendor: 'DeWalt',
+      productType: 'Blades & Abrasives',
+      tags: ['abrasives', 'flap disc', 'grinding', 'quantity-template'],
+      priceRange: {
+        minVariantPrice: { amount: '5.00', currencyCode: 'USD' }
+      },
+      compareAtPriceRange: {
+        minVariantPrice: { amount: '9.75', currencyCode: 'USD' }
+      },
+      images: {
+        edges: [
+          { node: { url: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=600&h=600&fit=crop', altText: 'DeWalt Flap Disc' } },
+          { node: { url: 'https://images.unsplash.com/photo-1580901368919-7738efb0f87e?w=600&h=600&fit=crop', altText: 'Product angle 2' } }
+        ]
+      },
+      variants: {
+        edges: [
+          { node: { id: 'variant-test-2', title: 'Default', price: { amount: '5.00', currencyCode: 'USD' }, compareAtPrice: { amount: '9.75', currencyCode: 'USD' }, availableForSale: true, selectedOptions: [] } }
+        ]
+      },
+      options: []
+    },
+    extras: {
+      templateType: 'quantity',
+      sku: 'DEW-DWA8281CTR',
+      quantityDiscounts: [
+        { minQty: 10, discount: '2% Off' },
+        { minQty: 100, discount: '5% Off' }
+      ],
+      features: [
+        'Engineered to last - high quality ceramic grain allows DEWALT ELITE SERIES flap disc to last up to 75% longer than 3M flap disc (based on DWA8280CTR (4.5") versus 3M 51845 (4.5") grinding 1/4" 45# steel.',
+        'Trimmable backer - by trimming away the edge of the backing plate, the user gains access to an otherwise unutilized portion of the flap, allowing for long wheel life.',
+        'Versatile backing - Type 27 backing provides grinding angle of 0-18 degrees.'
+      ],
+      includes: [
+        '(1) Flap Disc'
+      ]
+    }
+  }
+];
+
 // Mock power tool products for layout testing
-export const MOCK_PRODUCTS: ShopifyProduct[] = [
+export const MOCK_PRODUCTS: MockShopifyProduct[] = [
+  ...TEST_PRODUCTS,
   {
     node: {
       id: 'gid://shopify/Product/1',
@@ -336,7 +442,7 @@ export const MOCK_PRODUCTS: ShopifyProduct[] = [
 ];
 
 // Search function that mimics Searchanise-style behavior
-export function searchMockProducts(query: string): ShopifyProduct[] {
+export function searchMockProducts(query: string): MockShopifyProduct[] {
   if (!query.trim()) return MOCK_PRODUCTS;
   
   const searchTerms = query.toLowerCase().split(' ').filter(Boolean);
@@ -354,10 +460,9 @@ export function searchMockProducts(query: string): ShopifyProduct[] {
   });
 }
 
-// Get mock product by handle
-export function getMockProductByHandle(handle: string): ShopifyProduct['node'] | null {
-  const product = MOCK_PRODUCTS.find(p => p.node.handle === handle);
-  return product?.node || null;
+// Get mock product by handle (returns full product with extras)
+export function getMockProductByHandle(handle: string): MockShopifyProduct | null {
+  return MOCK_PRODUCTS.find(p => p.node.handle === handle) || null;
 }
 
 // Get brand/vendor filter options

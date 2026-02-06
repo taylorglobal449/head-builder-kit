@@ -1,4 +1,4 @@
-import { MOCK_PRODUCTS, getMockProductByHandle, searchMockProducts } from '@/lib/mockProducts';
+import { MOCK_PRODUCTS, TEST_PRODUCTS, getMockProductByHandle, searchMockProducts, type MockShopifyProduct } from '@/lib/mockProducts';
 import type { ShopifyProduct } from '@/lib/shopify/types';
 
 // Hook to use mock products for development/preview
@@ -13,12 +13,22 @@ export function useMockProducts(first: number = 20, query?: string) {
   };
 }
 
+// Hook to get only the test products for product page development
+export function useTestProducts() {
+  return {
+    products: TEST_PRODUCTS,
+    loading: false,
+    error: null
+  };
+}
+
 export function useMockProduct(handle: string) {
-  const product = getMockProductByHandle(handle);
+  const fullProduct = getMockProductByHandle(handle);
   
   return { 
-    product, 
+    product: fullProduct?.node || null,
+    extras: fullProduct?.extras || null,
     loading: false, 
-    error: product ? null : 'Product not found' 
+    error: fullProduct ? null : 'Product not found' 
   };
 }
