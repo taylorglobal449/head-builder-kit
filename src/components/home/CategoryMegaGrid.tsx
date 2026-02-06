@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ChevronRight, Snowflake, Home, Wrench, SprayCan, Zap } from "lucide-react";
+import { ChevronRight, Snowflake, Home, Wrench, SprayCan, Zap, Hammer } from "lucide-react";
 
 interface Subcategory {
   name: string;
@@ -74,21 +74,29 @@ const categories: CategoryColumn[] = [
       { name: "Leaf Blowers & Vacs", href: "/category/leaf-blowers" },
     ]
   },
+  {
+    title: "HAND TOOLS",
+    icon: <Hammer className="w-5 h-5" />,
+    color: "bg-header-secondary",
+    subcategories: [
+      { name: "Wrenches & Sockets", href: "/category/wrenches" },
+      { name: "Screwdrivers", href: "/category/screwdrivers" },
+      { name: "Pliers & Cutters", href: "/category/pliers" },
+      { name: "Measuring Tools", href: "/category/measuring" },
+      { name: "Tool Storage", href: "/category/tool-storage" },
+    ]
+  },
 ];
 
 export function CategoryMegaGrid() {
-  // Split into 2 rows: 3 categories on top, 2 on bottom
-  const row1 = categories.slice(0, 3);
-  const row2 = categories.slice(3, 5);
-
   return (
     <section className="py-8">
-      {/* Row 1: 3 categories */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-        {row1.map((category, idx) => (
+      {/* 2x3 grid on desktop, 2x3 on tablet, stacked on mobile */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {categories.map((category, idx) => (
           <div key={idx} className="bg-card border border-border rounded-lg overflow-hidden">
             {/* Category Header */}
-            <div className={`${category.color} px-4 py-3 flex items-center gap-2`}>
+            <div className={`${category.color} px-3 py-2 md:px-4 md:py-3 flex items-center gap-2`}>
               <span className="text-primary-foreground">{category.icon}</span>
               <h3 className="text-primary-foreground font-bold text-xs uppercase tracking-wide">
                 {category.title}
@@ -96,48 +104,17 @@ export function CategoryMegaGrid() {
             </div>
             
             {/* Subcategories */}
-            <div className="p-2">
+            <div className="p-1 md:p-2">
               {category.subcategories.map((sub, subIdx) => (
                 <Link
                   key={subIdx}
                   to={sub.href}
-                  className="flex items-center justify-between px-3 py-2 hover:bg-muted rounded-md transition-colors group"
+                  className="flex items-center justify-between px-2 py-1.5 md:px-3 md:py-2 hover:bg-muted rounded-md transition-colors group"
                 >
-                  <span className="text-sm text-foreground group-hover:text-header-primary transition-colors">
+                  <span className="text-xs md:text-sm text-foreground group-hover:text-header-primary transition-colors">
                     {sub.name}
                   </span>
-                  <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-header-primary transition-colors" />
-                </Link>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Row 2: 2 categories centered */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 max-w-4xl mx-auto lg:max-w-none lg:grid-cols-2 lg:px-[16.67%]">
-        {row2.map((category, idx) => (
-          <div key={idx} className="bg-card border border-border rounded-lg overflow-hidden">
-            {/* Category Header */}
-            <div className={`${category.color} px-4 py-3 flex items-center gap-2`}>
-              <span className="text-primary-foreground">{category.icon}</span>
-              <h3 className="text-primary-foreground font-bold text-xs uppercase tracking-wide">
-                {category.title}
-              </h3>
-            </div>
-            
-            {/* Subcategories */}
-            <div className="p-2">
-              {category.subcategories.map((sub, subIdx) => (
-                <Link
-                  key={subIdx}
-                  to={sub.href}
-                  className="flex items-center justify-between px-3 py-2 hover:bg-muted rounded-md transition-colors group"
-                >
-                  <span className="text-sm text-foreground group-hover:text-header-primary transition-colors">
-                    {sub.name}
-                  </span>
-                  <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-header-primary transition-colors" />
+                  <ChevronRight className="w-3 h-3 md:w-4 md:h-4 text-muted-foreground group-hover:text-header-primary transition-colors" />
                 </Link>
               ))}
             </div>
@@ -147,3 +124,4 @@ export function CategoryMegaGrid() {
     </section>
   );
 }
+
