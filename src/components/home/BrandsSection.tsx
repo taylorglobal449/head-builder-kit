@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import dewaltLogo from "@/assets/brands/dewalt.png";
+import makitaLogo from "@/assets/brands/makita.png";
 
 interface Brand {
   name: string;
@@ -7,9 +9,9 @@ interface Brand {
 }
 
 const brands: Brand[] = [
-  { name: "DeWalt", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Dewalt_logo.svg/320px-Dewalt_logo.svg.png", href: "/brands/dewalt" },
+  { name: "DeWalt", logo: dewaltLogo, href: "/brands/dewalt" },
+  { name: "Makita", logo: makitaLogo, href: "/brands/makita" },
   { name: "Milwaukee", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Milwaukee_Tool_Logo.svg/320px-Milwaukee_Tool_Logo.svg.png", href: "/brands/milwaukee" },
-  { name: "Makita", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Makita_Logo.svg/320px-Makita_Logo.svg.png", href: "/brands/makita" },
   { name: "Bosch", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Robert_Bosch_GmbH_logo.svg/320px-Robert_Bosch_GmbH_logo.svg.png", href: "/brands/bosch" },
   { name: "Stanley", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Stanley_logo.svg/320px-Stanley_logo.svg.png", href: "/brands/stanley" },
   { name: "Klein Tools", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Klein_Tools_logo.svg/320px-Klein_Tools_logo.svg.png", href: "/brands/klein" },

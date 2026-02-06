@@ -80,19 +80,19 @@ export function TodaysDeals() {
           <Link
             key={index}
             to={deal.linkUrl}
-            className="group relative overflow-hidden rounded-lg bg-gradient-to-b from-gray-800 to-gray-900 min-h-[280px] flex flex-col"
+            className="group relative overflow-hidden rounded-lg bg-gradient-to-b from-muted to-muted-foreground/20 flex flex-col"
           >
             {/* Brand Badge */}
             <div className={`${deal.brandColor} px-3 py-1.5 text-white text-xs font-bold uppercase tracking-wide m-3 rounded self-start`}>
               {deal.brand}
             </div>
             
-            {/* Image */}
-            <div className="flex-1 flex items-center justify-center px-4 py-2">
+            {/* Image - Square */}
+            <div className="aspect-square mx-3 overflow-hidden rounded">
               <img 
                 src={deal.imageUrl}
                 alt={deal.title}
-                className="max-w-full max-h-[120px] object-contain group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
             </div>
             
