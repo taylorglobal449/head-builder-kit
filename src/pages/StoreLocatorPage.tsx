@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Header } from "@/components/Header";
 import { MapPin, Phone, Mail, Clock, Navigation, X, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -297,6 +297,14 @@ export default function StoreLocatorPage() {
   const [search, setSearch] = useState("");
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
+  const storeRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+
+  const scrollToStore = useCallback((id: string) => {
+    const el = storeRefs.current.get(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, []);
 
   const filteredStores = STORES.filter((s) => {
     if (!search.trim()) return true;
@@ -376,6 +384,9 @@ export default function StoreLocatorPage() {
                 {filteredStores.map((store) => (
                   <div
                     key={store.id}
+                    ref={(el) => {
+                      if (el) storeRefs.current.set(store.id, el);
+                    }}
                     className={`p-4 cursor-pointer transition-colors hover:bg-accent ${
                       selectedStore?.id === store.id
                         ? "bg-accent ring-2 ring-inset ring-header-primary"
@@ -631,6 +642,7 @@ export default function StoreLocatorPage() {
                   onSelectStore={(id) => {
                     const store = STORES.find((s) => s.id === id);
                     if (store) handleSelectStore(store);
+                    scrollToStore(id);
                   }}
                 />
               </div>
