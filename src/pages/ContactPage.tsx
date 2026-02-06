@@ -1,16 +1,14 @@
-import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { MapPin, Phone, Clock, Mail, Briefcase, MessageSquare } from "lucide-react";
 
 export default function ContactPage() {
   const { toast } = useToast();
-  const [privacyAgreed, setPrivacyAgreed] = useState(false);
+  
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -139,25 +137,6 @@ export default function ContactPage() {
                 Message <span className="text-header-primary">*</span>
               </Label>
               <Textarea id="c-message" required rows={5} placeholder="Tell us more about your question or request..." />
-            </div>
-
-            <div className="flex items-start gap-2">
-              <Checkbox
-                id="c-privacy"
-                checked={privacyAgreed}
-                onCheckedChange={(v) => setPrivacyAgreed(v === true)}
-              />
-              <Label htmlFor="c-privacy" className="text-xs font-normal cursor-pointer leading-relaxed">
-                By checking this box, you agree to receive email notifications from Fasteners, Inc. for our newsletter and promotions.{" "}
-                <a
-                  href="https://www.fastenersinc.net/pages/privacy-policy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline text-header-primary hover:text-header-primary-hover"
-                >
-                  Privacy Policy
-                </a>
-              </Label>
             </div>
 
             <Button
