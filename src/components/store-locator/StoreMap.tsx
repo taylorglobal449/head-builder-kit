@@ -107,11 +107,20 @@ export function StoreMap({ stores, selectedStoreId, onSelectStore }: StoreMapPro
         `${store.address}, ${store.city}, ${store.state}, ${store.zip}`
       )}`;
 
+      // Extract short name (e.g. "San Leandro" from "Fasteners Inc San Leandro")
+      const shortName = store.name.replace(/^(Fasteners Inc\s*|Redding Fasteners|Red Bluff Fasteners|Reno Fasteners)/i, '').trim() || store.name;
+
       const marker = L.marker([store.lat, store.lng], { icon })
         .addTo(map)
         .bindPopup(
           `<strong>${store.name}</strong><br/>${store.city}, ${store.state}<br/><a href="${directionsUrl}" target="_blank" rel="noopener noreferrer" style="color:#c41230;font-weight:600;text-decoration:none;">Get Directions →</a>`
-        );
+        )
+        .bindTooltip(store.name, {
+          permanent: true,
+          direction: "right",
+          offset: [12, -14],
+          className: "store-label-tooltip",
+        });
 
       marker.on("click", () => onSelectStore(store.id));
       markersRef.current.set(store.id, marker);
