@@ -11,6 +11,7 @@ interface Location {
   zip: string;
   phone: string;
   hours: string;
+  href: string;
 }
 
 const locations: Location[] = [
@@ -22,7 +23,8 @@ const locations: Location[] = [
     state: "CA",
     zip: "96007",
     phone: "(530) 365-1777",
-    hours: "Mon-Fri 7AM-5PM"
+    hours: "Mon-Fri 7AM-5PM",
+    href: "https://www.fastenersinc.net/a/store-locator/fasteners-inc-anderson.html"
   },
   {
     id: "fresno",
@@ -32,7 +34,8 @@ const locations: Location[] = [
     state: "CA",
     zip: "93710",
     phone: "(559) 353-2099",
-    hours: "Mon-Fri 7AM-5PM"
+    hours: "Mon-Fri 7AM-5PM",
+    href: "https://www.fastenersinc.net/a/store-locator/fasteners-inc-fresno.html"
   },
   {
     id: "medford",
@@ -42,7 +45,8 @@ const locations: Location[] = [
     state: "OR",
     zip: "97501",
     phone: "(541) 772-0144",
-    hours: "Mon-Fri 7AM-5PM"
+    hours: "Mon-Fri 7AM-5PM",
+    href: "https://www.fastenersinc.net/a/store-locator/fasteners-inc-medford.html"
   },
   {
     id: "red-bluff",
@@ -52,7 +56,8 @@ const locations: Location[] = [
     state: "CA",
     zip: "96080",
     phone: "(530) 690-2641",
-    hours: "Mon-Fri 7AM-5PM"
+    hours: "Mon-Fri 7AM-5PM",
+    href: "https://www.fastenersinc.net/a/store-locator/red-bluff-fasteners.html"
   },
   {
     id: "redding",
@@ -62,7 +67,8 @@ const locations: Location[] = [
     state: "CA",
     zip: "96002",
     phone: "(530) 223-4002",
-    hours: "Mon-Fri 7AM-5PM"
+    hours: "Mon-Fri 7AM-5PM",
+    href: "https://www.fastenersinc.net/a/store-locator/redding-fasteners.html"
   },
   {
     id: "reno",
@@ -72,7 +78,8 @@ const locations: Location[] = [
     state: "NV",
     zip: "89502",
     phone: "(775) 516-6050",
-    hours: "Mon-Fri 7AM-5PM"
+    hours: "Mon-Fri 7AM-5PM",
+    href: "https://www.fastenersinc.net/a/store-locator/reno-fasteners.html"
   },
   {
     id: "sacramento",
@@ -82,7 +89,8 @@ const locations: Location[] = [
     state: "CA",
     zip: "95828",
     phone: "(916) 661-6975",
-    hours: "Mon-Fri 7AM-5PM"
+    hours: "Mon-Fri 7AM-5PM",
+    href: "https://www.fastenersinc.net/a/store-locator/fasteners-inc-sacramento.html"
   },
   {
     id: "san-jose",
@@ -92,7 +100,8 @@ const locations: Location[] = [
     state: "CA",
     zip: "95111",
     phone: "(408) 440-4746",
-    hours: "Mon-Fri 7AM-5PM"
+    hours: "Mon-Fri 7AM-5PM",
+    href: "https://www.fastenersinc.net/a/store-locator/fasteners-inc-san-jose.html"
   },
   {
     id: "san-leandro",
@@ -102,7 +111,8 @@ const locations: Location[] = [
     state: "CA",
     zip: "94579",
     phone: "(510) 777-6050",
-    hours: "Mon-Fri 7AM-5PM"
+    hours: "Mon-Fri 7AM-5PM",
+    href: "https://www.fastenersinc.net/a/store-locator/fasteners-inc-san-leandro.html"
   },
 ];
 
@@ -128,7 +138,7 @@ export function InteractiveMap() {
             <div className="h-[250px] md:h-[260px] lg:h-[300px] overflow-y-auto pr-1 space-y-2">
               {locations.map((location) => (
                 <div key={location.id} className="border-b border-border pb-2 last:border-b-0">
-                  <h3 className="font-bold text-header-primary text-sm">{location.name}</h3>
+                  <h3 className="font-bold text-header-primary text-sm"><a href={location.href} className="hover:underline">{location.name}</a></h3>
                   <p className="text-xs text-muted-foreground">{location.address}, {location.city}, {location.state} {location.zip}</p>
                   <p className="text-xs text-muted-foreground">
                     Phone: <a href={`tel:${location.phone}`} className="hover:text-header-primary">{location.phone}</a>

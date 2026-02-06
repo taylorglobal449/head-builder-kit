@@ -111,31 +111,44 @@ const navCategories = [
 ];
 
 const utilityLinks = [
-  { name: "STORE LOCATOR", icon: "📍" },
-  { name: "SALES FLYERS", icon: "📰" },
-  { name: "CALENDAR", icon: "📅" },
-  { name: "CONTACT US", icon: "📞" },
-  { name: "REQUEST A QUOTE", icon: "📋" },
-  { name: "ORDER TRACKING", icon: "🚚" },
+  { name: "STORE LOCATOR", icon: "📍", href: "https://www.fastenersinc.net/a/store-locator" },
+  { name: "SALES FLYERS", icon: "📰", href: "https://www.fastenersinc.net/pages/milwaukee-deals-direct" },
+  { name: "CALENDAR", icon: "📅", href: "https://www.fastenersinc.net/pages/events" },
+  { name: "CONTACT US", icon: "📞", href: "https://www.fastenersinc.net/pages/contact" },
+  { name: "REQUEST A QUOTE", icon: "📋", href: "https://www.fastenersinc.net/pages/request-a-quote" },
+  { name: "ORDER TRACKING", icon: "🚚", href: "https://www.fastenersinc.net/account" },
 ];
 
 const navButtons = [
-  { name: "SHOP ALL", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: ShoppingBag, hasDropdown: true },
-  { name: "BRANDS", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: Tag, hasDropdown: true },
-  { name: "HOT DEALS", color: "bg-header-primary", hoverColor: "hover:bg-header-primary-hover", textColor: "text-white", icon: FlameKindling, hasDropdown: false },
-  { name: "NEW PRODUCTS", color: "bg-[#2563eb]", hoverColor: "hover:bg-[#1d4ed8]", textColor: "text-white", icon: Sparkles, hasDropdown: false },
-  { name: "CLOSEOUTS", color: "bg-[#16a34a]", hoverColor: "hover:bg-[#15803d]", textColor: "text-white", icon: DollarSign, hasDropdown: false },
+  { name: "SHOP ALL", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: ShoppingBag, hasDropdown: true, href: "https://www.fastenersinc.net/pages/search-results-page" },
+  { name: "BRANDS", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: Tag, hasDropdown: true, href: "https://www.fastenersinc.net/pages/brands" },
+  { name: "HOT DEALS", color: "bg-header-primary", hoverColor: "hover:bg-header-primary-hover", textColor: "text-white", icon: FlameKindling, hasDropdown: false, href: "https://www.fastenersinc.net/pages/top-deals-promotions" },
+  { name: "NEW PRODUCTS", color: "bg-[#2563eb]", hoverColor: "hover:bg-[#1d4ed8]", textColor: "text-white", icon: Sparkles, hasDropdown: false, href: "https://www.fastenersinc.net/pages/search-results-page?collection=new-release" },
+  { name: "CLOSEOUTS", color: "bg-[#16a34a]", hoverColor: "hover:bg-[#15803d]", textColor: "text-white", icon: DollarSign, hasDropdown: false, href: "https://www.fastenersinc.net/pages/flash-sale-1" },
 ];
 
-// Placeholder dropdown content
+// Dropdown content with real links
 const shopAllDropdown = [
-  "Power Tools", "Hand Tools", "Tool Accessories", "Fasteners", 
-  "Strut & Accessories", "Safety & Workwear", "Machine Tools"
+  { name: "Power Tools", href: "https://www.fastenersinc.net/pages/search-results-page?collection=power-tools" },
+  { name: "Hand Tools", href: "https://www.fastenersinc.net/pages/search-results-page?q=hand%20tools" },
+  { name: "Tool Accessories", href: "https://www.fastenersinc.net/pages/search-results-page?q=POWER%20TOOL%20ACCESSORIES" },
+  { name: "Fasteners", href: "https://www.fastenersinc.net/pages/search-results-page?q=Fasteners" },
+  { name: "Storage & Workspace", href: "https://www.fastenersinc.net/pages/search-results-page?q=storage" },
+  { name: "Safety & Workwear", href: "https://www.fastenersinc.net/pages/search-results-page?q=workwear" },
+  { name: "Machine Tools", href: "https://www.fastenersinc.net/pages/search-results-page?q=machine%20tools" },
+  { name: "Outdoor Power", href: "https://www.fastenersinc.net/pages/search-results-page?collection=outdoor-power-equipement" },
+  { name: "Combo Kits", href: "https://www.fastenersinc.net/pages/search-results-page?collection=power-tool-combo-kits" },
 ];
 
 const brandsDropdown = [
-  "DeWalt", "Milwaukee", "Makita", "Bosch", 
-  "Stanley", "Klein Tools", "Channellock", "Ridgid"
+  { name: "DeWalt", href: "https://www.fastenersinc.net/pages/dewalt-tools-power-tools-accessories" },
+  { name: "Milwaukee", href: "https://www.fastenersinc.net/pages/milwaukee-tools" },
+  { name: "Makita", href: "https://www.fastenersinc.net/pages/makita-tools-makita-power-tools-accessories" },
+  { name: "Klein Tools", href: "https://www.fastenersinc.net/pages/klein-tools" },
+  { name: "Knipex", href: "https://www.fastenersinc.net/pages/knipex-tools-pliers" },
+  { name: "Occidental Leather", href: "https://www.fastenersinc.net/pages/occidental-leather-tool-belt-systems" },
+  { name: "Diablo", href: "https://www.fastenersinc.net/pages/search-results-page?collection=diablo" },
+  { name: "IronClad", href: "https://www.fastenersinc.net/pages/ironclad-performance-wear-ironclad-gloves-for-professionals" },
 ];
 
 // Solid filled triangle arrow - matches reference (rounded corners, filled)
@@ -198,7 +211,7 @@ export function Header() {
           {utilityLinks.map((link) => (
             <a
               key={link.name}
-              href="#"
+              href={link.href}
               className="text-header-text hover:text-header-primary transition-colors font-bold hidden md:flex items-center gap-1"
             >
               <span>{link.icon}</span>
@@ -246,7 +259,7 @@ export function Header() {
 
           {/* Account & Cart */}
           <div className="flex items-center gap-6 ml-auto">
-            <a href="#" className="flex flex-col items-center text-header-text hover:text-header-primary transition-colors">
+            <a href="https://www.fastenersinc.net/account/login" className="flex flex-col items-center text-foreground hover:text-header-primary transition-colors">
               <User className="w-5 h-5" />
               <span className="text-[11px] text-header-muted mt-0.5 hidden sm:block">Account</span>
             </a>
@@ -285,7 +298,7 @@ export function Header() {
                     onMouseLeave={() => setActiveDropdown(null)}
                   >
                     <a
-                      href="#"
+                      href={btn.href}
                       className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[11px] font-bold px-2.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-1`}
                     >
                       <IconComponent className="w-3 h-3" />
@@ -297,9 +310,9 @@ export function Header() {
                       <div className="absolute left-0 top-full mt-0 bg-white border border-header-border rounded-lg shadow-xl z-50 min-w-[200px]">
                         <ul className="py-2">
                           {shopAllDropdown.map((item) => (
-                            <li key={item}>
-                              <a href="#" className="block px-4 py-2 text-sm text-header-text hover:bg-gray-100 hover:text-header-primary">
-                                {item}
+                            <li key={item.name}>
+                              <a href={item.href} className="block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-header-primary">
+                                {item.name}
                               </a>
                             </li>
                           ))}
@@ -312,9 +325,9 @@ export function Header() {
                       <div className="absolute left-0 top-full mt-0 bg-white border border-header-border rounded-lg shadow-xl z-50 min-w-[200px]">
                         <ul className="py-2">
                           {brandsDropdown.map((item) => (
-                            <li key={item}>
-                              <a href="#" className="block px-4 py-2 text-sm text-header-text hover:bg-gray-100 hover:text-header-primary">
-                                {item}
+                            <li key={item.name}>
+                              <a href={item.href} className="block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-header-primary">
+                                {item.name}
                               </a>
                             </li>
                           ))}
@@ -409,7 +422,7 @@ export function Header() {
                 return (
                   <a
                     key={btn.name}
-                    href="#"
+                    href={btn.href}
                     className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-xs font-bold px-3 py-1.5 rounded transition-colors duration-300 flex items-center gap-1`}
                   >
                     <IconComponent className="w-3 h-3" />
@@ -433,7 +446,7 @@ export function Header() {
             {utilityLinks.map((link) => (
               <a
                 key={link.name}
-                href="#"
+                href={link.href}
                 className="flex items-center gap-2 py-2 text-sm font-bold text-header-text hover:text-header-primary transition-colors"
               >
                 <span>{link.icon}</span>
