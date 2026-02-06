@@ -14,21 +14,33 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-const selectedIconOptions: L.IconOptions = {
-  iconUrl: markerIcon,
-  iconRetinaUrl: markerIcon2x,
+const redIcon = new L.Icon({
+  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+  iconRetinaUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+  shadowUrl: markerShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+
+const selectedRedIcon = new L.Icon({
+  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+  iconRetinaUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
   shadowUrl: markerShadow,
   iconSize: [35, 56],
   iconAnchor: [17, 56],
   popupAnchor: [1, -44],
   shadowSize: [56, 56],
-};
+});
 
 interface StorePin {
   id: string;
   name: string;
+  address: string;
   city: string;
   state: string;
+  zip: string;
   lat: number;
   lng: number;
   isOnline?: boolean;
@@ -89,13 +101,17 @@ export function StoreMap({ stores, selectedStoreId, onSelectStore }: StoreMapPro
 
     physicalStores.forEach((store) => {
       const isSelected = store.id === selectedStoreId;
-      const icon = isSelected
-        ? L.icon(selectedIconOptions)
-        : new L.Icon.Default();
+      const icon = isSelected ? selectedRedIcon : redIcon;
+
+      const directionsUrl = `https://maps.google.com/?daddr=${encodeURIComponent(
+        `${store.address}, ${store.city}, ${store.state}, ${store.zip}`
+      )}`;
 
       const marker = L.marker([store.lat, store.lng], { icon })
         .addTo(map)
-        .bindPopup(`<strong>${store.name}</strong><br/>${store.city}, ${store.state}`);
+        .bindPopup(
+          `<strong>${store.name}</strong><br/>${store.city}, ${store.state}<br/><a href="${directionsUrl}" target="_blank" rel="noopener noreferrer" style="color:#c41230;font-weight:600;text-decoration:none;">Get Directions →</a>`
+        );
 
       marker.on("click", () => onSelectStore(store.id));
       markersRef.current.set(store.id, marker);
