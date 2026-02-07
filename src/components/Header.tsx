@@ -153,7 +153,7 @@ const navButtons = [
   { name: "BRANDS", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: Tag, hasDropdown: true, hasArrow: true, href: "https://www.fastenersinc.net/pages/brands" },
   { name: "HOT DEALS", color: "bg-header-primary", hoverColor: "hover:bg-header-primary-hover", textColor: "text-white", icon: FlameKindling, hasDropdown: false, hasArrow: false, href: "https://www.fastenersinc.net/pages/top-deals-promotions" },
   { name: "NEW PRODUCTS", color: "bg-[#2563eb]", hoverColor: "hover:bg-[#1d4ed8]", textColor: "text-white", icon: Sparkles, hasDropdown: false, hasArrow: false, href: "https://www.fastenersinc.net/pages/search-results-page?collection=new-release" },
-  { name: "CLOSEOUTS", color: "bg-[#16a34a]", hoverColor: "hover:bg-[#15803d]", textColor: "text-white", icon: DollarSign, hasDropdown: false, hasArrow: false, href: "https://www.fastenersinc.net/pages/flash-sale-1" },
+  { name: "CLOSEOUTS", color: "bg-[#16a34a]", hoverColor: "hover:bg-[#15803d]", textColor: "text-white", icon: DollarSign, hasDropdown: false, hasArrow: false, href: "/closeouts", internal: true },
 ];
 
 // Dropdown content with real links
@@ -327,14 +327,25 @@ export function Header() {
                     onMouseEnter={() => btn.hasDropdown && setActiveDropdown(btn.name)}
                     onMouseLeave={() => setActiveDropdown(null)}
                   >
-                    <a
-                      href={btn.href}
-                      className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[12px] font-bold px-2.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-1`}
-                    >
-                      <IconComponent className="w-3 h-3" />
-                      {btn.name}
-                      {btn.hasArrow && <ThickArrow className="text-header-primary" />}
-                    </a>
+                    {(btn as any).internal ? (
+                      <Link
+                        to={btn.href}
+                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[12px] font-bold px-2.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-1`}
+                      >
+                        <IconComponent className="w-3 h-3" />
+                        {btn.name}
+                        {btn.hasArrow && <ThickArrow className="text-header-primary" />}
+                      </Link>
+                    ) : (
+                      <a
+                        href={btn.href}
+                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[12px] font-bold px-2.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-1`}
+                      >
+                        <IconComponent className="w-3 h-3" />
+                        {btn.name}
+                        {btn.hasArrow && <ThickArrow className="text-header-primary" />}
+                      </a>
+                    )}
                     
                     {/* Dropdown for SHOP ALL */}
                     {btn.name === "SHOP ALL" && activeDropdown === "SHOP ALL" && (
