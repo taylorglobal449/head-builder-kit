@@ -1,4 +1,5 @@
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { useMockProducts } from "@/hooks/useMockProducts";
 
@@ -34,6 +35,7 @@ export default function ProductsPage() {
           emptyMessage="No products found. Add products to your Shopify store to see them here."
         />
       </main>
+      <Footer />
     </div>
   );
 }

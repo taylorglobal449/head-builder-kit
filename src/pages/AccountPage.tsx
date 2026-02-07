@@ -1,4 +1,5 @@
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { User, ExternalLink, ShoppingBag, MapPin, HelpCircle } from "lucide-react";
 
@@ -74,6 +75,7 @@ export default function AccountPage() {
           </a>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

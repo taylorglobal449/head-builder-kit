@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { useMockProduct, useMockProducts } from "@/hooks/useMockProducts";
 import { useCartStore } from "@/stores/cartStore";
 import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
@@ -358,6 +359,7 @@ export default function ProductPage() {
         {/* Recently Viewed */}
         <RecentlyViewed products={recentlyViewed} currentHandle={handle} />
       </main>
+      <Footer />
     </div>
   );
 }

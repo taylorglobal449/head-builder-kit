@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { ChevronLeft, ChevronRight, MapPin, Clock, Users, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -285,6 +286,7 @@ export default function EventsPage() {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

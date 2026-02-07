@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Filter, SlidersHorizontal, X, ChevronDown } from "lucide-react";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { searchMockProducts, getMockBrands, getMockPriceRange } from "@/lib/mockProducts";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -273,6 +274,7 @@ export default function SearchResultsPage() {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
