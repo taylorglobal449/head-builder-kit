@@ -216,13 +216,13 @@ export function Header() {
           <span className="mx-4 opacity-70 hidden sm:inline">|</span>
           <div className="hidden sm:flex items-center gap-4 ml-2">
             {/* Facebook */}
-            <a href="/" className="opacity-90 hover:opacity-100 transition-opacity">
+            <a href="https://www.facebook.com/sacfasteners/" target="_blank" rel="noopener noreferrer" className="opacity-90 hover:opacity-100 transition-opacity">
               <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
               </svg>
             </a>
             {/* Instagram */}
-            <a href="/" className="opacity-90 hover:opacity-100 transition-opacity">
+            <a href="https://www.instagram.com/sacfasteners/" target="_blank" rel="noopener noreferrer" className="opacity-90 hover:opacity-100 transition-opacity">
               <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
