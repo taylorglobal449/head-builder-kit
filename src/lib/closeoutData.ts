@@ -1,15 +1,15 @@
 export interface CloseoutCategory {
   id: string;
   title: string;
-  externalHref: string;
+  searchQuery: string;
 }
 
 export const closeoutCategories: CloseoutCategory[] = [
-  { id: "hand-tools", title: "Hand Tools", externalHref: "https://www.fastenersinc.net/pages/closeouts-and-liquidations#" },
-  { id: "power-tools", title: "Power Tools", externalHref: "https://www.fastenersinc.net/pages/closeouts-and-liquidations#" },
-  { id: "blades-abrasives", title: "Blades & Abrasives", externalHref: "https://www.fastenersinc.net/pages/closeouts-and-liquidations#" },
-  { id: "levels-measures", title: "Levels & Measures", externalHref: "https://www.fastenersinc.net/pages/closeouts-and-liquidations#" },
-  { id: "drill-bits", title: "Drill Bits", externalHref: "https://www.fastenersinc.net/pages/closeouts-and-liquidations#" },
-  { id: "fasteners", title: "Fasteners", externalHref: "https://www.fastenersinc.net/pages/closeouts-and-liquidations#" },
-  { id: "additional", title: "Additional Closeouts", externalHref: "https://www.fastenersinc.net/pages/closeouts-and-liquidations#" },
+  { id: "hand-tools", title: "Hand Tools", searchQuery: "closeout hand tools" },
+  { id: "power-tools", title: "Power Tools", searchQuery: "closeout power tools" },
+  { id: "blades-abrasives", title: "Blades & Abrasives", searchQuery: "closeout blades abrasives" },
+  { id: "levels-measures", title: "Levels & Measures", searchQuery: "closeout levels measures" },
+  { id: "drill-bits", title: "Drill Bits", searchQuery: "closeout drill bits" },
+  { id: "fasteners", title: "Fasteners", searchQuery: "closeout fasteners" },
+  { id: "additional", title: "Additional Closeouts", searchQuery: "closeout" },
 ];
