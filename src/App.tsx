@@ -18,6 +18,7 @@ import AccountPage from "./pages/AccountPage";
 import CartPage from "./pages/CartPage";
 import BrandsPage from "./pages/BrandsPage";
 import BrandPage from "./pages/BrandPage";
+import CloseoutsPage from "./pages/CloseoutsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +43,7 @@ function AppContent() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/brands" element={<BrandsPage />} />
         <Route path="/brands/:slug" element={<BrandPage />} />
+        <Route path="/closeouts" element={<CloseoutsPage />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
