@@ -13,6 +13,7 @@ import ContactPage from "./pages/ContactPage";
 import EventsPage from "./pages/EventsPage";
 import StoreLocatorPage from "./pages/StoreLocatorPage";
 import SalesFlyersPage from "./pages/SalesFlyersPage";
+import OrderTrackingPage from "./pages/OrderTrackingPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ function AppContent() {
         <Route path="/events" element={<EventsPage />} />
         <Route path="/store-locator" element={<StoreLocatorPage />} />
         <Route path="/sales-flyers" element={<SalesFlyersPage />} />
+        <Route path="/order-tracking" element={<OrderTrackingPage />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>

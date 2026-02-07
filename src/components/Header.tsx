@@ -144,7 +144,7 @@ const utilityLinks = [
   { name: "CALENDAR", icon: "📅", href: "/events" },
   { name: "CONTACT US", icon: "📞", href: "/contact" },
   { name: "REQUEST A QUOTE", icon: "📋", href: "/quote" },
-  { name: "ORDER TRACKING", icon: "🚚", href: "https://www.fastenersinc.net/account" },
+  { name: "ORDER TRACKING", icon: "🚚", href: "/order-tracking" },
 ];
 
 const navButtons = [
