@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { MapPin, Phone, Mail, Clock, Navigation, X, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -680,6 +681,7 @@ export default function StoreLocatorPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

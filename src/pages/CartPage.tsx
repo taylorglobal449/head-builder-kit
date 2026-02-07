@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/stores/cartStore";
 import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2, ArrowLeft } from "lucide-react";
@@ -192,6 +193,7 @@ export default function CartPage() {
           </div>
         )}
       </main>
+      <Footer />
     </div>
   );
 }

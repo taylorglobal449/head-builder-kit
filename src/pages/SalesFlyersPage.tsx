@@ -1,4 +1,5 @@
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Download, FileText } from "lucide-react";
 
@@ -183,6 +184,7 @@ export default function SalesFlyersPage() {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 }
