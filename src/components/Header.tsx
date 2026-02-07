@@ -287,7 +287,7 @@ export function Header() {
 
           {/* Account & Cart */}
           <div className="flex items-center gap-6 ml-auto">
-            <a href="https://www.fastenersinc.net/account/login" className="flex flex-col items-center text-foreground hover:text-header-primary transition-colors">
+            <a href="/account" className="flex flex-col items-center text-foreground hover:text-header-primary transition-colors">
               <User className="w-5 h-5" />
               <span className="text-[11px] text-header-muted mt-0.5 hidden sm:block">Account</span>
             </a>
