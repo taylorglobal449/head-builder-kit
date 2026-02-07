@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Search, User, Menu, X, FlameKindling, DollarSign, Sparkles, ShoppingBag, Tag, Truck } from "lucide-react";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { SearchModal } from "@/components/search/SearchModal";
@@ -169,14 +170,15 @@ const shopAllDropdown = [
 ];
 
 const brandsDropdown = [
-  { name: "DeWalt", href: "https://www.fastenersinc.net/pages/dewalt-tools-power-tools-accessories" },
-  { name: "Milwaukee", href: "https://www.fastenersinc.net/pages/milwaukee-tools" },
-  { name: "Makita", href: "https://www.fastenersinc.net/pages/makita-tools-makita-power-tools-accessories" },
-  { name: "Klein Tools", href: "https://www.fastenersinc.net/pages/klein-tools" },
-  { name: "Knipex", href: "https://www.fastenersinc.net/pages/knipex-tools-pliers" },
-  { name: "Occidental Leather", href: "https://www.fastenersinc.net/pages/occidental-leather-tool-belt-systems" },
-  { name: "Diablo", href: "https://www.fastenersinc.net/pages/search-results-page?collection=diablo" },
-  { name: "IronClad", href: "https://www.fastenersinc.net/pages/ironclad-performance-wear-ironclad-gloves-for-professionals" },
+  { name: "DeWalt", href: "/brands/dewalt", internal: true },
+  { name: "Milwaukee", href: "/brands/milwaukee", internal: true },
+  { name: "Makita", href: "/brands/makita", internal: true },
+  { name: "Klein Tools", href: "https://www.fastenersinc.net/pages/klein-tools", internal: false },
+  { name: "Knipex", href: "https://www.fastenersinc.net/pages/knipex-tools-pliers", internal: false },
+  { name: "Occidental Leather", href: "https://www.fastenersinc.net/pages/occidental-leather-tool-belt-systems", internal: false },
+  { name: "Diablo", href: "https://www.fastenersinc.net/pages/search-results-page?collection=diablo", internal: false },
+  { name: "IronClad", href: "https://www.fastenersinc.net/pages/ironclad-performance-wear-ironclad-gloves-for-professionals", internal: false },
+  { name: "View All Brands", href: "/brands", internal: true },
 ];
 
 // Solid filled triangle arrow - matches reference (rounded corners, filled)
@@ -355,9 +357,15 @@ export function Header() {
                         <ul className="py-2">
                           {brandsDropdown.map((item) => (
                             <li key={item.name}>
-                              <a href={item.href} className="block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-header-primary">
-                                {item.name}
-                              </a>
+                              {item.internal ? (
+                                <Link to={item.href} className={`block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-header-primary ${item.name === "View All Brands" ? "font-bold border-t border-header-border mt-1 pt-3" : ""}`}>
+                                  {item.name}
+                                </Link>
+                              ) : (
+                                <a href={item.href} target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-header-primary">
+                                  {item.name}
+                                </a>
+                              )}
                             </li>
                           ))}
                         </ul>
