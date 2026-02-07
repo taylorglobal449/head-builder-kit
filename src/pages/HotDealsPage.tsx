@@ -2,38 +2,17 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { CloseoutCategorySlider } from "@/components/closeouts/CloseoutCategorySlider";
-import { useMockProducts } from "@/hooks/useMockProducts";
-import { FlameKindling, Percent, Zap, Gift, Timer } from "lucide-react";
+import { dealBanners, brandTabs } from "@/lib/dealData";
+import { FlameKindling, Percent, Gift, Timer } from "lucide-react";
 import hotDealsBanner from "@/assets/banners/hot-deals-banner.jpg";
 
-const dealCategories = [
-  { id: "featured", title: "Featured Deals" },
-  { id: "power-tools", title: "Power Tool Deals" },
-  { id: "hand-tools", title: "Hand Tool Deals" },
-  { id: "combo-kits", title: "Combo Kit Deals" },
-  { id: "accessories", title: "Accessories & Bits" },
-  { id: "storage", title: "Storage & Organization" },
-];
-
 export default function HotDealsPage() {
-  const [activeTab, setActiveTab] = useState<string | null>(null);
-  const { products } = useMockProducts(60);
+  const [activeTab, setActiveTab] = useState<string>("all");
 
-  const categoryProducts = useMemo(() => {
-    const perCategory = Math.ceil(products.length / dealCategories.length);
-    const map: Record<string, typeof products> = {};
-    dealCategories.forEach((cat, i) => {
-      map[cat.id] = products.slice(i * perCategory, (i + 1) * perCategory);
-    });
-    return map;
-  }, [products]);
-
-  const scrollToSection = (id: string) => {
-    setActiveTab(id);
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  const filteredBanners = useMemo(() => {
+    if (activeTab === "all") return dealBanners;
+    return dealBanners.filter((b) => b.brand === activeTab);
+  }, [activeTab]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -64,7 +43,7 @@ export default function HotDealsPage() {
                   Hot Deals & Promotions
                 </h1>
                 <p className="text-white/80 text-sm lg:text-base max-w-lg">
-                  Save big on top brands like DeWalt, Milwaukee, and Makita. Limited-time offers on power tools, hand tools, and accessories.
+                  Save big on top brands like DeWalt, Milwaukee, and Makita. Limited-time offers updated monthly.
                 </p>
               </div>
             </div>
@@ -78,7 +57,7 @@ export default function HotDealsPage() {
               { icon: FlameKindling, title: "Top Brand Deals", subtitle: "Milwaukee, DeWalt & more" },
               { icon: Percent, title: "Up to 50% Off", subtitle: "Limited-time savings" },
               { icon: Gift, title: "Free Tool Offers", subtitle: "Buy more, get more" },
-              { icon: Timer, title: "Updated Weekly", subtitle: "Fresh deals every week" },
+              { icon: Timer, title: "Updated Monthly", subtitle: "Fresh deals regularly" },
             ].map((item) => (
               <div key={item.title} className="flex items-center gap-3 bg-card border border-border rounded-lg p-3">
                 <div className="w-10 h-10 rounded-full bg-header-primary/10 flex items-center justify-center flex-shrink-0">
@@ -93,37 +72,55 @@ export default function HotDealsPage() {
           </div>
         </section>
 
-        {/* Sticky Category Nav */}
+        {/* Brand Filter Tabs */}
         <div className="sticky top-0 z-30 bg-background border-b border-border shadow-sm">
           <div className="max-w-[1600px] mx-auto px-4">
-            <div className="flex gap-1 overflow-x-auto py-2" style={{ scrollbarWidth: "none" }}>
-              {dealCategories.map((cat) => (
+            <div className="flex items-center gap-2 py-3">
+              <span className="text-sm font-bold text-foreground uppercase tracking-wide mr-2">Filter:</span>
+              {brandTabs.map((tab) => (
                 <button
-                  key={cat.id}
-                  onClick={() => scrollToSection(cat.id)}
-                  className={`px-4 py-2 text-sm font-bold uppercase tracking-wide whitespace-nowrap rounded-md transition-colors ${
-                    activeTab === cat.id
-                      ? "bg-header-primary text-white"
-                      : "text-foreground hover:bg-muted"
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-5 py-2 text-sm font-bold rounded-full border transition-colors ${
+                    activeTab === tab.id
+                      ? "bg-header-primary border-header-primary text-white"
+                      : "bg-background border-border text-foreground hover:bg-muted"
                   }`}
                 >
-                  {cat.title}
+                  {tab.label}
                 </button>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Category Sliders */}
-        <div className="max-w-[1600px] mx-auto px-4 py-8 space-y-10">
-          {dealCategories.map((cat) => (
-            <CloseoutCategorySlider
-              key={cat.id}
-              id={cat.id}
-              title={cat.title}
-              products={categoryProducts[cat.id] || []}
-            />
-          ))}
+        {/* Deal Banner Grid */}
+        <div className="max-w-[1600px] mx-auto px-4 py-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredBanners.map((banner) => (
+              <a
+                key={banner.id}
+                href={banner.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow"
+              >
+                <div className="aspect-square overflow-hidden">
+                  <img
+                    src={banner.image}
+                    alt={banner.title}
+                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
+                  />
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {filteredBanners.length === 0 && (
+            <div className="text-center py-16">
+              <p className="text-muted-foreground text-lg">No deals found for this brand.</p>
+            </div>
+          )}
         </div>
 
         {/* Bottom CTA */}
@@ -135,7 +132,7 @@ export default function HotDealsPage() {
             <p className="text-white/70 text-sm mb-5 max-w-md mx-auto">
               Browse our full catalog or contact us for special pricing on bulk orders and contractor accounts.
             </p>
-            <div className="flex items-center justify-center gap-3">
+            <div className="flex items-center justify-center gap-3 flex-wrap">
               <a
                 href="https://www.fastenersinc.net/pages/top-deals-promotions"
                 target="_blank"
@@ -144,6 +141,12 @@ export default function HotDealsPage() {
               >
                 View Full Deals Catalog
               </a>
+              <Link
+                to="/closeouts"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-white/30 hover:border-white text-white font-bold uppercase text-sm rounded transition-colors"
+              >
+                Shop Closeouts
+              </Link>
               <Link
                 to="/quote"
                 className="inline-flex items-center gap-2 px-6 py-3 border border-white/30 hover:border-white text-white font-bold uppercase text-sm rounded transition-colors"
