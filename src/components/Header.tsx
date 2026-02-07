@@ -173,11 +173,11 @@ const brandsDropdown = [
   { name: "DeWalt", href: "/brands/dewalt", internal: true },
   { name: "Milwaukee", href: "/brands/milwaukee", internal: true },
   { name: "Makita", href: "/brands/makita", internal: true },
-  { name: "Klein Tools", href: "https://www.fastenersinc.net/pages/klein-tools", internal: false },
-  { name: "Knipex", href: "https://www.fastenersinc.net/pages/knipex-tools-pliers", internal: false },
-  { name: "Occidental Leather", href: "https://www.fastenersinc.net/pages/occidental-leather-tool-belt-systems", internal: false },
-  { name: "Diablo", href: "https://www.fastenersinc.net/pages/search-results-page?collection=diablo", internal: false },
-  { name: "IronClad", href: "https://www.fastenersinc.net/pages/ironclad-performance-wear-ironclad-gloves-for-professionals", internal: false },
+  { name: "Klein Tools", href: "/brands/klein-tools", internal: true },
+  { name: "Knipex", href: "/brands/knipex", internal: true },
+  { name: "Occidental Leather", href: "/brands/occidental", internal: true },
+  { name: "Diablo", href: "/brands/diablo", internal: true },
+  { name: "IronClad", href: "/brands/ironclad", internal: true },
   { name: "View All Brands", href: "/brands", internal: true },
 ];
 
