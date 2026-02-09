@@ -37,10 +37,10 @@ function AppContent() {
         <Route path="/search" element={<SearchResultsPage />} />
         <Route path="/quote" element={<QuotePage />} />
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/events" element={<EventsPage />} />
+        {/* <Route path="/events" element={<EventsPage />} /> */}
+        <Route path="/sales-flyers" element={<SalesFlyersPage />} />
         {/* TEMPORARILY DISABLED FOR PUBLISH */}
         {/* <Route path="/store-locator" element={<StoreLocatorPage />} /> */}
-        {/* <Route path="/events" element={<EventsPage />} /> */}
         {/* <Route path="/order-tracking" element={<OrderTrackingPage />} /> */}
         {/* <Route path="/closeouts" element={<CloseoutsPage />} /> */}
         {/* <Route path="/hot-deals" element={<HotDealsPage />} /> */}
