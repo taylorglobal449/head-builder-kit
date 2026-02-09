@@ -5,6 +5,17 @@ import { Footer } from "@/components/Footer";
 import { Search, X } from "lucide-react";
 import { brandsDirectory, alphabetLetters } from "@/lib/allBrandsDirectory";
 
+const topBrands = [
+  { name: "DeWalt", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-01_533x.png?v=1702595442", href: "/brands/dewalt" },
+  { name: "Makita", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-02_533x.png?v=1702595443", href: "/brands/makita" },
+  { name: "Klein Tools", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-03_533x.png?v=1702595441", href: "/brands/klein-tools" },
+  { name: "Milwaukee", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-04_533x.png?v=1702595442", href: "/brands/milwaukee" },
+  { name: "Knipex", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-05_533x.png?v=1702595441", href: "/brands/knipex" },
+  { name: "Occidental Leather", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-06_533x.png?v=1702595441", href: "/brands/occidental" },
+  { name: "Diablo", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-07_533x.png?v=1702595442", href: "/brands/diablo" },
+  { name: "IronClad", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-08_533x.png?v=1702595442", href: "/brands/ironclad" },
+];
+
 export default function BrandsPage() {
   const [search, setSearch] = useState("");
   const [activeLetter, setActiveLetter] = useState<string | null>(null);
@@ -51,12 +62,34 @@ export default function BrandsPage() {
           </ol>
         </nav>
 
+        {/* Top Brands */}
+        <div className="mb-8">
+          <h2 className="text-lg font-black text-foreground uppercase tracking-wide mb-3">
+            Top Brands
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {topBrands.map((brand) => (
+              <Link
+                key={brand.name}
+                to={brand.href}
+                className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-md hover:border-header-primary/30 transition-all"
+              >
+                <img
+                  src={brand.logo}
+                  alt={brand.name}
+                  className="w-full h-auto object-contain"
+                />
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-5">
           <div>
-            <h1 className="text-2xl md:text-3xl font-black text-foreground uppercase tracking-wide">
-              Shop By Brand
-            </h1>
+            <h2 className="text-lg font-black text-foreground uppercase tracking-wide">
+              All Brands
+            </h2>
             <p className="text-sm text-muted-foreground mt-0.5">
               {totalBrands} brands available
             </p>
