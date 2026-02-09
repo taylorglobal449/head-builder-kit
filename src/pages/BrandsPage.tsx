@@ -2,7 +2,7 @@ import { useState, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { brandsDirectory, alphabetLetters } from "@/lib/allBrandsDirectory";
 
 export default function BrandsPage() {
@@ -26,6 +26,10 @@ export default function BrandsPage() {
     return result;
   }, [search, activeLetter]);
 
+  const totalBrands = useMemo(() => {
+    return Object.values(filteredDirectory).reduce((sum, arr) => sum + arr.length, 0);
+  }, [filteredDirectory]);
+
   const scrollToLetter = (letter: string | null) => {
     setActiveLetter(letter);
     if (letter && sectionRefs.current[letter]) {
@@ -37,88 +41,134 @@ export default function BrandsPage() {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="max-w-[780px] mx-auto px-4 py-6">
+      <main className="max-w-5xl mx-auto px-4 py-6">
         {/* Breadcrumb */}
         <nav className="mb-4">
           <ol className="flex items-center gap-2 text-sm text-muted-foreground">
-            <li><Link to="/" className="hover:text-header-primary">Home</Link></li>
+            <li><Link to="/" className="hover:text-header-primary transition-colors">Home</Link></li>
             <li>/</li>
             <li className="text-foreground font-medium">Brands</li>
           </ol>
         </nav>
 
-        <h1 className="text-2xl font-black text-foreground uppercase tracking-wide mb-4">
-          Shop By Brand
-        </h1>
+        {/* Page Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-5">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-black text-foreground uppercase tracking-wide">
+              Shop By Brand
+            </h1>
+            <p className="text-sm text-muted-foreground mt-0.5">
+              {totalBrands} brands available
+            </p>
+          </div>
 
-        {/* Search */}
-        <div className="text-center mb-3">
-          <div className="inline-block w-full max-w-[400px] relative">
+          {/* Search */}
+          <div className="relative w-full sm:w-72">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search brands..."
               value={search}
               onChange={(e) => { setSearch(e.target.value); setActiveLetter(null); }}
-              className="w-full pl-9 pr-4 py-2.5 text-base border border-border rounded bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-header-primary/40"
+              className="w-full pl-9 pr-8 py-2 text-sm border border-border rounded-md bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-header-primary/40 transition-shadow"
             />
+            {search && (
+              <button
+                onClick={() => setSearch("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
           </div>
         </div>
 
-        {/* Alphabet Filter */}
-        <div className="flex justify-center gap-1.5 flex-wrap mb-4">
-          <button
-            onClick={() => scrollToLetter(null)}
-            className={`text-sm font-bold px-2.5 py-1 rounded transition-colors ${
-              !activeLetter ? "bg-header-primary text-white" : "text-header-primary hover:bg-header-primary hover:text-white"
-            }`}
-          >
-            All
-          </button>
-          {alphabetLetters.map((letter) => (
+        {/* Alphabet Filter - sticky */}
+        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border pb-2 pt-1 mb-5 -mx-4 px-4">
+          <div className="flex justify-center gap-1 flex-wrap">
             <button
-              key={letter}
-              onClick={() => scrollToLetter(letter)}
-              className={`text-sm font-bold px-2.5 py-1 rounded transition-colors ${
-                activeLetter === letter ? "bg-header-primary text-white" : "text-header-primary hover:bg-header-primary hover:text-white"
+              onClick={() => scrollToLetter(null)}
+              className={`text-xs font-bold px-2 py-1 rounded transition-colors ${
+                !activeLetter
+                  ? "bg-header-primary text-white"
+                  : "text-header-primary hover:bg-header-primary/10"
               }`}
             >
-              {letter}
+              All
             </button>
-          ))}
+            {alphabetLetters.map((letter) => (
+              <button
+                key={letter}
+                onClick={() => scrollToLetter(letter)}
+                className={`text-xs font-bold w-7 h-7 flex items-center justify-center rounded transition-colors ${
+                  activeLetter === letter
+                    ? "bg-header-primary text-white"
+                    : "text-header-primary hover:bg-header-primary/10"
+                }`}
+              >
+                {letter}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Brand Directory */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-6">
           {Object.keys(filteredDirectory).length === 0 && (
-            <p className="text-center text-muted-foreground py-8">No brands found matching "{search}"</p>
+            <div className="text-center py-12">
+              <p className="text-muted-foreground text-lg">No brands found matching "{search}"</p>
+              <button
+                onClick={() => { setSearch(""); setActiveLetter(null); }}
+                className="mt-2 text-sm text-header-primary hover:underline"
+              >
+                Clear search
+              </button>
+            </div>
           )}
           {Object.entries(filteredDirectory).map(([letter, brands]) => (
             <div
               key={letter}
               ref={(el) => { sectionRefs.current[letter] = el; }}
-              className="scroll-mt-4"
+              className="scroll-mt-16"
             >
-              <h2 className="text-xl font-bold text-foreground mb-1.5 pl-2">{letter}</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 px-2 sm:px-0">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="flex items-center justify-center w-9 h-9 rounded-md bg-header-primary text-white font-black text-lg">
+                  {letter}
+                </span>
+                <div className="flex-1 h-px bg-border" />
+                <span className="text-xs text-muted-foreground">{brands.length} brand{brands.length !== 1 ? "s" : ""}</span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
                 {brands.map((brand) => {
                   const isInternal = brand.href.startsWith("/");
                   const commonClass =
-                    "group bg-card rounded-lg shadow-sm border border-border flex flex-col items-center justify-center p-2 h-[100px] md:h-[130px] hover:-translate-y-1 transition-transform text-center";
+                    "group bg-card rounded-lg border border-border flex flex-col items-center justify-center p-3 h-[110px] md:h-[130px] hover:shadow-md hover:border-header-primary/30 hover:-translate-y-0.5 transition-all text-center";
+
+                  const content = (
+                    <>
+                      <img
+                        src={brand.logo}
+                        alt={brand.name}
+                        className="max-w-[100px] max-h-[45px] md:max-h-[55px] object-contain flex-grow"
+                        loading="lazy"
+                      />
+                      <span className="text-foreground text-[11px] md:text-xs font-bold uppercase mt-2 leading-tight line-clamp-2">
+                        {brand.name}
+                      </span>
+                    </>
+                  );
 
                   if (isInternal) {
                     return (
                       <Link key={brand.name} to={brand.href} className={commonClass}>
-                        <img src={brand.logo} alt={brand.name} className="max-w-[120px] max-h-[50px] md:max-h-[60px] object-contain mt-1.5 flex-grow" />
-                        <span className="text-foreground text-xs md:text-sm font-bold uppercase mt-1.5 leading-tight">{brand.name}</span>
+                        {content}
                       </Link>
                     );
                   }
 
                   return (
                     <a key={brand.name} href={brand.href} target="_blank" rel="noopener noreferrer" className={commonClass}>
-                      <img src={brand.logo} alt={brand.name} className="max-w-[120px] max-h-[50px] md:max-h-[60px] object-contain mt-1.5 flex-grow" />
-                      <span className="text-foreground text-xs md:text-sm font-bold uppercase mt-1.5 leading-tight">{brand.name}</span>
+                      {content}
                     </a>
                   );
                 })}
