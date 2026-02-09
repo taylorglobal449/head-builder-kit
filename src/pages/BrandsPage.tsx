@@ -8,7 +8,7 @@ export default function BrandsPage() {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="max-w-[1600px] mx-auto px-4 py-8">
+      <main className="max-w-[780px] mx-auto px-4 py-8">
         <nav className="mb-6">
           <ol className="flex items-center gap-2 text-sm text-muted-foreground">
             <li><Link to="/" className="hover:text-header-primary">Home</Link></li>
@@ -17,35 +17,30 @@ export default function BrandsPage() {
           </ol>
         </nav>
 
-        <h1 className="text-3xl font-black text-foreground uppercase tracking-wide mb-8">
-          Shop By Brand
+        <h1 className="text-2xl font-black text-foreground uppercase tracking-wide mb-6">
+          Top Brands
         </h1>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {allBrands.map((brand) => {
-            const isInternal = brand.href.startsWith("/");
-            const Wrapper = isInternal ? Link : "a";
-            const extraProps = isInternal
-              ? { to: brand.href }
-              : { href: brand.href, target: "_blank" as const, rel: "noopener noreferrer" };
-
-            return (
-              <Wrapper
+        {/* Mobile: horizontal scroll, Desktop: centered wrap — matches existing site */}
+        <div className="overflow-x-auto md:overflow-x-hidden scrollbar-hide">
+          <div className="flex gap-2 flex-nowrap px-2 md:flex-wrap md:justify-center md:gap-3 md:px-0">
+            {allBrands.map((brand) => (
+              <Link
                 key={brand.slug}
-                {...(extraProps as any)}
-                className="group bg-foreground rounded-lg p-6 flex flex-col items-center justify-center aspect-square hover:ring-2 hover:ring-header-primary transition-all"
+                to={brand.href}
+                className="group flex-shrink-0 w-[100px] h-[100px] md:w-[120px] md:h-[120px] bg-card rounded-lg shadow-sm border border-border flex flex-col items-center justify-center p-2 hover:-translate-y-1 transition-transform"
               >
                 <img
                   src={brand.logo}
                   alt={brand.name}
-                  className="h-12 w-auto object-contain invert brightness-200 mb-3 group-hover:scale-105 transition-transform"
+                  className="max-w-[100px] max-h-[50px] md:max-w-[120px] md:max-h-[60px] object-contain mt-1.5 md:mt-2"
                 />
-                <span className="text-white/80 text-sm font-bold uppercase group-hover:text-header-primary transition-colors">
+                <span className="text-foreground text-[10px] md:text-xs font-bold uppercase mt-1.5 md:mt-2 leading-tight text-center">
                   {brand.name}
                 </span>
-              </Wrapper>
-            );
-          })}
+              </Link>
+            ))}
+          </div>
         </div>
       </main>
 

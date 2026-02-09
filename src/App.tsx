@@ -44,6 +44,9 @@ function AppContent() {
         <Route path="/closeouts" element={<CloseoutsPage />} />
         <Route path="/hot-deals" element={<HotDealsPage />} />
         <Route path="/new-products" element={<NewProductsPage />} />
+        <Route path="/brands" element={<BrandsPage />} />
+        <Route path="/brands/:slug" element={<BrandPage />} />
+        <Route path="/account" element={<AccountPage />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
