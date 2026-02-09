@@ -62,12 +62,34 @@ export default function BrandsPage() {
           </ol>
         </nav>
 
+        {/* Top Brands */}
+        <div className="mb-8">
+          <h2 className="text-lg font-black text-foreground uppercase tracking-wide mb-3">
+            Top Brands
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {topBrands.map((brand) => (
+              <Link
+                key={brand.name}
+                to={brand.href}
+                className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-md hover:border-header-primary/30 transition-all"
+              >
+                <img
+                  src={brand.logo}
+                  alt={brand.name}
+                  className="w-full h-auto object-contain"
+                />
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-5">
           <div>
-            <h1 className="text-2xl md:text-3xl font-black text-foreground uppercase tracking-wide">
-              Shop By Brand
-            </h1>
+            <h2 className="text-lg font-black text-foreground uppercase tracking-wide">
+              All Brands
+            </h2>
             <p className="text-sm text-muted-foreground mt-0.5">
               {totalBrands} brands available
             </p>
