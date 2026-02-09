@@ -38,16 +38,12 @@ function AppContent() {
         <Route path="/quote" element={<QuotePage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/events" element={<EventsPage />} />
-        <Route path="/store-locator" element={<StoreLocatorPage />} />
-        <Route path="/sales-flyers" element={<SalesFlyersPage />} />
-        <Route path="/order-tracking" element={<OrderTrackingPage />} />
-        <Route path="/account" element={<AccountPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/brands" element={<BrandsPage />} />
-        <Route path="/brands/:slug" element={<BrandPage />} />
-        <Route path="/closeouts" element={<CloseoutsPage />} />
-        <Route path="/hot-deals" element={<HotDealsPage />} />
-        <Route path="/new-products" element={<NewProductsPage />} />
+        {/* TEMPORARILY DISABLED FOR PUBLISH */}
+        {/* <Route path="/store-locator" element={<StoreLocatorPage />} /> */}
+        {/* <Route path="/events" element={<EventsPage />} /> */}
+        {/* <Route path="/order-tracking" element={<OrderTrackingPage />} /> */}
+        {/* <Route path="/closeouts" element={<CloseoutsPage />} /> */}
+        {/* <Route path="/hot-deals" element={<HotDealsPage />} /> */}
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
