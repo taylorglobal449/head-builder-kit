@@ -5,6 +5,17 @@ import { Footer } from "@/components/Footer";
 import { Search, X } from "lucide-react";
 import { brandsDirectory, alphabetLetters } from "@/lib/allBrandsDirectory";
 
+const topBrands = [
+  { name: "DeWalt", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-01_533x.png?v=1702595442", href: "/brands/dewalt" },
+  { name: "Makita", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-02_533x.png?v=1702595443", href: "/brands/makita" },
+  { name: "Klein Tools", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-03_533x.png?v=1702595441", href: "/brands/klein-tools" },
+  { name: "Milwaukee", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-04_533x.png?v=1702595442", href: "/brands/milwaukee" },
+  { name: "Knipex", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-05_533x.png?v=1702595441", href: "/brands/knipex" },
+  { name: "Occidental Leather", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-06_533x.png?v=1702595441", href: "/brands/occidental" },
+  { name: "Diablo", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-07_533x.png?v=1702595442", href: "/brands/diablo" },
+  { name: "IronClad", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-08_533x.png?v=1702595442", href: "/brands/ironclad" },
+];
+
 export default function BrandsPage() {
   const [search, setSearch] = useState("");
   const [activeLetter, setActiveLetter] = useState<string | null>(null);
