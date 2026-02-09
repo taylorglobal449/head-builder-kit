@@ -175,14 +175,14 @@ export default function BrandsPage() {
                 {brands.map((brand) => {
                   const isInternal = brand.href.startsWith("/");
                   const commonClass =
-                    "group bg-card rounded-lg border border-border flex flex-col items-center justify-center p-3 h-[110px] md:h-[130px] hover:shadow-md hover:border-header-primary/30 hover:-translate-y-0.5 transition-all text-center";
+                    "group bg-card rounded-lg border border-border flex flex-col items-center justify-center p-3 h-[145px] md:h-[170px] hover:shadow-md hover:border-header-primary/30 hover:-translate-y-0.5 transition-all text-center";
 
                   const content = (
                     <>
                       <img
                         src={brand.logo}
                         alt={brand.name}
-                        className="max-w-[100px] max-h-[45px] md:max-h-[55px] object-contain flex-grow"
+                        className="max-w-[140px] max-h-[63px] md:max-h-[77px] object-contain flex-grow"
                         loading="lazy"
                       />
                       <span className="text-foreground text-[11px] md:text-xs font-bold uppercase mt-2 leading-tight line-clamp-2">
