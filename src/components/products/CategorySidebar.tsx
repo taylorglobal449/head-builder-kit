@@ -60,24 +60,27 @@ function CategoryTreeItem({ node, selectedId, onSelect, depth = 0 }: CategoryTre
 function FilterSection({
   title,
   defaultOpen = false,
+  forceOpen,
   children,
 }: {
   title: string;
   defaultOpen?: boolean;
+  forceOpen?: boolean;
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(defaultOpen);
+  const isOpen = forceOpen || open;
 
   return (
     <div className="border-b border-border">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpen(!isOpen)}
         className="w-full flex items-center justify-between py-3 text-sm font-bold text-foreground uppercase tracking-wide"
       >
         {title}
-        {open ? <Minus className="w-4 h-4 opacity-50" /> : <Plus className="w-4 h-4 opacity-50" />}
+        {isOpen ? <Minus className="w-4 h-4 opacity-50" /> : <Plus className="w-4 h-4 opacity-50" />}
       </button>
-      {open && <div className="pb-3">{children}</div>}
+      {isOpen && <div className="pb-3">{children}</div>}
     </div>
   );
 }
@@ -180,9 +183,6 @@ interface CategorySidebarProps {
   brands: string[];
   selectedBrands: string[];
   onToggleBrand: (brand: string) => void;
-  productTypes: string[];
-  selectedProductTypes: string[];
-  onToggleProductType: (type: string) => void;
   types: string[];
   selectedTypes: string[];
   onToggleType: (type: string) => void;
@@ -203,9 +203,6 @@ export function CategorySidebar({
   brands,
   selectedBrands,
   onToggleBrand,
-  productTypes,
-  selectedProductTypes,
-  onToggleProductType,
   types,
   selectedTypes,
   onToggleType,
@@ -255,20 +252,9 @@ export function CategorySidebar({
         />
       </FilterSection>
 
-      {/* Product Type Filter */}
-      {productTypes.length > 0 && (
-        <FilterSection title="Product Type">
-          <CheckboxFilterList
-            items={productTypes}
-            selected={selectedProductTypes}
-            onToggle={onToggleProductType}
-          />
-        </FilterSection>
-      )}
-
-      {/* Types Filter (Level 3 categories) */}
+      {/* Product Types (contextual Level 3 types) */}
       {types.length > 0 && (
-        <FilterSection title="Types">
+        <FilterSection title="Product Types" forceOpen={types.length > 0}>
           <CheckboxFilterList
             items={types}
             selected={selectedTypes}
