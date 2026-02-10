@@ -7,6 +7,7 @@ import { ProductGrid } from "@/components/products/ProductGrid";
 import { CategorySidebar } from "@/components/products/CategorySidebar";
 import { searchMockProducts, getMockBrands, getMockPriceRange } from "@/lib/mockProducts";
 import { categoryTree, type CategoryNode } from "@/lib/categoryTaxonomy";
+import { brandsDirectory } from "@/lib/allBrandsDirectory";
 import {
   Sheet,
   SheetContent,
@@ -30,7 +31,12 @@ export default function ProductsPage() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [localQuery, setLocalQuery] = useState(query);
 
-  const brands = getMockBrands();
+  const brands = useMemo(() => {
+    const mockBrands = getMockBrands();
+    const directoryBrands = Object.values(brandsDirectory).flat().map(b => b.name);
+    const allBrands = new Set([...mockBrands, ...directoryBrands]);
+    return Array.from(allBrands).sort();
+  }, []);
   const { min: minPrice, max: maxPrice } = getMockPriceRange();
 
   const filteredProducts = useMemo(() => {
