@@ -31,7 +31,12 @@ export default function ProductsPage() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [localQuery, setLocalQuery] = useState(query);
 
-  const brands = getMockBrands();
+  const brands = useMemo(() => {
+    const mockBrands = getMockBrands();
+    const directoryBrands = Object.values(brandsDirectory).flat().map(b => b.name);
+    const allBrands = new Set([...mockBrands, ...directoryBrands]);
+    return Array.from(allBrands).sort();
+  }, []);
   const { min: minPrice, max: maxPrice } = getMockPriceRange();
 
   const filteredProducts = useMemo(() => {
