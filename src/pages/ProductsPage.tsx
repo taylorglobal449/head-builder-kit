@@ -35,6 +35,23 @@ export default function ProductsPage() {
   const trimmedTree = useMemo(() => getTrimmedTree(categoryTree), []);
   const allLevel3Types = useMemo(() => getLevel3Types(categoryTree), []);
 
+  // Contextual types: if a category is selected, show its children from the full tree
+  const contextualTypes = useMemo(() => {
+    if (!selectedCategory) return [];
+    // Find the node in the full (untrimmed) tree
+    const findNode = (nodes: CategoryNode[], id: string): CategoryNode | null => {
+      for (const n of nodes) {
+        if (n.id === id) return n;
+        const found = findNode(n.children, id);
+        if (found) return found;
+      }
+      return null;
+    };
+    const fullNode = findNode(categoryTree, selectedCategory.id);
+    if (!fullNode || fullNode.children.length === 0) return [];
+    return fullNode.children.map((c) => c.name).sort();
+  }, [selectedCategory]);
+
   // Base products from search query
   const baseProducts = useMemo(() => searchMockProducts(query), [query]);
 
@@ -201,7 +218,7 @@ export default function ProductsPage() {
     productTypes: availableProductTypes,
     selectedProductTypes,
     onToggleProductType: toggleProductType,
-    types: allLevel3Types,
+    types: contextualTypes,
     selectedTypes,
     onToggleType: toggleType,
     priceRange,
