@@ -201,7 +201,7 @@ export default function ProductsPage() {
     productTypes: availableProductTypes,
     selectedProductTypes,
     onToggleProductType: toggleProductType,
-    types: allLevel3Types,
+    types: contextualTypes,
     selectedTypes,
     onToggleType: toggleType,
     priceRange,
