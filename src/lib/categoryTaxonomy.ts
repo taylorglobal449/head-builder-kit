@@ -566,3 +566,24 @@ export function getAllDescendantNames(node: CategoryNode): string[] {
   }
   return names;
 }
+
+// Extract level-3 leaf nodes from the full tree
+export function getLevel3Types(tree: CategoryNode[]): string[] {
+  const types: string[] = [];
+  for (const l1 of tree) {
+    for (const l2 of l1.children) {
+      for (const l3 of l2.children) {
+        types.push(l3.name);
+      }
+    }
+  }
+  return types.sort();
+}
+
+// Build a shallow copy of the tree trimmed to depth 2 (L1 + L2 only)
+export function getTrimmedTree(tree: CategoryNode[]): CategoryNode[] {
+  return tree.map((l1) => ({
+    ...l1,
+    children: l1.children.map((l2) => ({ ...l2, children: [] })),
+  }));
+}
