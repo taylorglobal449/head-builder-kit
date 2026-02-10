@@ -215,8 +215,6 @@ export default function ProductsPage() {
     brands: availableBrands,
     selectedBrands,
     onToggleBrand: toggleBrand,
-    productTypes: availableProductTypes,
-    selectedProductTypes,
     onToggleProductType: toggleProductType,
     types: contextualTypes,
     selectedTypes,
