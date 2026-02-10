@@ -266,6 +266,19 @@ export function CategorySidebar({
         </FilterSection>
       )}
 
+      {/* Types Filter (Level 3 categories) */}
+      {types.length > 0 && (
+        <FilterSection title="Types">
+          <CheckboxFilterList
+            items={types}
+            selected={selectedTypes}
+            onToggle={onToggleType}
+            searchable
+            searchPlaceholder="Search types..."
+          />
+        </FilterSection>
+      )}
+
       {/* Price Filter */}
       <FilterSection title="Price">
         <div className="flex items-center gap-2">
