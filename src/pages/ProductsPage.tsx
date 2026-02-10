@@ -315,6 +315,16 @@ export default function ProductsPage() {
                 <X className="w-3 h-3" />
               </button>
             ))}
+            {selectedTypes.map((type) => (
+              <button
+                key={type}
+                onClick={() => toggleType(type)}
+                className="flex items-center gap-1 px-2.5 py-1 bg-header-primary/10 text-header-primary rounded-full text-xs font-medium"
+              >
+                {type}
+                <X className="w-3 h-3" />
+              </button>
+            ))}
             {priceRange && (
               <button
                 onClick={() => setPriceRange(null)}
