@@ -369,7 +369,7 @@ export default function ProductsPage() {
         <div className="flex gap-6">
           {/* Desktop Sidebar */}
           <aside className="hidden lg:block w-60 shrink-0">
-            <div className="sticky top-4">
+            <div className="sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto pr-1">
               <CategorySidebar {...sidebarProps} />
             </div>
           </aside>
