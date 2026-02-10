@@ -374,6 +374,7 @@ export default function ProductsPage() {
                       <span className="w-5 h-5 bg-header-primary text-white rounded-full text-xs flex items-center justify-center">
                         {selectedBrands.length +
                           selectedProductTypes.length +
+                          selectedTypes.length +
                           (priceRange ? 1 : 0) +
                           (showInStockOnly ? 1 : 0) +
                           (selectedCategory ? 1 : 0)}
