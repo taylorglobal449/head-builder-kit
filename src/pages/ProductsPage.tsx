@@ -216,7 +216,6 @@ export default function ProductsPage() {
     selectedBrands,
     onToggleBrand: toggleBrand,
     types: contextualTypes,
-    types: contextualTypes,
     selectedTypes,
     onToggleType: toggleType,
     priceRange,
