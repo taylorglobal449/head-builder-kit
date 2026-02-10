@@ -182,8 +182,7 @@ interface CategorySidebarProps {
   onSelectCategory: (node: CategoryNode | null) => void;
   brands: string[];
   selectedBrands: string[];
-  selectedProductTypes: string[];
-  onToggleProductType: (type: string) => void;
+  onToggleBrand: (brand: string) => void;
   types: string[];
   selectedTypes: string[];
   onToggleType: (type: string) => void;
