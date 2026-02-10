@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ChevronRight, ChevronDown } from "lucide-react";
+import { useState, useMemo } from "react";
+import { ChevronRight, ChevronDown, Search, Minus, Plus } from "lucide-react";
 import type { CategoryNode } from "@/lib/categoryTaxonomy";
 
 interface CategoryTreeItemProps {
@@ -13,7 +13,6 @@ function CategoryTreeItem({ node, selectedId, onSelect, depth = 0 }: CategoryTre
   const [open, setOpen] = useState(false);
   const hasChildren = node.children.length > 0;
   const isSelected = selectedId === node.id;
-  const isLevel1 = depth === 0;
 
   return (
     <div>
@@ -22,26 +21,26 @@ function CategoryTreeItem({ node, selectedId, onSelect, depth = 0 }: CategoryTre
           onSelect(node);
           if (hasChildren) setOpen(!open);
         }}
-        className={`w-full flex items-center gap-1.5 text-left transition-colors group ${
-          isLevel1
-            ? "py-2 text-sm font-bold text-foreground hover:text-header-primary"
-            : "py-1 pl-3 text-[13px] text-muted-foreground hover:text-header-primary"
-        } ${isSelected ? "text-header-primary font-semibold" : ""}`}
-        style={{ paddingLeft: depth > 1 ? `${depth * 12}px` : undefined }}
+        className={`w-full flex items-center gap-1.5 text-left transition-colors group py-1 text-[13px] ${
+          isSelected
+            ? "text-header-primary font-semibold"
+            : "text-foreground/80 hover:text-header-primary"
+        }`}
+        style={{ paddingLeft: `${depth * 16 + 4}px` }}
       >
         {hasChildren ? (
           open ? (
-            <ChevronDown className="w-3.5 h-3.5 shrink-0 text-header-primary" />
+            <ChevronDown className="w-3 h-3 shrink-0 text-header-primary" />
           ) : (
-            <ChevronRight className="w-3.5 h-3.5 shrink-0 opacity-40 group-hover:opacity-100" />
+            <ChevronRight className="w-3 h-3 shrink-0 opacity-50 group-hover:opacity-100" />
           )
         ) : (
-          <span className="w-3.5 shrink-0" />
+          <span className="w-3 shrink-0" />
         )}
         <span className="truncate">{node.name}</span>
       </button>
       {open && hasChildren && (
-        <div className={isLevel1 ? "border-l border-border ml-2" : "ml-1"}>
+        <div>
           {node.children.map((child) => (
             <CategoryTreeItem
               key={child.id}
@@ -57,11 +56,127 @@ function CategoryTreeItem({ node, selectedId, onSelect, depth = 0 }: CategoryTre
   );
 }
 
+/* ───── Collapsible Filter Section (Acme-style) ───── */
+function FilterSection({
+  title,
+  defaultOpen = true,
+  children,
+}: {
+  title: string;
+  defaultOpen?: boolean;
+  children: React.ReactNode;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+
+  return (
+    <div className="border-b border-border">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between py-3 text-sm font-bold text-foreground uppercase tracking-wide"
+      >
+        {title}
+        {open ? <Minus className="w-4 h-4 opacity-50" /> : <Plus className="w-4 h-4 opacity-50" />}
+      </button>
+      {open && <div className="pb-3">{children}</div>}
+    </div>
+  );
+}
+
+/* ───── Scrollable checkbox list with "Show More" ───── */
+const INITIAL_SHOW = 8;
+
+function CheckboxFilterList({
+  items,
+  selected,
+  onToggle,
+  searchable = false,
+  searchPlaceholder = "Search...",
+}: {
+  items: string[];
+  selected: string[];
+  onToggle: (item: string) => void;
+  searchable?: boolean;
+  searchPlaceholder?: string;
+}) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showAll, setShowAll] = useState(false);
+
+  const filtered = useMemo(() => {
+    if (!searchTerm) return items;
+    const lower = searchTerm.toLowerCase();
+    return items.filter((i) => i.toLowerCase().includes(lower));
+  }, [items, searchTerm]);
+
+  // Selected items always appear at the top
+  const sorted = useMemo(() => {
+    const sel = filtered.filter((i) => selected.includes(i));
+    const rest = filtered.filter((i) => !selected.includes(i));
+    return [...sel, ...rest];
+  }, [filtered, selected]);
+
+  const visible = showAll ? sorted : sorted.slice(0, INITIAL_SHOW);
+  const hasMore = sorted.length > INITIAL_SHOW;
+
+  return (
+    <div>
+      {searchable && (
+        <div className="relative mb-2">
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setShowAll(true);
+            }}
+            placeholder={searchPlaceholder}
+            className="w-full pl-8 pr-3 py-1.5 text-xs border border-border rounded bg-card focus:outline-none focus:ring-1 focus:ring-header-primary/40"
+          />
+        </div>
+      )}
+
+      <div
+        className={`space-y-0.5 overflow-y-auto transition-all ${
+          showAll && sorted.length > 12 ? "max-h-64" : ""
+        }`}
+      >
+        {visible.map((item) => (
+          <label
+            key={item}
+            className="flex items-center gap-2 cursor-pointer text-[13px] text-foreground/80 hover:text-foreground py-[3px] px-1 rounded hover:bg-muted/50"
+          >
+            <input
+              type="checkbox"
+              checked={selected.includes(item)}
+              onChange={() => onToggle(item)}
+              className="rounded border-border text-header-primary focus:ring-header-primary w-3.5 h-3.5 accent-header-primary shrink-0"
+            />
+            <span className="truncate">{item}</span>
+          </label>
+        ))}
+      </div>
+
+      {hasMore && !searchTerm && (
+        <button
+          onClick={() => setShowAll(!showAll)}
+          className="mt-1.5 text-xs font-semibold text-header-primary hover:underline"
+        >
+          {showAll ? "Show Less" : `Show More (${sorted.length - INITIAL_SHOW})`}
+        </button>
+      )}
+
+      {searchTerm && sorted.length === 0 && (
+        <p className="text-xs text-muted-foreground py-1">No matches found</p>
+      )}
+    </div>
+  );
+}
+
+/* ───── Main Sidebar ───── */
 interface CategorySidebarProps {
   categories: CategoryNode[];
   selectedCategoryId: string | null;
   onSelectCategory: (node: CategoryNode | null) => void;
-  // Filters
   brands: string[];
   selectedBrands: string[];
   onToggleBrand: (brand: string) => void;
@@ -91,145 +206,99 @@ export function CategorySidebar({
   onClearFilters,
   hasActiveFilters,
 }: CategorySidebarProps) {
-  const [brandsExpanded, setBrandsExpanded] = useState(true);
-  const [priceExpanded, setPriceExpanded] = useState(true);
-  const [availExpanded, setAvailExpanded] = useState(true);
-
   return (
-    <div className="space-y-1">
-      {/* Categories */}
-      <div className="mb-4">
+    <div>
+      {/* Category Tree */}
+      <FilterSection title="Category">
         <button
           onClick={() => onSelectCategory(null)}
-          className={`w-full text-left text-xs font-black uppercase tracking-wider py-2 border-b-2 border-header-primary mb-1 ${
-            !selectedCategoryId ? "text-header-primary" : "text-foreground hover:text-header-primary"
+          className={`w-full text-left text-[13px] py-1 px-1 rounded transition-colors ${
+            !selectedCategoryId
+              ? "text-header-primary font-semibold"
+              : "text-foreground/80 hover:text-header-primary"
           }`}
         >
           All Categories
         </button>
-        {categories.map((cat) => (
-          <CategoryTreeItem
-            key={cat.id}
-            node={cat}
-            selectedId={selectedCategoryId}
-            onSelect={(n) => onSelectCategory(n)}
-          />
-        ))}
-      </div>
-
-      {/* Divider */}
-      <div className="border-t border-border pt-3" />
+        <div className="max-h-72 overflow-y-auto">
+          {categories.map((cat) => (
+            <CategoryTreeItem
+              key={cat.id}
+              node={cat}
+              selectedId={selectedCategoryId}
+              onSelect={(n) => onSelectCategory(n)}
+            />
+          ))}
+        </div>
+      </FilterSection>
 
       {/* Brand Filter */}
-      <div>
-        <button
-          onClick={() => setBrandsExpanded(!brandsExpanded)}
-          className="w-full flex items-center justify-between py-2 text-xs font-black uppercase tracking-wider text-foreground"
-        >
-          Brand
-          {brandsExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-        </button>
-        {brandsExpanded && (
-          <div className="space-y-1 pb-3">
-            {brands.map((brand) => (
-              <label
-                key={brand}
-                className="flex items-center gap-2 cursor-pointer text-[13px] text-muted-foreground hover:text-foreground py-0.5"
-              >
-                <input
-                  type="checkbox"
-                  checked={selectedBrands.includes(brand)}
-                  onChange={() => onToggleBrand(brand)}
-                  className="rounded border-border text-header-primary focus:ring-header-primary w-3.5 h-3.5 accent-header-primary"
-                />
-                {brand}
-              </label>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="border-t border-border pt-3" />
+      <FilterSection title="Brand">
+        <CheckboxFilterList
+          items={brands}
+          selected={selectedBrands}
+          onToggle={onToggleBrand}
+          searchable
+          searchPlaceholder="Search brands..."
+        />
+      </FilterSection>
 
       {/* Price Filter */}
-      <div>
-        <button
-          onClick={() => setPriceExpanded(!priceExpanded)}
-          className="w-full flex items-center justify-between py-2 text-xs font-black uppercase tracking-wider text-foreground"
-        >
-          Price
-          {priceExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-        </button>
-        {priceExpanded && (
-          <div className="pb-3">
-            <div className="flex items-center gap-2 text-sm">
-              <div className="flex-1">
-                <input
-                  type="number"
-                  placeholder="Min"
-                  value={priceRange?.[0] ?? ""}
-                  onChange={(e) => {
-                    const val = e.target.value ? parseFloat(e.target.value) : minPrice;
-                    onPriceChange([val, priceRange?.[1] ?? maxPrice]);
-                  }}
-                  className="w-full px-2 py-1.5 border border-border rounded text-sm bg-card"
-                />
-              </div>
-              <span className="text-muted-foreground">—</span>
-              <div className="flex-1">
-                <input
-                  type="number"
-                  placeholder="Max"
-                  value={priceRange?.[1] ?? ""}
-                  onChange={(e) => {
-                    const val = e.target.value ? parseFloat(e.target.value) : maxPrice;
-                    onPriceChange([priceRange?.[0] ?? minPrice, val]);
-                  }}
-                  className="w-full px-2 py-1.5 border border-border rounded text-sm bg-card"
-                />
-              </div>
-            </div>
+      <FilterSection title="Price">
+        <div className="flex items-center gap-2">
+          <div className="relative flex-1">
+            <span className="absolute left-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">$</span>
+            <input
+              type="number"
+              placeholder="Min"
+              value={priceRange?.[0] ?? ""}
+              onChange={(e) => {
+                const val = e.target.value ? parseFloat(e.target.value) : minPrice;
+                onPriceChange([val, priceRange?.[1] ?? maxPrice]);
+              }}
+              className="w-full pl-5 pr-2 py-1.5 border border-border rounded text-sm bg-card focus:outline-none focus:ring-1 focus:ring-header-primary/40"
+            />
           </div>
-        )}
-      </div>
-
-      <div className="border-t border-border pt-3" />
+          <span className="text-muted-foreground text-xs">to</span>
+          <div className="relative flex-1">
+            <span className="absolute left-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">$</span>
+            <input
+              type="number"
+              placeholder="Max"
+              value={priceRange?.[1] ?? ""}
+              onChange={(e) => {
+                const val = e.target.value ? parseFloat(e.target.value) : maxPrice;
+                onPriceChange([priceRange?.[0] ?? minPrice, val]);
+              }}
+              className="w-full pl-5 pr-2 py-1.5 border border-border rounded text-sm bg-card focus:outline-none focus:ring-1 focus:ring-header-primary/40"
+            />
+          </div>
+        </div>
+      </FilterSection>
 
       {/* Availability Filter */}
-      <div>
-        <button
-          onClick={() => setAvailExpanded(!availExpanded)}
-          className="w-full flex items-center justify-between py-2 text-xs font-black uppercase tracking-wider text-foreground"
-        >
-          Availability
-          {availExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-        </button>
-        {availExpanded && (
-          <div className="pb-3">
-            <label className="flex items-center gap-2 cursor-pointer text-[13px] text-muted-foreground hover:text-foreground">
-              <input
-                type="checkbox"
-                checked={showInStockOnly}
-                onChange={onToggleInStock}
-                className="rounded border-border text-header-primary focus:ring-header-primary w-3.5 h-3.5 accent-header-primary"
-              />
-              In Stock Only
-            </label>
-          </div>
-        )}
-      </div>
+      <FilterSection title="Availability">
+        <label className="flex items-center gap-2 cursor-pointer text-[13px] text-foreground/80 hover:text-foreground py-[3px] px-1 rounded hover:bg-muted/50">
+          <input
+            type="checkbox"
+            checked={showInStockOnly}
+            onChange={onToggleInStock}
+            className="rounded border-border text-header-primary focus:ring-header-primary w-3.5 h-3.5 accent-header-primary"
+          />
+          In Stock Only
+        </label>
+      </FilterSection>
 
       {/* Clear Filters */}
       {hasActiveFilters && (
-        <>
-          <div className="border-t border-border pt-3" />
+        <div className="pt-3">
           <button
             onClick={onClearFilters}
-            className="w-full py-2 text-sm font-bold text-header-primary hover:underline text-center"
+            className="w-full py-2 text-sm font-bold text-white bg-header-primary rounded hover:bg-header-primary/90 transition-colors"
           >
             Clear All Filters
           </button>
-        </>
+        </div>
       )}
     </div>
   );
