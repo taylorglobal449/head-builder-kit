@@ -7,6 +7,7 @@ import { ProductGrid } from "@/components/products/ProductGrid";
 import { CategorySidebar } from "@/components/products/CategorySidebar";
 import { searchMockProducts, getMockBrands, getMockPriceRange } from "@/lib/mockProducts";
 import { categoryTree, type CategoryNode } from "@/lib/categoryTaxonomy";
+import { brandsDirectory } from "@/lib/allBrandsDirectory";
 import {
   Sheet,
   SheetContent,
