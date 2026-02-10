@@ -44,6 +44,7 @@ function AppContent() {
         <Route path="/closeouts" element={<CloseoutsPage />} />
         <Route path="/hot-deals" element={<HotDealsPage />} />
         <Route path="/new-products" element={<NewProductsPage />} />
+        <Route path="/fasteners" element={<FastenersPage />} />
         <Route path="/brands" element={<BrandsPage />} />
         <Route path="/brands/:slug" element={<BrandPage />} />
         <Route path="/account" element={<AccountPage />} />
