@@ -32,6 +32,8 @@ export default function ProductsPage() {
   const [localQuery, setLocalQuery] = useState(query);
 
   const { min: minPrice, max: maxPrice } = getMockPriceRange();
+  const trimmedTree = useMemo(() => getTrimmedTree(categoryTree), []);
+  const allLevel3Types = useMemo(() => getLevel3Types(categoryTree), []);
 
   // Base products from search query
   const baseProducts = useMemo(() => searchMockProducts(query), [query]);
