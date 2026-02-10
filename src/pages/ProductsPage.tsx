@@ -153,6 +153,12 @@ export default function ProductsPage() {
     );
   };
 
+  const toggleType = (type: string) => {
+    setSelectedTypes((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
+    );
+  };
+
   const clearFilters = () => {
     setSelectedBrands([]);
     setSelectedProductTypes([]);
