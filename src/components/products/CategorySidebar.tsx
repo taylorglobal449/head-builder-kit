@@ -74,13 +74,13 @@ function FilterSection({
   return (
     <div className="border-b border-border">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpen(!isOpen)}
         className="w-full flex items-center justify-between py-3 text-sm font-bold text-foreground uppercase tracking-wide"
       >
         {title}
-        {open ? <Minus className="w-4 h-4 opacity-50" /> : <Plus className="w-4 h-4 opacity-50" />}
+        {isOpen ? <Minus className="w-4 h-4 opacity-50" /> : <Plus className="w-4 h-4 opacity-50" />}
       </button>
-      {open && <div className="pb-3">{children}</div>}
+      {isOpen && <div className="pb-3">{children}</div>}
     </div>
   );
 }
