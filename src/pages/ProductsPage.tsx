@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { CategorySidebar } from "@/components/products/CategorySidebar";
 import { searchMockProducts, getMockPriceRange } from "@/lib/mockProducts";
-import { categoryTree, type CategoryNode } from "@/lib/categoryTaxonomy";
+import { categoryTree, type CategoryNode, getLevel3Types, getTrimmedTree } from "@/lib/categoryTaxonomy";
 import {
   Sheet,
   SheetContent,
