@@ -56,10 +56,10 @@ function CategoryTreeItem({ node, selectedId, onSelect, depth = 0 }: CategoryTre
   );
 }
 
-/* ───── Collapsible Filter Section (Acme-style) ───── */
+/* ───── Collapsible Filter Section ───── */
 function FilterSection({
   title,
-  defaultOpen = true,
+  defaultOpen = false,
   children,
 }: {
   title: string;
@@ -180,6 +180,9 @@ interface CategorySidebarProps {
   brands: string[];
   selectedBrands: string[];
   onToggleBrand: (brand: string) => void;
+  productTypes: string[];
+  selectedProductTypes: string[];
+  onToggleProductType: (type: string) => void;
   priceRange: [number, number] | null;
   minPrice: number;
   maxPrice: number;
@@ -197,6 +200,9 @@ export function CategorySidebar({
   brands,
   selectedBrands,
   onToggleBrand,
+  productTypes,
+  selectedProductTypes,
+  onToggleProductType,
   priceRange,
   minPrice,
   maxPrice,
@@ -242,6 +248,17 @@ export function CategorySidebar({
           searchPlaceholder="Search brands..."
         />
       </FilterSection>
+
+      {/* Product Type Filter */}
+      {productTypes.length > 0 && (
+        <FilterSection title="Product Type">
+          <CheckboxFilterList
+            items={productTypes}
+            selected={selectedProductTypes}
+            onToggle={onToggleProductType}
+          />
+        </FilterSection>
+      )}
 
       {/* Price Filter */}
       <FilterSection title="Price">
@@ -289,12 +306,12 @@ export function CategorySidebar({
         </label>
       </FilterSection>
 
-      {/* Clear Filters */}
+      {/* Clear Filters — text link */}
       {hasActiveFilters && (
         <div className="pt-3">
           <button
             onClick={onClearFilters}
-            className="w-full py-2 text-sm font-bold text-white bg-header-primary rounded hover:bg-header-primary/90 transition-colors"
+            className="text-sm font-semibold text-header-primary hover:underline"
           >
             Clear All Filters
           </button>

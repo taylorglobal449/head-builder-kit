@@ -5,9 +5,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { CategorySidebar } from "@/components/products/CategorySidebar";
-import { searchMockProducts, getMockBrands, getMockPriceRange } from "@/lib/mockProducts";
+import { searchMockProducts, getMockPriceRange } from "@/lib/mockProducts";
 import { categoryTree, type CategoryNode } from "@/lib/categoryTaxonomy";
-import { brandsDirectory } from "@/lib/allBrandsDirectory";
 import {
   Sheet,
   SheetContent,
@@ -21,30 +20,33 @@ type SortOption = "relevance" | "price-asc" | "price-desc" | "name-asc" | "name-
 export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
-  const categoryParam = searchParams.get("category") || "";
 
   const [selectedCategory, setSelectedCategory] = useState<CategoryNode | null>(null);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedProductTypes, setSelectedProductTypes] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number] | null>(null);
   const [showInStockOnly, setShowInStockOnly] = useState(false);
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [localQuery, setLocalQuery] = useState(query);
 
-  const brands = useMemo(() => {
-    const mockBrands = getMockBrands();
-    const directoryBrands = Object.values(brandsDirectory).flat().map(b => b.name);
-    const allBrands = new Set([...mockBrands, ...directoryBrands]);
-    return Array.from(allBrands).sort();
-  }, []);
   const { min: minPrice, max: maxPrice } = getMockPriceRange();
 
+  // Base products from search query
+  const baseProducts = useMemo(() => searchMockProducts(query), [query]);
+
+  // Filtered products with all filters applied
   const filteredProducts = useMemo(() => {
-    let products = searchMockProducts(query);
+    let products = [...baseProducts];
 
     // Filter by brand
     if (selectedBrands.length > 0) {
       products = products.filter((p) => selectedBrands.includes(p.node.vendor || ""));
+    }
+
+    // Filter by product type
+    if (selectedProductTypes.length > 0) {
+      products = products.filter((p) => selectedProductTypes.includes(p.node.productType || ""));
     }
 
     // Filter by price
@@ -88,7 +90,53 @@ export default function ProductsPage() {
     }
 
     return sorted;
-  }, [query, selectedBrands, priceRange, showInStockOnly, sortBy]);
+  }, [baseProducts, selectedBrands, selectedProductTypes, priceRange, showInStockOnly, sortBy]);
+
+  // Cross-filter: available brands based on products filtered by everything EXCEPT brand
+  const availableBrands = useMemo(() => {
+    let products = [...baseProducts];
+
+    if (selectedProductTypes.length > 0) {
+      products = products.filter((p) => selectedProductTypes.includes(p.node.productType || ""));
+    }
+    if (priceRange) {
+      products = products.filter((p) => {
+        const price = parseFloat(p.node.priceRange.minVariantPrice.amount);
+        return price >= priceRange[0] && price <= priceRange[1];
+      });
+    }
+    if (showInStockOnly) {
+      products = products.filter((p) =>
+        p.node.variants.edges.some((v) => v.node.availableForSale)
+      );
+    }
+
+    const brands = new Set(products.map((p) => p.node.vendor).filter(Boolean) as string[]);
+    return Array.from(brands).sort();
+  }, [baseProducts, selectedProductTypes, priceRange, showInStockOnly]);
+
+  // Cross-filter: available product types based on products filtered by everything EXCEPT product type
+  const availableProductTypes = useMemo(() => {
+    let products = [...baseProducts];
+
+    if (selectedBrands.length > 0) {
+      products = products.filter((p) => selectedBrands.includes(p.node.vendor || ""));
+    }
+    if (priceRange) {
+      products = products.filter((p) => {
+        const price = parseFloat(p.node.priceRange.minVariantPrice.amount);
+        return price >= priceRange[0] && price <= priceRange[1];
+      });
+    }
+    if (showInStockOnly) {
+      products = products.filter((p) =>
+        p.node.variants.edges.some((v) => v.node.availableForSale)
+      );
+    }
+
+    const types = new Set(products.map((p) => p.node.productType).filter(Boolean) as string[]);
+    return Array.from(types).sort();
+  }, [baseProducts, selectedBrands, priceRange, showInStockOnly]);
 
   const toggleBrand = (brand: string) => {
     setSelectedBrands((prev) =>
@@ -96,15 +144,26 @@ export default function ProductsPage() {
     );
   };
 
+  const toggleProductType = (type: string) => {
+    setSelectedProductTypes((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
+    );
+  };
+
   const clearFilters = () => {
     setSelectedBrands([]);
+    setSelectedProductTypes([]);
     setPriceRange(null);
     setShowInStockOnly(false);
     setSelectedCategory(null);
   };
 
   const hasActiveFilters =
-    selectedBrands.length > 0 || priceRange !== null || showInStockOnly || selectedCategory !== null;
+    selectedBrands.length > 0 ||
+    selectedProductTypes.length > 0 ||
+    priceRange !== null ||
+    showInStockOnly ||
+    selectedCategory !== null;
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,6 +179,26 @@ export default function ProductsPage() {
     : selectedCategory
     ? selectedCategory.name
     : "All Products";
+
+  const sidebarProps = {
+    categories: categoryTree,
+    selectedCategoryId: selectedCategory?.id ?? null,
+    onSelectCategory: setSelectedCategory,
+    brands: availableBrands,
+    selectedBrands,
+    onToggleBrand: toggleBrand,
+    productTypes: availableProductTypes,
+    selectedProductTypes,
+    onToggleProductType: toggleProductType,
+    priceRange,
+    minPrice,
+    maxPrice,
+    onPriceChange: setPriceRange,
+    showInStockOnly,
+    onToggleInStock: () => setShowInStockOnly(!showInStockOnly),
+    onClearFilters: clearFilters,
+    hasActiveFilters,
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -212,6 +291,16 @@ export default function ProductsPage() {
                 <X className="w-3 h-3" />
               </button>
             ))}
+            {selectedProductTypes.map((type) => (
+              <button
+                key={type}
+                onClick={() => toggleProductType(type)}
+                className="flex items-center gap-1 px-2.5 py-1 bg-header-primary/10 text-header-primary rounded-full text-xs font-medium"
+              >
+                {type}
+                <X className="w-3 h-3" />
+              </button>
+            ))}
             {priceRange && (
               <button
                 onClick={() => setPriceRange(null)}
@@ -243,22 +332,7 @@ export default function ProductsPage() {
           {/* Desktop Sidebar */}
           <aside className="hidden lg:block w-60 shrink-0">
             <div className="sticky top-4">
-              <CategorySidebar
-                categories={categoryTree}
-                selectedCategoryId={selectedCategory?.id ?? null}
-                onSelectCategory={setSelectedCategory}
-                brands={brands}
-                selectedBrands={selectedBrands}
-                onToggleBrand={toggleBrand}
-                priceRange={priceRange}
-                minPrice={minPrice}
-                maxPrice={maxPrice}
-                onPriceChange={setPriceRange}
-                showInStockOnly={showInStockOnly}
-                onToggleInStock={() => setShowInStockOnly(!showInStockOnly)}
-                onClearFilters={clearFilters}
-                hasActiveFilters={hasActiveFilters}
-              />
+              <CategorySidebar {...sidebarProps} />
             </div>
           </aside>
 
@@ -275,6 +349,7 @@ export default function ProductsPage() {
                     {hasActiveFilters && (
                       <span className="w-5 h-5 bg-header-primary text-white rounded-full text-xs flex items-center justify-center">
                         {selectedBrands.length +
+                          selectedProductTypes.length +
                           (priceRange ? 1 : 0) +
                           (showInStockOnly ? 1 : 0) +
                           (selectedCategory ? 1 : 0)}
@@ -291,23 +366,11 @@ export default function ProductsPage() {
                   </SheetHeader>
                   <div className="mt-4">
                     <CategorySidebar
-                      categories={categoryTree}
-                      selectedCategoryId={selectedCategory?.id ?? null}
+                      {...sidebarProps}
                       onSelectCategory={(cat) => {
                         setSelectedCategory(cat);
                         setMobileFiltersOpen(false);
                       }}
-                      brands={brands}
-                      selectedBrands={selectedBrands}
-                      onToggleBrand={toggleBrand}
-                      priceRange={priceRange}
-                      minPrice={minPrice}
-                      maxPrice={maxPrice}
-                      onPriceChange={setPriceRange}
-                      showInStockOnly={showInStockOnly}
-                      onToggleInStock={() => setShowInStockOnly(!showInStockOnly)}
-                      onClearFilters={clearFilters}
-                      hasActiveFilters={hasActiveFilters}
                     />
                   </div>
                 </SheetContent>
