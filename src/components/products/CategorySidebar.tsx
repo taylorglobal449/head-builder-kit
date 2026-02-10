@@ -183,6 +183,9 @@ interface CategorySidebarProps {
   productTypes: string[];
   selectedProductTypes: string[];
   onToggleProductType: (type: string) => void;
+  types: string[];
+  selectedTypes: string[];
+  onToggleType: (type: string) => void;
   priceRange: [number, number] | null;
   minPrice: number;
   maxPrice: number;
@@ -203,6 +206,9 @@ export function CategorySidebar({
   productTypes,
   selectedProductTypes,
   onToggleProductType,
+  types,
+  selectedTypes,
+  onToggleType,
   priceRange,
   minPrice,
   maxPrice,
