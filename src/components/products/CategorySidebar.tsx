@@ -258,20 +258,9 @@ export function CategorySidebar({
         />
       </FilterSection>
 
-      {/* Product Type Filter */}
-      {productTypes.length > 0 && (
-        <FilterSection title="Product Type">
-          <CheckboxFilterList
-            items={productTypes}
-            selected={selectedProductTypes}
-            onToggle={onToggleProductType}
-          />
-        </FilterSection>
-      )}
-
-      {/* Types Filter (Level 3 categories) */}
+      {/* Product Types (contextual Level 3 types) */}
       {types.length > 0 && (
-        <FilterSection title="Types">
+        <FilterSection title="Product Types" forceOpen={types.length > 0}>
           <CheckboxFilterList
             items={types}
             selected={selectedTypes}
