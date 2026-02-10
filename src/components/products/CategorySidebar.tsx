@@ -253,8 +253,8 @@ export function CategorySidebar({
       </FilterSection>
 
       {/* Product Types (contextual Level 3 types) */}
-      {types.length > 0 && (
-        <FilterSection title="Product Types" forceOpen={types.length > 0}>
+      <FilterSection title="Product Types" forceOpen={types.length > 0 || selectedTypes.length > 0}>
+        {types.length > 0 ? (
           <CheckboxFilterList
             items={types}
             selected={selectedTypes}
@@ -262,8 +262,10 @@ export function CategorySidebar({
             searchable
             searchPlaceholder="Search types..."
           />
-        </FilterSection>
-      )}
+        ) : (
+          <p className="text-xs text-muted-foreground py-1">Select a category to see types</p>
+        )}
+      </FilterSection>
 
       {/* Price Filter */}
       <FilterSection title="Price">
