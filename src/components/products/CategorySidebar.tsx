@@ -60,13 +60,16 @@ function CategoryTreeItem({ node, selectedId, onSelect, depth = 0 }: CategoryTre
 function FilterSection({
   title,
   defaultOpen = false,
+  forceOpen,
   children,
 }: {
   title: string;
   defaultOpen?: boolean;
+  forceOpen?: boolean;
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(defaultOpen);
+  const isOpen = forceOpen || open;
 
   return (
     <div className="border-b border-border">
