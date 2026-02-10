@@ -7,7 +7,6 @@ import { useCartSync } from "@/hooks/useCartSync";
 import Index from "./pages/Index";
 import ProductsPage from "./pages/ProductsPage";
 import ProductPage from "./pages/ProductPage";
-import SearchResultsPage from "./pages/SearchResultsPage";
 import QuotePage from "./pages/QuotePage";
 import ContactPage from "./pages/ContactPage";
 import EventsPage from "./pages/EventsPage";
