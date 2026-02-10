@@ -192,7 +192,7 @@ export default function ProductsPage() {
     : "All Products";
 
   const sidebarProps = {
-    categories: categoryTree,
+    categories: trimmedTree,
     selectedCategoryId: selectedCategory?.id ?? null,
     onSelectCategory: setSelectedCategory,
     brands: availableBrands,
@@ -201,6 +201,9 @@ export default function ProductsPage() {
     productTypes: availableProductTypes,
     selectedProductTypes,
     onToggleProductType: toggleProductType,
+    types: allLevel3Types,
+    selectedTypes,
+    onToggleType: toggleType,
     priceRange,
     minPrice,
     maxPrice,
