@@ -24,6 +24,7 @@ export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState<CategoryNode | null>(null);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedProductTypes, setSelectedProductTypes] = useState<string[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number] | null>(null);
   const [showInStockOnly, setShowInStockOnly] = useState(false);
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
