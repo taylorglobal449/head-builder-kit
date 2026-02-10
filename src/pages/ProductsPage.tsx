@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { CategorySidebar } from "@/components/products/CategorySidebar";
 import { searchMockProducts, getMockPriceRange } from "@/lib/mockProducts";
-import { categoryTree, type CategoryNode } from "@/lib/categoryTaxonomy";
+import { categoryTree, type CategoryNode, getLevel3Types, getTrimmedTree } from "@/lib/categoryTaxonomy";
 import {
   Sheet,
   SheetContent,
@@ -24,6 +24,7 @@ export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState<CategoryNode | null>(null);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedProductTypes, setSelectedProductTypes] = useState<string[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number] | null>(null);
   const [showInStockOnly, setShowInStockOnly] = useState(false);
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
@@ -31,6 +32,8 @@ export default function ProductsPage() {
   const [localQuery, setLocalQuery] = useState(query);
 
   const { min: minPrice, max: maxPrice } = getMockPriceRange();
+  const trimmedTree = useMemo(() => getTrimmedTree(categoryTree), []);
+  const allLevel3Types = useMemo(() => getLevel3Types(categoryTree), []);
 
   // Base products from search query
   const baseProducts = useMemo(() => searchMockProducts(query), [query]);
@@ -150,9 +153,16 @@ export default function ProductsPage() {
     );
   };
 
+  const toggleType = (type: string) => {
+    setSelectedTypes((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
+    );
+  };
+
   const clearFilters = () => {
     setSelectedBrands([]);
     setSelectedProductTypes([]);
+    setSelectedTypes([]);
     setPriceRange(null);
     setShowInStockOnly(false);
     setSelectedCategory(null);
@@ -161,6 +171,7 @@ export default function ProductsPage() {
   const hasActiveFilters =
     selectedBrands.length > 0 ||
     selectedProductTypes.length > 0 ||
+    selectedTypes.length > 0 ||
     priceRange !== null ||
     showInStockOnly ||
     selectedCategory !== null;
@@ -181,7 +192,7 @@ export default function ProductsPage() {
     : "All Products";
 
   const sidebarProps = {
-    categories: categoryTree,
+    categories: trimmedTree,
     selectedCategoryId: selectedCategory?.id ?? null,
     onSelectCategory: setSelectedCategory,
     brands: availableBrands,
@@ -190,6 +201,9 @@ export default function ProductsPage() {
     productTypes: availableProductTypes,
     selectedProductTypes,
     onToggleProductType: toggleProductType,
+    types: allLevel3Types,
+    selectedTypes,
+    onToggleType: toggleType,
     priceRange,
     minPrice,
     maxPrice,
@@ -301,6 +315,16 @@ export default function ProductsPage() {
                 <X className="w-3 h-3" />
               </button>
             ))}
+            {selectedTypes.map((type) => (
+              <button
+                key={type}
+                onClick={() => toggleType(type)}
+                className="flex items-center gap-1 px-2.5 py-1 bg-header-primary/10 text-header-primary rounded-full text-xs font-medium"
+              >
+                {type}
+                <X className="w-3 h-3" />
+              </button>
+            ))}
             {priceRange && (
               <button
                 onClick={() => setPriceRange(null)}
@@ -350,6 +374,7 @@ export default function ProductsPage() {
                       <span className="w-5 h-5 bg-header-primary text-white rounded-full text-xs flex items-center justify-center">
                         {selectedBrands.length +
                           selectedProductTypes.length +
+                          selectedTypes.length +
                           (priceRange ? 1 : 0) +
                           (showInStockOnly ? 1 : 0) +
                           (selectedCategory ? 1 : 0)}

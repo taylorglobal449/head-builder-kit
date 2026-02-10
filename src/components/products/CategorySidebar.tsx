@@ -183,6 +183,9 @@ interface CategorySidebarProps {
   productTypes: string[];
   selectedProductTypes: string[];
   onToggleProductType: (type: string) => void;
+  types: string[];
+  selectedTypes: string[];
+  onToggleType: (type: string) => void;
   priceRange: [number, number] | null;
   minPrice: number;
   maxPrice: number;
@@ -203,6 +206,9 @@ export function CategorySidebar({
   productTypes,
   selectedProductTypes,
   onToggleProductType,
+  types,
+  selectedTypes,
+  onToggleType,
   priceRange,
   minPrice,
   maxPrice,
@@ -256,6 +262,19 @@ export function CategorySidebar({
             items={productTypes}
             selected={selectedProductTypes}
             onToggle={onToggleProductType}
+          />
+        </FilterSection>
+      )}
+
+      {/* Types Filter (Level 3 categories) */}
+      {types.length > 0 && (
+        <FilterSection title="Types">
+          <CheckboxFilterList
+            items={types}
+            selected={selectedTypes}
+            onToggle={onToggleType}
+            searchable
+            searchPlaceholder="Search types..."
           />
         </FilterSection>
       )}
