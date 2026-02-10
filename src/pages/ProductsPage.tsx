@@ -162,6 +162,7 @@ export default function ProductsPage() {
   const clearFilters = () => {
     setSelectedBrands([]);
     setSelectedProductTypes([]);
+    setSelectedTypes([]);
     setPriceRange(null);
     setShowInStockOnly(false);
     setSelectedCategory(null);
