@@ -20,6 +20,7 @@ import BrandPage from "./pages/BrandPage";
 import CloseoutsPage from "./pages/CloseoutsPage";
 import HotDealsPage from "./pages/HotDealsPage";
 import NewProductsPage from "./pages/NewProductsPage";
+import FastenersPage from "./pages/FastenersPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
