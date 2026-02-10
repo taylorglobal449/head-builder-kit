@@ -171,6 +171,7 @@ export default function ProductsPage() {
   const hasActiveFilters =
     selectedBrands.length > 0 ||
     selectedProductTypes.length > 0 ||
+    selectedTypes.length > 0 ||
     priceRange !== null ||
     showInStockOnly ||
     selectedCategory !== null;
