@@ -145,12 +145,9 @@ const brandLogos: Record<string, string> = {
   "wilton": "https://cdn.shopify.com/s/files/1/0026/8976/1392/files/WiltonTools_Logo.jpg?v=1752062141",
 };
 
-// Transform fastenersinc.net CDN URLs to canonical Shopify CDN
+// Use URLs as-is - fastenersinc.net CDN links are still live
 function normalizeUrl(url: string): string {
-  return url.replace(
-    "www.fastenersinc.net/cdn/shop/files/",
-    "cdn.shopify.com/s/files/1/0026/8976/1392/files/"
-  );
+  return url;
 }
 
 function getExtension(url: string): string {
