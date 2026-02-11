@@ -7,15 +7,17 @@ interface Brand {
   href: string;
 }
 
+const S = "https://sqepmxyzbratccnlzwtk.supabase.co/storage/v1/object/public/brand-logos";
+
 const brands: Brand[] = [
-  { name: "DeWalt", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-01_533x.png?v=1702595442", href: "https://www.fastenersinc.net/pages/dewalt-tools-power-tools-accessories" },
-  { name: "Makita", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-02_533x.png?v=1702595443", href: "https://www.fastenersinc.net/pages/makita-tools-makita-power-tools-accessories" },
-  { name: "Klein Tools", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-03_533x.png?v=1702595441", href: "https://www.fastenersinc.net/pages/klein-tools" },
-  { name: "Milwaukee", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-04_533x.png?v=1702595442", href: "https://www.fastenersinc.net/pages/milwaukee-tools" },
-  { name: "Knipex", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-05_533x.png?v=1702595441", href: "https://www.fastenersinc.net/pages/knipex-tools-pliers" },
-  { name: "Occidental Leather", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-06_533x.png?v=1702595441", href: "https://www.fastenersinc.net/pages/occidental-leather-tool-belt-systems" },
-  { name: "Diablo", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-07_533x.png?v=1702595442", href: "https://www.fastenersinc.net/pages/search-results-page?collection=diablo" },
-  { name: "IronClad", logo: "https://www.fastenersinc.net/cdn/shop/files/BRAND_CATEOGORY_LINK_COVERS-08_533x.png?v=1702595442", href: "https://www.fastenersinc.net/pages/ironclad-performance-wear-ironclad-gloves-for-professionals" },
+  { name: "DeWalt", logo: `${S}/dewalt-cover.png`, href: "https://www.fastenersinc.net/pages/dewalt-tools-power-tools-accessories" },
+  { name: "Makita", logo: `${S}/makita-cover.png`, href: "https://www.fastenersinc.net/pages/makita-tools-makita-power-tools-accessories" },
+  { name: "Klein Tools", logo: `${S}/klein-cover.png`, href: "https://www.fastenersinc.net/pages/klein-tools" },
+  { name: "Milwaukee", logo: `${S}/milwaukee-cover.png`, href: "https://www.fastenersinc.net/pages/milwaukee-tools" },
+  { name: "Knipex", logo: `${S}/knipex-cover.png`, href: "https://www.fastenersinc.net/pages/knipex-tools-pliers" },
+  { name: "Occidental Leather", logo: `${S}/occidental-cover.png`, href: "https://www.fastenersinc.net/pages/occidental-leather-tool-belt-systems" },
+  { name: "Diablo", logo: `${S}/diablo-cover.png`, href: "https://www.fastenersinc.net/pages/search-results-page?collection=diablo" },
+  { name: "IronClad", logo: `${S}/ironclad-cover.png`, href: "https://www.fastenersinc.net/pages/ironclad-performance-wear-ironclad-gloves-for-professionals" },
 ];
 
 export function BrandsSection() {

@@ -1,1 +1,4 @@
 project_id = "sqepmxyzbratccnlzwtk"
+
+[functions.import-brand-logos]
+verify_jwt = false
