@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Search, User, Menu, X, FlameKindling, DollarSign, Sparkles, ShoppingBag, Tag, Truck, Wrench } from "lucide-react";
 import { CartDrawer } from "@/components/cart/CartDrawer";
-import { SearchModal } from "@/components/search/SearchModal";
+import { SearchDropdown } from "@/components/search/SearchDropdown";
 
 // Image map for subcategory thumbnails
 const subcategoryImages: Record<string, string> = {
@@ -194,6 +194,9 @@ export function Header() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [activeCategoryDropdown, setActiveCategoryDropdown] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const mobileSearchInputRef = useRef<HTMLInputElement>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <header className="w-full font-sans">
@@ -266,18 +269,24 @@ export function Header() {
 
           {/* Search Bar - Centered, Longer - Opens Modal */}
           <div className="flex-1 max-w-[800px] mx-auto hidden sm:block relative">
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="w-full border-2 border-header-border rounded px-4 py-2.5 text-sm text-left text-muted-foreground hover:border-header-primary transition-colors pr-12 bg-white"
-            >
-              Search products, brands, categories...
-            </button>
+            <input
+              ref={searchInputRef}
+              type="text"
+              placeholder="Search products, brands, categories..."
+              className="w-full border-2 border-header-border rounded px-4 py-2.5 text-sm text-foreground hover:border-header-primary focus:border-header-primary focus:outline-none transition-colors pr-12 bg-white"
+              onFocus={() => setSearchOpen(true)}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
             <button 
-              onClick={() => setSearchOpen(true)}
+              onClick={() => {
+                searchInputRef.current?.focus();
+                setSearchOpen(true);
+              }}
               className="absolute right-0 top-0 h-full w-12 bg-header-primary text-white rounded-r flex items-center justify-center hover:bg-header-primary-hover transition-colors"
             >
               <Search className="w-5 h-5" />
             </button>
+            <SearchDropdown open={searchOpen} onOpenChange={setSearchOpen} inputRef={searchInputRef} query={searchQuery} onQueryChange={(v) => { setSearchQuery(v); if (searchInputRef.current) searchInputRef.current.value = v; }} />
           </div>
 
           {/* Account & Cart */}
@@ -291,18 +300,23 @@ export function Header() {
         </div>
 
         {/* Mobile Search */}
-        <div className="sm:hidden px-4 mt-3">
+        <div className="sm:hidden px-4 mt-3 relative">
+          <input
+            ref={mobileSearchInputRef}
+            type="text"
+            placeholder="Search products..."
+            className="w-full border-2 border-header-border rounded px-4 py-2.5 text-sm text-foreground hover:border-header-primary focus:border-header-primary focus:outline-none transition-colors pr-12 bg-white"
+            onFocus={() => setSearchOpen(true)}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
           <button
-            onClick={() => setSearchOpen(true)}
-            className="w-full border-2 border-header-border rounded px-4 py-2.5 text-sm text-left text-muted-foreground hover:border-header-primary transition-colors bg-white flex items-center justify-between"
+            onClick={() => { mobileSearchInputRef.current?.focus(); setSearchOpen(true); }}
+            className="absolute right-4 top-0 h-full w-12 flex items-center justify-center"
           >
-            <span>Search products...</span>
             <Search className="w-5 h-5 text-header-primary" />
           </button>
+          <SearchDropdown open={searchOpen} onOpenChange={setSearchOpen} inputRef={mobileSearchInputRef} query={searchQuery} onQueryChange={(v) => { setSearchQuery(v); if (mobileSearchInputRef.current) mobileSearchInputRef.current.value = v; }} />
         </div>
-        
-        {/* Search Modal */}
-        <SearchModal open={searchOpen} onOpenChange={setSearchOpen} />
       </div>
 
       {/* Navigation Bar - Single Line, Seamless White */}
