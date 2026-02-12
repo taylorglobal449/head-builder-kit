@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import type { ShopifyProduct } from "@/lib/shopify/types";
+import { isMappPriced } from "@/lib/shopify/mapp";
 import { useCartStore } from "@/stores/cartStore";
 
 interface ProductCardProps {
@@ -100,13 +101,21 @@ export function ProductCard({ product }: ProductCardProps) {
         
         {/* Price - pushed to bottom */}
         <div className="mt-auto pt-3 flex items-baseline gap-2">
-          <span className="text-lg font-bold text-header-primary">
-            ${parseFloat(price.amount).toFixed(2)}
-          </span>
-          {hasDiscount && (
-            <span className="text-sm text-muted-foreground line-through">
-              ${parseFloat(compareAtPrice!.amount).toFixed(2)}
+          {isMappPriced(product) ? (
+            <span className="text-sm font-semibold text-header-primary">
+              See Price in Cart
             </span>
+          ) : (
+            <>
+              <span className="text-lg font-bold text-header-primary">
+                ${parseFloat(price.amount).toFixed(2)}
+              </span>
+              {hasDiscount && (
+                <span className="text-sm text-muted-foreground line-through">
+                  ${parseFloat(compareAtPrice!.amount).toFixed(2)}
+                </span>
+              )}
+            </>
           )}
         </div>
         

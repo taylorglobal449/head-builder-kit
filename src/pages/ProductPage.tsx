@@ -6,6 +6,7 @@ import { useMockProduct, useMockProducts } from "@/hooks/useMockProducts";
 import { useCartStore } from "@/stores/cartStore";
 import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 import { Button } from "@/components/ui/button";
+import { isMappPriced } from "@/lib/shopify/mapp";
 import { Loader2, ShoppingCart, ChevronLeft, Minus, Plus, Truck, Shield, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { RecentlyViewed } from "@/components/product/RecentlyViewed";
@@ -174,26 +175,34 @@ export default function ProductPage() {
             </h1>
 
             {/* Price */}
-            <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-bold text-header-primary">
-                ${currentPricing ? currentPricing.priceEach.toFixed(2) : parseFloat(selectedVariant?.price.amount || '0').toFixed(2)}
-              </span>
-              {currentPricing && currentPricing.discount > 0 && (
-                <span className="text-sm font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded">
-                  {currentPricing.discount}% OFF
+            {isMappPriced({ node: product }) ? (
+              <div className="flex items-baseline gap-3">
+                <span className="text-xl font-semibold text-header-primary">
+                  See Price in Cart
                 </span>
-              )}
-              {!currentPricing && selectedVariant?.compareAtPrice && parseFloat(selectedVariant.compareAtPrice.amount) > parseFloat(selectedVariant.price.amount) && (
-                <>
-                  <span className="text-lg text-muted-foreground line-through">
-                    ${parseFloat(selectedVariant.compareAtPrice.amount).toFixed(2)}
-                  </span>
+              </div>
+            ) : (
+              <div className="flex items-baseline gap-3">
+                <span className="text-3xl font-bold text-header-primary">
+                  ${currentPricing ? currentPricing.priceEach.toFixed(2) : parseFloat(selectedVariant?.price.amount || '0').toFixed(2)}
+                </span>
+                {currentPricing && currentPricing.discount > 0 && (
                   <span className="text-sm font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded">
-                    Save ${(parseFloat(selectedVariant.compareAtPrice.amount) - parseFloat(selectedVariant.price.amount)).toFixed(2)}
+                    {currentPricing.discount}% OFF
                   </span>
-                </>
-              )}
-            </div>
+                )}
+                {!currentPricing && selectedVariant?.compareAtPrice && parseFloat(selectedVariant.compareAtPrice.amount) > parseFloat(selectedVariant.price.amount) && (
+                  <>
+                    <span className="text-lg text-muted-foreground line-through">
+                      ${parseFloat(selectedVariant.compareAtPrice.amount).toFixed(2)}
+                    </span>
+                    <span className="text-sm font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded">
+                      Save ${(parseFloat(selectedVariant.compareAtPrice.amount) - parseFloat(selectedVariant.price.amount)).toFixed(2)}
+                    </span>
+                  </>
+                )}
+              </div>
+            )}
 
             {/* Quantity Price Breaks */}
             {hasQuantityDiscounts && extras?.quantityDiscounts && (
