@@ -4,6 +4,7 @@ import { Search, X, ArrowRight, Clock, TrendingUp, Loader2 } from "lucide-react"
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { fetchProducts } from "@/lib/shopify/api";
 import type { ShopifyProduct } from "@/lib/shopify/types";
+import { isMappPriced } from "@/lib/shopify/mapp";
 
 interface SearchModalProps {
   open: boolean;
@@ -206,7 +207,7 @@ export function SearchModal({ open, onOpenChange }: SearchModalProps) {
                       {product.node.title}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      {product.node.vendor} • ${parseFloat(product.node.priceRange.minVariantPrice.amount).toFixed(2)}
+                      {product.node.vendor}{isMappPriced(product) ? ' • See Price in Cart' : ` • $${parseFloat(product.node.priceRange.minVariantPrice.amount).toFixed(2)}`}
                     </p>
                   </div>
                   
