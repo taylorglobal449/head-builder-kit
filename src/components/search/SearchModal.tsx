@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Search, X, ArrowRight, Clock, TrendingUp } from "lucide-react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { Search, X, ArrowRight, Clock, TrendingUp, Loader2 } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { searchMockProducts, MOCK_PRODUCTS } from "@/lib/mockProducts";
+import { fetchProducts } from "@/lib/shopify/api";
 import type { ShopifyProduct } from "@/lib/shopify/types";
 
 interface SearchModalProps {
@@ -23,9 +23,11 @@ const RECENT_SEARCHES_KEY = "recent-searches";
 export function SearchModal({ open, onOpenChange }: SearchModalProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ShopifyProduct[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
   const navigate = useNavigate();
 
   // Load recent searches from localStorage
@@ -45,19 +47,52 @@ export function SearchModal({ open, onOpenChange }: SearchModalProps) {
       setQuery("");
       setResults([]);
       setSelectedIndex(-1);
+      setIsSearching(false);
     }
   }, [open]);
 
-  // Search as user types (Searchanise-style instant search)
+  // Debounced search against Shopify Storefront API
+  const searchProducts = useCallback(async (searchQuery: string) => {
+    if (searchQuery.trim().length < 2) {
+      setResults([]);
+      setIsSearching(false);
+      return;
+    }
+    
+    setIsSearching(true);
+    try {
+      const response = await fetchProducts(8, searchQuery);
+      if (response?.data?.products?.edges) {
+        setResults(response.data.products.edges);
+      } else {
+        setResults([]);
+      }
+    } catch (error) {
+      console.error("Search error:", error);
+      setResults([]);
+    } finally {
+      setIsSearching(false);
+    }
+  }, []);
+
   useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    
     if (query.trim().length >= 2) {
-      const searchResults = searchMockProducts(query);
-      setResults(searchResults.slice(0, 8)); // Show max 8 results in dropdown
+      setIsSearching(true);
+      debounceRef.current = setTimeout(() => {
+        searchProducts(query);
+      }, 300);
     } else {
       setResults([]);
+      setIsSearching(false);
     }
     setSelectedIndex(-1);
-  }, [query]);
+
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, [query, searchProducts]);
 
   const saveRecentSearch = (searchTerm: string) => {
     const updated = [searchTerm, ...recentSearches.filter(s => s !== searchTerm)].slice(0, 5);
@@ -122,6 +157,9 @@ export function SearchModal({ open, onOpenChange }: SearchModalProps) {
             placeholder="Search products, brands, categories..."
             className="flex-1 h-14 px-4 bg-transparent outline-none text-base"
           />
+          {isSearching && (
+            <Loader2 className="w-4 h-4 text-muted-foreground animate-spin mr-2" />
+          )}
           {query && (
             <button
               onClick={() => setQuery("")}
@@ -188,7 +226,7 @@ export function SearchModal({ open, onOpenChange }: SearchModalProps) {
           )}
 
           {/* No Results */}
-          {query.trim().length >= 2 && results.length === 0 && (
+          {query.trim().length >= 2 && results.length === 0 && !isSearching && (
             <div className="p-8 text-center">
               <p className="text-muted-foreground">No products found for "{query}"</p>
               <p className="text-sm text-muted-foreground mt-1">Try different keywords or check spelling</p>
@@ -247,38 +285,6 @@ export function SearchModal({ open, onOpenChange }: SearchModalProps) {
                       className="px-3 py-1.5 bg-muted hover:bg-accent rounded-full text-sm transition-colors"
                     >
                       {term}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Featured Products */}
-              <div>
-                <div className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3">
-                  Featured Products
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  {MOCK_PRODUCTS.slice(0, 4).map((product) => (
-                    <button
-                      key={product.node.id}
-                      onClick={() => handleProductClick(product.node.handle)}
-                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted text-left transition-colors"
-                    >
-                      <div className="w-10 h-10 bg-muted rounded overflow-hidden shrink-0">
-                        {product.node.images.edges[0]?.node?.url && (
-                          <img
-                            src={product.node.images.edges[0].node.url}
-                            alt={product.node.title}
-                            className="w-full h-full object-cover"
-                          />
-                        )}
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium truncate">{product.node.title}</p>
-                        <p className="text-xs text-header-primary font-bold">
-                          ${parseFloat(product.node.priceRange.minVariantPrice.amount).toFixed(2)}
-                        </p>
-                      </div>
                     </button>
                   ))}
                 </div>
