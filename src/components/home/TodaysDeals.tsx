@@ -75,45 +75,50 @@ export function TodaysDeals() {
         </div>
       </div>
       
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        {deals.map((deal, index) => (
-          <Link
-            key={index}
-            to={deal.linkUrl}
-            className="group relative overflow-hidden rounded-lg bg-zinc-900 flex flex-col"
-          >
-            {/* Brand Badge */}
-            <div className={`${deal.brandColor} px-3 py-1.5 text-white text-xs font-bold uppercase tracking-wide m-3 rounded self-start`}>
-              {deal.brand}
-            </div>
-            
-            {/* Image - Square */}
-            <div className="aspect-square mx-3 overflow-hidden rounded">
-              <img 
-                src={deal.imageUrl}
-                alt={deal.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            
-            {/* Content */}
-            <div className="p-4 pt-3">
-              <h3 className="text-white font-black text-sm leading-tight mb-1">
-                {deal.title}
-              </h3>
-              <p className="text-white/80 text-xs leading-tight">
-                {deal.description}
-              </p>
-            </div>
-            
-            {/* Hover Arrow */}
-            <div className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </Link>
-        ))}
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        {deals.map((deal, index) => {
+          const isLarge = index < 2;
+          return (
+            <Link
+              key={index}
+              to={deal.linkUrl}
+              className={`group relative overflow-hidden rounded-lg bg-zinc-900 flex flex-col ${
+                isLarge ? "col-span-2 md:col-span-2 lg:col-span-2 row-span-1" : "col-span-1"
+              }`}
+            >
+              {/* Brand Badge */}
+              <div className={`${deal.brandColor} px-3 py-1.5 text-white text-xs font-bold uppercase tracking-wide m-3 rounded self-start`}>
+                {deal.brand}
+              </div>
+              
+              {/* Image */}
+              <div className={`${isLarge ? "aspect-[16/10]" : "aspect-square"} mx-3 overflow-hidden rounded`}>
+                <img 
+                  src={deal.imageUrl}
+                  alt={deal.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              
+              {/* Content */}
+              <div className="p-4 pt-3">
+                <h3 className={`text-white font-black leading-tight mb-1 ${isLarge ? "text-lg" : "text-sm"}`}>
+                  {deal.title}
+                </h3>
+                <p className={`text-white/80 leading-tight ${isLarge ? "text-sm" : "text-xs"}`}>
+                  {deal.description}
+                </p>
+              </div>
+              
+              {/* Hover Arrow */}
+              <div className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );
