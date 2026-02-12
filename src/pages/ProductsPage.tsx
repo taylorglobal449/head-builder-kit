@@ -5,7 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { CategorySidebar } from "@/components/products/CategorySidebar";
-import { searchMockProducts, getMockPriceRange } from "@/lib/mockProducts";
+import { useProducts } from "@/hooks/useProducts";
 import { categoryTree, type CategoryNode, getLevel3Types, getTrimmedTree } from "@/lib/categoryTaxonomy";
 import {
   Sheet,
@@ -31,7 +31,18 @@ export default function ProductsPage() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [localQuery, setLocalQuery] = useState(query);
 
-  const { min: minPrice, max: maxPrice } = getMockPriceRange();
+  // Fetch products from real Shopify API
+  const { products: shopifyProducts, loading } = useProducts(50, query || undefined);
+
+  // Derive price range from actual products
+  const { minPrice, maxPrice } = useMemo(() => {
+    if (shopifyProducts.length === 0) return { minPrice: 0, maxPrice: 1000 };
+    const prices = shopifyProducts.map(p => parseFloat(p.node.priceRange.minVariantPrice.amount));
+    return { 
+      minPrice: Math.floor(Math.min(...prices)), 
+      maxPrice: Math.ceil(Math.max(...prices)) 
+    };
+  }, [shopifyProducts]);
   const trimmedTree = useMemo(() => getTrimmedTree(categoryTree), []);
   const allLevel3Types = useMemo(() => getLevel3Types(categoryTree), []);
 
@@ -52,8 +63,8 @@ export default function ProductsPage() {
     return fullNode.children.map((c) => c.name).sort();
   }, [selectedCategory]);
 
-  // Base products from search query
-  const baseProducts = useMemo(() => searchMockProducts(query), [query]);
+  // Base products from Shopify API
+  const baseProducts = shopifyProducts;
 
   // Filtered products with all filters applied
   const filteredProducts = useMemo(() => {
@@ -435,7 +446,7 @@ export default function ProductsPage() {
             {/* Product Grid */}
             <ProductGrid
               products={filteredProducts}
-              loading={false}
+              loading={loading}
               emptyMessage={
                 query
                   ? `No products found for "${query}". Try different keywords or clear filters.`
