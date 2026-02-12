@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { ShopifyProduct } from '@/lib/shopify/types';
 
 const STORAGE_KEY = 'recently-viewed-products';
@@ -18,16 +18,14 @@ export function useRecentlyViewed() {
     }
   }, []);
 
-  const addToRecentlyViewed = (product: ShopifyProduct) => {
+  const addToRecentlyViewed = useCallback((product: ShopifyProduct) => {
     setRecentlyViewed((prev) => {
-      // Remove if already exists
       const filtered = prev.filter((p) => p.node.id !== product.node.id);
-      // Add to front
       const updated = [product, ...filtered].slice(0, MAX_ITEMS);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
       return updated;
     });
-  };
+  }, []);
 
   return { recentlyViewed, addToRecentlyViewed };
 }
