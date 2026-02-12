@@ -78,6 +78,7 @@ export const PRODUCTS_QUERY = `
               node {
                 id
                 title
+                sku
                 price {
                   amount
                   currencyCode
@@ -141,9 +142,10 @@ export const PRODUCT_BY_HANDLE_QUERY = `
       variants(first: 50) {
         edges {
           node {
-            id
-            title
-            price {
+                id
+                title
+                sku
+                price {
               amount
               currencyCode
             }
