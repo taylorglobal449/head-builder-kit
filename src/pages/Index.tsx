@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
@@ -8,12 +9,64 @@ import { CategoryMegaGrid } from "@/components/home/CategoryMegaGrid";
 import { BrandsSection } from "@/components/home/BrandsSection";
 import { InteractiveMap } from "@/components/home/InteractiveMap";
 import { useMockProducts } from "@/hooks/useMockProducts";
+import { SEO } from "@/components/SEO";
 
 const Index = () => {
   const { products, loading } = useMockProducts(8);
 
+  const jsonLd = useMemo(() => [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Fasteners Inc Tool Outlet",
+      "url": "https://head-builder-kit.lovable.app",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://head-builder-kit.lovable.app/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "HardwareStore",
+      "name": "Fasteners Inc Tool Outlet",
+      "url": "https://head-builder-kit.lovable.app",
+      "logo": "https://www.fastenersinc.net/cdn/shop/files/1_d3bda63f-6526-4c24-ae79-92c71c0e4433_200x@2x.png?v=1662998949",
+      "description": "Your trusted source for power tools, hand tools, fasteners & accessories from top brands.",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Sacramento",
+        "addressRegion": "CA",
+        "addressCountry": "US"
+      },
+      "sameAs": [
+        "https://www.facebook.com/sacfasteners/",
+        "https://www.instagram.com/sacfasteners/"
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Product Categories",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Power Tools", "url": "https://head-builder-kit.lovable.app/products?category=Power+Tools" },
+        { "@type": "ListItem", "position": 2, "name": "Hand Tools", "url": "https://head-builder-kit.lovable.app/products?category=Hand+Tools" },
+        { "@type": "ListItem", "position": 3, "name": "Fasteners", "url": "https://head-builder-kit.lovable.app/products?category=Fasteners" },
+        { "@type": "ListItem", "position": 4, "name": "Tool Accessories", "url": "https://head-builder-kit.lovable.app/products?category=Tool+Accessories" },
+        { "@type": "ListItem", "position": 5, "name": "Safety & Workwear", "url": "https://head-builder-kit.lovable.app/products?category=Safety+%26+Workwear" }
+      ]
+    }
+  ], []);
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Power Tools, Hand Tools & Fasteners"
+        description="Shop power tools, hand tools, fasteners & accessories from DeWalt, Milwaukee, Makita & more. Free shipping over $149. Contractor bulk discounts available."
+        canonical="https://head-builder-kit.lovable.app/"
+        jsonLd={jsonLd}
+      />
       <Header />
       
       <main className="max-w-[1600px] mx-auto px-4 py-4">

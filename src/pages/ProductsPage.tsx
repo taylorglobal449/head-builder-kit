@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Filter, SlidersHorizontal, X } from "lucide-react";
 import { Header } from "@/components/Header";
@@ -7,6 +7,7 @@ import { ProductGrid } from "@/components/products/ProductGrid";
 import { CategorySidebar } from "@/components/products/CategorySidebar";
 import { useProducts } from "@/hooks/useProducts";
 import { categoryTree, type CategoryNode, getTrimmedTree } from "@/lib/categoryTaxonomy";
+import { SEO } from "@/components/SEO";
 import {
   Sheet,
   SheetContent,
@@ -257,8 +258,18 @@ export default function ProductsPage() {
     hasActiveFilters,
   };
 
+  const seoTitle = query
+    ? `Search Results for "${query}"`
+    : selectedCategory
+    ? selectedCategory.name
+    : "Shop All Products";
+  const seoDesc = query
+    ? `Find ${query} at Fasteners Inc. Power tools, hand tools, fasteners & more from top brands.`
+    : "Browse our full catalog of power tools, hand tools, fasteners & accessories. Free shipping over $149.";
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO title={seoTitle} description={seoDesc} />
       <Header />
 
       <main className="max-w-[1600px] mx-auto px-4 py-6">
