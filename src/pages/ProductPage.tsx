@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -11,6 +11,7 @@ import { Loader2, ShoppingCart, ChevronLeft, Minus, Plus, Truck, Shield, RotateC
 import { toast } from "sonner";
 import { RecentlyViewed } from "@/components/product/RecentlyViewed";
 import { BoughtWith } from "@/components/product/BoughtWith";
+import { SEO } from "@/components/SEO";
 
 
 export default function ProductPage() {
@@ -25,6 +26,28 @@ export default function ProductPage() {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
 
+  const selectedVariantForSeo = product?.variants.edges[selectedVariantIndex]?.node;
+  const productJsonLd = useMemo(() => {
+    if (!product) return null;
+    const imgs = product.images.edges;
+    return {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": product.title,
+      "description": product.description,
+      "image": imgs.map(img => img.node.url),
+      "brand": { "@type": "Brand", "name": product.vendor },
+      "sku": selectedVariantForSeo?.sku || product.handle,
+      "url": `https://head-builder-kit.lovable.app/product/${product.handle}`,
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": product.priceRange.minVariantPrice.amount,
+        "availability": "https://schema.org/InStock",
+        "seller": { "@type": "Organization", "name": "Fasteners Inc Tool Outlet" }
+      }
+    };
+  }, [product, selectedVariantForSeo]);
 
   // Track recently viewed
   useEffect(() => {
@@ -65,7 +88,7 @@ export default function ProductPage() {
   const selectedVariant = product.variants.edges[selectedVariantIndex]?.node;
   const images = product.images.edges;
   const hasMultipleVariants = product.variants.edges.length > 1 && product.variants.edges[0].node.title !== 'Default Title';
-  
+
 
   const handleAddToCart = async () => {
     if (!selectedVariant) {
@@ -87,6 +110,12 @@ export default function ProductPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={product.title}
+        description={product.description?.slice(0, 155) || `Shop ${product.title} by ${product.vendor} at Fasteners Inc Tool Outlet.`}
+        canonical={`https://head-builder-kit.lovable.app/product/${product.handle}`}
+        jsonLd={productJsonLd}
+      />
       <Header />
       
       <main className="max-w-[1600px] mx-auto px-4 py-8">
