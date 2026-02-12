@@ -92,12 +92,14 @@ function CheckboxFilterList({
   items,
   selected,
   onToggle,
+  counts,
   searchable = false,
   searchPlaceholder = "Search...",
 }: {
   items: string[];
   selected: string[];
   onToggle: (item: string) => void;
+  counts?: Map<string, number>;
   searchable?: boolean;
   searchPlaceholder?: string;
 }) {
@@ -143,20 +145,26 @@ function CheckboxFilterList({
           showAll && sorted.length > 12 ? "max-h-64" : ""
         }`}
       >
-        {visible.map((item) => (
-          <label
-            key={item}
-            className="flex items-center gap-2 cursor-pointer text-[13px] text-foreground/80 hover:text-foreground py-[3px] px-1 rounded hover:bg-muted/50"
-          >
-            <input
-              type="checkbox"
-              checked={selected.includes(item)}
-              onChange={() => onToggle(item)}
-              className="rounded border-border text-header-primary focus:ring-header-primary w-3.5 h-3.5 accent-header-primary shrink-0"
-            />
-            <span className="truncate">{item}</span>
-          </label>
-        ))}
+        {visible.map((item) => {
+          const count = counts?.get(item);
+          return (
+            <label
+              key={item}
+              className="flex items-center gap-2 cursor-pointer text-[13px] text-foreground/80 hover:text-foreground py-[3px] px-1 rounded hover:bg-muted/50"
+            >
+              <input
+                type="checkbox"
+                checked={selected.includes(item)}
+                onChange={() => onToggle(item)}
+                className="rounded border-border text-header-primary focus:ring-header-primary w-3.5 h-3.5 accent-header-primary shrink-0"
+              />
+              <span className="truncate">{item}</span>
+              {count !== undefined && (
+                <span className="ml-auto text-[11px] text-muted-foreground shrink-0">({count})</span>
+              )}
+            </label>
+          );
+        })}
       </div>
 
       {hasMore && !searchTerm && (
@@ -181,9 +189,11 @@ interface CategorySidebarProps {
   selectedCategoryId: string | null;
   onSelectCategory: (node: CategoryNode | null) => void;
   brands: string[];
+  brandCounts?: Map<string, number>;
   selectedBrands: string[];
   onToggleBrand: (brand: string) => void;
   types: string[];
+  typeCounts?: Map<string, number>;
   selectedTypes: string[];
   onToggleType: (type: string) => void;
   priceRange: [number, number] | null;
@@ -201,9 +211,11 @@ export function CategorySidebar({
   selectedCategoryId,
   onSelectCategory,
   brands,
+  brandCounts,
   selectedBrands,
   onToggleBrand,
   types,
+  typeCounts,
   selectedTypes,
   onToggleType,
   priceRange,
@@ -247,23 +259,25 @@ export function CategorySidebar({
           items={brands}
           selected={selectedBrands}
           onToggle={onToggleBrand}
+          counts={brandCounts}
           searchable
           searchPlaceholder="Search brands..."
         />
       </FilterSection>
 
-      {/* Product Types (contextual Level 3 types) */}
+      {/* Product Types */}
       <FilterSection title="Product Types" forceOpen={types.length > 0 || selectedTypes.length > 0}>
         {types.length > 0 ? (
           <CheckboxFilterList
             items={types}
             selected={selectedTypes}
             onToggle={onToggleType}
+            counts={typeCounts}
             searchable
             searchPlaceholder="Search types..."
           />
         ) : (
-          <p className="text-xs text-muted-foreground py-1">Select a category to see types</p>
+          <p className="text-xs text-muted-foreground py-1">No product types available</p>
         )}
       </FilterSection>
 

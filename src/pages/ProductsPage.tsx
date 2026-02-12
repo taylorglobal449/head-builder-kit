@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { CategorySidebar } from "@/components/products/CategorySidebar";
 import { useProducts } from "@/hooks/useProducts";
-import { categoryTree, type CategoryNode, getLevel3Types, getTrimmedTree } from "@/lib/categoryTaxonomy";
+import { categoryTree, type CategoryNode, getTrimmedTree } from "@/lib/categoryTaxonomy";
 import {
   Sheet,
   SheetContent,
@@ -24,7 +24,7 @@ export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState<CategoryNode | null>(null);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedProductTypes, setSelectedProductTypes] = useState<string[]>([]);
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]); // legacy, kept for active filter chips
   const [priceRange, setPriceRange] = useState<[number, number] | null>(null);
   const [showInStockOnly, setShowInStockOnly] = useState(false);
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
@@ -44,31 +44,37 @@ export default function ProductsPage() {
     };
   }, [shopifyProducts]);
   const trimmedTree = useMemo(() => getTrimmedTree(categoryTree), []);
-  const allLevel3Types = useMemo(() => getLevel3Types(categoryTree), []);
 
-  // Contextual types: if a category is selected, show its children from the full tree
-  const contextualTypes = useMemo(() => {
-    if (!selectedCategory) return [];
-    // Find the node in the full (untrimmed) tree
-    const findNode = (nodes: CategoryNode[], id: string): CategoryNode | null => {
-      for (const n of nodes) {
-        if (n.id === id) return n;
-        const found = findNode(n.children, id);
-        if (found) return found;
-      }
-      return null;
-    };
-    const fullNode = findNode(categoryTree, selectedCategory.id);
-    if (!fullNode || fullNode.children.length === 0) return [];
-    return fullNode.children.map((c) => c.name).sort();
-  }, [selectedCategory]);
+  // Helper: check if a product matches a category by productType, tags, title
+  const productMatchesCategory = (p: typeof shopifyProducts[0], catName: string) => {
+    const lower = catName.toLowerCase();
+    const productType = (p.node.productType || "").toLowerCase();
+    const tags = (p.node.tags || []).map((t: string) => t.toLowerCase());
+    const title = p.node.title.toLowerCase();
+    return productType.includes(lower) || tags.some((t: string) => t.includes(lower)) || title.includes(lower);
+  };
 
   // Base products from Shopify API
   const baseProducts = shopifyProducts;
 
+  // Derive actual product types from Shopify data with counts
+  const shopifyProductTypes = useMemo(() => {
+    const typeCount = new Map<string, number>();
+    baseProducts.forEach(p => {
+      const pt = p.node.productType;
+      if (pt) typeCount.set(pt, (typeCount.get(pt) || 0) + 1);
+    });
+    return typeCount;
+  }, [baseProducts]);
+
   // Filtered products with all filters applied
   const filteredProducts = useMemo(() => {
     let products = [...baseProducts];
+
+    // Filter by category (match against productType, tags, title)
+    if (selectedCategory) {
+      products = products.filter((p) => productMatchesCategory(p, selectedCategory.name));
+    }
 
     // Filter by brand
     if (selectedBrands.length > 0) {
@@ -121,12 +127,15 @@ export default function ProductsPage() {
     }
 
     return sorted;
-  }, [baseProducts, selectedBrands, selectedProductTypes, priceRange, showInStockOnly, sortBy]);
+  }, [baseProducts, selectedCategory, selectedBrands, selectedProductTypes, priceRange, showInStockOnly, sortBy]);
 
-  // Cross-filter: available brands based on products filtered by everything EXCEPT brand
-  const availableBrands = useMemo(() => {
+  // Cross-filter: available brands with counts based on products filtered by everything EXCEPT brand
+  const brandCounts = useMemo(() => {
     let products = [...baseProducts];
 
+    if (selectedCategory) {
+      products = products.filter((p) => productMatchesCategory(p, selectedCategory.name));
+    }
     if (selectedProductTypes.length > 0) {
       products = products.filter((p) => selectedProductTypes.includes(p.node.productType || ""));
     }
@@ -142,14 +151,23 @@ export default function ProductsPage() {
       );
     }
 
-    const brands = new Set(products.map((p) => p.node.vendor).filter(Boolean) as string[]);
-    return Array.from(brands).sort();
-  }, [baseProducts, selectedProductTypes, priceRange, showInStockOnly]);
+    const counts = new Map<string, number>();
+    products.forEach((p) => {
+      const vendor = p.node.vendor;
+      if (vendor) counts.set(vendor, (counts.get(vendor) || 0) + 1);
+    });
+    return counts;
+  }, [baseProducts, selectedCategory, selectedProductTypes, priceRange, showInStockOnly]);
 
-  // Cross-filter: available product types based on products filtered by everything EXCEPT product type
-  const availableProductTypes = useMemo(() => {
+  const availableBrands = useMemo(() => Array.from(brandCounts.keys()).sort(), [brandCounts]);
+
+  // Cross-filter: available product types with counts based on products filtered by everything EXCEPT product type
+  const productTypeCounts = useMemo(() => {
     let products = [...baseProducts];
 
+    if (selectedCategory) {
+      products = products.filter((p) => productMatchesCategory(p, selectedCategory.name));
+    }
     if (selectedBrands.length > 0) {
       products = products.filter((p) => selectedBrands.includes(p.node.vendor || ""));
     }
@@ -165,9 +183,15 @@ export default function ProductsPage() {
       );
     }
 
-    const types = new Set(products.map((p) => p.node.productType).filter(Boolean) as string[]);
-    return Array.from(types).sort();
-  }, [baseProducts, selectedBrands, priceRange, showInStockOnly]);
+    const counts = new Map<string, number>();
+    products.forEach((p) => {
+      const pt = p.node.productType;
+      if (pt) counts.set(pt, (counts.get(pt) || 0) + 1);
+    });
+    return counts;
+  }, [baseProducts, selectedCategory, selectedBrands, priceRange, showInStockOnly]);
+
+  const availableProductTypes = useMemo(() => Array.from(productTypeCounts.keys()).sort(), [productTypeCounts]);
 
   const toggleBrand = (brand: string) => {
     setSelectedBrands((prev) =>
@@ -224,11 +248,13 @@ export default function ProductsPage() {
     selectedCategoryId: selectedCategory?.id ?? null,
     onSelectCategory: setSelectedCategory,
     brands: availableBrands,
+    brandCounts,
     selectedBrands,
     onToggleBrand: toggleBrand,
-    types: contextualTypes,
-    selectedTypes,
-    onToggleType: toggleType,
+    types: availableProductTypes,
+    typeCounts: productTypeCounts,
+    selectedTypes: selectedProductTypes,
+    onToggleType: toggleProductType,
     priceRange,
     minPrice,
     maxPrice,
