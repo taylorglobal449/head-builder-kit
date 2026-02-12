@@ -4,7 +4,7 @@ import { Filter, SlidersHorizontal, X, ChevronDown } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ProductGrid } from "@/components/products/ProductGrid";
-import { searchMockProducts, getMockBrands, getMockPriceRange } from "@/lib/mockProducts";
+import { useProducts } from "@/hooks/useProducts";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import {
@@ -31,50 +31,66 @@ export default function SearchResultsPage() {
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  const brands = getMockBrands();
-  const { min: minPrice, max: maxPrice } = getMockPriceRange();
+  // Fetch from real Shopify API — grab up to 50 results for the search query
+  const { products, loading } = useProducts(50, query || undefined);
 
-  // Search and filter products
+  // Extract brands from results
+  const brands = useMemo(() => {
+    const brandSet = new Set<string>();
+    products.forEach(p => {
+      if (p.node.vendor) brandSet.add(p.node.vendor);
+    });
+    return Array.from(brandSet).sort();
+  }, [products]);
+
+  // Extract price range from results
+  const { minPrice, maxPrice } = useMemo(() => {
+    if (products.length === 0) return { minPrice: 0, maxPrice: 1000 };
+    const prices = products.map(p => parseFloat(p.node.priceRange.minVariantPrice.amount));
+    return { 
+      minPrice: Math.floor(Math.min(...prices)), 
+      maxPrice: Math.ceil(Math.max(...prices)) 
+    };
+  }, [products]);
+
+  // Filter and sort products client-side
   const filteredProducts = useMemo(() => {
-    let products = searchMockProducts(query);
+    let filtered = [...products];
 
-    // Filter by brand
     if (selectedBrands.length > 0) {
-      products = products.filter(p => selectedBrands.includes(p.node.vendor || ""));
+      filtered = filtered.filter(p => selectedBrands.includes(p.node.vendor || ""));
     }
 
-    // Filter by price
     if (priceRange) {
-      products = products.filter(p => {
+      filtered = filtered.filter(p => {
         const price = parseFloat(p.node.priceRange.minVariantPrice.amount);
         return price >= priceRange[0] && price <= priceRange[1];
       });
     }
 
-    // Sort
     switch (sortBy) {
       case "price-asc":
-        products.sort((a, b) => 
+        filtered.sort((a, b) => 
           parseFloat(a.node.priceRange.minVariantPrice.amount) - 
           parseFloat(b.node.priceRange.minVariantPrice.amount)
         );
         break;
       case "price-desc":
-        products.sort((a, b) => 
+        filtered.sort((a, b) => 
           parseFloat(b.node.priceRange.minVariantPrice.amount) - 
           parseFloat(a.node.priceRange.minVariantPrice.amount)
         );
         break;
       case "name-asc":
-        products.sort((a, b) => a.node.title.localeCompare(b.node.title));
+        filtered.sort((a, b) => a.node.title.localeCompare(b.node.title));
         break;
       case "name-desc":
-        products.sort((a, b) => b.node.title.localeCompare(a.node.title));
+        filtered.sort((a, b) => b.node.title.localeCompare(a.node.title));
         break;
     }
 
-    return products;
-  }, [query, selectedBrands, priceRange, sortBy]);
+    return filtered;
+  }, [products, selectedBrands, priceRange, sortBy]);
 
   const toggleBrand = (brand: string) => {
     setSelectedBrands(prev => 
@@ -170,7 +186,7 @@ export default function SearchResultsPage() {
             {query ? `Search Results for "${query}"` : "All Products"}
           </h1>
           <p className="text-muted-foreground mt-1">
-            {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""} found
+            {loading ? "Searching..." : `${filteredProducts.length} product${filteredProducts.length !== 1 ? "s" : ""} found`}
           </p>
         </div>
 
@@ -268,8 +284,11 @@ export default function SearchResultsPage() {
             {/* Product Grid */}
             <ProductGrid 
               products={filteredProducts} 
-              loading={false}
-              emptyMessage={`No products found for "${query}". Try different keywords or clear filters.`}
+              loading={loading}
+              emptyMessage={query 
+                ? `No products found for "${query}". Try different keywords or clear filters.`
+                : "No products found. Try a different search."
+              }
             />
           </div>
         </div>
