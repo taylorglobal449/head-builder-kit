@@ -134,7 +134,7 @@ export default function ProductPage() {
           {/* Images */}
           <div className="space-y-4">
             {/* Main Image - Square */}
-            <div className="aspect-square bg-muted rounded-lg overflow-hidden">
+            <div className="aspect-square bg-muted rounded-lg overflow-hidden border-4 border-red-500">
               {images[selectedImage]?.node ? (
                 <img 
                   src={images[selectedImage].node.url}
