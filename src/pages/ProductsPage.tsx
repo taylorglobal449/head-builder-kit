@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Filter, SlidersHorizontal, X, Search } from "lucide-react";
+import { Filter, SlidersHorizontal, X } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ProductGrid } from "@/components/products/ProductGrid";
@@ -29,7 +29,7 @@ export default function ProductsPage() {
   const [showInStockOnly, setShowInStockOnly] = useState(false);
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [localQuery, setLocalQuery] = useState(query);
+  
 
   // Fetch products from real Shopify API
   const { products: shopifyProducts, loading } = useProducts(50, query || undefined);
@@ -228,14 +228,6 @@ export default function ProductsPage() {
     showInStockOnly ||
     selectedCategory !== null;
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (localQuery.trim()) {
-      setSearchParams({ q: localQuery.trim() });
-    } else {
-      setSearchParams({});
-    }
-  };
 
   const pageTitle = query
     ? `Results for "${query}"`
@@ -302,106 +294,141 @@ export default function ProductsPage() {
         </nav>
 
         {/* Header row */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
-          <div>
+        <div className="mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4">
             <h1 className="text-xl md:text-2xl font-black text-foreground uppercase tracking-wide">
               {pageTitle}
             </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
-              {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""}
-            </p>
+            <span className="text-sm text-muted-foreground">
+              {filteredProducts.length} Result{filteredProducts.length !== 1 ? "s" : ""}
+            </span>
           </div>
-
-          {/* Search bar in header */}
-          <form onSubmit={handleSearch} className="flex gap-2 w-full sm:w-auto sm:max-w-xs">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <input
-                type="text"
-                value={localQuery}
-                onChange={(e) => setLocalQuery(e.target.value)}
-                placeholder="Search products..."
-                className="w-full pl-9 pr-3 py-2 text-sm border border-border rounded-md bg-card focus:outline-none focus:ring-2 focus:ring-header-primary/40"
-              />
-            </div>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-header-primary text-white text-sm font-bold rounded-md hover:bg-header-primary/90 transition-colors"
-            >
-              Search
-            </button>
-          </form>
         </div>
 
-        {/* Active Filters Pills */}
-        {hasActiveFilters && (
-          <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className="text-xs text-muted-foreground font-semibold uppercase">Filters:</span>
-            {selectedCategory && (
-              <button
-                onClick={() => setSelectedCategory(null)}
-                className="flex items-center gap-1 px-2.5 py-1 bg-header-primary/10 text-header-primary rounded-full text-xs font-medium"
-              >
-                {selectedCategory.name}
-                <X className="w-3 h-3" />
+        {/* Filter Bar — Acme-style inline row */}
+        <div className="flex flex-wrap items-center gap-3 mb-5 pb-3 border-b border-border">
+          {/* Mobile Filter Button */}
+          <Sheet open={mobileFiltersOpen} onOpenChange={setMobileFiltersOpen}>
+            <SheetTrigger asChild>
+              <button className="lg:hidden flex items-center gap-2 text-sm font-black uppercase tracking-wide text-foreground">
+                <SlidersHorizontal className="w-4 h-4" />
+                Filter
+                {hasActiveFilters && (
+                  <span className="w-5 h-5 bg-header-primary text-primary-foreground rounded-full text-xs flex items-center justify-center">
+                    {selectedBrands.length +
+                      selectedProductTypes.length +
+                      selectedTypes.length +
+                      (priceRange ? 1 : 0) +
+                      (showInStockOnly ? 1 : 0) +
+                      (selectedCategory ? 1 : 0)}
+                  </span>
+                )}
               </button>
-            )}
-            {selectedBrands.map((brand) => (
-              <button
-                key={brand}
-                onClick={() => toggleBrand(brand)}
-                className="flex items-center gap-1 px-2.5 py-1 bg-header-primary/10 text-header-primary rounded-full text-xs font-medium"
-              >
-                {brand}
-                <X className="w-3 h-3" />
-              </button>
-            ))}
-            {selectedProductTypes.map((type) => (
-              <button
-                key={type}
-                onClick={() => toggleProductType(type)}
-                className="flex items-center gap-1 px-2.5 py-1 bg-header-primary/10 text-header-primary rounded-full text-xs font-medium"
-              >
-                {type}
-                <X className="w-3 h-3" />
-              </button>
-            ))}
-            {selectedTypes.map((type) => (
-              <button
-                key={type}
-                onClick={() => toggleType(type)}
-                className="flex items-center gap-1 px-2.5 py-1 bg-header-primary/10 text-header-primary rounded-full text-xs font-medium"
-              >
-                {type}
-                <X className="w-3 h-3" />
-              </button>
-            ))}
-            {priceRange && (
-              <button
-                onClick={() => setPriceRange(null)}
-                className="flex items-center gap-1 px-2.5 py-1 bg-header-primary/10 text-header-primary rounded-full text-xs font-medium"
-              >
-                ${priceRange[0]} – ${priceRange[1]}
-                <X className="w-3 h-3" />
-              </button>
-            )}
-            {showInStockOnly && (
-              <button
-                onClick={() => setShowInStockOnly(false)}
-                className="flex items-center gap-1 px-2.5 py-1 bg-header-primary/10 text-header-primary rounded-full text-xs font-medium"
-              >
-                In Stock
-                <X className="w-3 h-3" />
-              </button>
-            )}
+            </SheetTrigger>
+            <SheetContent side="left" className="w-80 overflow-y-auto">
+              <SheetHeader>
+                <SheetTitle className="flex items-center gap-2">
+                  <Filter className="w-5 h-5" />
+                  Filters
+                </SheetTitle>
+              </SheetHeader>
+              <div className="mt-4">
+                <CategorySidebar
+                  {...sidebarProps}
+                  onSelectCategory={(cat) => {
+                    setSelectedCategory(cat);
+                    setMobileFiltersOpen(false);
+                  }}
+                />
+              </div>
+            </SheetContent>
+          </Sheet>
+
+          {/* Desktop FILTER label */}
+          <span className="hidden lg:flex items-center gap-2 text-sm font-black uppercase tracking-wide text-foreground">
+            <SlidersHorizontal className="w-4 h-4" />
+            Filter
+          </span>
+
+          {/* Divider */}
+          {hasActiveFilters && (
+            <div className="hidden sm:block w-px h-5 bg-border" />
+          )}
+
+          {/* Active Filter Pills */}
+          {selectedCategory && (
+            <button
+              onClick={() => setSelectedCategory(null)}
+              className="flex items-center gap-1.5 px-3 py-1 border border-border rounded text-xs font-medium text-foreground hover:bg-muted"
+            >
+              {selectedCategory.name}
+              <X className="w-3 h-3" />
+            </button>
+          )}
+          {selectedBrands.map((brand) => (
+            <button
+              key={brand}
+              onClick={() => toggleBrand(brand)}
+              className="flex items-center gap-1.5 px-3 py-1 border border-border rounded text-xs font-medium text-foreground hover:bg-muted"
+            >
+              Brand: <span className="font-bold">{brand}</span>
+              <X className="w-3 h-3" />
+            </button>
+          ))}
+          {selectedProductTypes.map((type) => (
+            <button
+              key={type}
+              onClick={() => toggleProductType(type)}
+              className="flex items-center gap-1.5 px-3 py-1 border border-border rounded text-xs font-medium text-foreground hover:bg-muted"
+            >
+              {type}
+              <X className="w-3 h-3" />
+            </button>
+          ))}
+          {priceRange && (
+            <button
+              onClick={() => setPriceRange(null)}
+              className="flex items-center gap-1.5 px-3 py-1 border border-border rounded text-xs font-medium text-foreground hover:bg-muted"
+            >
+              ${priceRange[0]} – ${priceRange[1]}
+              <X className="w-3 h-3" />
+            </button>
+          )}
+          {showInStockOnly && (
+            <button
+              onClick={() => setShowInStockOnly(false)}
+              className="flex items-center gap-1.5 px-3 py-1 border border-border rounded text-xs font-medium text-foreground hover:bg-muted"
+            >
+              In Stock
+              <X className="w-3 h-3" />
+            </button>
+          )}
+
+          {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="text-xs text-muted-foreground hover:text-foreground underline ml-1"
+              className="text-xs font-semibold text-header-primary hover:underline"
             >
               Clear all
             </button>
+          )}
+
+          {/* Sort — pushed to right */}
+          <div className="flex items-center gap-2 sm:ml-auto">
+            <span className="text-xs text-muted-foreground hidden sm:inline">Sort by:</span>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SortOption)}
+              className="px-3 py-1.5 border border-border rounded text-sm bg-background font-medium focus:outline-none focus:ring-2 focus:ring-header-primary/40"
+            >
+              <option value="relevance">Top Sellers</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="name-asc">Name: A to Z</option>
+              <option value="name-desc">Name: Z to A</option>
+            </select>
           </div>
-        )}
+        </div>
 
         <div className="flex gap-6">
           {/* Desktop Sidebar */}
@@ -413,62 +440,6 @@ export default function ProductsPage() {
 
           {/* Main Content */}
           <div className="flex-1 min-w-0">
-            {/* Sort & Mobile Filter Bar */}
-            <div className="flex items-center justify-between mb-4 pb-3 border-b border-border">
-              {/* Mobile Filter Button */}
-              <Sheet open={mobileFiltersOpen} onOpenChange={setMobileFiltersOpen}>
-                <SheetTrigger asChild>
-                  <button className="lg:hidden flex items-center gap-2 px-3 py-2 border border-border rounded-md text-sm font-medium hover:bg-muted">
-                    <SlidersHorizontal className="w-4 h-4" />
-                    Filters
-                    {hasActiveFilters && (
-                      <span className="w-5 h-5 bg-header-primary text-white rounded-full text-xs flex items-center justify-center">
-                        {selectedBrands.length +
-                          selectedProductTypes.length +
-                          selectedTypes.length +
-                          (priceRange ? 1 : 0) +
-                          (showInStockOnly ? 1 : 0) +
-                          (selectedCategory ? 1 : 0)}
-                      </span>
-                    )}
-                  </button>
-                </SheetTrigger>
-                <SheetContent side="left" className="w-80 overflow-y-auto">
-                  <SheetHeader>
-                    <SheetTitle className="flex items-center gap-2">
-                      <Filter className="w-5 h-5" />
-                      Filters
-                    </SheetTitle>
-                  </SheetHeader>
-                  <div className="mt-4">
-                    <CategorySidebar
-                      {...sidebarProps}
-                      onSelectCategory={(cat) => {
-                        setSelectedCategory(cat);
-                        setMobileFiltersOpen(false);
-                      }}
-                    />
-                  </div>
-                </SheetContent>
-              </Sheet>
-
-              {/* Sort Dropdown */}
-              <div className="flex items-center gap-2 ml-auto">
-                <span className="text-xs text-muted-foreground hidden sm:inline">Sort by:</span>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as SortOption)}
-                  className="px-3 py-1.5 border border-border rounded-md text-sm bg-background focus:outline-none focus:ring-2 focus:ring-header-primary/40"
-                >
-                  <option value="relevance">Relevance</option>
-                  <option value="price-asc">Price: Low to High</option>
-                  <option value="price-desc">Price: High to Low</option>
-                  <option value="name-asc">Name: A to Z</option>
-                  <option value="name-desc">Name: Z to A</option>
-                </select>
-              </div>
-            </div>
-
             {/* Product Grid */}
             <ProductGrid
               products={filteredProducts}

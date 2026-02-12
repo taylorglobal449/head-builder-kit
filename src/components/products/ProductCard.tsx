@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Check, Truck } from "lucide-react";
 import { toast } from "sonner";
 import type { ShopifyProduct } from "@/lib/shopify/types";
 import { isMappPriced } from "@/lib/shopify/mapp";
@@ -7,6 +7,29 @@ import { useCartStore } from "@/stores/cartStore";
 
 interface ProductCardProps {
   product: ShopifyProduct;
+}
+
+function getDealBadge(tags: string[] | undefined): { label: string; color: string } | null {
+  if (!tags) return null;
+  const lower = tags.map(t => t.toLowerCase());
+  if (lower.some(t => t.includes('hot deal') || t.includes('hot-deal'))) {
+    return { label: 'HOT DEAL', color: 'bg-destructive text-destructive-foreground' };
+  }
+  if (lower.some(t => t.includes('price drop') || t.includes('price-drop'))) {
+    return { label: 'PRICE DROP', color: 'bg-header-primary text-primary-foreground' };
+  }
+  if (lower.some(t => t.includes('new') || t.includes('new-arrival'))) {
+    return { label: 'NEW', color: 'bg-green-600 text-white' };
+  }
+  if (lower.some(t => t.includes('closeout'))) {
+    return { label: 'CLOSEOUT', color: 'bg-orange-600 text-white' };
+  }
+  return null;
+}
+
+function hasFreeShipping(tags: string[] | undefined): boolean {
+  if (!tags) return false;
+  return tags.some(t => t.toLowerCase().includes('free shipping') || t.toLowerCase().includes('free-shipping'));
 }
 
 export function ProductCard({ product }: ProductCardProps) {
@@ -24,6 +47,11 @@ export function ProductCard({ product }: ProductCardProps) {
   const firstVariant = node.variants.edges[0]?.node;
   const imageUrl = node.images.edges[0]?.node?.url;
   const imageAlt = node.images.edges[0]?.node?.altText || node.title;
+  const isInStock = node.variants.edges.some(v => v.node.availableForSale);
+  const sku = firstVariant?.sku;
+  const dealBadge = getDealBadge(node.tags);
+  const freeShipping = hasFreeShipping(node.tags);
+  const mapp = isMappPriced(product);
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -49,15 +77,22 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link 
       to={`/product/${node.handle}`}
-      className="group bg-card rounded-lg border border-border overflow-hidden hover:shadow-lg transition-shadow flex flex-col"
+      className="group bg-card rounded border border-border overflow-hidden hover:shadow-lg transition-shadow flex flex-col relative"
     >
+      {/* Deal Badge */}
+      {dealBadge && (
+        <div className={`absolute top-2 left-2 z-10 ${dealBadge.color} px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider`}>
+          {dealBadge.label}
+        </div>
+      )}
+
       {/* Image */}
-      <div className="relative aspect-square bg-muted overflow-hidden">
+      <div className="relative aspect-square bg-white overflow-hidden p-4">
         {imageUrl ? (
           <img 
             src={imageUrl}
             alt={imageAlt}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-muted-foreground">
@@ -66,65 +101,77 @@ export function ProductCard({ product }: ProductCardProps) {
             </svg>
           </div>
         )}
-        
-        {/* Discount Badge */}
-        {hasDiscount && (
-          <div className="absolute top-2 left-2 bg-header-primary text-primary-foreground px-2 py-1 rounded text-xs font-bold">
-            {discountPercent}% OFF
-          </div>
-        )}
-        
-        {/* Quick Add Button */}
-        <button
-          onClick={handleAddToCart}
-          disabled={isLoading || !firstVariant?.availableForSale}
-          className="absolute bottom-2 right-2 w-10 h-10 bg-header-primary text-primary-foreground rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-header-primary-hover disabled:opacity-50 disabled:cursor-not-allowed"
-          aria-label="Add to cart"
-        >
-          <ShoppingCart className="w-5 h-5" />
-        </button>
       </div>
       
       {/* Content */}
-      <div className="p-4 flex flex-col flex-1">
-        {/* Vendor */}
-        {node.vendor && (
-          <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-            {node.vendor}
-          </span>
-        )}
-        
-        {/* Title - always 2 lines */}
-        <h3 className="font-medium text-card-foreground group-hover:text-header-primary transition-colors line-clamp-2 min-h-[2.5rem] leading-5">
+      <div className="p-3 flex flex-col flex-1 border-t border-border">
+        {/* Title */}
+        <h3 className="font-bold text-sm text-card-foreground group-hover:text-header-primary transition-colors line-clamp-2 min-h-[2.5rem] leading-5">
           {node.title}
         </h3>
         
+        {/* SKU */}
+        {sku && (
+          <p className="text-[11px] text-muted-foreground mt-1">
+            SKU# {sku}
+          </p>
+        )}
+
+        {/* Stock Status */}
+        <div className="mt-1.5 flex items-center gap-1">
+          {isInStock ? (
+            <>
+              <Check className="w-3.5 h-3.5 text-green-600 shrink-0" />
+              <span className="text-xs font-medium text-green-600">In Stock</span>
+            </>
+          ) : (
+            <span className="text-xs font-medium text-destructive">Out of Stock</span>
+          )}
+        </div>
+
+        {/* Free Shipping */}
+        {freeShipping && (
+          <div className="mt-1 flex items-center gap-1">
+            <Truck className="w-3.5 h-3.5 text-header-primary shrink-0" />
+            <span className="text-[11px] font-medium text-header-primary">Free Shipping</span>
+          </div>
+        )}
+
         {/* Price - pushed to bottom */}
-        <div className="mt-auto pt-3 flex items-baseline gap-2">
-          {isMappPriced(product) ? (
-            <span className="text-sm font-semibold text-header-primary">
+        <div className="mt-auto pt-3">
+          {mapp ? (
+            <span className="text-sm font-bold text-header-primary">
               See Price in Cart
             </span>
           ) : (
-            <>
-              <span className="text-lg font-bold text-header-primary">
-                ${parseFloat(price.amount).toFixed(2)}
+            <div className="flex flex-col">
+              <span className="text-xl font-black text-foreground">
+                ${parseFloat(price.amount).toFixed(2).replace(/\.(\d{2})$/, '.$1')}
               </span>
               {hasDiscount && (
-                <span className="text-sm text-muted-foreground line-through">
-                  ${parseFloat(compareAtPrice!.amount).toFixed(2)}
-                </span>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <span className="text-xs text-muted-foreground">
+                    Was: <span className="line-through">${parseFloat(compareAtPrice!.amount).toFixed(2)}</span>
+                  </span>
+                  <span className="text-xs font-bold text-destructive">
+                    Save {discountPercent}%
+                  </span>
+                </div>
               )}
-            </>
+            </div>
           )}
         </div>
-        
-        {/* Availability */}
-        {firstVariant && !firstVariant.availableForSale && (
-          <span className="mt-1 text-xs text-destructive font-medium">
-            Out of Stock
-          </span>
-        )}
+
+        {/* Add to Cart Button */}
+        <button
+          onClick={handleAddToCart}
+          disabled={isLoading || !isInStock}
+          className="mt-3 w-full flex items-center justify-center gap-2 py-2 px-3 bg-header-primary text-primary-foreground text-xs font-bold uppercase tracking-wider rounded hover:bg-header-primary-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Add to cart"
+        >
+          <ShoppingCart className="w-4 h-4" />
+          Add to Cart
+        </button>
       </div>
     </Link>
   );
