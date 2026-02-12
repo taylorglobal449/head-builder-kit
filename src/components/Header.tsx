@@ -268,7 +268,7 @@ export function Header() {
           </a>
 
           {/* Search Bar - Centered, Longer - Opens Modal */}
-          <div className="flex-1 max-w-[800px] mx-auto hidden sm:block relative">
+          <div className="flex-1 max-w-[800px] mx-auto hidden sm:block relative z-[60]">
             <input
               ref={searchInputRef}
               type="text"
@@ -279,8 +279,13 @@ export function Header() {
             />
             <button 
               onClick={() => {
-                searchInputRef.current?.focus();
-                setSearchOpen(true);
+                if (searchQuery.trim()) {
+                  setSearchOpen(false);
+                  window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+                } else {
+                  setSearchOpen(false);
+                  window.location.href = '/search';
+                }
               }}
               className="absolute right-0 top-0 h-full w-12 bg-header-primary text-white rounded-r flex items-center justify-center hover:bg-header-primary-hover transition-colors"
             >
@@ -300,7 +305,7 @@ export function Header() {
         </div>
 
         {/* Mobile Search */}
-        <div className="sm:hidden px-4 mt-3 relative">
+        <div className="sm:hidden px-4 mt-3 relative z-[60]">
           <input
             ref={mobileSearchInputRef}
             type="text"
