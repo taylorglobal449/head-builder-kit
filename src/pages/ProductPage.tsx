@@ -56,22 +56,39 @@ export default function ProductPage() {
     return mock?.extras?.templateType === 'quantity' ? mock.extras : null;
   }, [handle]);
 
-  const isQtyTemplate = !!mockExtras?.quantityDiscounts;
+  // Resolve quantity discounts for the selected variant (per-size pricing)
+  const activeDiscounts = useMemo(() => {
+    if (!mockExtras) return null;
+    // Per-variant discounts take priority
+    if (mockExtras.variantQuantityDiscounts) {
+      const selectedSize = product?.variants.edges[selectedVariantIndex]?.node.selectedOptions
+        ?.find(opt => opt.name === 'Size')?.value;
+      if (selectedSize && mockExtras.variantQuantityDiscounts[selectedSize]) {
+        return mockExtras.variantQuantityDiscounts[selectedSize];
+      }
+      // Fallback to first variant's discounts
+      const keys = Object.keys(mockExtras.variantQuantityDiscounts);
+      return keys.length > 0 ? mockExtras.variantQuantityDiscounts[keys[0]] : null;
+    }
+    return mockExtras.quantityDiscounts || null;
+  }, [mockExtras, selectedVariantIndex, product]);
+
+  const isQtyTemplate = !!activeDiscounts;
 
   // Get current tier price based on quantity
   const currentTier = useMemo(() => {
-    if (!mockExtras?.quantityDiscounts) return null;
-    return mockExtras.quantityDiscounts.find(
+    if (!activeDiscounts) return null;
+    return activeDiscounts.find(
       d => quantity >= d.minQty && (d.maxQty === null || quantity <= d.maxQty)
-    ) || mockExtras.quantityDiscounts[0];
-  }, [quantity, mockExtras]);
+    ) || activeDiscounts[0];
+  }, [quantity, activeDiscounts]);
 
   const qtySubtotal = currentTier ? (currentTier.priceEach * quantity) : 0;
-  const baseSubtotal = mockExtras?.quantityDiscounts?.[0] 
-    ? mockExtras.quantityDiscounts[0].priceEach * quantity 
+  const baseSubtotal = activeDiscounts?.[0] 
+    ? activeDiscounts[0].priceEach * quantity 
     : 0;
   const qtySavings = baseSubtotal - qtySubtotal;
-  const basePrice = mockExtras?.quantityDiscounts?.[0]?.priceEach || 0;
+  const basePrice = activeDiscounts?.[0]?.priceEach || 0;
 
   // Track recently viewed
   useEffect(() => {
@@ -392,7 +409,7 @@ export default function ProductPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {mockExtras.quantityDiscounts!.map((tier) => {
+                    {activeDiscounts!.map((tier) => {
                       const isActive = currentTier?.label === tier.label;
                       return (
                         <tr
