@@ -47,7 +47,8 @@ export function SearchDropdown({ open, onOpenChange, inputRef, query, onQueryCha
     }
   }, [open]);
 
-  // Click outside to close
+  // Click outside to close — use "click" instead of "mousedown" so dropdown
+  // button onClick handlers fire first before the outside-click closes the panel.
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
@@ -58,8 +59,8 @@ export function SearchDropdown({ open, onOpenChange, inputRef, query, onQueryCha
         onOpenChange(false);
       }
     };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
   }, [open, onOpenChange, inputRef]);
 
 
