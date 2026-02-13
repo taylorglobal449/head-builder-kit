@@ -197,14 +197,36 @@ export default function ProductPage() {
           {/* Product Info */}
           <div className="space-y-6">
             {/* Vendor & Title */}
-            {product.vendor && (
-              <span className="text-sm text-muted-foreground uppercase tracking-wide">
-                {product.vendor}
-              </span>
-            )}
             <h1 className="text-2xl lg:text-3xl font-bold text-foreground">
               {product.title}
             </h1>
+
+            {/* Vendor | Type | SKU row */}
+            <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
+              {product.vendor && (
+                <>
+                  <span>Vendor:</span>
+                  <Link to={`/search?q=${encodeURIComponent(product.vendor)}`} className="font-medium text-header-primary hover:underline">
+                    {product.vendor}
+                  </Link>
+                </>
+              )}
+              {product.productType && (
+                <>
+                  <span className="text-border">|</span>
+                  <span>Type:</span>
+                  <Link to={`/search?q=${encodeURIComponent(product.productType)}`} className="font-medium text-header-primary hover:underline">
+                    {product.productType}
+                  </Link>
+                </>
+              )}
+              {(mockExtras?.sku || selectedVariant?.sku) && (
+                <>
+                  <span className="text-border">|</span>
+                  <span>SKU: <span className="font-medium text-foreground">{mockExtras?.sku || selectedVariant?.sku}</span></span>
+                </>
+              )}
+            </div>
 
             {/* Price */}
             {isQtyTemplate && currentTier ? (
@@ -220,9 +242,6 @@ export default function ProductPage() {
                     </span>
                   )}
                 </div>
-                {mockExtras?.sku && (
-                  <p className="text-xs text-muted-foreground">SKU# {mockExtras.sku}</p>
-                )}
               </div>
             ) : isMappPriced({ node: product }) ? (
               <div className="flex items-baseline gap-3">
