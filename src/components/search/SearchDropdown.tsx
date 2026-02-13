@@ -199,7 +199,7 @@ export function SearchDropdown({ open, onOpenChange, inputRef, query, onQueryCha
   return (
     <div
       ref={dropdownRef}
-      className="absolute top-full left-0 right-0 mt-1 bg-popover border border-border rounded-lg shadow-2xl z-50 overflow-hidden"
+      className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-[min(1400px,95vw)] bg-popover border border-border rounded-lg shadow-2xl z-50 overflow-hidden"
     >
       {/* Loading */}
       {isSearching && !hasResults && (
