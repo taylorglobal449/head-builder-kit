@@ -7,11 +7,12 @@ import { useCartStore } from "@/stores/cartStore";
 import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 import { Button } from "@/components/ui/button";
 import { isMappPriced } from "@/lib/shopify/mapp";
-import { Loader2, ShoppingCart, ChevronLeft, Minus, Plus, Truck, Shield, RotateCcw } from "lucide-react";
+import { Loader2, ShoppingCart, ChevronLeft, Minus, Plus, Truck, Shield, RotateCcw, Check, Package } from "lucide-react";
 import { toast } from "sonner";
 import { RecentlyViewed } from "@/components/product/RecentlyViewed";
 import { BoughtWith } from "@/components/product/BoughtWith";
 import { SEO } from "@/components/SEO";
+import { TEST_PRODUCTS, type MockShopifyProduct } from "@/lib/mockProducts";
 
 
 export default function ProductPage() {
@@ -48,6 +49,28 @@ export default function ProductPage() {
       }
     };
   }, [product, selectedVariantForSeo]);
+
+  // Check for quantity template extras from mock data
+  const mockExtras = useMemo(() => {
+    const mock = TEST_PRODUCTS.find(p => p.node.handle === handle) as MockShopifyProduct | undefined;
+    return mock?.extras?.templateType === 'quantity' ? mock.extras : null;
+  }, [handle]);
+
+  const isQtyTemplate = !!mockExtras?.quantityDiscounts;
+
+  // Get current tier price based on quantity
+  const currentTier = useMemo(() => {
+    if (!mockExtras?.quantityDiscounts) return null;
+    return mockExtras.quantityDiscounts.find(
+      d => quantity >= d.minQty && (d.maxQty === null || quantity <= d.maxQty)
+    ) || mockExtras.quantityDiscounts[0];
+  }, [quantity, mockExtras]);
+
+  const qtySubtotal = currentTier ? (currentTier.priceEach * quantity) : 0;
+  const baseSubtotal = mockExtras?.quantityDiscounts?.[0] 
+    ? mockExtras.quantityDiscounts[0].priceEach * quantity 
+    : 0;
+  const qtySavings = baseSubtotal - qtySubtotal;
 
   // Track recently viewed
   useEffect(() => {
@@ -88,7 +111,6 @@ export default function ProductPage() {
   const selectedVariant = product.variants.edges[selectedVariantIndex]?.node;
   const images = product.images.edges;
   const hasMultipleVariants = product.variants.edges.length > 1 && product.variants.edges[0].node.title !== 'Default Title';
-
 
   const handleAddToCart = async () => {
     if (!selectedVariant) {
@@ -185,7 +207,24 @@ export default function ProductPage() {
             </h1>
 
             {/* Price */}
-            {isMappPriced({ node: product }) ? (
+            {isQtyTemplate && currentTier ? (
+              <div className="space-y-1">
+                <div className="flex items-baseline gap-3">
+                  <span className="text-3xl font-bold text-header-primary">
+                    ${currentTier.priceEach.toFixed(2)}
+                  </span>
+                  <span className="text-sm text-muted-foreground">/ each</span>
+                  {currentTier.discount && (
+                    <span className="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded">
+                      Save {currentTier.discount}%
+                    </span>
+                  )}
+                </div>
+                {mockExtras?.sku && (
+                  <p className="text-xs text-muted-foreground">SKU# {mockExtras.sku}</p>
+                )}
+              </div>
+            ) : isMappPriced({ node: product }) ? (
               <div className="flex items-baseline gap-3">
                 <span className="text-xl font-semibold text-header-primary">
                   See Price in Cart
@@ -209,6 +248,53 @@ export default function ProductPage() {
               </div>
             )}
 
+            {/* Quantity Discount Pricing Table */}
+            {isQtyTemplate && mockExtras?.quantityDiscounts && (
+              <div className="border border-border rounded-lg overflow-hidden">
+                <div className="bg-muted/50 px-4 py-2 border-b border-border flex items-center gap-2">
+                  <Package className="w-4 h-4 text-header-primary" />
+                  <span className="text-sm font-bold text-foreground uppercase tracking-wide">Bulk Pricing</span>
+                </div>
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-border bg-muted/30">
+                      <th className="px-4 py-2 text-left font-semibold text-muted-foreground">Quantity</th>
+                      <th className="px-4 py-2 text-right font-semibold text-muted-foreground">Price Each</th>
+                      <th className="px-4 py-2 text-right font-semibold text-muted-foreground">Discount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {mockExtras.quantityDiscounts.map((tier) => {
+                      const isActive = currentTier?.label === tier.label;
+                      return (
+                        <tr
+                          key={tier.label}
+                          className={`border-b border-border last:border-0 transition-colors cursor-pointer ${
+                            isActive ? 'bg-header-primary/10 font-semibold' : 'hover:bg-muted/30'
+                          }`}
+                          onClick={() => setQuantity(tier.minQty)}
+                        >
+                          <td className="px-4 py-2.5 flex items-center gap-2">
+                            {isActive && <Check className="w-3.5 h-3.5 text-header-primary" />}
+                            <span className={isActive ? 'text-header-primary' : ''}>{tier.label}</span>
+                          </td>
+                          <td className={`px-4 py-2.5 text-right ${isActive ? 'text-header-primary' : ''}`}>
+                            ${tier.priceEach.toFixed(2)}
+                          </td>
+                          <td className="px-4 py-2.5 text-right">
+                            {tier.discount ? (
+                              <span className="text-green-600 font-medium">{tier.discount}% off</span>
+                            ) : (
+                              <span className="text-muted-foreground">—</span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
 
             {/* Variants */}
             {hasMultipleVariants && (
@@ -219,7 +305,7 @@ export default function ProductPage() {
                       {option.name}
                     </label>
                     <div className="flex flex-wrap gap-2">
-                      {option.values.map((value, valueIndex) => {
+                      {option.values.map((value) => {
                         const variantIndex = product.variants.edges.findIndex(v => 
                           v.node.selectedOptions.some(opt => opt.name === option.name && opt.value === value)
                         );
@@ -260,7 +346,13 @@ export default function ProductPage() {
                   >
                     <Minus className="w-4 h-4" />
                   </button>
-                  <span className="w-12 text-center font-medium">{quantity}</span>
+                  <input
+                    type="number"
+                    min="1"
+                    value={quantity}
+                    onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                    className="w-16 text-center font-medium bg-transparent border-0 focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
                   <button 
                     onClick={() => setQuantity(quantity + 1)}
                     className="p-2 hover:bg-muted transition-colors"
@@ -268,11 +360,31 @@ export default function ProductPage() {
                     <Plus className="w-4 h-4" />
                   </button>
                 </div>
+                {isQtyTemplate && currentTier && (
+                  <span className="text-sm text-muted-foreground">
+                    Tier: <span className="font-medium text-foreground">{currentTier.label}</span>
+                  </span>
+                )}
               </div>
             </div>
 
-            {/* Subtotal for multiple quantity */}
-            {quantity > 1 && (
+            {/* Subtotal */}
+            {isQtyTemplate && currentTier ? (
+              <div className="bg-muted/50 rounded-lg p-4 border border-border space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">{quantity} × ${currentTier.priceEach.toFixed(2)}</span>
+                  <span className="text-xl font-bold text-foreground">
+                    ${qtySubtotal.toFixed(2)}
+                  </span>
+                </div>
+                {qtySavings > 0 && (
+                  <div className="flex justify-between items-center text-green-600">
+                    <span className="text-sm font-medium">You save:</span>
+                    <span className="text-sm font-bold">${qtySavings.toFixed(2)}</span>
+                  </div>
+                )}
+              </div>
+            ) : quantity > 1 ? (
               <div className="bg-muted/50 rounded-lg p-4 border border-border">
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Subtotal ({quantity} items):</span>
@@ -280,6 +392,21 @@ export default function ProductPage() {
                     ${(parseFloat(selectedVariant?.price.amount || '0') * quantity).toFixed(2)}
                   </span>
                 </div>
+              </div>
+            ) : null}
+
+            {/* Features list for qty template */}
+            {isQtyTemplate && mockExtras?.features && (
+              <div className="border-t border-border pt-4">
+                <h3 className="text-sm font-bold text-foreground mb-2 uppercase tracking-wide">Features</h3>
+                <ul className="space-y-1.5">
+                  {mockExtras.features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
 
