@@ -272,6 +272,7 @@ export function Header() {
             <input
               ref={searchInputRef}
               type="text"
+              value={searchQuery}
               placeholder="Search products, brands, categories..."
               className="w-full border-2 border-header-border rounded px-4 py-2.5 text-sm text-foreground hover:border-header-primary focus:border-header-primary focus:outline-none transition-colors pr-12 bg-white"
               onFocus={() => setSearchOpen(true)}
@@ -291,7 +292,7 @@ export function Header() {
             >
               <Search className="w-5 h-5" />
             </button>
-            <SearchDropdown open={searchOpen} onOpenChange={setSearchOpen} inputRef={searchInputRef} query={searchQuery} onQueryChange={(v) => { setSearchQuery(v); if (searchInputRef.current) searchInputRef.current.value = v; }} />
+            <SearchDropdown open={searchOpen} onOpenChange={setSearchOpen} inputRef={searchInputRef} query={searchQuery} onQueryChange={setSearchQuery} />
           </div>
 
           {/* Account & Cart */}
@@ -309,6 +310,7 @@ export function Header() {
           <input
             ref={mobileSearchInputRef}
             type="text"
+            value={searchQuery}
             placeholder="Search products..."
             className="w-full border-2 border-header-border rounded px-4 py-2.5 text-sm text-foreground hover:border-header-primary focus:border-header-primary focus:outline-none transition-colors pr-12 bg-white"
             onFocus={() => setSearchOpen(true)}
@@ -320,7 +322,7 @@ export function Header() {
           >
             <Search className="w-5 h-5 text-header-primary" />
           </button>
-          <SearchDropdown open={searchOpen} onOpenChange={setSearchOpen} inputRef={mobileSearchInputRef} query={searchQuery} onQueryChange={(v) => { setSearchQuery(v); if (mobileSearchInputRef.current) mobileSearchInputRef.current.value = v; }} />
+          <SearchDropdown open={searchOpen} onOpenChange={setSearchOpen} inputRef={mobileSearchInputRef} query={searchQuery} onQueryChange={setSearchQuery} />
         </div>
       </div>
 
