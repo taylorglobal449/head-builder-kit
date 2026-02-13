@@ -75,16 +75,13 @@ export function TodaysDeals() {
         </div>
       </div>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {deals.map((deal, index) => {
-          const isLarge = index < 2;
           return (
             <Link
               key={index}
               to={deal.linkUrl}
-              className={`group relative overflow-hidden rounded-lg bg-zinc-900 flex flex-col ${
-                isLarge ? "col-span-2 md:col-span-2 lg:col-span-2 row-span-1" : "col-span-1"
-              }`}
+              className="group relative overflow-hidden rounded-lg bg-zinc-900 flex flex-col"
             >
               {/* Brand Badge */}
               <div className={`${deal.brandColor} px-3 py-1.5 text-white text-xs font-bold uppercase tracking-wide m-3 rounded self-start`}>
@@ -92,7 +89,7 @@ export function TodaysDeals() {
               </div>
               
               {/* Image */}
-              <div className={`${isLarge ? "aspect-[16/10]" : "aspect-square"} mx-3 overflow-hidden rounded`}>
+              <div className="aspect-square mx-3 overflow-hidden rounded">
                 <img 
                   src={deal.imageUrl}
                   alt={deal.title}
@@ -102,10 +99,10 @@ export function TodaysDeals() {
               
               {/* Content */}
               <div className="p-4 pt-3">
-                <h3 className={`text-white font-black leading-tight mb-1 ${isLarge ? "text-lg" : "text-sm"}`}>
+                <h3 className="text-white font-black leading-tight mb-1 text-sm">
                   {deal.title}
                 </h3>
-                <p className={`text-white/80 leading-tight ${isLarge ? "text-sm" : "text-xs"}`}>
+                <p className="text-white/80 leading-tight text-xs">
                   {deal.description}
                 </p>
               </div>
