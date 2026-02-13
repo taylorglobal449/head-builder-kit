@@ -12,6 +12,7 @@ export interface QuantityDiscount {
 export interface MockProductExtras {
   templateType?: 'standard' | 'quantity';
   quantityDiscounts?: QuantityDiscount[];
+  variantQuantityDiscounts?: Record<string, QuantityDiscount[]>;
   sku?: string;
   features?: string[];
   includes?: string[];
@@ -169,13 +170,36 @@ BULK PRICING AVAILABLE: Take advantage of our quantity discount pricing for larg
     extras: {
       templateType: 'quantity',
       sku: 'GR8-HEX-CAP',
-      quantityDiscounts: [
-        { minQty: 1, maxQty: 24, priceEach: 0.45, label: '1-24' },
-        { minQty: 25, maxQty: 99, priceEach: 0.42, discount: 7, label: '25-99' },
-        { minQty: 100, maxQty: 499, priceEach: 0.38, discount: 16, label: '100-499' },
-        { minQty: 500, maxQty: 999, priceEach: 0.34, discount: 24, label: '500-999' },
-        { minQty: 1000, maxQty: null, priceEach: 0.29, discount: 36, label: '1000+' }
-      ],
+      variantQuantityDiscounts: {
+        '1/4"-20 x 1"': [
+          { minQty: 1, maxQty: 24, priceEach: 0.45, label: '1-24' },
+          { minQty: 25, maxQty: 99, priceEach: 0.42, discount: 7, label: '25-99' },
+          { minQty: 100, maxQty: 499, priceEach: 0.38, discount: 16, label: '100-499' },
+          { minQty: 500, maxQty: 999, priceEach: 0.34, discount: 24, label: '500-999' },
+          { minQty: 1000, maxQty: null, priceEach: 0.29, discount: 36, label: '1000+' }
+        ],
+        '1/4"-20 x 1-1/2"': [
+          { minQty: 1, maxQty: 24, priceEach: 0.52, label: '1-24' },
+          { minQty: 25, maxQty: 99, priceEach: 0.48, discount: 8, label: '25-99' },
+          { minQty: 100, maxQty: 499, priceEach: 0.44, discount: 15, label: '100-499' },
+          { minQty: 500, maxQty: 999, priceEach: 0.39, discount: 25, label: '500-999' },
+          { minQty: 1000, maxQty: null, priceEach: 0.33, discount: 37, label: '1000+' }
+        ],
+        '5/16"-18 x 1"': [
+          { minQty: 1, maxQty: 24, priceEach: 0.68, label: '1-24' },
+          { minQty: 25, maxQty: 99, priceEach: 0.63, discount: 7, label: '25-99' },
+          { minQty: 100, maxQty: 499, priceEach: 0.57, discount: 16, label: '100-499' },
+          { minQty: 500, maxQty: 999, priceEach: 0.51, discount: 25, label: '500-999' },
+          { minQty: 1000, maxQty: null, priceEach: 0.44, discount: 35, label: '1000+' }
+        ],
+        '3/8"-16 x 1"': [
+          { minQty: 1, maxQty: 24, priceEach: 0.89, label: '1-24' },
+          { minQty: 25, maxQty: 99, priceEach: 0.82, discount: 8, label: '25-99' },
+          { minQty: 100, maxQty: 499, priceEach: 0.74, discount: 17, label: '100-499' },
+          { minQty: 500, maxQty: 999, priceEach: 0.66, discount: 26, label: '500-999' },
+          { minQty: 1000, maxQty: null, priceEach: 0.56, discount: 37, label: '1000+' }
+        ]
+      },
       features: [
         'Grade 8 medium carbon alloy steel construction',
         'Minimum tensile strength: 150,000 PSI',
