@@ -71,6 +71,7 @@ export default function ProductPage() {
     ? mockExtras.quantityDiscounts[0].priceEach * quantity 
     : 0;
   const qtySavings = baseSubtotal - qtySubtotal;
+  const basePrice = mockExtras?.quantityDiscounts?.[0]?.priceEach || 0;
 
   // Track recently viewed
   useEffect(() => {
@@ -130,145 +131,253 @@ export default function ProductPage() {
     toast.success(`${product.title} added to cart`);
   };
 
-  return (
-    <div className="min-h-screen bg-background">
-      <SEO
-        title={product.title}
-        description={product.description?.slice(0, 155) || `Shop ${product.title} by ${product.vendor} at Fasteners Inc Tool Outlet.`}
-        canonical={`https://head-builder-kit.lovable.app/product/${product.handle}`}
-        jsonLd={productJsonLd}
-      />
-      <Header />
-      
-      <main className="max-w-[1600px] mx-auto px-4 py-8">
-        {/* Breadcrumb */}
-        <nav className="mb-6">
-          <ol className="flex items-center gap-2 text-sm text-muted-foreground">
-            <li><Link to="/" className="hover:text-header-primary">Home</Link></li>
-            <li>/</li>
-            <li><Link to="/products" className="hover:text-header-primary">Products</Link></li>
-            <li>/</li>
-            <li className="text-foreground font-medium truncate max-w-[200px]">{product.title}</li>
-          </ol>
-        </nav>
+  // --- Shared UI pieces ---
+  const breadcrumb = (
+    <nav className="mb-2">
+      <ol className="flex items-center gap-2 text-sm text-muted-foreground">
+        <li><Link to="/" className="hover:text-header-primary">Home</Link></li>
+        <li>/</li>
+        <li><Link to="/products" className="hover:text-header-primary">Products</Link></li>
+        <li>/</li>
+        <li className="text-foreground font-medium truncate max-w-[200px]">{product.title}</li>
+      </ol>
+    </nav>
+  );
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-          {/* Images */}
-          <div className="space-y-4">
-            {/* Main Image - Square */}
-            <div className="aspect-square bg-muted rounded-lg overflow-hidden">
-              {images[selectedImage]?.node ? (
-                <img 
-                  src={images[selectedImage].node.url}
-                  alt={images[selectedImage].node.altText || product.title}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                  <svg className="w-24 h-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-              )}
-            </div>
-            
-            {/* Thumbnails - Square */}
-            {images.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto pb-2">
-                {images.map((img, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedImage(index)}
-                    className={`w-20 h-20 rounded-md overflow-hidden border-2 shrink-0 aspect-square ${
-                      selectedImage === index ? 'border-header-primary' : 'border-transparent'
-                    }`}
-                  >
-                    <img 
-                      src={img.node.url}
-                      alt={img.node.altText || `${product.title} ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
+  const metaRow = (
+    <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
+      {product.vendor && (
+        <>
+          <span>Vendor:</span>
+          <Link to={`/search?q=${encodeURIComponent(product.vendor)}`} className="font-medium text-header-primary underline hover:text-header-primary-hover">
+            {product.vendor}
+          </Link>
+        </>
+      )}
+      {product.productType && (
+        <>
+          <span className="text-border">|</span>
+          <span>Type:</span>
+          <Link to={`/search?q=${encodeURIComponent(product.productType)}`} className="font-medium text-header-primary underline hover:text-header-primary-hover">
+            {product.productType}
+          </Link>
+        </>
+      )}
+      {(mockExtras?.sku || selectedVariant?.sku) && (
+        <>
+          <span className="text-border">|</span>
+          <span>SKU: <span className="font-medium text-foreground">{mockExtras?.sku || selectedVariant?.sku}</span></span>
+        </>
+      )}
+    </div>
+  );
+
+  const variantSelector = hasMultipleVariants ? (
+    <div className="space-y-3">
+      {product.options.map((option) => (
+        <div key={option.name}>
+          <label className="text-sm font-medium text-foreground mb-2 block">
+            {option.name}
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {option.values.map((value) => {
+              const variantIndex = product.variants.edges.findIndex(v => 
+                v.node.selectedOptions.some(opt => opt.name === option.name && opt.value === value)
+              );
+              const variant = product.variants.edges[variantIndex]?.node;
+              const isSelected = selectedVariant?.selectedOptions.some(
+                opt => opt.name === option.name && opt.value === value
+              );
+              
+              return (
+                <button
+                  key={value}
+                  onClick={() => variantIndex >= 0 && setSelectedVariantIndex(variantIndex)}
+                  disabled={!variant?.availableForSale}
+                  className={`px-4 py-2 rounded-md border text-sm font-medium transition-colors ${
+                    isSelected 
+                      ? 'border-header-primary bg-header-primary text-primary-foreground' 
+                      : 'border-border hover:border-header-primary'
+                  } ${!variant?.availableForSale ? 'opacity-50 cursor-not-allowed line-through' : ''}`}
+                >
+                  {value}
+                </button>
+              );
+            })}
           </div>
+        </div>
+      ))}
+    </div>
+  ) : null;
 
-          {/* Product Info */}
-          <div className="space-y-6">
-            {/* Vendor & Title */}
-            <h1 className="text-2xl lg:text-3xl font-bold text-foreground">
-              {product.title}
-            </h1>
+  const trustBadges = (
+    <div className="grid grid-cols-3 gap-4 pt-3 border-t border-border">
+      <div className="flex flex-col items-center text-center">
+        <Truck className="w-6 h-6 text-header-primary mb-1" />
+        <span className="text-xs text-muted-foreground">Free Shipping</span>
+      </div>
+      <div className="flex flex-col items-center text-center">
+        <Shield className="w-6 h-6 text-header-primary mb-1" />
+        <span className="text-xs text-muted-foreground">Secure Checkout</span>
+      </div>
+      <div className="flex flex-col items-center text-center">
+        <RotateCcw className="w-6 h-6 text-header-primary mb-1" />
+        <span className="text-xs text-muted-foreground">Easy Returns</span>
+      </div>
+    </div>
+  );
 
-            {/* Vendor | Type | SKU row */}
-            <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
-              {product.vendor && (
-                <>
-                  <span>Vendor:</span>
-                  <Link to={`/search?q=${encodeURIComponent(product.vendor)}`} className="font-medium text-header-primary hover:underline">
-                    {product.vendor}
-                  </Link>
-                </>
-              )}
-              {product.productType && (
-                <>
-                  <span className="text-border">|</span>
-                  <span>Type:</span>
-                  <Link to={`/search?q=${encodeURIComponent(product.productType)}`} className="font-medium text-header-primary hover:underline">
-                    {product.productType}
-                  </Link>
-                </>
-              )}
-              {(mockExtras?.sku || selectedVariant?.sku) && (
-                <>
-                  <span className="text-border">|</span>
-                  <span>SKU: <span className="font-medium text-foreground">{mockExtras?.sku || selectedVariant?.sku}</span></span>
-                </>
-              )}
-            </div>
+  const imageGallery = (
+    <div className="space-y-3">
+      <div className="aspect-square bg-muted rounded-lg overflow-hidden">
+        {images[selectedImage]?.node ? (
+          <img 
+            src={images[selectedImage].node.url}
+            alt={images[selectedImage].node.altText || product.title}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+            <svg className="w-24 h-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+        )}
+      </div>
+      {images.length > 1 && (
+        <div className="flex gap-2 overflow-x-auto pb-2">
+          {images.map((img, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedImage(index)}
+              className={`w-20 h-20 rounded-md overflow-hidden border-2 shrink-0 aspect-square ${
+                selectedImage === index ? 'border-header-primary' : 'border-transparent'
+              }`}
+            >
+              <img 
+                src={img.node.url}
+                alt={img.node.altText || `${product.title} ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 
-            {/* Price */}
-            {isQtyTemplate && currentTier ? (
-              <div className="space-y-1">
-                <div className="flex items-baseline gap-3">
-                  <span className="text-3xl font-bold text-header-primary">
-                    ${currentTier.priceEach.toFixed(2)}
+  const addToCartButton = (
+    <Button 
+      onClick={handleAddToCart}
+      disabled={isCartLoading || !selectedVariant?.availableForSale}
+      className="w-full bg-header-primary hover:bg-header-primary-hover text-primary-foreground py-6 text-lg"
+    >
+      {isCartLoading ? (
+        <Loader2 className="w-5 h-5 animate-spin mr-2" />
+      ) : (
+        <ShoppingCart className="w-5 h-5 mr-2" />
+      )}
+      {selectedVariant?.availableForSale ? 'Add to Cart' : 'Out of Stock'}
+    </Button>
+  );
+
+  // ===================== QTY TEMPLATE LAYOUT =====================
+  if (isQtyTemplate && currentTier && mockExtras) {
+    return (
+      <div className="min-h-screen bg-background">
+        <SEO
+          title={product.title}
+          description={product.description?.slice(0, 155) || `Shop ${product.title} by ${product.vendor} at Fasteners Inc Tool Outlet.`}
+          canonical={`https://head-builder-kit.lovable.app/product/${product.handle}`}
+          jsonLd={productJsonLd}
+        />
+        <Header />
+        
+        <main className="max-w-[1600px] mx-auto px-4 py-4">
+          {breadcrumb}
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            {/* Images */}
+            {imageGallery}
+
+            {/* Product Info — QTY layout */}
+            <div className="space-y-3">
+              {/* 1. Title */}
+              <h1 className="text-2xl lg:text-3xl font-bold text-foreground leading-tight">
+                {product.title}
+              </h1>
+
+              {/* 2. Vendor | Type | SKU */}
+              {metaRow}
+
+              {/* 3. Size / Variants */}
+              {variantSelector}
+
+              {/* 4. QTY row: qty + each price + regular crossed out + total */}
+              <div className="flex flex-wrap items-center gap-4 py-2">
+                {/* Qty selector */}
+                <div className="flex items-center border border-border rounded-md">
+                  <button 
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="p-2 hover:bg-muted transition-colors"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <input
+                    type="number"
+                    min="1"
+                    value={quantity}
+                    onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                    className="w-14 text-center font-medium bg-transparent border-0 focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                  <button 
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="p-2 hover:bg-muted transition-colors"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Each price */}
+                <span className="text-2xl font-bold text-header-primary">
+                  ${currentTier.priceEach.toFixed(2)}
+                  <span className="text-sm font-normal text-muted-foreground ml-1">ea</span>
+                </span>
+
+                {/* Regular price crossed out (if discounted) */}
+                {currentTier.discount && currentTier.discount > 0 && (
+                  <span className="text-base text-muted-foreground line-through">
+                    ${basePrice.toFixed(2)}
                   </span>
-                  <span className="text-sm text-muted-foreground">/ each</span>
-                  {currentTier.discount && (
-                    <span className="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded">
-                      Save {currentTier.discount}%
-                    </span>
-                  )}
+                )}
+
+                {/* Savings badge */}
+                {currentTier.discount && currentTier.discount > 0 && (
+                  <span className="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded">
+                    Save {currentTier.discount}%
+                  </span>
+                )}
+
+                {/* Separator + Total */}
+                <div className="ml-auto flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">Total:</span>
+                  <span className="text-xl font-bold text-foreground">${qtySubtotal.toFixed(2)}</span>
                 </div>
               </div>
-            ) : isMappPriced({ node: product }) ? (
-              <div className="flex items-baseline gap-3">
-                <span className="text-xl font-semibold text-header-primary">
-                  See Price in Cart
-                </span>
-              </div>
-            ) : (
-              <div className="flex items-baseline gap-3">
-                <span className="text-3xl font-bold text-header-primary">
-                  ${parseFloat(selectedVariant?.price.amount || '0').toFixed(2)}
-                </span>
-                {selectedVariant?.compareAtPrice && parseFloat(selectedVariant.compareAtPrice.amount) > parseFloat(selectedVariant.price.amount) && (
-                  <>
-                    <span className="text-lg text-muted-foreground line-through">
-                      ${parseFloat(selectedVariant.compareAtPrice.amount).toFixed(2)}
-                    </span>
-                    <span className="text-xs font-bold text-destructive">
-                      Save {Math.round((1 - parseFloat(selectedVariant.price.amount) / parseFloat(selectedVariant.compareAtPrice.amount)) * 100)}%
-                    </span>
-                  </>
-                )}
-              </div>
-            )}
 
-            {/* Quantity Discount Pricing Table */}
-            {isQtyTemplate && mockExtras?.quantityDiscounts && (
+              {qtySavings > 0 && (
+                <div className="text-sm text-green-600 font-medium">
+                  You save ${qtySavings.toFixed(2)} at this quantity
+                </div>
+              )}
+
+              {/* 5. Add to Cart */}
+              {addToCartButton}
+
+              {/* 6. Trust Badges / Callouts */}
+              {trustBadges}
+
+              {/* 7. Bulk Pricing Chart */}
               <div className="border border-border rounded-lg overflow-hidden">
                 <div className="bg-muted/50 px-4 py-2 border-b border-border flex items-center gap-2">
                   <Package className="w-4 h-4 text-header-primary" />
@@ -283,7 +392,7 @@ export default function ProductPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {mockExtras.quantityDiscounts.map((tier) => {
+                    {mockExtras.quantityDiscounts!.map((tier) => {
                       const isActive = currentTier?.label === tier.label;
                       return (
                         <tr
@@ -313,46 +422,99 @@ export default function ProductPage() {
                   </tbody>
                 </table>
               </div>
+            </div>
+          </div>
+
+          {/* Full-width sections below the 2-col grid */}
+          <div className="mt-8 space-y-6">
+            {/* Description — horizontal full width */}
+            {product.description && (
+              <div className="border-t border-border pt-6">
+                <h2 className="text-lg font-bold text-foreground mb-3">Description</h2>
+                <p className="text-muted-foreground whitespace-pre-line max-w-none">{product.description}</p>
+              </div>
+            )}
+
+            {/* Features */}
+            {mockExtras?.features && (
+              <div className="border-t border-border pt-6">
+                <h2 className="text-lg font-bold text-foreground mb-3 uppercase tracking-wide">Features</h2>
+                <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-2">
+                  {mockExtras.features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          {/* Frequently Bought Together */}
+          <BoughtWith products={allProducts} currentHandle={handle} />
+
+          {/* Recently Viewed */}
+          <RecentlyViewed products={recentlyViewed} currentHandle={handle} />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // ===================== STANDARD TEMPLATE LAYOUT =====================
+  return (
+    <div className="min-h-screen bg-background">
+      <SEO
+        title={product.title}
+        description={product.description?.slice(0, 155) || `Shop ${product.title} by ${product.vendor} at Fasteners Inc Tool Outlet.`}
+        canonical={`https://head-builder-kit.lovable.app/product/${product.handle}`}
+        jsonLd={productJsonLd}
+      />
+      <Header />
+      
+      <main className="max-w-[1600px] mx-auto px-4 py-4">
+        {breadcrumb}
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          {/* Images */}
+          {imageGallery}
+
+          {/* Product Info */}
+          <div className="space-y-4">
+            <h1 className="text-2xl lg:text-3xl font-bold text-foreground leading-tight">
+              {product.title}
+            </h1>
+
+            {metaRow}
+
+            {/* Price */}
+            {isMappPriced({ node: product }) ? (
+              <div className="flex items-baseline gap-3">
+                <span className="text-xl font-semibold text-header-primary">
+                  See Price in Cart
+                </span>
+              </div>
+            ) : (
+              <div className="flex items-baseline gap-3">
+                <span className="text-3xl font-bold text-header-primary">
+                  ${parseFloat(selectedVariant?.price.amount || '0').toFixed(2)}
+                </span>
+                {selectedVariant?.compareAtPrice && parseFloat(selectedVariant.compareAtPrice.amount) > parseFloat(selectedVariant.price.amount) && (
+                  <>
+                    <span className="text-lg text-muted-foreground line-through">
+                      ${parseFloat(selectedVariant.compareAtPrice.amount).toFixed(2)}
+                    </span>
+                    <span className="text-xs font-bold text-destructive">
+                      Save {Math.round((1 - parseFloat(selectedVariant.price.amount) / parseFloat(selectedVariant.compareAtPrice.amount)) * 100)}%
+                    </span>
+                  </>
+                )}
+              </div>
             )}
 
             {/* Variants */}
-            {hasMultipleVariants && (
-              <div className="space-y-3">
-                {product.options.map((option) => (
-                  <div key={option.name}>
-                    <label className="text-sm font-medium text-foreground mb-2 block">
-                      {option.name}
-                    </label>
-                    <div className="flex flex-wrap gap-2">
-                      {option.values.map((value) => {
-                        const variantIndex = product.variants.edges.findIndex(v => 
-                          v.node.selectedOptions.some(opt => opt.name === option.name && opt.value === value)
-                        );
-                        const variant = product.variants.edges[variantIndex]?.node;
-                        const isSelected = selectedVariant?.selectedOptions.some(
-                          opt => opt.name === option.name && opt.value === value
-                        );
-                        
-                        return (
-                          <button
-                            key={value}
-                            onClick={() => variantIndex >= 0 && setSelectedVariantIndex(variantIndex)}
-                            disabled={!variant?.availableForSale}
-                            className={`px-4 py-2 rounded-md border text-sm font-medium transition-colors ${
-                              isSelected 
-                                ? 'border-header-primary bg-header-primary text-primary-foreground' 
-                                : 'border-border hover:border-header-primary'
-                            } ${!variant?.availableForSale ? 'opacity-50 cursor-not-allowed line-through' : ''}`}
-                          >
-                            {value}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+            {variantSelector}
 
             {/* Quantity */}
             <div>
@@ -379,31 +541,11 @@ export default function ProductPage() {
                     <Plus className="w-4 h-4" />
                   </button>
                 </div>
-                {isQtyTemplate && currentTier && (
-                  <span className="text-sm text-muted-foreground">
-                    Tier: <span className="font-medium text-foreground">{currentTier.label}</span>
-                  </span>
-                )}
               </div>
             </div>
 
             {/* Subtotal */}
-            {isQtyTemplate && currentTier ? (
-              <div className="bg-muted/50 rounded-lg p-4 border border-border space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">{quantity} × ${currentTier.priceEach.toFixed(2)}</span>
-                  <span className="text-xl font-bold text-foreground">
-                    ${qtySubtotal.toFixed(2)}
-                  </span>
-                </div>
-                {qtySavings > 0 && (
-                  <div className="flex justify-between items-center text-green-600">
-                    <span className="text-sm font-medium">You save:</span>
-                    <span className="text-sm font-bold">${qtySavings.toFixed(2)}</span>
-                  </div>
-                )}
-              </div>
-            ) : quantity > 1 ? (
+            {quantity > 1 && (
               <div className="bg-muted/50 rounded-lg p-4 border border-border">
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Subtotal ({quantity} items):</span>
@@ -412,56 +554,17 @@ export default function ProductPage() {
                   </span>
                 </div>
               </div>
-            ) : null}
-
-            {/* Features list for qty template */}
-            {isQtyTemplate && mockExtras?.features && (
-              <div className="border-t border-border pt-4">
-                <h3 className="text-sm font-bold text-foreground mb-2 uppercase tracking-wide">Features</h3>
-                <ul className="space-y-1.5">
-                  {mockExtras.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
             )}
 
             {/* Add to Cart */}
-            <Button 
-              onClick={handleAddToCart}
-              disabled={isCartLoading || !selectedVariant?.availableForSale}
-              className="w-full bg-header-primary hover:bg-header-primary-hover text-primary-foreground py-6 text-lg"
-            >
-              {isCartLoading ? (
-                <Loader2 className="w-5 h-5 animate-spin mr-2" />
-              ) : (
-                <ShoppingCart className="w-5 h-5 mr-2" />
-              )}
-              {selectedVariant?.availableForSale ? 'Add to Cart' : 'Out of Stock'}
-            </Button>
+            {addToCartButton}
 
             {/* Trust Badges */}
-            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border">
-              <div className="flex flex-col items-center text-center">
-                <Truck className="w-6 h-6 text-header-primary mb-1" />
-                <span className="text-xs text-muted-foreground">Free Shipping</span>
-              </div>
-              <div className="flex flex-col items-center text-center">
-                <Shield className="w-6 h-6 text-header-primary mb-1" />
-                <span className="text-xs text-muted-foreground">Secure Checkout</span>
-              </div>
-              <div className="flex flex-col items-center text-center">
-                <RotateCcw className="w-6 h-6 text-header-primary mb-1" />
-                <span className="text-xs text-muted-foreground">Easy Returns</span>
-              </div>
-            </div>
+            {trustBadges}
 
             {/* Description */}
             {product.description && (
-              <div className="pt-6 border-t border-border">
+              <div className="pt-4 border-t border-border">
                 <h2 className="text-lg font-bold text-foreground mb-3">Description</h2>
                 <p className="text-muted-foreground whitespace-pre-line">{product.description}</p>
               </div>
