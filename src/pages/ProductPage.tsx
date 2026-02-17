@@ -90,7 +90,54 @@ export default function ProductPage() {
   const qtySavings = baseSubtotal - qtySubtotal;
   const basePrice = activeDiscounts?.[0]?.priceEach || 0;
 
-  // Track recently viewed
+  // Parse description to extract features/bullet points and clean description
+  const parsedContent = useMemo(() => {
+    if (!product?.description) return { description: '', features: [] as string[], specs: [] as { label: string; value: string }[] };
+    
+    let desc = product.description;
+    const features: string[] = [];
+    const specs: { label: string; value: string }[] = [];
+    
+    // Remove CSS style blocks
+    desc = desc.replace(/(?:ul|li|ol)\s*\{[^}]*\}/g, '').replace(/(?:ul|li|ol)\s*(?:::?[a-z-]+)\s*\{[^}]*\}/g, '');
+    
+    // Extract "Features" section
+    const featuresMatch = desc.match(/Features\s*([\s\S]*?)(?:Includes|Specifications|Specs|$)/i);
+    if (featuresMatch) {
+      const featuresText = featuresMatch[1];
+      const items = featuresText.split(/(?:\n|(?<=[a-z.!)])(?=[A-Z][a-z]))/).map(s => s.trim()).filter(s => s.length > 10);
+      features.push(...items);
+      desc = desc.replace(/Features\s*[\s\S]*?(?=Includes|Specifications|Specs|$)/i, '').trim();
+    }
+    
+    // Extract "Includes" section as specs
+    const includesMatch = desc.match(/Includes\s*([\s\S]*?)(?:Specifications|Specs|$)/i);
+    if (includesMatch) {
+      const includesText = includesMatch[1].trim();
+      const items = includesText.split(/\(\d+\)\s*/).filter(s => s.trim().length > 0);
+      items.forEach(item => {
+        specs.push({ label: 'Includes', value: item.trim() });
+      });
+      desc = desc.replace(/Includes\s*[\s\S]*?(?=Specifications|Specs|$)/i, '').trim();
+    }
+    
+    // Clean up remaining description
+    desc = desc.replace(/\s{2,}/g, ' ').trim();
+    
+    // If no features were found, try to split long description on sentence boundaries
+    if (features.length === 0 && desc.length > 200) {
+      const sentences = desc.split(/(?<=\.)\s+/);
+      if (sentences.length > 3) {
+        const descPart = sentences.slice(0, 2).join(' ');
+        const featurePart = sentences.slice(2);
+        features.push(...featurePart.filter(s => s.length > 10));
+        desc = descPart;
+      }
+    }
+    
+    return { description: desc, features, specs };
+  }, [product?.description]);
+
   useEffect(() => {
     if (product) {
       addToRecentlyViewed({ node: product });
@@ -480,6 +527,7 @@ export default function ProductPage() {
   }
 
   // ===================== STANDARD TEMPLATE LAYOUT =====================
+
   return (
     <div className="min-h-screen bg-background">
       <SEO
@@ -499,10 +547,12 @@ export default function ProductPage() {
 
           {/* Product Info */}
           <div className="space-y-4">
+            {/* 1. Title */}
             <h1 className="text-2xl lg:text-3xl font-bold text-foreground leading-tight">
               {product.title}
             </h1>
 
+            {/* 2. Vendor | Type | SKU */}
             {metaRow}
 
             {/* Price */}
@@ -533,57 +583,88 @@ export default function ProductPage() {
             {/* Variants */}
             {variantSelector}
 
-            {/* Quantity */}
-            <div>
-              <label className="text-sm font-medium text-foreground mb-2 block">Quantity</label>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center border border-border rounded-md">
-                  <button 
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="p-2 hover:bg-muted transition-colors"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                  <input
-                    type="number"
-                    min="1"
-                    value={quantity}
-                    onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="w-16 text-center font-medium bg-transparent border-0 focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  />
-                  <button 
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="p-2 hover:bg-muted transition-colors"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
+            {/* 3. Qty + Add to Cart on same line */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center border border-border rounded-md shrink-0">
+                <button 
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="p-2 hover:bg-muted transition-colors"
+                >
+                  <Minus className="w-4 h-4" />
+                </button>
+                <input
+                  type="number"
+                  min="1"
+                  value={quantity}
+                  onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                  className="w-14 text-center font-medium bg-transparent border-0 focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                />
+                <button 
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="p-2 hover:bg-muted transition-colors"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
               </div>
+              <Button 
+                onClick={handleAddToCart}
+                disabled={isCartLoading || !selectedVariant?.availableForSale}
+                className="flex-1 bg-header-primary hover:bg-header-primary-hover text-primary-foreground py-6 text-lg"
+              >
+                {isCartLoading ? (
+                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                ) : (
+                  <ShoppingCart className="w-5 h-5 mr-2" />
+                )}
+                {selectedVariant?.availableForSale ? 'Add to Cart' : 'Out of Stock'}
+              </Button>
             </div>
 
-            {/* Subtotal */}
+            {/* Subtotal hint */}
             {quantity > 1 && (
-              <div className="bg-muted/50 rounded-lg p-4 border border-border">
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Subtotal ({quantity} items):</span>
-                  <span className="text-xl font-bold text-foreground">
-                    ${(parseFloat(selectedVariant?.price.amount || '0') * quantity).toFixed(2)}
-                  </span>
-                </div>
+              <div className="text-sm text-muted-foreground">
+                Subtotal ({quantity} items): <span className="font-bold text-foreground">${(parseFloat(selectedVariant?.price.amount || '0') * quantity).toFixed(2)}</span>
               </div>
             )}
-
-            {/* Add to Cart */}
-            {addToCartButton}
 
             {/* Trust Badges */}
             {trustBadges}
 
-            {/* Description */}
-            {product.description && (
+            {/* 4. Description */}
+            {parsedContent.description && (
               <div className="pt-4 border-t border-border">
-                <h2 className="text-lg font-bold text-foreground mb-3">Description</h2>
-                <p className="text-muted-foreground whitespace-pre-line">{product.description}</p>
+                <h2 className="text-lg font-bold text-foreground mb-2">Description</h2>
+                <p className="text-sm text-muted-foreground leading-relaxed">{parsedContent.description}</p>
+              </div>
+            )}
+
+            {/* 5. Features — red bullet points */}
+            {parsedContent.features.length > 0 && (
+              <div className="pt-4 border-t border-border">
+                <h2 className="text-lg font-bold text-foreground mb-2">Features</h2>
+                <ul className="space-y-1.5">
+                  {parsedContent.features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <span className="w-1.5 h-1.5 rounded-full bg-header-primary shrink-0 mt-1.5" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* 6. Specs */}
+            {parsedContent.specs.length > 0 && (
+              <div className="pt-4 border-t border-border">
+                <h2 className="text-lg font-bold text-foreground mb-2">Specifications</h2>
+                <div className="border border-border rounded-lg overflow-hidden">
+                  {parsedContent.specs.map((spec, i) => (
+                    <div key={i} className={`flex text-sm ${i % 2 === 0 ? 'bg-muted/30' : ''}`}>
+                      <span className="font-medium text-foreground px-3 py-2 w-1/3 border-r border-border">{spec.label}</span>
+                      <span className="text-muted-foreground px-3 py-2 flex-1">{spec.value}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
