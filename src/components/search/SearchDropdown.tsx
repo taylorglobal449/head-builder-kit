@@ -138,25 +138,23 @@ export function SearchDropdown({ open, onOpenChange, inputRef, query, onQueryCha
     };
   }, [results]);
 
-  // Generate search suggestions based on query
+  // Generate search suggestions based on query — use vendor/type names as full-word completions
   const suggestions = useMemo(() => {
     if (!query.trim()) return [];
-    const q = query.toLowerCase();
+    const seen = new Set<string>();
     const suggs: string[] = [];
-    // Add vendor-based suggestions
+    // Vendor-based suggestions (e.g. "dew" → "DeWalt Drills", "DeWalt Kits")
     vendors.forEach(v => {
-      suggs.push(`${v} ${q}`);
+      productTypes.forEach(t => {
+        const s = `${v} ${t}`;
+        if (!seen.has(s.toLowerCase())) { seen.add(s.toLowerCase()); suggs.push(s); }
+      });
+      // Also just the vendor name
+      if (!seen.has(v.toLowerCase())) { seen.add(v.toLowerCase()); suggs.push(v); }
     });
-    // Add type-based suggestions
+    // Type-based suggestions
     productTypes.forEach(t => {
-      if (!suggs.some(s => s.toLowerCase() === `${q} ${t}`.toLowerCase())) {
-        suggs.push(`${q} ${t}`);
-      }
-    });
-    // Add generic suggestions
-    const genericSuffixes = ["sale", "kit", "set", "accessories"];
-    genericSuffixes.forEach(s => {
-      if (!q.includes(s)) suggs.push(`${q} ${s}`);
+      if (!seen.has(t.toLowerCase())) { seen.add(t.toLowerCase()); suggs.push(t); }
     });
     return suggs.slice(0, 8);
   }, [query, vendors, productTypes]);
@@ -299,6 +297,29 @@ export function SearchDropdown({ open, onOpenChange, inputRef, query, onQueryCha
 
           {/* RIGHT — Suggestions & Collections */}
           <div className="w-full lg:w-72 xl:w-80 overflow-y-auto bg-muted/20">
+            {/* Brands — shown first */}
+            {vendors.length > 0 && (
+              <div className="p-4 border-b border-border">
+                <h3 className="text-sm font-bold text-foreground mb-3 uppercase tracking-wide">
+                  Brands
+                </h3>
+                <div className="space-y-0.5">
+                  {vendors.map((vendor) => (
+                    <button
+                      key={vendor}
+                      onClick={() => {
+                        onOpenChange(false);
+                        navigate(`/search?q=${encodeURIComponent(vendor)}`);
+                      }}
+                      className="w-full flex items-center gap-2.5 px-2 py-1.5 text-sm text-muted-foreground hover:text-header-primary hover:bg-accent rounded transition-colors text-left"
+                    >
+                      <span className="truncate">{vendor}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Suggestions */}
             {suggestions.length > 0 && (
               <div className="p-4 border-b border-border">
@@ -320,9 +341,9 @@ export function SearchDropdown({ open, onOpenChange, inputRef, query, onQueryCha
               </div>
             )}
 
-            {/* Product Types */}
+            {/* Categories */}
             {productTypes.length > 0 && (
-              <div className="p-4 border-b border-border">
+              <div className="p-4">
                 <h3 className="text-sm font-bold text-foreground mb-3 uppercase tracking-wide">
                   Categories
                 </h3>
@@ -335,29 +356,6 @@ export function SearchDropdown({ open, onOpenChange, inputRef, query, onQueryCha
                     >
                       <Tag className="w-3.5 h-3.5 shrink-0" />
                       <span className="truncate">{type}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Brands / Collections */}
-            {vendors.length > 0 && (
-              <div className="p-4">
-                <h3 className="text-sm font-bold text-foreground mb-3 uppercase tracking-wide">
-                  Brands
-                </h3>
-                <div className="space-y-0.5">
-                  {vendors.map((vendor) => (
-                    <button
-                      key={vendor}
-                      onClick={() => {
-                        onOpenChange(false);
-                        navigate(`/search?q=${encodeURIComponent(vendor)}`);
-                      }}
-                      className="w-full flex items-center gap-2.5 px-2 py-1.5 text-sm text-muted-foreground hover:text-header-primary hover:bg-accent rounded transition-colors text-left"
-                    >
-                      <span className="truncate">{vendor}</span>
                     </button>
                   ))}
                 </div>
