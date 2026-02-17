@@ -465,13 +465,13 @@ export function Header() {
                   onMouseEnter={() => setActiveCategoryDropdown(cat.name)}
                   onMouseLeave={() => setActiveCategoryDropdown(null)}
                 >
-                  <a
-                    href="/"
+                  <Link
+                    to={`/search?q=${encodeURIComponent(cat.name.toLowerCase())}`}
                     className="flex items-center gap-1 px-2.5 py-2.5 text-[11px] font-bold text-header-text hover:text-header-primary transition-colors whitespace-nowrap"
                   >
                     {cat.name}
                     <ThickArrow className="text-header-primary" />
-                  </a>
+                  </Link>
                   
                   {/* Mega Menu Dropdown */}
                   {activeCategoryDropdown === cat.name && cat.subcategories.length > 0 && (
@@ -488,21 +488,21 @@ export function Header() {
                                 />
                               </div>
                               <div className="flex-1">
-                                <a 
-                                  href="/" 
+                                <Link 
+                                  to={`/search?q=${encodeURIComponent(subcat.title.toLowerCase())}`}
                                   className="text-header-primary font-bold text-sm uppercase mb-2 block hover:underline transition-colors"
                                 >
                                   {subcat.title}
-                                </a>
+                                </Link>
                                 <ul className="space-y-1">
                                   {subcat.items.slice(0, 4).map((item) => (
                                     <li key={item}>
-                                      <a 
-                                        href="/" 
+                                      <Link 
+                                        to={`/search?q=${encodeURIComponent(item.toLowerCase())}`}
                                         className="text-sm text-foreground hover:text-header-primary hover:underline transition-colors"
                                       >
                                         {item}
-                                      </a>
+                                      </Link>
                                     </li>
                                   ))}
                                 </ul>
