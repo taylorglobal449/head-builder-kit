@@ -189,7 +189,7 @@ export function Header() {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <header className="w-full font-sans relative z-[60]">
+    <header className="w-full font-sans relative z-40">
       {/* Announcement Bar - Red, Thin, Centered */}
       <div className="bg-header-primary text-white py-[2px] text-[13px]">
         <div className="max-w-[1600px] mx-auto px-4 flex items-center justify-center gap-2">
