@@ -30,6 +30,8 @@ export default function SearchResultsPage() {
   const [priceRange, setPriceRange] = useState<[number, number] | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [stockFilter, setStockFilter] = useState<"all" | "in-stock" | "out-of-stock">("all");
+  const [fulfillmentFilter, setFulfillmentFilter] = useState<"all" | "online" | "in-store">("all");
 
   // Fetch from real Shopify API — grab up to 50 results for the search query
   const { products, loading } = useProducts(50, query || undefined);
@@ -53,6 +55,14 @@ export default function SearchResultsPage() {
     };
   }, [products]);
 
+  // Compute stock counts
+  const stockCounts = useMemo(() => {
+    const inStock = products.filter(p => 
+      p.node.variants.edges.some(v => v.node.availableForSale)
+    ).length;
+    return { inStock, outOfStock: products.length - inStock };
+  }, [products]);
+
   // Filter and sort products client-side
   const filteredProducts = useMemo(() => {
     let filtered = [...products];
@@ -66,6 +76,19 @@ export default function SearchResultsPage() {
         const price = parseFloat(p.node.priceRange.minVariantPrice.amount);
         return price >= priceRange[0] && price <= priceRange[1];
       });
+    }
+
+    if (stockFilter === "in-stock") {
+      filtered = filtered.filter(p => p.node.variants.edges.some(v => v.node.availableForSale));
+    } else if (stockFilter === "out-of-stock") {
+      filtered = filtered.filter(p => !p.node.variants.edges.some(v => v.node.availableForSale));
+    }
+
+    // Fulfillment filter — uses tags as a proxy (products tagged "in-store" or "online")
+    if (fulfillmentFilter === "in-store") {
+      filtered = filtered.filter(p => p.node.tags?.some(t => t.toLowerCase().includes("in-store") || t.toLowerCase().includes("instore")));
+    } else if (fulfillmentFilter === "online") {
+      filtered = filtered.filter(p => !p.node.tags?.some(t => t.toLowerCase().includes("in-store") || t.toLowerCase().includes("instore")));
     }
 
     switch (sortBy) {
@@ -90,7 +113,7 @@ export default function SearchResultsPage() {
     }
 
     return filtered;
-  }, [products, selectedBrands, priceRange, sortBy]);
+  }, [products, selectedBrands, priceRange, sortBy, stockFilter, fulfillmentFilter]);
 
   const toggleBrand = (brand: string) => {
     setSelectedBrands(prev => 
@@ -103,9 +126,11 @@ export default function SearchResultsPage() {
   const clearFilters = () => {
     setSelectedBrands([]);
     setPriceRange(null);
+    setStockFilter("all");
+    setFulfillmentFilter("all");
   };
 
-  const hasActiveFilters = selectedBrands.length > 0 || priceRange !== null;
+  const hasActiveFilters = selectedBrands.length > 0 || priceRange !== null || stockFilter !== "all" || fulfillmentFilter !== "all";
 
   const FilterContent = () => (
     <div className="space-y-6">
@@ -128,6 +153,56 @@ export default function SearchResultsPage() {
               <span className="text-sm">{brand}</span>
             </label>
           ))}
+        </CollapsibleContent>
+      </Collapsible>
+
+      {/* Availability Filter */}
+      <Collapsible defaultOpen>
+        <CollapsibleTrigger className="flex items-center justify-between w-full py-2 font-semibold text-foreground">
+          Availability
+          <ChevronDown className="w-4 h-4" />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="pt-2 space-y-2">
+          <label className="flex items-center gap-2 cursor-pointer hover:text-header-primary">
+            <Checkbox
+              checked={stockFilter === "in-stock"}
+              onCheckedChange={() => setStockFilter(stockFilter === "in-stock" ? "all" : "in-stock")}
+            />
+            <span className="text-sm">In Stock</span>
+            <span className="ml-auto text-xs text-muted-foreground">({stockCounts.inStock})</span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer hover:text-header-primary">
+            <Checkbox
+              checked={stockFilter === "out-of-stock"}
+              onCheckedChange={() => setStockFilter(stockFilter === "out-of-stock" ? "all" : "out-of-stock")}
+            />
+            <span className="text-sm">Out of Stock</span>
+            <span className="ml-auto text-xs text-muted-foreground">({stockCounts.outOfStock})</span>
+          </label>
+        </CollapsibleContent>
+      </Collapsible>
+
+      {/* Fulfillment Filter */}
+      <Collapsible defaultOpen>
+        <CollapsibleTrigger className="flex items-center justify-between w-full py-2 font-semibold text-foreground">
+          Fulfillment
+          <ChevronDown className="w-4 h-4" />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="pt-2 space-y-2">
+          <label className="flex items-center gap-2 cursor-pointer hover:text-header-primary">
+            <Checkbox
+              checked={fulfillmentFilter === "online"}
+              onCheckedChange={() => setFulfillmentFilter(fulfillmentFilter === "online" ? "all" : "online")}
+            />
+            <span className="text-sm">Online</span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer hover:text-header-primary">
+            <Checkbox
+              checked={fulfillmentFilter === "in-store"}
+              onCheckedChange={() => setFulfillmentFilter(fulfillmentFilter === "in-store" ? "all" : "in-store")}
+            />
+            <span className="text-sm">In-Store Only</span>
+          </label>
         </CollapsibleContent>
       </Collapsible>
 
@@ -210,6 +285,24 @@ export default function SearchResultsPage() {
                 className="flex items-center gap-1 px-3 py-1 bg-header-primary/10 text-header-primary rounded-full text-sm"
               >
                 ${priceRange[0]} - ${priceRange[1]}
+                <X className="w-3 h-3" />
+              </button>
+            )}
+            {stockFilter !== "all" && (
+              <button
+                onClick={() => setStockFilter("all")}
+                className="flex items-center gap-1 px-3 py-1 bg-header-primary/10 text-header-primary rounded-full text-sm"
+              >
+                {stockFilter === "in-stock" ? "In Stock" : "Out of Stock"}
+                <X className="w-3 h-3" />
+              </button>
+            )}
+            {fulfillmentFilter !== "all" && (
+              <button
+                onClick={() => setFulfillmentFilter("all")}
+                className="flex items-center gap-1 px-3 py-1 bg-header-primary/10 text-header-primary rounded-full text-sm"
+              >
+                {fulfillmentFilter === "online" ? "Online" : "In-Store Only"}
                 <X className="w-3 h-3" />
               </button>
             )}
