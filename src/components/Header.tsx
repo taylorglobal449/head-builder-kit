@@ -199,7 +199,7 @@ export function Header() {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <header className="w-full font-sans">
+    <header className="w-full font-sans relative z-[60]">
       {/* Announcement Bar - Red, Thin, Centered */}
       <div className="bg-header-primary text-white py-[2px] text-[13px]">
         <div className="max-w-[1600px] mx-auto px-4 flex items-center justify-center gap-2">
@@ -327,7 +327,7 @@ export function Header() {
       </div>
 
       {/* Navigation Bar - Single Line, Seamless White */}
-      <nav className="bg-white border-b border-header-border hidden lg:block">
+      <nav className="bg-white border-b border-header-border hidden lg:block relative z-[40]">
         <div className="max-w-[1600px] mx-auto px-4">
           <div className="flex items-center">
             {/* Colored Nav Buttons - Single Line, No Wrap */}
