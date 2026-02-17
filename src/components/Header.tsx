@@ -135,8 +135,8 @@ const utilityLinks = [
 ];
 
 const navButtons = [
-  { name: "SHOP ALL", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: ShoppingBag, hasDropdown: true, hasArrow: true, href: "/products", internal: true },
-  { name: "BRANDS", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: Tag, hasDropdown: true, hasArrow: true, href: "/brands", internal: true },
+  { name: "SHOP ALL", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: ShoppingBag, hasDropdown: false, hasArrow: false, href: "/products", internal: true },
+  { name: "BRANDS", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: Tag, hasDropdown: false, hasArrow: false, href: "/brands", internal: true },
   { name: "HOT DEALS", color: "bg-header-primary", hoverColor: "hover:bg-header-primary-hover", textColor: "text-white", icon: FlameKindling, hasDropdown: false, hasArrow: false, href: "/hot-deals", internal: true },
   { name: "NEW PRODUCTS", color: "bg-[#2563eb]", hoverColor: "hover:bg-[#1d4ed8]", textColor: "text-white", icon: Sparkles, hasDropdown: false, hasArrow: false, href: "/new-products", internal: true },
   { name: "CLOSEOUTS", color: "bg-[#16a34a]", hoverColor: "hover:bg-[#15803d]", textColor: "text-white", icon: DollarSign, hasDropdown: false, hasArrow: false, href: "/closeouts", internal: true },
