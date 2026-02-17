@@ -132,11 +132,21 @@ const utilityLinks = [
 
 const navButtons = [
   { name: "SHOP ALL", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: ShoppingBag, hasDropdown: true, hasArrow: true, href: "/products", internal: true },
-  { name: "BRANDS", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: Tag, hasDropdown: false, hasArrow: false, href: "/brands", internal: true },
+  { name: "BRANDS", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: Tag, hasDropdown: true, hasArrow: true, href: "/brands", internal: true },
   { name: "HOT DEALS", color: "bg-header-primary", hoverColor: "hover:bg-header-primary-hover", textColor: "text-white", icon: FlameKindling, hasDropdown: false, hasArrow: false, href: "/hot-deals", internal: true },
   { name: "NEW PRODUCTS", color: "bg-[#2563eb]", hoverColor: "hover:bg-[#1d4ed8]", textColor: "text-white", icon: Sparkles, hasDropdown: false, hasArrow: false, href: "/new-products", internal: true },
   { name: "CLOSEOUTS", color: "bg-[#16a34a]", hoverColor: "hover:bg-[#15803d]", textColor: "text-white", icon: DollarSign, hasDropdown: false, hasArrow: false, href: "/closeouts", internal: true },
-  { name: "FASTENER FINDER", color: "bg-[#d97706]", hoverColor: "hover:bg-[#b45309]", textColor: "text-white", icon: Wrench, hasDropdown: false, hasArrow: false, href: "/fasteners", internal: true },
+  { name: "FASTENERS", color: "bg-[#d97706]", hoverColor: "hover:bg-[#b45309]", textColor: "text-white", icon: Wrench, hasDropdown: true, hasArrow: true, href: "/fasteners", internal: true },
+];
+
+const fastenersDropdown = [
+  { name: "Screws", href: "/search?q=screws" },
+  { name: "Bolts & Nuts", href: "/search?q=bolts" },
+  { name: "Anchors", href: "/search?q=anchors" },
+  { name: "Nails & Staples", href: "/search?q=nails" },
+  { name: "Rivets & Washers", href: "/search?q=rivets" },
+  { name: "Threaded Rod", href: "/search?q=threaded+rod" },
+  { name: "View All Fasteners", href: "/search?q=fasteners" },
 ];
 
 // Dropdown content with real links
@@ -381,6 +391,30 @@ export function Header() {
                                   {item.name}
                                 </a>
                               )}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Dropdown for FASTENERS */}
+                    {btn.name === "FASTENERS" && activeDropdown === "FASTENERS" && (
+                      <div className="absolute left-0 top-full mt-0 bg-white border border-header-border rounded-lg shadow-xl z-50 min-w-[220px]">
+                        <div className="p-2">
+                          <Link
+                            to="/fasteners"
+                            className="flex items-center gap-2 px-3 py-2.5 bg-[#d97706] hover:bg-[#b45309] text-white rounded-md font-bold text-sm transition-colors"
+                          >
+                            <Wrench className="w-4 h-4" />
+                            FASTENER FINDER
+                          </Link>
+                        </div>
+                        <ul className="py-1 border-t border-header-border">
+                          {fastenersDropdown.map((item) => (
+                            <li key={item.name}>
+                              <Link to={item.href} className={`block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-header-primary ${item.name === "View All Fasteners" ? "font-bold border-t border-header-border mt-1 pt-3" : ""}`}>
+                                {item.name}
+                              </Link>
                             </li>
                           ))}
                         </ul>
