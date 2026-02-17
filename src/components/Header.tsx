@@ -69,6 +69,10 @@ const navCategories = [
       { title: "Clamps & Vises", items: ["Bar Clamps", "C-Clamps", "Bench Vises", "Spring Clamps"] },
     ]
   },
+  {
+    name: "FASTENERS",
+    subcategories: [], // Uses custom dropdown instead of mega menu
+  },
   { 
     name: "TOOL ACCESSORIES",
     subcategories: [
@@ -136,7 +140,6 @@ const navButtons = [
   { name: "HOT DEALS", color: "bg-header-primary", hoverColor: "hover:bg-header-primary-hover", textColor: "text-white", icon: FlameKindling, hasDropdown: false, hasArrow: false, href: "/hot-deals", internal: true },
   { name: "NEW PRODUCTS", color: "bg-[#2563eb]", hoverColor: "hover:bg-[#1d4ed8]", textColor: "text-white", icon: Sparkles, hasDropdown: false, hasArrow: false, href: "/new-products", internal: true },
   { name: "CLOSEOUTS", color: "bg-[#16a34a]", hoverColor: "hover:bg-[#15803d]", textColor: "text-white", icon: DollarSign, hasDropdown: false, hasArrow: false, href: "/closeouts", internal: true },
-  { name: "FASTENERS", color: "bg-transparent", hoverColor: "hover:text-header-primary", textColor: "text-foreground", icon: Wrench, hasDropdown: true, hasArrow: true, href: "/fasteners", internal: true },
 ];
 
 const fastenersDropdown = [
@@ -397,29 +400,6 @@ export function Header() {
                       </div>
                     )}
 
-                    {/* Dropdown for FASTENERS */}
-                    {btn.name === "FASTENERS" && activeDropdown === "FASTENERS" && (
-                      <div className="absolute left-0 top-full mt-0 bg-white border border-header-border rounded-lg shadow-xl z-50 min-w-[220px]">
-                        <ul className="py-2">
-                          <li className="px-2 mb-1">
-                            <Link
-                              to="/fasteners"
-                              className="flex items-center gap-2 px-3 py-2 bg-[#d97706] hover:bg-[#b45309] text-white rounded-md font-bold text-sm transition-colors"
-                            >
-                              <Wrench className="w-4 h-4" />
-                              Fastener Finder
-                            </Link>
-                          </li>
-                          {fastenersDropdown.map((item) => (
-                            <li key={item.name}>
-                              <Link to={item.href} className={`block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-header-primary ${item.name === "View All Fasteners" ? "font-bold border-t border-header-border mt-1 pt-3" : ""}`}>
-                                {item.name}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
                   </div>
                 );
               })}
@@ -442,14 +422,37 @@ export function Header() {
                     <ThickArrow className="text-header-primary" />
                   </a>
                   
-                  {/* Mega Menu Dropdown - ACME Style */}
-                  {activeCategoryDropdown === cat.name && (
+                  {/* FASTENERS — simple dropdown */}
+                  {activeCategoryDropdown === cat.name && cat.name === "FASTENERS" && (
+                    <div className="absolute left-0 top-full mt-0 bg-white border border-header-border rounded-lg shadow-xl z-50 min-w-[220px]">
+                      <ul className="py-2">
+                        <li className="px-2 mb-1">
+                          <Link
+                            to="/fasteners"
+                            className="flex items-center gap-2 px-3 py-2 bg-[#d97706] hover:bg-[#b45309] text-white rounded-md font-bold text-sm transition-colors"
+                          >
+                            <Wrench className="w-4 h-4" />
+                            Fastener Finder
+                          </Link>
+                        </li>
+                        {fastenersDropdown.map((item) => (
+                          <li key={item.name}>
+                            <Link to={item.href} className={`block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-header-primary ${item.name === "View All Fasteners" ? "font-bold border-t border-header-border mt-1 pt-3" : ""}`}>
+                              {item.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Mega Menu Dropdown - for other categories */}
+                  {activeCategoryDropdown === cat.name && cat.name !== "FASTENERS" && (
                     <div className="fixed left-0 right-0 top-auto mt-0 bg-white border-t border-b border-header-border shadow-xl z-50">
                       <div className="max-w-[1600px] mx-auto px-6 py-8">
                         <div className="grid grid-cols-5 gap-x-6 gap-y-6">
                           {cat.subcategories.map((subcat) => (
                             <div key={subcat.title} className="flex gap-3">
-                              {/* Category Image */}
                               <div className="w-16 h-16 bg-muted rounded flex items-center justify-center shrink-0 overflow-hidden">
                                 <img 
                                   src={subcategoryImages[subcat.title] || `https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop`}
@@ -457,7 +460,6 @@ export function Header() {
                                   className="w-full h-full object-cover"
                                 />
                               </div>
-                              {/* Category Content */}
                               <div className="flex-1">
                                 <h4 className="text-header-primary font-bold text-sm uppercase mb-2">
                                   {subcat.title}
