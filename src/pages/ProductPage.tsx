@@ -51,10 +51,15 @@ export default function ProductPage() {
   }, [product, selectedVariantForSeo]);
 
   // Check for quantity template extras from mock data
-  const mockExtras = useMemo(() => {
-    const mock = TEST_PRODUCTS.find(p => p.node.handle === handle) as MockShopifyProduct | undefined;
-    return mock?.extras?.templateType === 'quantity' ? mock.extras : null;
+  const mockProduct = useMemo(() => {
+    return TEST_PRODUCTS.find(p => p.node.handle === handle) as MockShopifyProduct | undefined;
   }, [handle]);
+  const mockExtras = useMemo(() => {
+    return mockProduct?.extras?.templateType === 'quantity' ? mockProduct.extras : null;
+  }, [mockProduct]);
+  const standardExtras = useMemo(() => {
+    return mockProduct?.extras?.templateType === 'standard' ? mockProduct.extras : null;
+  }, [mockProduct]);
 
   // Resolve quantity discounts for the selected variant (per-size pricing)
   const activeDiscounts = useMemo(() => {
@@ -639,11 +644,11 @@ export default function ProductPage() {
             )}
 
             {/* 5. Features — red bullet points */}
-            {parsedContent.features.length > 0 && (
+            {(standardExtras?.features || parsedContent.features).length > 0 && (
               <div className="pt-4 border-t border-border">
                 <h2 className="text-lg font-bold text-foreground mb-2">Features</h2>
                 <ul className="space-y-1.5">
-                  {parsedContent.features.map((feature, i) => (
+                  {(standardExtras?.features || parsedContent.features).map((feature, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
                       <span className="w-1.5 h-1.5 rounded-full bg-header-primary shrink-0 mt-1.5" />
                       {feature}
@@ -654,11 +659,11 @@ export default function ProductPage() {
             )}
 
             {/* 6. Specs */}
-            {parsedContent.specs.length > 0 && (
+            {(standardExtras?.specs || parsedContent.specs).length > 0 && (
               <div className="pt-4 border-t border-border">
                 <h2 className="text-lg font-bold text-foreground mb-2">Specifications</h2>
                 <div className="border border-border rounded-lg overflow-hidden">
-                  {parsedContent.specs.map((spec, i) => (
+                  {(standardExtras?.specs || parsedContent.specs).map((spec, i) => (
                     <div key={i} className={`flex text-sm ${i % 2 === 0 ? 'bg-muted/30' : ''}`}>
                       <span className="font-medium text-foreground px-3 py-2 w-1/3 border-r border-border">{spec.label}</span>
                       <span className="text-muted-foreground px-3 py-2 flex-1">{spec.value}</span>

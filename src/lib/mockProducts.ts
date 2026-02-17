@@ -16,6 +16,7 @@ export interface MockProductExtras {
   sku?: string;
   features?: string[];
   includes?: string[];
+  specs?: { label: string; value: string }[];
 }
 
 export type MockShopifyProduct = ShopifyProduct & { extras?: MockProductExtras };
@@ -25,7 +26,7 @@ export const TEST_PRODUCTS: MockShopifyProduct[] = [
   {
     node: {
       id: 'gid://shopify/Product/test-1',
-      title: 'Stand Product',
+      title: 'Standard Product',
       description: `The DEWALT DCF860B 20V MAX Brushless Cordless 3-Speed High Torque 1/4 in. Impact Driver delivers exceptional power and control for the most demanding fastening applications. This professional-grade tool is designed for contractors, electricians, and serious DIY enthusiasts who need reliable performance day after day.
 
 POWERFUL PERFORMANCE: This impact driver features a brushless motor that delivers up to 1,825 in-lbs of torque, making it ideal for driving large fasteners into dense materials. The 3-speed settings allow you to match the speed and power to your specific application, giving you precise control whether you're working with delicate materials or driving lag bolts.
@@ -90,6 +91,20 @@ Note: This is a bare tool only. Battery and charger sold separately.`,
         'DCF860B 20V MAX Brushless 1/4" Impact Driver',
         'Belt Clip',
         'Documentation Kit'
+      ],
+      specs: [
+        { label: 'Motor Type', value: 'Brushless' },
+        { label: 'Max Torque', value: '1,825 in-lbs' },
+        { label: 'No-Load Speed', value: '0-1,000 / 0-2,800 / 0-3,250 RPM' },
+        { label: 'Impacts Per Minute', value: '0-1,500 / 0-2,900 / 0-3,800 IPM' },
+        { label: 'Chuck Size', value: '1/4" Hex' },
+        { label: 'Voltage', value: '20V MAX' },
+        { label: 'Tool Length', value: '5.1 in' },
+        { label: 'Weight (bare tool)', value: '2.0 lbs' },
+        { label: 'Battery System', value: 'DEWALT 20V MAX' },
+        { label: 'LED Lights', value: '3 LED with 20-second delay' },
+        { label: 'Speed Settings', value: '3-Speed' },
+        { label: 'UPC', value: '885911839266' }
       ]
     }
   },
