@@ -400,16 +400,16 @@ export function Header() {
                     {/* Dropdown for FASTENERS */}
                     {btn.name === "FASTENERS" && activeDropdown === "FASTENERS" && (
                       <div className="absolute left-0 top-full mt-0 bg-white border border-header-border rounded-lg shadow-xl z-50 min-w-[220px]">
-                        <div className="p-2">
-                          <Link
-                            to="/fasteners"
-                            className="flex items-center gap-2 px-3 py-2.5 bg-[#d97706] hover:bg-[#b45309] text-white rounded-md font-bold text-sm transition-colors"
-                          >
-                            <Wrench className="w-4 h-4" />
-                            FASTENER FINDER
-                          </Link>
-                        </div>
-                        <ul className="py-1 border-t border-header-border">
+                        <ul className="py-2">
+                          <li className="px-2 mb-1">
+                            <Link
+                              to="/fasteners"
+                              className="flex items-center gap-2 px-3 py-2 bg-[#d97706] hover:bg-[#b45309] text-white rounded-md font-bold text-sm transition-colors"
+                            >
+                              <Wrench className="w-4 h-4" />
+                              Fastener Finder
+                            </Link>
+                          </li>
                           {fastenersDropdown.map((item) => (
                             <li key={item.name}>
                               <Link to={item.href} className={`block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-header-primary ${item.name === "View All Fasteners" ? "font-bold border-t border-header-border mt-1 pt-3" : ""}`}>
