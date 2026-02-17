@@ -500,9 +500,12 @@ export function Header() {
                                 />
                               </div>
                               <div className="flex-1">
-                                <h4 className="text-header-primary font-bold text-sm uppercase mb-2">
+                                <a 
+                                  href="/" 
+                                  className="text-header-primary font-bold text-sm uppercase mb-2 block hover:underline transition-colors"
+                                >
                                   {subcat.title}
-                                </h4>
+                                </a>
                                 <ul className="space-y-1">
                                   {subcat.items.slice(0, 4).map((item) => (
                                     <li key={item}>
@@ -515,16 +518,6 @@ export function Header() {
                                     </li>
                                   ))}
                                 </ul>
-                                <a 
-                                  href="/" 
-                                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-header-primary mt-2 font-medium"
-                                >
-                                  View All
-                                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <circle cx="12" cy="12" r="10" strokeWidth="2" />
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8l4 4-4 4M8 12h8" />
-                                  </svg>
-                                </a>
                               </div>
                             </div>
                           ))}
