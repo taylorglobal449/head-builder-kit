@@ -54,9 +54,13 @@ export function SearchDropdown({ open, onOpenChange, inputRef, query, onQueryCha
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
+      const target = e.target as Node;
+      // Only close if click is outside BOTH the dropdown and the input
+      // And the input ref is actually mounted (visible)
+      if (!inputRef.current || !inputRef.current.offsetParent) return;
       if (
-        dropdownRef.current && !dropdownRef.current.contains(e.target as Node) &&
-        inputRef.current && !inputRef.current.contains(e.target as Node)
+        dropdownRef.current && !dropdownRef.current.contains(target) &&
+        !inputRef.current.contains(target)
       ) {
         onOpenChange(false);
       }
@@ -199,7 +203,7 @@ export function SearchDropdown({ open, onOpenChange, inputRef, query, onQueryCha
   return (
     <div
       ref={dropdownRef}
-      className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-[min(1400px,95vw)] bg-popover border border-border rounded-lg shadow-2xl z-50 overflow-hidden"
+      className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-[min(1400px,95vw)] bg-popover border border-border rounded-lg shadow-2xl z-[100] overflow-hidden"
     >
       {/* Loading */}
       {isSearching && !hasResults && (
