@@ -77,7 +77,19 @@ const navCategories = [
   },
   {
     name: "FASTENERS",
-    subcategories: [], // Uses custom dropdown instead of mega menu
+    subcategories: [
+      { title: "Screws", items: ["Wood Screws", "Machine Screws", "Sheet Metal Screws", "Self-Drilling Screws", "Lag Screws"] },
+      { title: "Bolts", items: ["Hex Bolts", "Carriage Bolts", "Flange Bolts", "Eye Bolts", "U-Bolts"] },
+      { title: "Nuts", items: ["Hex Nuts", "Lock Nuts", "Wing Nuts", "Flange Nuts", "Coupling Nuts"] },
+      { title: "Washers", items: ["Flat Washers", "Lock Washers", "Fender Washers", "Split Lock Washers"] },
+      { title: "Concrete & Masonry Anchors", items: ["Wedge Anchors", "Sleeve Anchors", "Drop-In Anchors", "Tapcon Screws"] },
+      { title: "Drywall & Hollow Wall Anchors", items: ["Toggle Bolts", "Molly Bolts", "Plastic Anchors", "Self-Drilling Anchors"] },
+      { title: "Threaded Rod & Studs", items: ["Threaded Rod", "Hanger Bolts", "Double-End Studs"] },
+      { title: "Rivets", items: ["Blind Rivets", "Solid Rivets", "Drive Rivets", "Rivet Nuts"] },
+      { title: "Nails", items: ["Common Nails", "Finish Nails", "Brad Nails", "Roofing Nails", "Framing Nails"] },
+      { title: "Construction & Structural Connectors", items: ["Joist Hangers", "Angle Brackets", "Post Bases", "Straps & Ties"] },
+      { title: "Specialty & Miscellaneous Fasteners", items: ["Pins", "Clips", "Retaining Rings", "Set Screws", "Thumb Screws"] },
+    ],
   },
   { 
     name: "POWER TOOL ACCESSORIES",
@@ -461,32 +473,8 @@ export function Header() {
                     <ThickArrow className="text-header-primary" />
                   </a>
                   
-                  {/* FASTENERS — simple dropdown */}
-                  {activeCategoryDropdown === cat.name && cat.name === "FASTENERS" && (
-                    <div className="absolute left-0 top-full mt-0 bg-white border border-header-border rounded-lg shadow-xl z-50 min-w-[220px]">
-                      <ul className="py-2">
-                        <li className="px-2 mb-1">
-                          <Link
-                            to="/fasteners"
-                            className="flex items-center gap-2 px-3 py-2 bg-[#d97706] hover:bg-[#b45309] text-white rounded-md font-bold text-sm transition-colors"
-                          >
-                            <Wrench className="w-4 h-4" />
-                            Fastener Finder
-                          </Link>
-                        </li>
-                        {fastenersDropdown.map((item) => (
-                          <li key={item.name}>
-                            <Link to={item.href} className={`block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-header-primary ${item.name === "View All Fasteners" ? "font-bold border-t border-header-border mt-1 pt-3" : ""}`}>
-                              {item.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Mega Menu Dropdown - for other categories */}
-                  {activeCategoryDropdown === cat.name && cat.name !== "FASTENERS" && (
+                  {/* Mega Menu Dropdown */}
+                  {activeCategoryDropdown === cat.name && cat.subcategories.length > 0 && (
                     <div className="fixed left-0 right-0 top-auto mt-0 bg-white border-t border-b border-header-border shadow-xl z-50">
                       <div className="max-w-[1600px] mx-auto px-6 py-8">
                         <div className="grid grid-cols-5 gap-x-6 gap-y-6">
