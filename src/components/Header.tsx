@@ -52,21 +52,27 @@ const navCategories = [
   { 
     name: "POWER TOOLS",
     subcategories: [
-      { title: "Drills & Drivers", items: ["Cordless Drills", "Impact Drivers", "Hammer Drills", "Drill Presses"] },
-      { title: "Saws", items: ["Circular Saws", "Miter Saws", "Table Saws", "Reciprocating Saws"] },
-      { title: "Grinders & Sanders", items: ["Angle Grinders", "Bench Grinders", "Belt Sanders", "Orbital Sanders"] },
-      { title: "Rotary Tools", items: ["Rotary Hammers", "Demolition Hammers", "Die Grinders", "Oscillating Tools"] },
-      { title: "Multi-Tools", items: ["Oscillating Multi-Tools", "Combo Kits", "Cordless Systems", "Accessories"] },
+      { title: "Drills & Fastening Tools", items: ["Drills", "Hammer Drills", "Impact Drivers", "Impact Wrenches", "Screw Guns"] },
+      { title: "Saws & Cutting Tools", items: ["Circular Saws", "Reciprocating Saws", "Jig Saws", "Miter Saws", "Track Saws"] },
+      { title: "Grinding, Sanding & Finishing", items: ["Angle Grinders", "Die Grinders", "Sanders", "Polishers", "Buffers"] },
+      { title: "Outdoor Power Equipment", items: ["Pressure Washers", "Blowers", "String Trimmers", "Hedge Trimmers", "Chainsaws"] },
+      { title: "Specialty Power Tools", items: ["Oscillating Multi-Tools", "Heat Guns", "Power Planers", "Power Shears", "Mixers"] },
+      { title: "Power Tool Kits", items: ["Combo Kits"] },
+      { title: "Concrete & Masonry Tools", items: ["Rotary Hammers", "Demolition Hammers", "Concrete Breakers", "Concrete Vibrators", "Rebar Cutters & Benders"] },
     ]
   },
   { 
     name: "HAND TOOLS",
     subcategories: [
-      { title: "Wrenches", items: ["Adjustable Wrenches", "Combination Wrenches", "Socket Sets", "Torque Wrenches"] },
-      { title: "Pliers & Cutters", items: ["Needle Nose Pliers", "Lineman's Pliers", "Wire Strippers", "Diagonal Cutters"] },
-      { title: "Screwdrivers", items: ["Phillips Screwdrivers", "Flathead Screwdrivers", "Precision Sets", "Insulated Sets"] },
-      { title: "Hammers", items: ["Claw Hammers", "Ball Peen Hammers", "Sledgehammers", "Mallets"] },
-      { title: "Clamps & Vises", items: ["Bar Clamps", "C-Clamps", "Bench Vises", "Spring Clamps"] },
+      { title: "Striking Tools", items: ["Hammers", "Mallets", "Sledgehammers", "Dead Blow Hammers"] },
+      { title: "Wrenches & Ratcheting Tools", items: ["Combination Wrenches", "Adjustable Wrenches", "Ratcheting Wrenches", "Torque Wrenches"] },
+      { title: "Sockets & Accessories", items: ["Socket Sets", "Individual Sockets", "Extensions", "Adapters"] },
+      { title: "Pliers & Cutting Tools", items: ["Pliers", "Needle-Nose Pliers", "Locking Pliers", "Wire Cutters", "Bolt Cutters"] },
+      { title: "Screwdrivers & Hex Keys", items: ["Screwdrivers", "Nut Drivers", "Hex Keys", "Torx Keys"] },
+      { title: "Measuring & Layout Tools", items: ["Tape Measures", "Levels", "Squares", "Calipers", "Chalk Lines"] },
+      { title: "Clamping & Vises", items: ["Bar Clamps", "C-Clamps", "Spring Clamps", "Bench Vises"] },
+      { title: "Cutting & Shaping Tools", items: ["Hand Saws", "Chisels", "Files", "Rasps", "Snips"] },
+      { title: "Pry Bars & Lifting Tools", items: ["Pry Bars", "Wrecking Bars", "Crowbars", "Manual Jacks"] },
     ]
   },
   {
@@ -74,53 +80,81 @@ const navCategories = [
     subcategories: [], // Uses custom dropdown instead of mega menu
   },
   { 
-    name: "TOOL ACCESSORIES",
+    name: "POWER TOOL ACCESSORIES",
     subcategories: [
-      { title: "Drill Bits", items: ["Twist Bits", "Spade Bits", "Hole Saws", "Forstner Bits"] },
-      { title: "Saw Blades", items: ["Circular Saw Blades", "Jigsaw Blades", "Reciprocating Blades", "Band Saw Blades"] },
-      { title: "Abrasives", items: ["Grinding Wheels", "Sanding Discs", "Flap Discs", "Cut-Off Wheels"] },
-      { title: "Batteries & Chargers", items: ["Battery Packs", "Chargers", "Power Stations", "Adapters"] },
-      { title: "Router Bits", items: ["Straight Bits", "Flush Trim", "Chamfer Bits", "Round Over Bits"] },
+      { title: "Blades & Abrasives", items: ["Circular Saw Blades", "Reciprocating Saw Blades", "Grinding Wheels", "Cut-Off Wheels", "Sanding Discs"] },
+      { title: "Drilling Accessories", items: ["Twist Drill Bits", "Masonry Bits", "Step Bits", "Hole Saws", "Auger Bits"] },
+      { title: "Fastening Accessories", items: ["Driver Bits", "Bit Holders", "Nut Setters", "Extensions"] },
+      { title: "Batteries & Chargers", items: ["Tool Batteries", "Battery Chargers", "Power Cords & Adapters"] },
+      { title: "Replacement Parts & Consumables", items: ["Carbon Brushes", "Drive Belts", "Filters", "Lubrication", "Replacement Parts"] },
     ]
   },
   { 
-    name: "STRUT & ACCESSORIES",
+    name: "AIR TOOLS & COMPRESSORS",
     subcategories: [
-      { title: "Strut Channel", items: ["Standard Strut", "Slotted Strut", "Half Slot Strut", "Solid Strut"] },
-      { title: "Strut Fittings", items: ["Angle Brackets", "Flat Plates", "U-Bolts", "Beam Clamps"] },
-      { title: "Pipe Hangers", items: ["Clevis Hangers", "Split Ring Hangers", "Riser Clamps", "Pipe Straps"] },
-      { title: "Hardware", items: ["Channel Nuts", "Spring Nuts", "Strut Straps", "End Caps"] },
-      { title: "Mounting", items: ["Wall Brackets", "Ceiling Mounts", "Floor Stands", "Rail Clips"] },
-    ]
-  },
-  { 
-    name: "SAFETY & WORKWEAR",
-    subcategories: [
-      { title: "Eye Protection", items: ["Safety Glasses", "Goggles", "Face Shields", "Welding Helmets"] },
-      { title: "Hearing Protection", items: ["Ear Plugs", "Ear Muffs", "Electronic Muffs", "Banded Plugs"] },
-      { title: "Gloves", items: ["Work Gloves", "Cut Resistant", "Welding Gloves", "Disposable Gloves"] },
-      { title: "Workwear", items: ["Hi-Vis Vests", "Hard Hats", "Steel Toe Boots", "Knee Pads"] },
-      { title: "Respiratory", items: ["Dust Masks", "Half Respirators", "Full Face Masks", "Filters"] },
+      { title: "Air Compressors", items: ["Portable Air Compressors", "Stationary Air Compressors"] },
+      { title: "Pneumatic Fastening Tools", items: ["Air Nailers", "Air Staplers", "Air Impact Wrenches", "Air Ratchets", "Air Rivet Guns"] },
+      { title: "Pneumatic Cutting Tools", items: ["Air Cut-Off Tools", "Air Reciprocating Saws", "Air Shears", "Air Nibblers"] },
+      { title: "Pneumatic Grinding & Finishing", items: ["Air Die Grinders", "Air Angle Grinders", "Air Sanders", "Air Polishers"] },
+      { title: "Air Tool Accessories", items: ["Air Hoses", "Hose Reels", "Couplers & Fittings", "Regulators", "Filters"] },
     ]
   },
   { 
     name: "MACHINE TOOLS",
     subcategories: [
-      { title: "Lathes", items: ["Metal Lathes", "Wood Lathes", "Mini Lathes", "Lathe Accessories"] },
-      { title: "Milling", items: ["Vertical Mills", "Drill Mills", "End Mills", "Milling Vises"] },
-      { title: "Metalworking", items: ["Band Saws", "Cold Saws", "Iron Workers", "Sheet Metal Tools"] },
-      { title: "Woodworking", items: ["Jointers", "Planers", "Shapers", "Dust Collectors"] },
-      { title: "CNC & Digital", items: ["CNC Routers", "Laser Cutters", "3D Printers", "Software"] },
+      { title: "Metal Cutting Machines", items: ["Plasma Cutting Machines", "Laser Cutting Machines", "Waterjet Cutting Machines"] },
+      { title: "Metal Forming Machines", items: ["Press Brakes", "Ironworkers", "Plate Shears", "Punch Presses", "Roll Forming Machines"] },
+      { title: "Drilling & Boring Machines", items: ["Drill Presses", "Radial Drilling Machines", "Magnetic Drill Presses", "Boring Machines"] },
+      { title: "Grinding & Finishing Machines", items: ["Surface Grinders", "Cylindrical Grinders", "Bench Grinders", "Belt Grinding Machines"] },
+      { title: "Milling Machines", items: ["Vertical Milling Machines", "Horizontal Milling Machines", "Knee Mills", "CNC Milling Machines"] },
+      { title: "Turning Machines (Lathes)", items: ["Engine Lathes", "Bench Lathes", "CNC Lathes", "Toolroom Lathes"] },
+      { title: "Sawing Machines", items: ["Horizontal Band Saws", "Vertical Band Saws", "Cold Saws", "Circular Saw Machines"] },
+      { title: "Specialty & Production Machines", items: ["Threading Machines", "Tapping Machines", "Broaching Machines", "Slotting Machines"] },
     ]
   },
   { 
-    name: "OTHER",
+    name: "STORAGE & WORKSPACE",
     subcategories: [
-      { title: "Air Tools & Compressors", items: ["Air Compressors", "Impact Wrenches", "Air Nailers", "Pneumatic Accessories"] },
-      { title: "Storage & Workspace", items: ["Tool Boxes", "Tool Chests", "Workbenches", "Cabinets"] },
-      { title: "Jobsite Supplies", items: ["Extension Cords", "Work Lights", "Ladders", "Material Handling"] },
-      { title: "Measuring Tools", items: ["Tape Measures", "Levels", "Laser Levels", "Squares"] },
-      { title: "Welding", items: ["MIG Welders", "TIG Welders", "Stick Welders", "Welding Accessories"] },
+      { title: "Tool Storage", items: ["Toolboxes", "Tool Chests", "Tool Cabinets", "Small Parts Organizers", "Drawer Storage Units"] },
+      { title: "Modular Storage Systems", items: ["Stackable Tool Cases", "Rolling Base Units", "Modular Organizers", "System Mounting Plates"] },
+      { title: "Mobile Storage & Carts", items: ["Tool Carts", "Service Carts", "Rolling Tool Cabinets", "Utility Carts"] },
+      { title: "Shop Equipment", items: ["Jobsite Lights", "Work Lights", "Tripod Lights", "Radios", "Fans"] },
+    ]
+  },
+  { 
+    name: "SAFETY & WORKWEAR",
+    subcategories: [
+      { title: "Head Protection", items: ["Hard Hats", "Bump Caps"] },
+      { title: "Eye & Face Protection", items: ["Safety Glasses", "Goggles", "Face Shields", "Welding Helmets"] },
+      { title: "Hearing Protection", items: ["Earplugs", "Earmuffs"] },
+      { title: "Hand Protection", items: ["Work Gloves", "Cut-Resistant Gloves", "Impact Gloves", "Chemical-Resistant Gloves"] },
+      { title: "Protective Clothing & Workwear", items: ["Work Pants", "Work Shirts", "Jackets & Coats", "Hi-Vis Apparel", "FR Clothing"] },
+      { title: "Foot Protection", items: ["Safety Boots", "Safety Shoes", "Toe Guards"] },
+      { title: "Fall Protection", items: ["Safety Harnesses", "Lanyards", "Anchors", "Self-Retracting Lifelines"] },
+      { title: "Respiratory Protection", items: ["Disposable Respirators", "Reusable Respirators", "Respirator Cartridges", "Filters"] },
+      { title: "Jobsite Safety Equipment", items: ["Safety Cones", "Barricades", "Caution Tape", "Safety Signage"] },
+      { title: "Tool Carrying & Wearable Accessories", items: ["Tool Belts", "Tool Pouches", "Tool Holsters", "Tool Lanyards"] },
+    ]
+  },
+  { 
+    name: "JOBSITE SUPPLIES",
+    subcategories: [
+      { title: "Material Handling Equipment", items: ["Hand Trucks", "Dollies", "Platform Carts", "Pallet Jacks", "Hoists"] },
+      { title: "Ladders & Access Equipment", items: ["Step Ladders", "Extension Ladders", "Platform Ladders", "Folding Ladders"] },
+      { title: "Jobsite Consumables", items: ["Marking Paint (Spray)", "Lubricants", "Threadlock Compounds", "Cleaners & Degreasers"] },
+      { title: "Tapes, Adhesives & Sealants", items: ["Duct Tape", "Electrical Tape", "Construction Tape", "Adhesives", "Sealants"] },
+    ]
+  },
+  { 
+    name: "STRUT & ACCESSORIES",
+    subcategories: [
+      { title: "Strut Channel", items: ["Standard Strut Channel", "Shallow Strut Channel", "Back-to-Back Strut Channel", "Solid (Plain) Strut Channel"] },
+      { title: "Angle & Flat Fittings", items: ["90° Angle Fittings", "Flat Plate Fittings", "Offset Fittings"] },
+      { title: "Tee & Cross Fittings", items: ["Tee Fittings", "Cross Fittings", "Four-Hole Fittings"] },
+      { title: "Structural Brackets", items: ["Corner Brackets", "Gussets", "Channel Brackets", "Mounting Plates"] },
+      { title: "Beam & Structural Attachments", items: ["Beam Clamps", "Girder Clamps", "Structural Clips"] },
+      { title: "Channel Nuts", items: ["Spring Channel Nuts", "Regular Channel Nuts", "Cone Channel Nuts", "Coil Channel Nuts"] },
+      { title: "Pipe & Conduit Supports", items: ["Pipe Clamps", "Clevis Hangers", "Riser Clamps", "Conduit Clamps"] },
     ]
   },
 ];
@@ -144,11 +178,16 @@ const navButtons = [
 
 const fastenersDropdown = [
   { name: "Screws", href: "/search?q=screws" },
-  { name: "Bolts & Nuts", href: "/search?q=bolts" },
-  { name: "Anchors", href: "/search?q=anchors" },
-  { name: "Nails & Staples", href: "/search?q=nails" },
-  { name: "Rivets & Washers", href: "/search?q=rivets" },
-  { name: "Threaded Rod", href: "/search?q=threaded+rod" },
+  { name: "Bolts", href: "/search?q=bolts" },
+  { name: "Nuts", href: "/search?q=nuts" },
+  { name: "Washers", href: "/search?q=washers" },
+  { name: "Concrete & Masonry Anchors", href: "/search?q=concrete+anchors" },
+  { name: "Drywall & Hollow Wall Anchors", href: "/search?q=drywall+anchors" },
+  { name: "Threaded Rod & Studs", href: "/search?q=threaded+rod" },
+  { name: "Rivets", href: "/search?q=rivets" },
+  { name: "Nails", href: "/search?q=nails" },
+  { name: "Construction & Structural Connectors", href: "/search?q=structural+connectors" },
+  { name: "Specialty & Miscellaneous Fasteners", href: "/search?q=specialty+fasteners" },
   { name: "View All Fasteners", href: "/search?q=fasteners" },
 ];
 
