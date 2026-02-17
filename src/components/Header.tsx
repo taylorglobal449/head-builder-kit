@@ -80,16 +80,6 @@ const navCategories = [
     ]
   },
   { 
-    name: "FASTENERS",
-    subcategories: [
-      { title: "Screws", items: ["Wood Screws", "Drywall Screws", "Machine Screws", "Self-Tapping Screws"] },
-      { title: "Bolts & Nuts", items: ["Hex Bolts", "Carriage Bolts", "Lag Bolts", "Lock Nuts"] },
-      { title: "Anchors", items: ["Concrete Anchors", "Drywall Anchors", "Toggle Bolts", "Sleeve Anchors"] },
-      { title: "Nails & Staples", items: ["Framing Nails", "Finish Nails", "Brad Nails", "Staples"] },
-      { title: "Rivets & Washers", items: ["Pop Rivets", "Blind Rivets", "Flat Washers", "Lock Washers"] },
-    ]
-  },
-  { 
     name: "STRUT & ACCESSORIES",
     subcategories: [
       { title: "Strut Channel", items: ["Standard Strut", "Slotted Strut", "Half Slot Strut", "Solid Strut"] },
@@ -331,7 +321,7 @@ export function Header() {
         <div className="max-w-[1600px] mx-auto px-4">
           <div className="flex items-center">
             {/* Colored Nav Buttons - Single Line, No Wrap */}
-            <div className="flex items-center gap-1.5 mr-4 shrink-0 pr-4 border-r border-header-border">
+            <div className="flex items-center gap-1 mr-3 shrink-0 pr-3 border-r border-header-border">
               {navButtons.map((btn) => {
                 const IconComponent = btn.icon;
                 return (
@@ -344,7 +334,7 @@ export function Header() {
                     {(btn as any).internal ? (
                       <Link
                         to={btn.href}
-                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[12px] font-bold px-2.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-1`}
+                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[11px] font-bold px-2 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-1`}
                       >
                         <IconComponent className="w-3 h-3" />
                         {btn.name}
@@ -353,7 +343,7 @@ export function Header() {
                     ) : (
                       <a
                         href={btn.href}
-                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[12px] font-bold px-2.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-1`}
+                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[11px] font-bold px-2 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-1`}
                       >
                         <IconComponent className="w-3 h-3" />
                         {btn.name}
@@ -412,7 +402,7 @@ export function Header() {
                 >
                   <a
                     href="/"
-                    className="flex items-center gap-1.5 px-3 py-2.5 text-[12px] font-bold text-header-text hover:text-header-primary transition-colors whitespace-nowrap"
+                    className="flex items-center gap-1 px-2.5 py-2.5 text-[11px] font-bold text-header-text hover:text-header-primary transition-colors whitespace-nowrap"
                   >
                     {cat.name}
                     <ThickArrow className="text-header-primary" />
