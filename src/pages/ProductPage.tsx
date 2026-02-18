@@ -675,7 +675,7 @@ export default function ProductPage() {
             {/* Trust Badges */}
             {trustBadges}
 
-            {/* Description */}
+            {/* Description — full width */}
             {parsedContent.description && (
               <div className="border-t border-border pt-4">
                 <h2 className="text-lg font-bold text-foreground mb-2">Description</h2>
@@ -683,33 +683,38 @@ export default function ProductPage() {
               </div>
             )}
 
-            {/* Features — red bullet points */}
-            {(standardExtras?.features || parsedContent.features).length > 0 && (
-              <div className="border-t border-border pt-4">
-                <h2 className="text-lg font-bold text-foreground mb-2">Features</h2>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-1.5">
-                  {(standardExtras?.features || parsedContent.features).map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <span className="w-1.5 h-1.5 rounded-full bg-header-primary shrink-0 mt-1.5" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            {/* Features + Specs side by side */}
+            {((standardExtras?.features || parsedContent.features).length > 0 || (standardExtras?.specs || parsedContent.specs).length > 0) && (
+              <div className="border-t border-border pt-4 grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                {/* Features */}
+                {(standardExtras?.features || parsedContent.features).length > 0 && (
+                  <div>
+                    <h2 className="text-lg font-bold text-foreground mb-2">Features</h2>
+                    <ul className="space-y-1.5">
+                      {(standardExtras?.features || parsedContent.features).map((feature, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                          <span className="w-1.5 h-1.5 rounded-full bg-header-primary shrink-0 mt-1.5" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
-            {/* Specs */}
-            {(standardExtras?.specs || parsedContent.specs).length > 0 && (
-              <div className="border-t border-border pt-4">
-                <h2 className="text-lg font-bold text-foreground mb-2">Specifications</h2>
-                <div className="border border-border rounded-lg overflow-hidden">
-                  {(standardExtras?.specs || parsedContent.specs).map((spec, i) => (
-                    <div key={i} className={`flex text-sm ${i % 2 === 0 ? 'bg-muted/30' : ''}`}>
-                      <span className="font-medium text-foreground px-3 py-2 w-1/3 border-r border-border">{spec.label}</span>
-                      <span className="text-muted-foreground px-3 py-2 flex-1">{spec.value}</span>
+                {/* Specs */}
+                {(standardExtras?.specs || parsedContent.specs).length > 0 && (
+                  <div>
+                    <h2 className="text-lg font-bold text-foreground mb-2">Specifications</h2>
+                    <div className="border border-border rounded-lg overflow-hidden">
+                      {(standardExtras?.specs || parsedContent.specs).map((spec, i) => (
+                        <div key={i} className={`flex text-sm ${i % 2 === 0 ? 'bg-muted/30' : ''}`}>
+                          <span className="font-medium text-foreground px-3 py-2 w-1/3 border-r border-border">{spec.label}</span>
+                          <span className="text-muted-foreground px-3 py-2 flex-1">{spec.value}</span>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
