@@ -316,7 +316,7 @@ export default function ProductPage() {
 
   const imageGallery = (
     <div className="space-y-3">
-      <div className="relative aspect-[4/5] bg-muted rounded-lg overflow-hidden group">
+      <div className="relative aspect-square bg-muted rounded-lg overflow-hidden group">
         {images[selectedImage]?.node ? (
           <img 
             src={images[selectedImage].node.url}
@@ -352,13 +352,14 @@ export default function ProductPage() {
           </>
         )}
       </div>
+      {/* Thumbnail strip — scrollable horizontally */}
       {images.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-2">
+        <div className="flex gap-2 overflow-x-auto pb-1">
           {images.map((img, index) => (
             <button
               key={index}
               onClick={() => setSelectedImage(index)}
-              className={`w-16 h-16 rounded-md overflow-hidden border-2 shrink-0 aspect-square ${
+              className={`w-16 h-16 rounded-md overflow-hidden border-2 shrink-0 aspect-square transition-colors ${
                 selectedImage === index ? 'border-header-primary' : 'border-transparent hover:border-border'
               }`}
             >
@@ -405,8 +406,8 @@ export default function ProductPage() {
           {breadcrumb}
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10 items-start">
-            {/* Images — 2/5 width, sticky — releases when right col ends */}
-            <div className="lg:col-span-2 lg:sticky lg:top-[104px]">
+            {/* Images — 2/5 width, sticky — releases naturally when right col ends */}
+            <div className="lg:col-span-2 lg:sticky lg:top-4">
               {imageGallery}
             </div>
 
@@ -573,8 +574,8 @@ export default function ProductPage() {
         {breadcrumb}
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10 items-start">
-          {/* Images — 2/5 width, sticky — releases when right col ends */}
-          <div className="lg:col-span-2 lg:sticky lg:top-[104px]">
+          {/* Images — 2/5 width, sticky — releases naturally when right col ends */}
+          <div className="lg:col-span-2 lg:sticky lg:top-4">
             {imageGallery}
           </div>
 
