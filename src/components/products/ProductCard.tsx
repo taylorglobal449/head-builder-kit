@@ -104,63 +104,50 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
       
       {/* Content */}
-      <div className="p-3 flex flex-col flex-1 border-t border-border">
-        {/* Title */}
+      <div className="p-2.5 flex flex-col flex-1 border-t border-border">
+        {/* Title - always 2 lines */}
         <h3 className="font-bold text-sm text-card-foreground group-hover:text-header-primary transition-colors line-clamp-2 h-10 leading-5 overflow-hidden">
           {node.title}
         </h3>
         
-        {/* SKU - fixed height to keep alignment */}
-        <p className="text-[11px] text-muted-foreground mt-1 h-4">
+        {/* SKU - fixed height */}
+        <p className="text-[11px] text-muted-foreground mt-0.5 h-[14px] leading-none">
           {sku ? `SKU# ${sku}` : ''}
         </p>
 
-        {/* Stock Status */}
-        <div className="mt-1.5 flex items-center gap-1">
+        {/* Stock + Free Shipping on one line */}
+        <div className="mt-1 flex items-center gap-2 h-4">
           {isInStock ? (
             <>
-              <Check className="w-3.5 h-3.5 text-green-600 shrink-0" />
-              <span className="text-xs font-medium text-green-600">In Stock</span>
+              <Check className="w-3 h-3 text-green-600 shrink-0" />
+              <span className="text-[11px] font-medium text-green-600">In Stock</span>
             </>
           ) : (
-            <span className="text-xs font-medium text-destructive">Out of Stock</span>
+            <span className="text-[11px] font-medium text-destructive">Out of Stock</span>
           )}
-        </div>
-
-        {/* Free Shipping - fixed height to keep alignment */}
-        <div className="mt-1 flex items-center gap-1 h-4">
           {freeShipping && (
             <>
-              <Truck className="w-3.5 h-3.5 text-header-primary shrink-0" />
-              <span className="text-[11px] font-medium text-header-primary">Free Shipping</span>
+              <span className="text-muted-foreground">·</span>
+              <Truck className="w-3 h-3 text-header-primary shrink-0" />
+              <span className="text-[11px] font-medium text-header-primary">Free Ship</span>
             </>
           )}
         </div>
 
-        {/* Price - pushed to bottom */}
-        <div className="mt-auto pt-3">
+        {/* Price + Was on same line */}
+        <div className="mt-1.5">
           {mapp ? (
-            <span className="text-sm font-bold text-header-primary">
-              See Price in Cart
-            </span>
+            <span className="text-sm font-bold text-header-primary">See Price in Cart</span>
           ) : (
-            <div className="flex flex-col">
-              <span className="text-xl font-black text-foreground">
-                ${parseFloat(price.amount).toFixed(2).replace(/\.(\d{2})$/, '.$1')}
+            <div className="flex items-baseline gap-2 flex-wrap">
+              <span className="text-xl font-black text-foreground leading-none">
+                ${parseFloat(price.amount).toFixed(2)}
               </span>
-              {/* Fixed height row so button always stays at same position */}
-              <div className="flex items-center gap-2 mt-0.5 h-4">
-                {hasDiscount && (
-                  <>
-                    <span className="text-xs text-muted-foreground">
-                      Was: <span className="line-through">${parseFloat(compareAtPrice!.amount).toFixed(2)}</span>
-                    </span>
-                    <span className="text-xs font-bold text-destructive">
-                      Save {discountPercent}%
-                    </span>
-                  </>
-                )}
-              </div>
+              {hasDiscount && (
+                <span className="text-[11px] text-muted-foreground leading-none">
+                  Was: <span className="line-through">${parseFloat(compareAtPrice!.amount).toFixed(2)}</span>
+                </span>
+              )}
             </div>
           )}
         </div>
@@ -169,10 +156,10 @@ export function ProductCard({ product }: ProductCardProps) {
         <button
           onClick={handleAddToCart}
           disabled={isLoading || !isInStock}
-          className="mt-3 w-full flex items-center justify-center gap-2 py-2 px-3 bg-header-primary text-primary-foreground text-xs font-bold uppercase tracking-wider rounded hover:bg-header-primary-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="mt-2 w-full flex items-center justify-center gap-2 py-1.5 px-3 bg-header-primary text-primary-foreground text-xs font-bold uppercase tracking-wider rounded hover:bg-header-primary-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Add to cart"
         >
-          <ShoppingCart className="w-4 h-4" />
+          <ShoppingCart className="w-3.5 h-3.5" />
           Add to Cart
         </button>
       </div>
