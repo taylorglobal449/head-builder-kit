@@ -238,6 +238,24 @@ export default function ProductPage() {
           <span>SKU: <span className="font-medium text-foreground">{mockExtras?.sku || selectedVariant?.sku}</span></span>
         </>
       )}
+      {mockExtras?.partNumber && (
+        <>
+          <span className="text-border">|</span>
+          <span>Part #: <span className="font-medium text-foreground">{mockExtras.partNumber}</span></span>
+        </>
+      )}
+      {mockExtras?.mfgPartNumber && (
+        <>
+          <span className="text-border">|</span>
+          <span>Mfg Part #: <span className="font-medium text-foreground">{mockExtras.mfgPartNumber}</span></span>
+        </>
+      )}
+      {mockExtras?.upc && (
+        <>
+          <span className="text-border">|</span>
+          <span>UPC: <span className="font-medium text-foreground">{mockExtras.upc}</span></span>
+        </>
+      )}
     </div>
   );
 
