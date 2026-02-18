@@ -378,18 +378,18 @@ export function Header() {
                     {(btn as any).internal ? (
                       <Link
                         to={btn.href}
-                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[10px] font-bold px-1.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-0.5`}
+                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[13px] font-bold px-1.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-0.5`}
                       >
-                        <IconComponent className="w-3 h-3" />
+                        <IconComponent className="w-3.5 h-3.5" />
                         {btn.name}
                         {btn.hasArrow && <ThickArrow className="text-header-primary" />}
                       </Link>
                     ) : (
                       <a
                         href={btn.href}
-                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[10px] font-bold px-1.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-0.5`}
+                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[13px] font-bold px-1.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-0.5`}
                       >
-                        <IconComponent className="w-3 h-3" />
+                        <IconComponent className="w-3.5 h-3.5" />
                         {btn.name}
                         {btn.hasArrow && <ThickArrow className="text-header-primary" />}
                       </a>
