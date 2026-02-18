@@ -146,8 +146,8 @@ const rawCategories: { id: string; name: string; parentId: string }[] = [
   { id: "dds101", name: "Crowbars", parentId: "dds98" },
   { id: "dds102", name: "Manual Jacks", parentId: "dds98" },
 
-  // Power Tool Accessories
-  { id: "dds103", name: "Power Tool Accessories", parentId: "" },
+  // Tool Accessories
+  { id: "dds103", name: "Tool Accessories", parentId: "" },
   { id: "dds104", name: "Blades & Abrasives", parentId: "dds103" },
   { id: "dds105", name: "Circular Saw Blades", parentId: "dds104" },
   { id: "dds106", name: "Reciprocating Saw Blades", parentId: "dds104" },
@@ -180,8 +180,11 @@ const rawCategories: { id: string; name: string; parentId: string }[] = [
   { id: "dds133", name: "Lubrication", parentId: "dds129" },
   { id: "dds134", name: "Replacement Parts", parentId: "dds129" },
 
-  // Air Tools & Compressors
-  { id: "dds135", name: "Air Tools & Compressors", parentId: "" },
+  // Other (Air Tools & Accessories, Storage & Workspace, Jobsite Supplies)
+  { id: "dds_other", name: "Other", parentId: "" },
+
+  // Air Tools & Accessories
+  { id: "dds135", name: "Air Tools & Accessories", parentId: "dds_other" },
   { id: "dds136", name: "Air Compressors", parentId: "dds135" },
   { id: "dds137", name: "Portable Air Compressors", parentId: "dds136" },
   { id: "dds138", name: "Stationary Air Compressors", parentId: "dds136" },
@@ -254,7 +257,7 @@ const rawCategories: { id: string; name: string; parentId: string }[] = [
   { id: "dds203", name: "Slotting Machines", parentId: "dds199" },
 
   // Storage & Workspace
-  { id: "dds204", name: "Storage & Workspace", parentId: "" },
+  { id: "dds204", name: "Storage & Workspace", parentId: "dds_other" },
   { id: "dds205", name: "Tool Storage", parentId: "dds204" },
   { id: "dds206", name: "Toolboxes", parentId: "dds205" },
   { id: "dds207", name: "Tool Chests", parentId: "dds205" },
@@ -331,7 +334,7 @@ const rawCategories: { id: string; name: string; parentId: string }[] = [
   { id: "dds276", name: "Suspenders", parentId: "dds271" },
 
   // Jobsite Supplies & Material Handling
-  { id: "dds277", name: "Jobsite Supplies & Material Handling", parentId: "" },
+  { id: "dds277", name: "Jobsite Supplies & Material Handling", parentId: "dds_other" },
   { id: "dds278", name: "Material Handling Equipment", parentId: "dds277" },
   { id: "dds279", name: "Hand Trucks", parentId: "dds278" },
   { id: "dds280", name: "Dollies", parentId: "dds278" },
