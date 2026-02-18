@@ -92,7 +92,7 @@ const navCategories = [
     ],
   },
   { 
-    name: "POWER TOOL ACCESSORIES",
+    name: "TOOL ACCESSORIES",
     subcategories: [
       { title: "Blades & Abrasives", items: ["Circular Saw Blades", "Reciprocating Saw Blades", "Grinding Wheels", "Cut-Off Wheels", "Sanding Discs"] },
       { title: "Drilling Accessories", items: ["Twist Drill Bits", "Masonry Bits", "Step Bits", "Hole Saws", "Auger Bits"] },
@@ -102,7 +102,7 @@ const navCategories = [
     ]
   },
   { 
-    name: "AIR TOOLS & COMPRESSORS",
+    name: "AIR TOOLS",
     subcategories: [
       { title: "Air Compressors", items: ["Portable Air Compressors", "Stationary Air Compressors"] },
       { title: "Pneumatic Fastening Tools", items: ["Air Nailers", "Air Staplers", "Air Impact Wrenches", "Air Ratchets", "Air Rivet Guns"] },
@@ -125,7 +125,7 @@ const navCategories = [
     ]
   },
   { 
-    name: "STORAGE & WORKSPACE",
+    name: "STORAGE",
     subcategories: [
       { title: "Tool Storage", items: ["Toolboxes", "Tool Chests", "Tool Cabinets", "Small Parts Organizers", "Drawer Storage Units"] },
       { title: "Modular Storage Systems", items: ["Stackable Tool Cases", "Rolling Base Units", "Modular Organizers", "System Mounting Plates"] },
@@ -134,7 +134,7 @@ const navCategories = [
     ]
   },
   { 
-    name: "SAFETY & WORKWEAR",
+    name: "SAFETY",
     subcategories: [
       { title: "Head Protection", items: ["Hard Hats", "Bump Caps"] },
       { title: "Eye & Face Protection", items: ["Safety Glasses", "Goggles", "Face Shields", "Welding Helmets"] },
@@ -149,7 +149,7 @@ const navCategories = [
     ]
   },
   { 
-    name: "JOBSITE SUPPLIES",
+    name: "JOBSITE",
     subcategories: [
       { title: "Material Handling Equipment", items: ["Hand Trucks", "Dollies", "Platform Carts", "Pallet Jacks", "Hoists"] },
       { title: "Ladders & Access Equipment", items: ["Step Ladders", "Extension Ladders", "Platform Ladders", "Folding Ladders"] },
@@ -158,7 +158,7 @@ const navCategories = [
     ]
   },
   { 
-    name: "STRUT & ACCESSORIES",
+    name: "STRUT",
     subcategories: [
       { title: "Strut Channel", items: ["Standard Strut Channel", "Shallow Strut Channel", "Back-to-Back Strut Channel", "Solid (Plain) Strut Channel"] },
       { title: "Angle & Flat Fittings", items: ["90° Angle Fittings", "Flat Plate Fittings", "Offset Fittings"] },
@@ -170,7 +170,6 @@ const navCategories = [
     ]
   },
 ];
-
 const utilityLinks = [
   { name: "STORE LOCATOR", icon: "📍", href: "/store-locator" },
   { name: "SALES FLYERS", icon: "📰", href: "/sales-flyers" },
