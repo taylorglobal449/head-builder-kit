@@ -75,6 +75,16 @@ const navCategories = [
       { title: "Pry Bars & Lifting Tools", items: ["Pry Bars", "Wrecking Bars", "Crowbars", "Manual Jacks"] },
     ]
   },
+  { 
+    name: "TOOL ACCESSORIES",
+    subcategories: [
+      { title: "Blades & Abrasives", items: ["Circular Saw Blades", "Reciprocating Saw Blades", "Grinding Wheels", "Cut-Off Wheels", "Sanding Discs"] },
+      { title: "Drilling Accessories", items: ["Twist Drill Bits", "Masonry Bits", "Step Bits", "Hole Saws", "Auger Bits"] },
+      { title: "Fastening Accessories", items: ["Driver Bits", "Bit Holders", "Nut Setters", "Extensions"] },
+      { title: "Batteries & Chargers", items: ["Tool Batteries", "Battery Chargers", "Power Cords & Adapters"] },
+      { title: "Replacement Parts & Consumables", items: ["Carbon Brushes", "Drive Belts", "Filters", "Lubrication", "Replacement Parts"] },
+    ]
+  },
   {
     name: "FASTENERS",
     subcategories: [
@@ -92,45 +102,15 @@ const navCategories = [
     ],
   },
   { 
-    name: "POWER TOOL ACCESSORIES",
+    name: "STRUT & ACCESSORIES",
     subcategories: [
-      { title: "Blades & Abrasives", items: ["Circular Saw Blades", "Reciprocating Saw Blades", "Grinding Wheels", "Cut-Off Wheels", "Sanding Discs"] },
-      { title: "Drilling Accessories", items: ["Twist Drill Bits", "Masonry Bits", "Step Bits", "Hole Saws", "Auger Bits"] },
-      { title: "Fastening Accessories", items: ["Driver Bits", "Bit Holders", "Nut Setters", "Extensions"] },
-      { title: "Batteries & Chargers", items: ["Tool Batteries", "Battery Chargers", "Power Cords & Adapters"] },
-      { title: "Replacement Parts & Consumables", items: ["Carbon Brushes", "Drive Belts", "Filters", "Lubrication", "Replacement Parts"] },
-    ]
-  },
-  { 
-    name: "AIR TOOLS & COMPRESSORS",
-    subcategories: [
-      { title: "Air Compressors", items: ["Portable Air Compressors", "Stationary Air Compressors"] },
-      { title: "Pneumatic Fastening Tools", items: ["Air Nailers", "Air Staplers", "Air Impact Wrenches", "Air Ratchets", "Air Rivet Guns"] },
-      { title: "Pneumatic Cutting Tools", items: ["Air Cut-Off Tools", "Air Reciprocating Saws", "Air Shears", "Air Nibblers"] },
-      { title: "Pneumatic Grinding & Finishing", items: ["Air Die Grinders", "Air Angle Grinders", "Air Sanders", "Air Polishers"] },
-      { title: "Air Tool Accessories", items: ["Air Hoses", "Hose Reels", "Couplers & Fittings", "Regulators", "Filters"] },
-    ]
-  },
-  { 
-    name: "MACHINE TOOLS",
-    subcategories: [
-      { title: "Metal Cutting Machines", items: ["Plasma Cutting Machines", "Laser Cutting Machines", "Waterjet Cutting Machines"] },
-      { title: "Metal Forming Machines", items: ["Press Brakes", "Ironworkers", "Plate Shears", "Punch Presses", "Roll Forming Machines"] },
-      { title: "Drilling & Boring Machines", items: ["Drill Presses", "Radial Drilling Machines", "Magnetic Drill Presses", "Boring Machines"] },
-      { title: "Grinding & Finishing Machines", items: ["Surface Grinders", "Cylindrical Grinders", "Bench Grinders", "Belt Grinding Machines"] },
-      { title: "Milling Machines", items: ["Vertical Milling Machines", "Horizontal Milling Machines", "Knee Mills", "CNC Milling Machines"] },
-      { title: "Turning Machines (Lathes)", items: ["Engine Lathes", "Bench Lathes", "CNC Lathes", "Toolroom Lathes"] },
-      { title: "Sawing Machines", items: ["Horizontal Band Saws", "Vertical Band Saws", "Cold Saws", "Circular Saw Machines"] },
-      { title: "Specialty & Production Machines", items: ["Threading Machines", "Tapping Machines", "Broaching Machines", "Slotting Machines"] },
-    ]
-  },
-  { 
-    name: "STORAGE & WORKSPACE",
-    subcategories: [
-      { title: "Tool Storage", items: ["Toolboxes", "Tool Chests", "Tool Cabinets", "Small Parts Organizers", "Drawer Storage Units"] },
-      { title: "Modular Storage Systems", items: ["Stackable Tool Cases", "Rolling Base Units", "Modular Organizers", "System Mounting Plates"] },
-      { title: "Mobile Storage & Carts", items: ["Tool Carts", "Service Carts", "Rolling Tool Cabinets", "Utility Carts"] },
-      { title: "Shop Equipment", items: ["Jobsite Lights", "Work Lights", "Tripod Lights", "Radios", "Fans"] },
+      { title: "Strut Channel", items: ["Standard Strut Channel", "Shallow Strut Channel", "Back-to-Back Strut Channel", "Solid (Plain) Strut Channel"] },
+      { title: "Angle & Flat Fittings", items: ["90° Angle Fittings", "Flat Plate Fittings", "Offset Fittings"] },
+      { title: "Tee & Cross Fittings", items: ["Tee Fittings", "Cross Fittings", "Four-Hole Fittings"] },
+      { title: "Structural Brackets", items: ["Corner Brackets", "Gussets", "Channel Brackets", "Mounting Plates"] },
+      { title: "Beam & Structural Attachments", items: ["Beam Clamps", "Girder Clamps", "Structural Clips"] },
+      { title: "Channel Nuts", items: ["Spring Channel Nuts", "Regular Channel Nuts", "Cone Channel Nuts", "Coil Channel Nuts"] },
+      { title: "Pipe & Conduit Supports", items: ["Pipe Clamps", "Clevis Hangers", "Riser Clamps", "Conduit Clamps"] },
     ]
   },
   { 
@@ -149,27 +129,28 @@ const navCategories = [
     ]
   },
   { 
-    name: "JOBSITE SUPPLIES",
+    name: "MACHINE TOOLS",
     subcategories: [
-      { title: "Material Handling Equipment", items: ["Hand Trucks", "Dollies", "Platform Carts", "Pallet Jacks", "Hoists"] },
-      { title: "Ladders & Access Equipment", items: ["Step Ladders", "Extension Ladders", "Platform Ladders", "Folding Ladders"] },
-      { title: "Jobsite Consumables", items: ["Marking Paint (Spray)", "Lubricants", "Threadlock Compounds", "Cleaners & Degreasers"] },
-      { title: "Tapes, Adhesives & Sealants", items: ["Duct Tape", "Electrical Tape", "Construction Tape", "Adhesives", "Sealants"] },
+      { title: "Metal Cutting Machines", items: ["Plasma Cutting Machines", "Laser Cutting Machines", "Waterjet Cutting Machines"] },
+      { title: "Metal Forming Machines", items: ["Press Brakes", "Ironworkers", "Plate Shears", "Punch Presses", "Roll Forming Machines"] },
+      { title: "Drilling & Boring Machines", items: ["Drill Presses", "Radial Drilling Machines", "Magnetic Drill Presses", "Boring Machines"] },
+      { title: "Grinding & Finishing Machines", items: ["Surface Grinders", "Cylindrical Grinders", "Bench Grinders", "Belt Grinding Machines"] },
+      { title: "Milling Machines", items: ["Vertical Milling Machines", "Horizontal Milling Machines", "Knee Mills", "CNC Milling Machines"] },
+      { title: "Turning Machines (Lathes)", items: ["Engine Lathes", "Bench Lathes", "CNC Lathes", "Toolroom Lathes"] },
+      { title: "Sawing Machines", items: ["Horizontal Band Saws", "Vertical Band Saws", "Cold Saws", "Circular Saw Machines"] },
+      { title: "Specialty & Production Machines", items: ["Threading Machines", "Tapping Machines", "Broaching Machines", "Slotting Machines"] },
     ]
   },
   { 
-    name: "STRUT & ACCESSORIES",
+    name: "OTHER",
     subcategories: [
-      { title: "Strut Channel", items: ["Standard Strut Channel", "Shallow Strut Channel", "Back-to-Back Strut Channel", "Solid (Plain) Strut Channel"] },
-      { title: "Angle & Flat Fittings", items: ["90° Angle Fittings", "Flat Plate Fittings", "Offset Fittings"] },
-      { title: "Tee & Cross Fittings", items: ["Tee Fittings", "Cross Fittings", "Four-Hole Fittings"] },
-      { title: "Structural Brackets", items: ["Corner Brackets", "Gussets", "Channel Brackets", "Mounting Plates"] },
-      { title: "Beam & Structural Attachments", items: ["Beam Clamps", "Girder Clamps", "Structural Clips"] },
-      { title: "Channel Nuts", items: ["Spring Channel Nuts", "Regular Channel Nuts", "Cone Channel Nuts", "Coil Channel Nuts"] },
-      { title: "Pipe & Conduit Supports", items: ["Pipe Clamps", "Clevis Hangers", "Riser Clamps", "Conduit Clamps"] },
+      { title: "Air Tools & Accessories", items: ["Air Compressors", "Portable Air Compressors", "Air Nailers", "Air Impact Wrenches", "Air Die Grinders", "Air Sanders", "Air Hoses", "Couplers & Fittings"] },
+      { title: "Storage & Workspace", items: ["Toolboxes", "Tool Chests", "Tool Cabinets", "Tool Carts", "Modular Organizers", "Workbenches", "Jobsite Lights", "Radios"] },
+      { title: "Jobsite Supplies & Material Handling", items: ["Hand Trucks", "Dollies", "Pallet Jacks", "Hoists", "Step Ladders", "Extension Ladders", "Lubricants", "Cleaners & Degreasers", "Duct Tape", "Adhesives"] },
     ]
   },
 ];
+
 const utilityLinks = [
   { name: "STORE LOCATOR", icon: "📍", href: "/store-locator" },
   { name: "SALES FLYERS", icon: "📰", href: "/sales-flyers" },
