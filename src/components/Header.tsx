@@ -437,7 +437,7 @@ export function Header() {
             </div>
 
             {/* Category Links with Red Triangle Arrows - Bold */}
-            <div className="flex items-center">
+            <div className="flex items-center flex-1 justify-between">
               {navCategories.map((cat) => (
                 <div
                   key={cat.name}
@@ -447,7 +447,7 @@ export function Header() {
                 >
                   <Link
                     to={`/search?q=${encodeURIComponent(cat.name.toLowerCase())}`}
-                    className="flex items-center gap-0.5 px-1.5 py-2 text-[10px] font-bold text-header-text hover:text-header-primary transition-colors whitespace-nowrap"
+                    className="flex items-center gap-0.5 px-2 py-2 text-[11px] font-bold text-header-text hover:text-header-primary transition-colors whitespace-nowrap"
                   >
                     {cat.name}
                     <ThickArrow className="text-header-primary" />
