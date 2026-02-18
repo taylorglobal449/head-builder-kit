@@ -365,7 +365,7 @@ export function Header() {
         <div className="max-w-[1600px] mx-auto px-4">
           <div className="flex items-center">
             {/* Colored Nav Buttons - Single Line, No Wrap */}
-            <div className="flex items-center gap-0.5 mr-2 shrink-0 pr-2 border-r border-header-border">
+            <div className="flex items-center gap-px mr-1.5 shrink-0 pr-1.5 border-r border-header-border">
               {navButtons.map((btn) => {
                 const IconComponent = btn.icon;
                 return (
@@ -378,7 +378,7 @@ export function Header() {
                     {(btn as any).internal ? (
                       <Link
                         to={btn.href}
-                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[13px] font-bold px-1.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-0.5`}
+                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[13px] font-bold px-1 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-0.5`}
                       >
                         <IconComponent className="w-3.5 h-3.5" />
                         {btn.name}
@@ -387,7 +387,7 @@ export function Header() {
                     ) : (
                       <a
                         href={btn.href}
-                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[13px] font-bold px-1.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-0.5`}
+                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[13px] font-bold px-1 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-0.5`}
                       >
                         <IconComponent className="w-3.5 h-3.5" />
                         {btn.name}
@@ -447,7 +447,7 @@ export function Header() {
                 >
                   <Link
                     to={`/search?q=${encodeURIComponent(cat.name.toLowerCase())}`}
-                    className="flex items-center gap-0.5 px-2 py-2 text-[13px] font-bold text-header-text hover:text-header-primary transition-colors whitespace-nowrap"
+                    className="flex items-center gap-0.5 px-1.5 py-2 text-[13px] font-bold text-header-text hover:text-header-primary transition-colors whitespace-nowrap"
                   >
                     {cat.name}
                     <ThickArrow className="text-header-primary" />
