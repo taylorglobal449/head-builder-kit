@@ -469,26 +469,23 @@ export default function ProductPage() {
                 )}
               </div>
 
-              {/* 5. Add to Cart button with Total embedded — centered */}
-              <div className="flex flex-col items-center gap-3 py-2">
+              {/* 5. Add to Cart button with Total embedded */}
+              <div className="flex flex-col gap-2.5 border-t border-border pt-3">
                 <Button 
                   onClick={handleAddToCart}
                   disabled={isCartLoading || !selectedVariant?.availableForSale}
-                  className="bg-header-primary hover:bg-header-primary-hover text-primary-foreground py-5 text-lg w-full max-w-md rounded-lg"
+                  className="bg-header-primary hover:bg-header-primary-hover text-primary-foreground h-14 text-base font-semibold w-full rounded-md"
                 >
-                  <span className="flex items-center gap-3 w-full justify-center">
-                    <span className="font-medium text-white/80 text-base">Total</span>
-                    <span className="font-black text-xl">${qtySubtotal.toFixed(2)}</span>
-                    <span className="w-px h-5 bg-white/30" />
-                    {isCartLoading ? (
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                    ) : (
-                      <ShoppingCart className="w-5 h-5" />
-                    )}
-                    <span>{selectedVariant?.availableForSale ? 'Add to Cart' : 'Out of Stock'}</span>
-                  </span>
+                  <span className="font-normal text-white/75 mr-1">Total</span>
+                  <span className="font-black text-lg mr-3">${qtySubtotal.toFixed(2)}</span>
+                  <span className="w-px h-6 bg-white/30 mr-3" />
+                  {isCartLoading ? (
+                    <Loader2 className="w-5 h-5 animate-spin mr-1.5" />
+                  ) : (
+                    <ShoppingCart className="w-5 h-5 mr-1.5" />
+                  )}
+                  {selectedVariant?.availableForSale ? 'Add to Cart' : 'Out of Stock'}
                 </Button>
-                {/* Trust Badges centered under button */}
                 {trustBadges}
               </div>
 
@@ -664,26 +661,28 @@ export default function ProductPage() {
               )}
             </div>
 
-            {/* Add to Cart button with Total embedded — centered */}
-            <div className="flex flex-col items-center gap-3 py-2">
+            {/* Add to Cart button with Total embedded */}
+            <div className="flex flex-col gap-2.5 border-t border-border pt-3">
               <Button 
                 onClick={handleAddToCart}
                 disabled={isCartLoading || !selectedVariant?.availableForSale}
-                className="bg-header-primary hover:bg-header-primary-hover text-primary-foreground py-5 text-lg w-full max-w-md rounded-lg"
+                className="bg-header-primary hover:bg-header-primary-hover text-primary-foreground h-14 text-base font-semibold w-full rounded-md"
               >
-                <span className="flex items-center gap-3 w-full justify-center">
-                  <span className="font-medium text-white/80 text-base">Total</span>
-                  <span className="font-black text-xl">
-                    ${(parseFloat(selectedVariant?.price.amount || '0') * quantity).toFixed(2)}
-                  </span>
-                  <span className="w-px h-5 bg-white/30" />
-                  {isCartLoading ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  ) : (
-                    <ShoppingCart className="w-5 h-5" />
-                  )}
-                  <span>{selectedVariant?.availableForSale ? 'Add to Cart' : 'Out of Stock'}</span>
-                </span>
+                {!isMappPriced({ node: product }) && (
+                  <>
+                    <span className="font-normal text-white/75 mr-1">Total</span>
+                    <span className="font-black text-lg mr-3">
+                      ${(parseFloat(selectedVariant?.price.amount || '0') * quantity).toFixed(2)}
+                    </span>
+                    <span className="w-px h-6 bg-white/30 mr-3" />
+                  </>
+                )}
+                {isCartLoading ? (
+                  <Loader2 className="w-5 h-5 animate-spin mr-1.5" />
+                ) : (
+                  <ShoppingCart className="w-5 h-5 mr-1.5" />
+                )}
+                {selectedVariant?.availableForSale ? 'Add to Cart' : 'Out of Stock'}
               </Button>
               {trustBadges}
             </div>
