@@ -629,8 +629,9 @@ export default function ProductPage() {
             {variantSelector}
 
             {/* 3. Qty + Add to Cart on same line */}
-            <div className="flex items-center gap-3">
-              <div className="flex items-center border border-border rounded-md shrink-0">
+            <div className="flex items-start gap-3">
+              {/* Qty selector */}
+              <div className="flex items-center border border-border rounded-md shrink-0 self-start">
                 <button 
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   className="p-2 hover:bg-muted transition-colors"
@@ -651,18 +652,23 @@ export default function ProductPage() {
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
-              <Button 
-                onClick={handleAddToCart}
-                disabled={isCartLoading || !selectedVariant?.availableForSale}
-                className="flex-1 bg-header-primary hover:bg-header-primary-hover text-primary-foreground py-6 text-lg"
-              >
-                {isCartLoading ? (
-                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                ) : (
-                  <ShoppingCart className="w-5 h-5 mr-2" />
-                )}
-                {selectedVariant?.availableForSale ? 'Add to Cart' : 'Out of Stock'}
-              </Button>
+
+              {/* Add to Cart + callouts grouped */}
+              <div className="flex-1 flex flex-col gap-1.5">
+                <Button 
+                  onClick={handleAddToCart}
+                  disabled={isCartLoading || !selectedVariant?.availableForSale}
+                  className="w-full bg-header-primary hover:bg-header-primary-hover text-primary-foreground py-6 text-lg"
+                >
+                  {isCartLoading ? (
+                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                  ) : (
+                    <ShoppingCart className="w-5 h-5 mr-2" />
+                  )}
+                  {selectedVariant?.availableForSale ? 'Add to Cart' : 'Out of Stock'}
+                </Button>
+                {trustBadges}
+              </div>
             </div>
 
             {/* Subtotal hint */}
@@ -671,9 +677,6 @@ export default function ProductPage() {
                 Subtotal ({quantity} items): <span className="font-bold text-foreground">${(parseFloat(selectedVariant?.price.amount || '0') * quantity).toFixed(2)}</span>
               </div>
             )}
-
-            {/* Trust Badges */}
-            {trustBadges}
 
             {/* Description — right column, below callouts */}
             {parsedContent.description && (
