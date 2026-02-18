@@ -404,12 +404,14 @@ export default function ProductPage() {
         <main className="max-w-[1600px] mx-auto px-4 py-4">
           {breadcrumb}
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-            {/* Images */}
-            {imageGallery}
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10">
+            {/* Images — 2/5 width */}
+            <div className="lg:col-span-2">
+              {imageGallery}
+            </div>
 
-            {/* Product Info — QTY layout */}
-            <div className="space-y-3">
+            {/* Product Info — QTY layout, 3/5 width */}
+            <div className="lg:col-span-3 space-y-3">
               {/* 1. Title */}
               <h1 className="text-2xl lg:text-3xl font-bold text-foreground leading-tight">
                 {product.title}
@@ -425,7 +427,7 @@ export default function ProductPage() {
               <div className="flex flex-wrap items-center gap-4 py-2">
                 {/* Qty selector */}
                 <div className="flex items-center border border-border rounded-md">
-                  <button 
+                  <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     className="p-2 hover:bg-muted transition-colors"
                   >
@@ -438,7 +440,7 @@ export default function ProductPage() {
                     onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
                     className="w-14 text-center font-medium bg-transparent border-0 focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
-                  <button 
+                  <button
                     onClick={() => setQuantity(quantity + 1)}
                     className="p-2 hover:bg-muted transition-colors"
                   >
@@ -530,33 +532,30 @@ export default function ProductPage() {
                   </tbody>
                 </table>
               </div>
+
+              {/* Description */}
+              {product.description && (
+                <div className="border-t border-border pt-4">
+                  <h2 className="text-lg font-bold text-foreground mb-2">Description</h2>
+                  <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{product.description}</p>
+                </div>
+              )}
+
+              {/* Features */}
+              {mockExtras?.features && (
+                <div className="border-t border-border pt-4">
+                  <h2 className="text-lg font-bold text-foreground mb-2">Features</h2>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-1.5">
+                    {mockExtras.features.map((feature, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <span className="w-1.5 h-1.5 rounded-full bg-header-primary shrink-0 mt-1.5" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
-          </div>
-
-          {/* Full-width sections below the 2-col grid */}
-          <div className="mt-8 space-y-6">
-            {/* Description — horizontal full width */}
-            {product.description && (
-              <div className="border-t border-border pt-6">
-                <h2 className="text-lg font-bold text-foreground mb-3">Description</h2>
-                <p className="text-muted-foreground whitespace-pre-line max-w-none">{product.description}</p>
-              </div>
-            )}
-
-            {/* Features */}
-            {mockExtras?.features && (
-              <div className="border-t border-border pt-6">
-                <h2 className="text-lg font-bold text-foreground mb-3 uppercase tracking-wide">Features</h2>
-                <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-2">
-                  {mockExtras.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
 
           {/* Frequently Bought Together */}
