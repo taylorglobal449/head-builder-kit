@@ -104,22 +104,22 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
       
       {/* Content */}
-      <div className="p-2.5 flex flex-col flex-1 border-t border-border">
+      <div className="p-2 flex flex-col flex-1 border-t border-border gap-0">
         {/* Title - always 2 lines */}
-        <h3 className="font-bold text-sm text-card-foreground group-hover:text-header-primary transition-colors line-clamp-2 h-10 leading-5 overflow-hidden">
+        <h3 className="font-bold text-sm text-card-foreground group-hover:text-header-primary transition-colors line-clamp-2 h-10 leading-5 overflow-hidden mb-0">
           {node.title}
         </h3>
-        
-        {/* SKU - fixed height */}
-        <p className="text-[11px] text-muted-foreground mt-0.5 h-[14px] leading-none">
+
+        {/* SKU - fixed height, no margin */}
+        <p className="text-[10px] text-muted-foreground h-[12px] leading-none">
           {sku ? `SKU# ${sku}` : ''}
         </p>
 
-        {/* Stock + Free Shipping on one line */}
-        <div className="mt-1 flex items-center gap-2 h-4">
+        {/* Stock + Free Shipping */}
+        <div className="flex items-center gap-1.5 h-[14px]">
           {isInStock ? (
             <>
-              <Check className="w-3 h-3 text-green-600 shrink-0" />
+              <Check className="w-2.5 h-2.5 text-green-600 shrink-0" />
               <span className="text-[11px] font-medium text-green-600">In Stock</span>
             </>
           ) : (
@@ -127,20 +127,20 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
           {freeShipping && (
             <>
-              <span className="text-muted-foreground">·</span>
-              <Truck className="w-3 h-3 text-header-primary shrink-0" />
+              <span className="text-muted-foreground text-[10px]">·</span>
+              <Truck className="w-2.5 h-2.5 text-header-primary shrink-0" />
               <span className="text-[11px] font-medium text-header-primary">Free Ship</span>
             </>
           )}
         </div>
 
         {/* Price + Was on same line */}
-        <div className="mt-1.5">
+        <div className="mt-1">
           {mapp ? (
             <span className="text-sm font-bold text-header-primary">See Price in Cart</span>
           ) : (
             <div className="flex items-baseline gap-2 flex-wrap">
-              <span className="text-xl font-black text-foreground leading-none">
+              <span className="text-lg font-black text-foreground leading-none">
                 ${parseFloat(price.amount).toFixed(2)}
               </span>
               {hasDiscount && (
@@ -156,7 +156,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <button
           onClick={handleAddToCart}
           disabled={isLoading || !isInStock}
-          className="mt-2 w-full flex items-center justify-center gap-2 py-1.5 px-3 bg-header-primary text-primary-foreground text-xs font-bold uppercase tracking-wider rounded hover:bg-header-primary-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="mt-1.5 w-full flex items-center justify-center gap-1.5 py-1.5 px-3 bg-header-primary text-primary-foreground text-xs font-bold uppercase tracking-wider rounded hover:bg-header-primary-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Add to cart"
         >
           <ShoppingCart className="w-3.5 h-3.5" />
