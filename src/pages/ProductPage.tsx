@@ -316,7 +316,7 @@ export default function ProductPage() {
 
   const imageGallery = (
     <div className="space-y-3">
-      <div className="relative aspect-square bg-muted rounded-lg overflow-hidden group">
+      <div className="relative aspect-[4/5] bg-muted rounded-lg overflow-hidden group">
         {images[selectedImage]?.node ? (
           <img 
             src={images[selectedImage].node.url}
@@ -404,9 +404,9 @@ export default function ProductPage() {
         <main className="max-w-[1600px] mx-auto px-4 py-4">
           {breadcrumb}
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10">
-            {/* Images — 2/5 width */}
-            <div className="lg:col-span-2">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10 items-start">
+            {/* Images — 2/5 width, sticky */}
+            <div className="lg:col-span-2 lg:sticky lg:top-[104px]">
               {imageGallery}
             </div>
 
@@ -594,9 +594,9 @@ export default function ProductPage() {
       <main className="max-w-[1600px] mx-auto px-4 py-4">
         {breadcrumb}
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10">
-          {/* Images — 2/5 width */}
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10 items-start">
+          {/* Images — 2/5 width, sticky */}
+          <div className="lg:col-span-2 lg:sticky lg:top-[104px]">
             {imageGallery}
           </div>
 
