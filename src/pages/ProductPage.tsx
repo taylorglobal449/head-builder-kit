@@ -405,12 +405,12 @@ export default function ProductPage() {
           {breadcrumb}
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10 items-start">
-            {/* Images — 2/5 width, sticky */}
+            {/* Images — 2/5 width, sticky — releases when right col ends */}
             <div className="lg:col-span-2 lg:sticky lg:top-[104px]">
               {imageGallery}
             </div>
 
-            {/* Product Info — QTY layout, 3/5 width */}
+            {/* Right column: purchase UI + Features + Description (sticky window ends here) */}
             <div className="lg:col-span-3 space-y-3">
               {/* 1. Title */}
               <h1 className="text-2xl lg:text-3xl font-bold text-foreground leading-tight">
@@ -425,7 +425,6 @@ export default function ProductPage() {
 
               {/* 4. QTY row: Qty stepper | Each price | Was price | Save% */}
               <div className="flex flex-wrap items-center gap-3 py-2 border-t border-border">
-                {/* Qty selector */}
                 <div className="flex items-center border border-border rounded-md">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -448,20 +447,17 @@ export default function ProductPage() {
                   </button>
                 </div>
 
-                {/* Each price */}
                 <span className="text-2xl font-black text-header-primary leading-none">
                   ${currentTier.priceEach.toFixed(2)}
                   <span className="text-sm font-normal text-muted-foreground ml-1">ea</span>
                 </span>
 
-                {/* Was price crossed out */}
                 {currentTier.discount && currentTier.discount > 0 && (
                   <span className="text-lg text-muted-foreground line-through leading-none">
                     ${basePrice.toFixed(2)}
                   </span>
                 )}
 
-                {/* Save % badge */}
                 {currentTier.discount && currentTier.discount > 0 && (
                   <span className="text-sm font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">
                     Save {currentTier.discount}%
@@ -469,7 +465,7 @@ export default function ProductPage() {
                 )}
               </div>
 
-              {/* 5. Add to Cart button with Total embedded */}
+              {/* 5. Add to Cart */}
               <div className="flex flex-col gap-2.5 border-t border-border pt-3">
                 <Button 
                   onClick={handleAddToCart}
@@ -489,83 +485,65 @@ export default function ProductPage() {
                 {trustBadges}
               </div>
 
+              {/* ── Features (right col, below cart) ── */}
+              {mockExtras?.features && (
+                <div className="border border-border rounded-lg overflow-hidden">
+                  <div className="bg-muted/50 px-4 py-2.5 border-b border-border flex items-center gap-2">
+                    <span className="text-xs font-bold text-foreground uppercase tracking-wide">Features</span>
+                  </div>
+                  <ul className="px-4 py-3 space-y-2 columns-2 gap-6">
+                    {mockExtras.features.map((feature, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground break-inside-avoid">
+                        <span className="w-1.5 h-1.5 rounded-full bg-header-primary shrink-0 mt-1.5" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* ── Description (right col, below features) ── */}
+              <div className="border border-border rounded-lg overflow-hidden">
+                <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
+                  <span className="text-xs font-bold text-foreground uppercase tracking-wide">Description</span>
+                </div>
+                <p className="px-4 py-3 text-sm text-muted-foreground leading-relaxed">{product.description}</p>
+              </div>
             </div>
           </div>
 
-          {/* ── Full-width content row: Bulk Pricing | Description | Features ── */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 border border-border rounded-lg overflow-hidden mt-6">
-            {/* Bulk Pricing */}
-            <div className="border-r border-border">
-              <div className="bg-muted/50 px-4 py-2.5 border-b border-border flex items-center gap-2">
-                <Package className="w-4 h-4 text-header-primary" />
-                <span className="text-xs font-bold text-foreground uppercase tracking-wide">Bulk Pricing</span>
-              </div>
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-border bg-muted/30">
-                    <th className="px-3 py-2 text-left font-semibold text-muted-foreground text-xs">Qty</th>
-                    <th className="px-3 py-2 text-right font-semibold text-muted-foreground text-xs">Each</th>
-                    <th className="px-3 py-2 text-right font-semibold text-muted-foreground text-xs">Save</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {activeDiscounts!.map((tier) => {
-                    const isActive = currentTier?.label === tier.label;
-                    return (
-                      <tr
-                        key={tier.label}
-                        className={`border-b border-border last:border-0 transition-colors cursor-pointer ${
-                          isActive ? 'bg-header-primary/10 font-semibold' : 'hover:bg-muted/30'
-                        }`}
-                        onClick={() => setQuantity(tier.minQty)}
-                      >
-                        <td className="px-3 py-2 flex items-center gap-1.5 text-xs">
-                          {isActive && <Check className="w-3 h-3 text-header-primary shrink-0" />}
-                          <span className={isActive ? 'text-header-primary' : ''}>{tier.label}</span>
-                        </td>
-                        <td className={`px-3 py-2 text-right text-xs ${isActive ? 'text-header-primary' : ''}`}>
-                          ${tier.priceEach.toFixed(2)}
-                        </td>
-                        <td className="px-3 py-2 text-right text-xs">
-                          {tier.discount ? (
-                            <span className="text-green-600 font-medium">{tier.discount}%</span>
-                          ) : (
-                            <span className="text-muted-foreground">—</span>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+          {/* ── Full-width: Bulk Pricing table ── */}
+          <div className="mt-6 border border-border rounded-lg overflow-hidden">
+            <div className="bg-muted/50 px-4 py-2.5 border-b border-border flex items-center gap-2">
+              <Package className="w-4 h-4 text-header-primary" />
+              <span className="text-xs font-bold text-foreground uppercase tracking-wide">Bulk Pricing</span>
             </div>
-
-            {/* Description */}
-            <div className="border-r border-border">
-              <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
-                <span className="text-xs font-bold text-foreground uppercase tracking-wide">Description</span>
-              </div>
-              <div className="px-4 py-3">
-                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-[12]">{product.description}</p>
-              </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 divide-x divide-border">
+              {activeDiscounts!.map((tier) => {
+                const isActive = currentTier?.label === tier.label;
+                return (
+                  <button
+                    key={tier.label}
+                    onClick={() => setQuantity(tier.minQty)}
+                    className={`px-4 py-3 text-center transition-colors ${
+                      isActive ? 'bg-header-primary/10' : 'hover:bg-muted/30'
+                    }`}
+                  >
+                    <div className={`text-xs font-semibold mb-1 ${isActive ? 'text-header-primary' : 'text-muted-foreground'}`}>
+                      {tier.label}
+                    </div>
+                    <div className={`text-lg font-black leading-none ${isActive ? 'text-header-primary' : 'text-foreground'}`}>
+                      ${tier.priceEach.toFixed(2)}
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-0.5">each</div>
+                    {tier.discount ? (
+                      <div className="text-xs text-green-600 font-semibold mt-1">Save {tier.discount}%</div>
+                    ) : null}
+                    {isActive && <Check className="w-3 h-3 text-header-primary mx-auto mt-1" />}
+                  </button>
+                );
+              })}
             </div>
-
-            {/* Features */}
-            {mockExtras?.features && (
-              <div>
-                <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
-                  <span className="text-xs font-bold text-foreground uppercase tracking-wide">Features</span>
-                </div>
-                <ul className="px-4 py-3 space-y-2">
-                  {mockExtras.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <span className="w-1.5 h-1.5 rounded-full bg-header-primary shrink-0 mt-1.5" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
 
           {/* Frequently Bought Together */}
@@ -595,12 +573,12 @@ export default function ProductPage() {
         {breadcrumb}
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10 items-start">
-          {/* Images — 2/5 width, sticky */}
+          {/* Images — 2/5 width, sticky — releases when right col ends */}
           <div className="lg:col-span-2 lg:sticky lg:top-[104px]">
             {imageGallery}
           </div>
 
-          {/* Product Info — 3/5 width */}
+          {/* Right column: purchase UI + Features + Description (sticky window defined by this column's height) */}
           <div className="lg:col-span-3 space-y-4">
             {/* 1. Title */}
             <h1 className="text-2xl lg:text-3xl font-bold text-foreground leading-tight">
@@ -622,9 +600,8 @@ export default function ProductPage() {
             {/* Variants */}
             {variantSelector}
 
-            {/* 3. Qty row: Qty stepper | Unit price | Was price | Save% */}
+            {/* 3. Qty row */}
             <div className="flex flex-wrap items-center gap-3 py-2 border-t border-border">
-              {/* Qty selector */}
               <div className="flex items-center border border-border rounded-md shrink-0">
                 <button 
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -647,14 +624,11 @@ export default function ProductPage() {
                 </button>
               </div>
 
-              {/* Current price */}
               {!isMappPriced({ node: product }) && (
                 <>
                   <span className="text-2xl font-black text-header-primary leading-none">
                     ${parseFloat(selectedVariant?.price.amount || '0').toFixed(2)}
                   </span>
-
-                  {/* Was price */}
                   {selectedVariant?.compareAtPrice && parseFloat(selectedVariant.compareAtPrice.amount) > parseFloat(selectedVariant.price.amount) && (
                     <>
                       <span className="text-lg text-muted-foreground line-through leading-none">
@@ -669,7 +643,7 @@ export default function ProductPage() {
               )}
             </div>
 
-            {/* Add to Cart button with Total embedded */}
+            {/* Add to Cart */}
             <div className="flex flex-col gap-2.5 border-t border-border pt-3">
               <Button 
                 onClick={handleAddToCart}
@@ -694,69 +668,68 @@ export default function ProductPage() {
               </Button>
               {trustBadges}
             </div>
+
+            {/* ── Features (right col, below cart) ── */}
+            {(() => {
+              const featuresList = standardExtras?.features || parsedContent.features;
+              if (!featuresList.length) return null;
+              return (
+                <div className="border border-border rounded-lg overflow-hidden">
+                  <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
+                    <h2 className="text-xs font-bold text-foreground uppercase tracking-wide">Features</h2>
+                  </div>
+                  <ul className="px-4 py-3 space-y-2 columns-2 gap-6">
+                    {featuresList.map((feature, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground break-inside-avoid">
+                        <span className="w-1.5 h-1.5 rounded-full bg-header-primary shrink-0 mt-1.5" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })()}
+
+            {/* ── Description (right col, below features — sticky window ends here) ── */}
+            {(() => {
+              const descText = parsedContent.description || product.description || '';
+              if (!descText) return null;
+              return (
+                <div className="border border-border rounded-lg overflow-hidden">
+                  <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
+                    <h2 className="text-xs font-bold text-foreground uppercase tracking-wide">Description</h2>
+                  </div>
+                  <p className="px-4 py-3 text-sm text-muted-foreground leading-relaxed">{descText}</p>
+                </div>
+              );
+            })()}
           </div>
         </div>
 
-        {/* ── Full-width content: Description + Features side-by-side, Specs below ── */}
+        {/* ── Full-width: Specs horizontal 2-column table (page unlocks here) ── */}
         {(() => {
-          const descText = parsedContent.description || product.description || '';
-          const featuresList = standardExtras?.features || parsedContent.features;
           const specsList = standardExtras?.specs || parsedContent.specs;
-          const hasContent = descText || featuresList.length > 0 || specsList.length > 0;
-          if (!hasContent) return null;
+          if (!specsList.length) return null;
           return (
             <div className="mt-6 border border-border rounded-lg overflow-hidden">
-              {/* Top row: Description | Features */}
-              {(descText || featuresList.length > 0) && (
-                <div className={`grid grid-cols-1 ${descText && featuresList.length > 0 ? 'lg:grid-cols-2' : ''} divide-y lg:divide-y-0 lg:divide-x divide-border ${specsList.length > 0 ? 'border-b border-border' : ''}`}>
-                  {descText && (
-                    <div>
-                      <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
-                        <h2 className="text-xs font-bold text-foreground uppercase tracking-wide">Description</h2>
-                      </div>
-                      <p className="px-4 py-3 text-sm text-muted-foreground leading-relaxed">{descText}</p>
-                    </div>
-                  )}
-                  {featuresList.length > 0 && (
-                    <div>
-                      <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
-                        <h2 className="text-xs font-bold text-foreground uppercase tracking-wide">Features</h2>
-                      </div>
-                      <ul className="px-4 py-3 space-y-2">
-                        {featuresList.map((feature, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                            <span className="w-1.5 h-1.5 rounded-full bg-header-primary shrink-0 mt-1.5" />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              )}
-              {/* Specs — full width, 2-column table */}
-              {specsList.length > 0 && (
-                <div>
-                  <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
-                    <h2 className="text-xs font-bold text-foreground uppercase tracking-wide">Specifications</h2>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 divide-x divide-border">
-                    {(() => {
-                      const half = Math.ceil(specsList.length / 2);
-                      return [specsList.slice(0, half), specsList.slice(half)].map((col, colIdx) => (
-                        <div key={colIdx}>
-                          {col.map((spec, i) => (
-                            <div key={i} className={`flex text-sm border-b border-border last:border-0 ${i % 2 === 0 ? 'bg-muted/20' : ''}`}>
-                              <span className="font-medium text-foreground px-3 py-2 w-2/5 border-r border-border shrink-0">{spec.label}</span>
-                              <span className="text-muted-foreground px-3 py-2 flex-1">{spec.value}</span>
-                            </div>
-                          ))}
+              <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
+                <h2 className="text-xs font-bold text-foreground uppercase tracking-wide">Specifications</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 divide-x divide-border">
+                {(() => {
+                  const half = Math.ceil(specsList.length / 2);
+                  return [specsList.slice(0, half), specsList.slice(half)].map((col, colIdx) => (
+                    <div key={colIdx}>
+                      {col.map((spec, i) => (
+                        <div key={i} className={`flex text-sm border-b border-border last:border-0 ${i % 2 === 0 ? 'bg-muted/20' : ''}`}>
+                          <span className="font-medium text-foreground px-3 py-2 w-2/5 border-r border-border shrink-0">{spec.label}</span>
+                          <span className="text-muted-foreground px-3 py-2 flex-1">{spec.value}</span>
                         </div>
-                      ));
-                    })()}
-                  </div>
-                </div>
-              )}
+                      ))}
+                    </div>
+                  ));
+                })()}
+              </div>
             </div>
           );
         })()}
