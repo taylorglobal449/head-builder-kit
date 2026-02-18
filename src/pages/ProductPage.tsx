@@ -689,11 +689,19 @@ export default function ProductPage() {
         <div className="mt-8 space-y-6">
           {/* Features + Specs — 50/50 full page width */}
           {((standardExtras?.features || parsedContent.features).length > 0 || (standardExtras?.specs || parsedContent.specs).length > 0) && (
-            <div className="border-t border-border pt-6 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-              {/* Features */}
-              {(standardExtras?.features || parsedContent.features).length > 0 && (
-                <div>
-                  <h2 className="text-lg font-bold text-foreground mb-3">Features</h2>
+            <div className="border-t border-border pt-6">
+              {/* Shared header row */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-3">
+                {(standardExtras?.features || parsedContent.features).length > 0 && (
+                  <h2 className="text-sm font-bold text-foreground uppercase tracking-wide">Features</h2>
+                )}
+                {(standardExtras?.specs || parsedContent.specs).length > 0 && (
+                  <h2 className="text-sm font-bold text-foreground uppercase tracking-wide">Specifications</h2>
+                )}
+              </div>
+              {/* Content row */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                {(standardExtras?.features || parsedContent.features).length > 0 && (
                   <ul className="space-y-1.5">
                     {(standardExtras?.features || parsedContent.features).map((feature, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
@@ -702,13 +710,8 @@ export default function ProductPage() {
                       </li>
                     ))}
                   </ul>
-                </div>
-              )}
-
-              {/* Specs */}
-              {(standardExtras?.specs || parsedContent.specs).length > 0 && (
-                <div>
-                  <h2 className="text-lg font-bold text-foreground mb-3">Specifications</h2>
+                )}
+                {(standardExtras?.specs || parsedContent.specs).length > 0 && (
                   <div className="border border-border rounded-lg overflow-hidden">
                     {(standardExtras?.specs || parsedContent.specs).map((spec, i) => (
                       <div key={i} className={`flex text-sm ${i % 2 === 0 ? 'bg-muted/30' : ''}`}>
@@ -717,8 +720,8 @@ export default function ProductPage() {
                       </div>
                     ))}
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           )}
         </div>
