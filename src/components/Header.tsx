@@ -232,8 +232,8 @@ const brandsDropdown = [
 const ThickArrow = ({ className = "" }: { className?: string }) => (
   <svg
     className={`inline-block shrink-0 ${className}`}
-    width="12"
-    height="8"
+    width="9"
+    height="6"
     viewBox="0 0 12 8"
     fill="currentColor"
     aria-hidden="true"
@@ -385,7 +385,7 @@ export function Header() {
         <div className="max-w-[1600px] mx-auto px-4">
           <div className="flex items-center">
             {/* Colored Nav Buttons - Single Line, No Wrap */}
-            <div className="flex items-center gap-1 mr-3 shrink-0 pr-3 border-r border-header-border">
+            <div className="flex items-center gap-0.5 mr-2 shrink-0 pr-2 border-r border-header-border">
               {navButtons.map((btn) => {
                 const IconComponent = btn.icon;
                 return (
@@ -398,7 +398,7 @@ export function Header() {
                     {(btn as any).internal ? (
                       <Link
                         to={btn.href}
-                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[11px] font-bold px-2 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-1`}
+                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[10px] font-bold px-1.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-0.5`}
                       >
                         <IconComponent className="w-3 h-3" />
                         {btn.name}
@@ -407,7 +407,7 @@ export function Header() {
                     ) : (
                       <a
                         href={btn.href}
-                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[11px] font-bold px-2 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-1`}
+                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[10px] font-bold px-1.5 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-0.5`}
                       >
                         <IconComponent className="w-3 h-3" />
                         {btn.name}
@@ -467,7 +467,7 @@ export function Header() {
                 >
                   <Link
                     to={`/search?q=${encodeURIComponent(cat.name.toLowerCase())}`}
-                    className="flex items-center gap-1 px-2.5 py-2.5 text-[11px] font-bold text-header-text hover:text-header-primary transition-colors whitespace-nowrap"
+                    className="flex items-center gap-0.5 px-1.5 py-2 text-[10px] font-bold text-header-text hover:text-header-primary transition-colors whitespace-nowrap"
                   >
                     {cat.name}
                     <ThickArrow className="text-header-primary" />
