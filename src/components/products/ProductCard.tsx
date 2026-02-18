@@ -110,12 +110,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {node.title}
         </h3>
 
-        {/* SKU - fixed height, no margin */}
-        <p className="text-[10px] text-muted-foreground h-[12px] leading-none">
-          {sku ? `SKU# ${sku}` : ''}
-        </p>
-
-        {/* Stock + Free Shipping */}
+        {/* Stock + Free Shipping + SKU */}
         <div className="flex items-center gap-1.5 h-[14px]">
           {isInStock ? (
             <>
@@ -133,6 +128,10 @@ export function ProductCard({ product }: ProductCardProps) {
             </>
           )}
         </div>
+        {/* SKU below stock, only if present */}
+        {sku && (
+          <p className="text-[10px] text-muted-foreground leading-none h-[12px]">SKU# {sku}</p>
+        )}
 
         {/* Price + Was on same line */}
         <div className="mt-1">
