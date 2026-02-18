@@ -106,7 +106,7 @@ export function ProductCard({ product }: ProductCardProps) {
       {/* Content */}
       <div className="p-3 flex flex-col flex-1 border-t border-border">
         {/* Title */}
-        <h3 className="font-bold text-sm text-card-foreground group-hover:text-header-primary transition-colors line-clamp-2 min-h-[2.5rem] leading-5">
+        <h3 className="font-bold text-sm text-card-foreground group-hover:text-header-primary transition-colors line-clamp-2 h-10 leading-5 overflow-hidden">
           {node.title}
         </h3>
         
