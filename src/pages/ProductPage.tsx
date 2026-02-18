@@ -298,17 +298,17 @@ export default function ProductPage() {
   ) : null;
 
   const trustBadges = (
-    <div className="grid grid-cols-3 gap-4 pt-3 border-t border-border">
-      <div className="flex flex-col items-center text-center">
-        <Truck className="w-6 h-6 text-header-primary mb-1" />
+    <div className="flex items-center justify-around gap-2 pt-2 border-t border-border">
+      <div className="flex items-center gap-1.5">
+        <Truck className="w-4 h-4 text-header-primary shrink-0" />
         <span className="text-xs text-muted-foreground">Free Shipping</span>
       </div>
-      <div className="flex flex-col items-center text-center">
-        <Shield className="w-6 h-6 text-header-primary mb-1" />
+      <div className="flex items-center gap-1.5">
+        <Shield className="w-4 h-4 text-header-primary shrink-0" />
         <span className="text-xs text-muted-foreground">Secure Checkout</span>
       </div>
-      <div className="flex flex-col items-center text-center">
-        <RotateCcw className="w-6 h-6 text-header-primary mb-1" />
+      <div className="flex items-center gap-1.5">
+        <RotateCcw className="w-4 h-4 text-header-primary shrink-0" />
         <span className="text-xs text-muted-foreground">Easy Returns</span>
       </div>
     </div>
