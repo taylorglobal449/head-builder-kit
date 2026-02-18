@@ -148,16 +148,19 @@ export function ProductCard({ product }: ProductCardProps) {
               <span className="text-xl font-black text-foreground">
                 ${parseFloat(price.amount).toFixed(2).replace(/\.(\d{2})$/, '.$1')}
               </span>
-              {hasDiscount && (
-                <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-xs text-muted-foreground">
-                    Was: <span className="line-through">${parseFloat(compareAtPrice!.amount).toFixed(2)}</span>
-                  </span>
-                  <span className="text-xs font-bold text-destructive">
-                    Save {discountPercent}%
-                  </span>
-                </div>
-              )}
+              {/* Fixed height row so button always stays at same position */}
+              <div className="flex items-center gap-2 mt-0.5 h-4">
+                {hasDiscount && (
+                  <>
+                    <span className="text-xs text-muted-foreground">
+                      Was: <span className="line-through">${parseFloat(compareAtPrice!.amount).toFixed(2)}</span>
+                    </span>
+                    <span className="text-xs font-bold text-destructive">
+                      Save {discountPercent}%
+                    </span>
+                  </>
+                )}
+              </div>
             </div>
           )}
         </div>
