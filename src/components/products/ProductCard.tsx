@@ -87,7 +87,7 @@ export function ProductCard({ product }: ProductCardProps) {
       )}
 
       {/* Image */}
-      <div className="relative aspect-square bg-white overflow-hidden p-4">
+      <div className="relative aspect-square bg-white overflow-hidden">
         {imageUrl ? (
           <img 
             src={imageUrl}
