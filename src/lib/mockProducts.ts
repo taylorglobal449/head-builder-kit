@@ -30,19 +30,21 @@ export const TEST_PRODUCTS: MockShopifyProduct[] = [
     node: {
       id: 'gid://shopify/Product/test-1',
       title: 'Standard Product',
-      description: `The DEWALT DCF860B 20V MAX Brushless Cordless 3-Speed High Torque 1/4 in. Impact Driver delivers exceptional power and control for the most demanding fastening applications. This professional-grade tool is designed for contractors, electricians, and serious DIY enthusiasts who need reliable performance day after day.
+      description: `The DEWALT DCF860B 20V MAX Brushless Cordless 3-Speed High Torque 1/4 in. Impact Driver delivers exceptional power and control for the most demanding fastening applications. This professional-grade tool is designed for contractors, electricians, plumbers, and serious DIY enthusiasts who need reliable performance day after day on the jobsite.
 
-POWERFUL PERFORMANCE: This impact driver features a brushless motor that delivers up to 1,825 in-lbs of torque, making it ideal for driving large fasteners into dense materials. The 3-speed settings allow you to match the speed and power to your specific application, giving you precise control whether you're working with delicate materials or driving lag bolts.
+POWERFUL PERFORMANCE: This impact driver features a brushless motor that delivers up to 1,825 in-lbs of torque, making it ideal for driving large fasteners into dense materials. The 3-speed settings allow you to match the speed and power to your specific application, giving you precise control whether you're working with delicate materials or driving lag bolts through doubled-up dimensional lumber.
 
-PRECISION CONTROL: The variable speed trigger provides precise control over fastening speed, while the 3 LED lights illuminate your work area for improved visibility in dark spaces. The 1/4" hex quick-release chuck allows for quick and easy bit changes, keeping you productive on the jobsite.
+PRECISION CONTROL: The variable speed trigger provides precise control over fastening speed, while the 3 LED lights illuminate your work area for improved visibility in dark spaces. The 1/4" hex quick-release chuck allows for quick and easy bit changes, keeping you productive on the jobsite. The all-metal transmission delivers added durability and ensures longer tool life even in the most punishing conditions.
 
-ERGONOMIC DESIGN: The compact, lightweight design (only 5.1" front to back) reduces fatigue during extended use, while the overmolded grip provides comfort and control. The belt clip allows for convenient storage when not in use. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+ERGONOMIC DESIGN: The compact, lightweight design (only 5.1" front to back) reduces fatigue during extended use, while the overmolded grip provides comfort and control. The belt clip allows for convenient storage when not in use. The tool is balanced to minimize wrist strain during repeated overhead and horizontal driving tasks — a key consideration for professionals who use impact drivers for hours at a time.
 
-DEWALT BUILD QUALITY: Built with the legendary DEWALT durability you expect, this tool is designed to withstand tough jobsite conditions. The brushless motor provides longer runtime and extended tool life compared to brushed motors. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+DEWALT BUILD QUALITY: Built with the legendary DEWALT durability you expect, this tool is designed to withstand tough jobsite conditions. The brushless motor provides longer runtime and extended tool life compared to brushed motors. DEWALT tools are backed by a 3-year limited warranty, a 1-year free service contract, and a 90-day money-back guarantee, giving you the confidence to buy without risk.
 
-COMPATIBILITY: This tool is part of the DEWALT 20V MAX system - one of the largest cordless tool systems in the world. All DEWALT 20V MAX batteries are interchangeable with all DEWALT 20V MAX tools and chargers. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+BRUSHLESS MOTOR ADVANTAGE: Unlike traditional brushed motors, the DCF860B's brushless motor automatically adjusts power to match application demands. This results in up to 57% more runtime compared to brushed alternatives, significantly less heat generation, and a motor that simply lasts longer between servicing intervals. For contractors running multiple jobs daily, this translates directly to lower total cost of ownership and fewer tool replacements over time.
 
-Note: This is a bare tool only. Battery and charger sold separately.`,
+BATTERY SYSTEM COMPATIBILITY: This tool is part of the DEWALT 20V MAX system — one of the largest cordless tool systems in the world with over 200 compatible tools, chargers, and battery packs. All DEWALT 20V MAX batteries are interchangeable across the entire platform, meaning your investment in batteries and chargers works across your entire tool fleet. Compatible batteries range from the compact 1.5Ah for light tasks up to the FLEXVOLT 6.0Ah for maximum runtime on demanding applications.
+
+Note: Bare tool only. Battery and charger sold separately. Recommended pairing: DCB205 5.0Ah Battery + DCB115 Charger for optimal performance.`,
       handle: 'stand-product',
       priceRange: {
         minVariantPrice: { amount: '149.00', currencyCode: 'USD' }
@@ -85,13 +87,20 @@ Note: This is a bare tool only. Battery and charger sold separately.`,
       mfgPartNumber: 'DCF860B-US',
       upc: '885911839266',
       features: [
-        'Brushless motor delivers up to 1,825 in-lbs of torque for demanding applications',
-        '3-speed settings (0-1,000 / 0-2,800 / 0-3,250 RPM) for application versatility',
-        'Variable speed trigger for precise control over fastening speed',
-        '3 LED lights with 20-second delay after trigger release for visibility',
-        '1/4" hex quick-release chuck for fast and easy bit changes',
-        'Compact, lightweight design (5.1" front to back) reduces fatigue',
-        'Part of the DEWALT 20V MAX System with cross-compatible batteries'
+        'Brushless motor delivers up to 1,825 in-lbs of torque for the most demanding fastening applications',
+        '3-speed settings (0-1,000 / 0-2,800 / 0-3,250 RPM) for application versatility across material types',
+        'Variable speed trigger for precise control over fastening speed and depth',
+        '3 LED lights with 20-second delay after trigger release for hands-free visibility in dark spaces',
+        '1/4" hex quick-release chuck for fast and easy bit changes without additional tools',
+        'Compact, lightweight design at only 5.1" front to back to reduce fatigue during extended use',
+        'Overmolded comfort grip reduces vibration and improves control during sustained operation',
+        'All-metal transmission delivers added durability for longer tool life on the jobsite',
+        'Part of the DEWALT 20V MAX System — compatible with 200+ tools, chargers, and battery packs',
+        'Belt clip included for convenient hands-free carry between fastening tasks',
+        'Up to 57% more runtime vs. brushed competitors thanks to efficient brushless motor design',
+        'Withstands tough jobsite conditions including dust, debris, and drop impacts',
+        "Backed by DEWALT's 3-year limited warranty and 90-day money-back guarantee",
+        'Compatible with FLEXVOLT batteries for extended runtime on large-scale projects'
       ],
       includes: [
         'DCF860B 20V MAX Brushless 1/4" Impact Driver',
@@ -103,14 +112,18 @@ Note: This is a bare tool only. Battery and charger sold separately.`,
         { label: 'Max Torque', value: '1,825 in-lbs' },
         { label: 'No-Load Speed', value: '0-1,000 / 0-2,800 / 0-3,250 RPM' },
         { label: 'Impacts Per Minute', value: '0-1,500 / 0-2,900 / 0-3,800 IPM' },
-        { label: 'Chuck Size', value: '1/4" Hex' },
+        { label: 'Chuck Size', value: '1/4" Hex Quick-Release' },
         { label: 'Voltage', value: '20V MAX' },
         { label: 'Tool Length', value: '5.1 in' },
         { label: 'Weight (bare tool)', value: '2.0 lbs' },
         { label: 'Battery System', value: 'DEWALT 20V MAX' },
         { label: 'LED Lights', value: '3 LED with 20-second delay' },
         { label: 'Speed Settings', value: '3-Speed' },
-        { label: 'UPC', value: '885911839266' }
+        { label: 'Warranty', value: '3-Year Limited' },
+        { label: 'Country of Origin', value: 'China' },
+        { label: 'UPC', value: '885911839266' },
+        { label: 'Model #', value: 'DCF860B' },
+        { label: 'Power Source', value: 'Battery Powered' }
       ]
     }
   },
