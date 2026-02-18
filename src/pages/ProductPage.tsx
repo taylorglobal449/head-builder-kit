@@ -674,19 +674,19 @@ export default function ProductPage() {
 
             {/* Trust Badges */}
             {trustBadges}
+
+            {/* Description — right column, below callouts */}
+            {parsedContent.description && (
+              <div className="border-t border-border pt-4">
+                <h2 className="text-lg font-bold text-foreground mb-2">Description</h2>
+                <p className="text-sm text-muted-foreground leading-relaxed">{parsedContent.description}</p>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Full-width content below the product grid */}
         <div className="mt-8 space-y-6">
-          {/* Description — full width */}
-          {parsedContent.description && (
-            <div className="border-t border-border pt-6">
-              <h2 className="text-lg font-bold text-foreground mb-2">Description</h2>
-              <p className="text-sm text-muted-foreground leading-relaxed">{parsedContent.description}</p>
-            </div>
-          )}
-
           {/* Features + Specs — 50/50 full page width */}
           {((standardExtras?.features || parsedContent.features).length > 0 || (standardExtras?.specs || parsedContent.specs).length > 0) && (
             <div className="border-t border-border pt-6 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
