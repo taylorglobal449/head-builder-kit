@@ -423,8 +423,8 @@ export default function ProductPage() {
               {/* 3. Size / Variants */}
               {variantSelector}
 
-              {/* 4. QTY row: qty + each price + regular crossed out + total */}
-              <div className="flex flex-wrap items-center gap-4 py-2">
+              {/* 4. QTY row: Qty stepper | Each price | Was price | Save% | = Total */}
+              <div className="flex flex-wrap items-center gap-3 py-2 border-t border-border">
                 {/* Qty selector */}
                 <div className="flex items-center border border-border rounded-md">
                   <button
@@ -449,43 +449,50 @@ export default function ProductPage() {
                 </div>
 
                 {/* Each price */}
-                <span className="text-2xl font-bold text-header-primary">
+                <span className="text-2xl font-black text-header-primary leading-none">
                   ${currentTier.priceEach.toFixed(2)}
                   <span className="text-sm font-normal text-muted-foreground ml-1">ea</span>
                 </span>
 
-                {/* Regular price crossed out (if discounted) */}
+                {/* Was price crossed out */}
                 {currentTier.discount && currentTier.discount > 0 && (
-                  <span className="text-base text-muted-foreground line-through">
+                  <span className="text-lg text-muted-foreground line-through leading-none">
                     ${basePrice.toFixed(2)}
                   </span>
                 )}
 
-                {/* Savings badge */}
+                {/* Save % badge */}
                 {currentTier.discount && currentTier.discount > 0 && (
-                  <span className="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded">
+                  <span className="text-sm font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">
                     Save {currentTier.discount}%
                   </span>
                 )}
 
-                {/* Separator + Total */}
-                <div className="ml-auto flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">Total:</span>
-                  <span className="text-xl font-bold text-foreground">${qtySubtotal.toFixed(2)}</span>
+                {/* = Total */}
+                <div className="flex items-center gap-1.5 ml-auto">
+                  <span className="text-base text-muted-foreground font-medium">=</span>
+                  <span className="text-sm text-muted-foreground">Total</span>
+                  <span className="text-2xl font-black text-foreground leading-none">${qtySubtotal.toFixed(2)}</span>
                 </div>
               </div>
 
-              {qtySavings > 0 && (
-                <div className="text-sm text-green-600 font-medium">
-                  You save ${qtySavings.toFixed(2)} at this quantity
-                </div>
-              )}
-
-              {/* 5. Add to Cart */}
-              {addToCartButton}
-
-              {/* 6. Trust Badges / Callouts */}
-              {trustBadges}
+              {/* 5. Add to Cart — centered, large but not full-width */}
+              <div className="flex flex-col items-center gap-3 py-2">
+                <Button 
+                  onClick={handleAddToCart}
+                  disabled={isCartLoading || !selectedVariant?.availableForSale}
+                  className="bg-header-primary hover:bg-header-primary-hover text-primary-foreground py-6 text-lg px-16 min-w-[280px]"
+                >
+                  {isCartLoading ? (
+                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                  ) : (
+                    <ShoppingCart className="w-5 h-5 mr-2" />
+                  )}
+                  {selectedVariant?.availableForSale ? 'Add to Cart' : 'Out of Stock'}
+                </Button>
+                {/* Trust Badges centered under button */}
+                {trustBadges}
+              </div>
 
               {/* 7. Bulk Pricing Chart */}
               <div className="border border-border rounded-lg overflow-hidden">
@@ -600,38 +607,22 @@ export default function ProductPage() {
             {/* 2. Vendor | Type | SKU */}
             {metaRow}
 
-            {/* Price */}
-            {isMappPriced({ node: product }) ? (
+            {/* MAPP price notice */}
+            {isMappPriced({ node: product }) && (
               <div className="flex items-baseline gap-3">
                 <span className="text-xl font-semibold text-header-primary">
                   See Price in Cart
                 </span>
-              </div>
-            ) : (
-              <div className="flex items-baseline gap-3">
-                <span className="text-3xl font-bold text-header-primary">
-                  ${parseFloat(selectedVariant?.price.amount || '0').toFixed(2)}
-                </span>
-                {selectedVariant?.compareAtPrice && parseFloat(selectedVariant.compareAtPrice.amount) > parseFloat(selectedVariant.price.amount) && (
-                  <>
-                    <span className="text-lg text-muted-foreground line-through">
-                      ${parseFloat(selectedVariant.compareAtPrice.amount).toFixed(2)}
-                    </span>
-                    <span className="text-xs font-bold text-destructive">
-                      Save {Math.round((1 - parseFloat(selectedVariant.price.amount) / parseFloat(selectedVariant.compareAtPrice.amount)) * 100)}%
-                    </span>
-                  </>
-                )}
               </div>
             )}
 
             {/* Variants */}
             {variantSelector}
 
-            {/* 3. Qty + Add to Cart on same line */}
-            <div className="flex items-start gap-3">
+            {/* 3. Qty row + Total inline, then centered Add to Cart */}
+            <div className="flex flex-wrap items-center gap-3 py-2 border-t border-border">
               {/* Qty selector */}
-              <div className="flex items-center border border-border rounded-md shrink-0 self-start">
+              <div className="flex items-center border border-border rounded-md shrink-0">
                 <button 
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   className="p-2 hover:bg-muted transition-colors"
@@ -653,30 +644,55 @@ export default function ProductPage() {
                 </button>
               </div>
 
-              {/* Add to Cart + callouts grouped */}
-              <div className="flex-1 flex flex-col gap-1.5">
-                <Button 
-                  onClick={handleAddToCart}
-                  disabled={isCartLoading || !selectedVariant?.availableForSale}
-                  className="w-full bg-header-primary hover:bg-header-primary-hover text-primary-foreground py-6 text-lg"
-                >
-                  {isCartLoading ? (
-                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                  ) : (
-                    <ShoppingCart className="w-5 h-5 mr-2" />
+              {/* Current price */}
+              {!isMappPriced({ node: product }) && (
+                <>
+                  <span className="text-2xl font-black text-header-primary leading-none">
+                    ${parseFloat(selectedVariant?.price.amount || '0').toFixed(2)}
+                  </span>
+
+                  {/* Was price */}
+                  {selectedVariant?.compareAtPrice && parseFloat(selectedVariant.compareAtPrice.amount) > parseFloat(selectedVariant.price.amount) && (
+                    <>
+                      <span className="text-lg text-muted-foreground line-through leading-none">
+                        ${parseFloat(selectedVariant.compareAtPrice.amount).toFixed(2)}
+                      </span>
+                      <span className="text-sm font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">
+                        Save {Math.round((1 - parseFloat(selectedVariant.price.amount) / parseFloat(selectedVariant.compareAtPrice.amount)) * 100)}%
+                      </span>
+                    </>
                   )}
-                  {selectedVariant?.availableForSale ? 'Add to Cart' : 'Out of Stock'}
-                </Button>
-                {trustBadges}
-              </div>
+
+                  {/* = Total (only when qty > 1) */}
+                  {quantity > 1 && (
+                    <div className="flex items-center gap-1.5 ml-auto">
+                      <span className="text-base text-muted-foreground font-medium">=</span>
+                      <span className="text-sm text-muted-foreground">Total</span>
+                      <span className="text-2xl font-black text-foreground leading-none">
+                        ${(parseFloat(selectedVariant?.price.amount || '0') * quantity).toFixed(2)}
+                      </span>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
 
-            {/* Subtotal hint */}
-            {quantity > 1 && (
-              <div className="text-sm text-muted-foreground">
-                Subtotal ({quantity} items): <span className="font-bold text-foreground">${(parseFloat(selectedVariant?.price.amount || '0') * quantity).toFixed(2)}</span>
-              </div>
-            )}
+            {/* Add to Cart — centered, large but not full-width */}
+            <div className="flex flex-col items-center gap-3 py-2">
+              <Button 
+                onClick={handleAddToCart}
+                disabled={isCartLoading || !selectedVariant?.availableForSale}
+                className="bg-header-primary hover:bg-header-primary-hover text-primary-foreground py-6 text-lg px-16 min-w-[280px]"
+              >
+                {isCartLoading ? (
+                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                ) : (
+                  <ShoppingCart className="w-5 h-5 mr-2" />
+                )}
+                {selectedVariant?.availableForSale ? 'Add to Cart' : 'Out of Stock'}
+              </Button>
+              {trustBadges}
+            </div>
 
             {/* Description */}
             {parsedContent.description && (
