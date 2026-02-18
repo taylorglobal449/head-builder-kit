@@ -316,7 +316,7 @@ export default function ProductPage() {
 
   const imageGallery = (
     <div className="space-y-3">
-      <div className="relative aspect-square bg-muted rounded-lg overflow-hidden group">
+      <div className="relative aspect-square bg-background rounded-lg overflow-hidden group border border-border">
         {images[selectedImage]?.node ? (
           <img 
             src={images[selectedImage].node.url}
