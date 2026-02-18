@@ -110,12 +110,10 @@ export function ProductCard({ product }: ProductCardProps) {
           {node.title}
         </h3>
         
-        {/* SKU */}
-        {sku && (
-          <p className="text-[11px] text-muted-foreground mt-1">
-            SKU# {sku}
-          </p>
-        )}
+        {/* SKU - fixed height to keep alignment */}
+        <p className="text-[11px] text-muted-foreground mt-1 h-4">
+          {sku ? `SKU# ${sku}` : ''}
+        </p>
 
         {/* Stock Status */}
         <div className="mt-1.5 flex items-center gap-1">
@@ -129,13 +127,15 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
         </div>
 
-        {/* Free Shipping */}
-        {freeShipping && (
-          <div className="mt-1 flex items-center gap-1">
-            <Truck className="w-3.5 h-3.5 text-header-primary shrink-0" />
-            <span className="text-[11px] font-medium text-header-primary">Free Shipping</span>
-          </div>
-        )}
+        {/* Free Shipping - fixed height to keep alignment */}
+        <div className="mt-1 flex items-center gap-1 h-4">
+          {freeShipping && (
+            <>
+              <Truck className="w-3.5 h-3.5 text-header-primary shrink-0" />
+              <span className="text-[11px] font-medium text-header-primary">Free Shipping</span>
+            </>
+          )}
+        </div>
 
         {/* Price - pushed to bottom */}
         <div className="mt-auto pt-3">
