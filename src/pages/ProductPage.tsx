@@ -238,22 +238,22 @@ export default function ProductPage() {
           <span>SKU: <span className="font-medium text-foreground">{mockExtras?.sku || selectedVariant?.sku}</span></span>
         </>
       )}
-      {mockExtras?.partNumber && (
+      {standardExtras?.partNumber && (
         <>
           <span className="text-border">|</span>
-          <span>Part #: <span className="font-medium text-foreground">{mockExtras.partNumber}</span></span>
+          <span>Part #: <span className="font-medium text-foreground">{standardExtras.partNumber}</span></span>
         </>
       )}
-      {mockExtras?.mfgPartNumber && (
+      {standardExtras?.mfgPartNumber && (
         <>
           <span className="text-border">|</span>
-          <span>Mfg Part #: <span className="font-medium text-foreground">{mockExtras.mfgPartNumber}</span></span>
+          <span>Mfg Part #: <span className="font-medium text-foreground">{standardExtras.mfgPartNumber}</span></span>
         </>
       )}
-      {mockExtras?.upc && (
+      {standardExtras?.upc && (
         <>
           <span className="text-border">|</span>
-          <span>UPC: <span className="font-medium text-foreground">{mockExtras.upc}</span></span>
+          <span>UPC: <span className="font-medium text-foreground">{standardExtras.upc}</span></span>
         </>
       )}
     </div>
