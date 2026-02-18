@@ -14,6 +14,9 @@ export interface MockProductExtras {
   quantityDiscounts?: QuantityDiscount[];
   variantQuantityDiscounts?: Record<string, QuantityDiscount[]>;
   sku?: string;
+  partNumber?: string;
+  mfgPartNumber?: string;
+  upc?: string;
   features?: string[];
   includes?: string[];
   specs?: { label: string; value: string }[];
@@ -78,6 +81,9 @@ Note: This is a bare tool only. Battery and charger sold separately.`,
     extras: {
       templateType: 'standard',
       sku: 'DCF860B',
+      partNumber: 'DCF860B',
+      mfgPartNumber: 'DCF860B-US',
+      upc: '885911839266',
       features: [
         'Brushless motor delivers up to 1,825 in-lbs of torque for demanding applications',
         '3-speed settings (0-1,000 / 0-2,800 / 0-3,250 RPM) for application versatility',
