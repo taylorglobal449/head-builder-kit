@@ -7,7 +7,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 import { Button } from "@/components/ui/button";
 import { isMappPriced } from "@/lib/shopify/mapp";
-import { Loader2, ShoppingCart, ChevronLeft, Minus, Plus, Truck, Shield, RotateCcw, Check, Package } from "lucide-react";
+import { Loader2, ShoppingCart, ChevronLeft, ChevronRight, Minus, Plus, Truck, Shield, RotateCcw, Check, Package } from "lucide-react";
 import { toast } from "sonner";
 import { RecentlyViewed } from "@/components/product/RecentlyViewed";
 import { BoughtWith } from "@/components/product/BoughtWith";
@@ -316,12 +316,12 @@ export default function ProductPage() {
 
   const imageGallery = (
     <div className="space-y-3">
-      <div className="aspect-square bg-muted rounded-lg overflow-hidden">
+      <div className="relative aspect-square bg-muted rounded-lg overflow-hidden group">
         {images[selectedImage]?.node ? (
           <img 
             src={images[selectedImage].node.url}
             alt={images[selectedImage].node.altText || product.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-muted-foreground">
@@ -330,6 +330,27 @@ export default function ProductPage() {
             </svg>
           </div>
         )}
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={() => setSelectedImage((selectedImage - 1 + images.length) % images.length)}
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-background/80 hover:bg-background border border-border rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+              aria-label="Previous image"
+            >
+              <ChevronLeft className="w-5 h-5 text-foreground" />
+            </button>
+            <button
+              onClick={() => setSelectedImage((selectedImage + 1) % images.length)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-background/80 hover:bg-background border border-border rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+              aria-label="Next image"
+            >
+              <ChevronRight className="w-5 h-5 text-foreground" />
+            </button>
+            <div className="absolute bottom-2 right-2 bg-background/70 text-foreground text-xs px-2 py-0.5 rounded-full">
+              {selectedImage + 1} / {images.length}
+            </div>
+          </>
+        )}
       </div>
       {images.length > 1 && (
         <div className="flex gap-2 overflow-x-auto pb-2">
@@ -337,14 +358,14 @@ export default function ProductPage() {
             <button
               key={index}
               onClick={() => setSelectedImage(index)}
-              className={`w-20 h-20 rounded-md overflow-hidden border-2 shrink-0 aspect-square ${
-                selectedImage === index ? 'border-header-primary' : 'border-transparent'
+              className={`w-16 h-16 rounded-md overflow-hidden border-2 shrink-0 aspect-square ${
+                selectedImage === index ? 'border-header-primary' : 'border-transparent hover:border-border'
               }`}
             >
               <img 
                 src={img.node.url}
                 alt={img.node.altText || `${product.title} ${index + 1}`}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </button>
           ))}
@@ -564,12 +585,14 @@ export default function ProductPage() {
       <main className="max-w-[1600px] mx-auto px-4 py-4">
         {breadcrumb}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-          {/* Images */}
-          {imageGallery}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10">
+          {/* Images — 2/5 width */}
+          <div className="lg:col-span-2">
+            {imageGallery}
+          </div>
 
-          {/* Product Info */}
-          <div className="space-y-4">
+          {/* Product Info — 3/5 width */}
+          <div className="lg:col-span-3 space-y-4">
             {/* 1. Title */}
             <h1 className="text-2xl lg:text-3xl font-bold text-foreground leading-tight">
               {product.title}
@@ -652,45 +675,48 @@ export default function ProductPage() {
 
             {/* Trust Badges */}
             {trustBadges}
-
-            {/* 4. Description */}
-            {parsedContent.description && (
-              <div className="pt-4 border-t border-border">
-                <h2 className="text-lg font-bold text-foreground mb-2">Description</h2>
-                <p className="text-sm text-muted-foreground leading-relaxed">{parsedContent.description}</p>
-              </div>
-            )}
-
-            {/* 5. Features — red bullet points */}
-            {(standardExtras?.features || parsedContent.features).length > 0 && (
-              <div className="pt-4 border-t border-border">
-                <h2 className="text-lg font-bold text-foreground mb-2">Features</h2>
-                <ul className="space-y-1.5">
-                  {(standardExtras?.features || parsedContent.features).map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <span className="w-1.5 h-1.5 rounded-full bg-header-primary shrink-0 mt-1.5" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* 6. Specs */}
-            {(standardExtras?.specs || parsedContent.specs).length > 0 && (
-              <div className="pt-4 border-t border-border">
-                <h2 className="text-lg font-bold text-foreground mb-2">Specifications</h2>
-                <div className="border border-border rounded-lg overflow-hidden">
-                  {(standardExtras?.specs || parsedContent.specs).map((spec, i) => (
-                    <div key={i} className={`flex text-sm ${i % 2 === 0 ? 'bg-muted/30' : ''}`}>
-                      <span className="font-medium text-foreground px-3 py-2 w-1/3 border-r border-border">{spec.label}</span>
-                      <span className="text-muted-foreground px-3 py-2 flex-1">{spec.value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
+        </div>
+
+        {/* Full-width sections below the 2-col grid */}
+        <div className="mt-8 space-y-6">
+          {/* Description */}
+          {parsedContent.description && (
+            <div className="border-t border-border pt-6">
+              <h2 className="text-lg font-bold text-foreground mb-2">Description</h2>
+              <p className="text-sm text-muted-foreground leading-relaxed">{parsedContent.description}</p>
+            </div>
+          )}
+
+          {/* Features — red bullet points */}
+          {(standardExtras?.features || parsedContent.features).length > 0 && (
+            <div className="border-t border-border pt-6">
+              <h2 className="text-lg font-bold text-foreground mb-2">Features</h2>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-1.5">
+                {(standardExtras?.features || parsedContent.features).map((feature, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <span className="w-1.5 h-1.5 rounded-full bg-header-primary shrink-0 mt-1.5" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Specs */}
+          {(standardExtras?.specs || parsedContent.specs).length > 0 && (
+            <div className="border-t border-border pt-6">
+              <h2 className="text-lg font-bold text-foreground mb-2">Specifications</h2>
+              <div className="border border-border rounded-lg overflow-hidden max-w-2xl">
+                {(standardExtras?.specs || parsedContent.specs).map((spec, i) => (
+                  <div key={i} className={`flex text-sm ${i % 2 === 0 ? 'bg-muted/30' : ''}`}>
+                    <span className="font-medium text-foreground px-3 py-2 w-1/3 border-r border-border">{spec.label}</span>
+                    <span className="text-muted-foreground px-3 py-2 flex-1">{spec.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Frequently Bought Together */}
