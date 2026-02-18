@@ -489,75 +489,83 @@ export default function ProductPage() {
                 {trustBadges}
               </div>
 
-              {/* 7. Bulk Pricing Chart */}
-              <div className="border border-border rounded-lg overflow-hidden">
-                <div className="bg-muted/50 px-4 py-2 border-b border-border flex items-center gap-2">
-                  <Package className="w-4 h-4 text-header-primary" />
-                  <span className="text-sm font-bold text-foreground uppercase tracking-wide">Bulk Pricing</span>
-                </div>
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-border bg-muted/30">
-                      <th className="px-4 py-2 text-left font-semibold text-muted-foreground">Quantity</th>
-                      <th className="px-4 py-2 text-right font-semibold text-muted-foreground">Price Each</th>
-                      <th className="px-4 py-2 text-right font-semibold text-muted-foreground">Discount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {activeDiscounts!.map((tier) => {
-                      const isActive = currentTier?.label === tier.label;
-                      return (
-                        <tr
-                          key={tier.label}
-                          className={`border-b border-border last:border-0 transition-colors cursor-pointer ${
-                            isActive ? 'bg-header-primary/10 font-semibold' : 'hover:bg-muted/30'
-                          }`}
-                          onClick={() => setQuantity(tier.minQty)}
-                        >
-                          <td className="px-4 py-2.5 flex items-center gap-2">
-                            {isActive && <Check className="w-3.5 h-3.5 text-header-primary" />}
-                            <span className={isActive ? 'text-header-primary' : ''}>{tier.label}</span>
-                          </td>
-                          <td className={`px-4 py-2.5 text-right ${isActive ? 'text-header-primary' : ''}`}>
-                            ${tier.priceEach.toFixed(2)}
-                          </td>
-                          <td className="px-4 py-2.5 text-right">
-                            {tier.discount ? (
-                              <span className="text-green-600 font-medium">{tier.discount}% off</span>
-                            ) : (
-                              <span className="text-muted-foreground">—</span>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Description */}
-              {product.description && (
-                <div className="border-t border-border pt-4">
-                  <h2 className="text-lg font-bold text-foreground mb-2">Description</h2>
-                  <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{product.description}</p>
-                </div>
-              )}
-
-              {/* Features */}
-              {mockExtras?.features && (
-                <div className="border-t border-border pt-4">
-                  <h2 className="text-lg font-bold text-foreground mb-2">Features</h2>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-1.5">
-                    {mockExtras.features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                        <span className="w-1.5 h-1.5 rounded-full bg-header-primary shrink-0 mt-1.5" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </div>
+          </div>
+
+          {/* ── Full-width content row: Bulk Pricing | Description | Features ── */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 border border-border rounded-lg overflow-hidden mt-6">
+            {/* Bulk Pricing */}
+            <div className="border-r border-border">
+              <div className="bg-muted/50 px-4 py-2.5 border-b border-border flex items-center gap-2">
+                <Package className="w-4 h-4 text-header-primary" />
+                <span className="text-xs font-bold text-foreground uppercase tracking-wide">Bulk Pricing</span>
+              </div>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border bg-muted/30">
+                    <th className="px-3 py-2 text-left font-semibold text-muted-foreground text-xs">Qty</th>
+                    <th className="px-3 py-2 text-right font-semibold text-muted-foreground text-xs">Each</th>
+                    <th className="px-3 py-2 text-right font-semibold text-muted-foreground text-xs">Save</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {activeDiscounts!.map((tier) => {
+                    const isActive = currentTier?.label === tier.label;
+                    return (
+                      <tr
+                        key={tier.label}
+                        className={`border-b border-border last:border-0 transition-colors cursor-pointer ${
+                          isActive ? 'bg-header-primary/10 font-semibold' : 'hover:bg-muted/30'
+                        }`}
+                        onClick={() => setQuantity(tier.minQty)}
+                      >
+                        <td className="px-3 py-2 flex items-center gap-1.5 text-xs">
+                          {isActive && <Check className="w-3 h-3 text-header-primary shrink-0" />}
+                          <span className={isActive ? 'text-header-primary' : ''}>{tier.label}</span>
+                        </td>
+                        <td className={`px-3 py-2 text-right text-xs ${isActive ? 'text-header-primary' : ''}`}>
+                          ${tier.priceEach.toFixed(2)}
+                        </td>
+                        <td className="px-3 py-2 text-right text-xs">
+                          {tier.discount ? (
+                            <span className="text-green-600 font-medium">{tier.discount}%</span>
+                          ) : (
+                            <span className="text-muted-foreground">—</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Description */}
+            <div className="border-r border-border">
+              <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
+                <span className="text-xs font-bold text-foreground uppercase tracking-wide">Description</span>
+              </div>
+              <div className="px-4 py-3">
+                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-[12]">{product.description}</p>
+              </div>
+            </div>
+
+            {/* Features */}
+            {mockExtras?.features && (
+              <div>
+                <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
+                  <span className="text-xs font-bold text-foreground uppercase tracking-wide">Features</span>
+                </div>
+                <ul className="px-4 py-3 space-y-2">
+                  {mockExtras.features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <span className="w-1.5 h-1.5 rounded-full bg-header-primary shrink-0 mt-1.5" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           {/* Frequently Bought Together */}
@@ -686,46 +694,72 @@ export default function ProductPage() {
               </Button>
               {trustBadges}
             </div>
-
-            {/* Description */}
-            {parsedContent.description && (
-              <div className="border-t border-border pt-4">
-                <h2 className="text-sm font-bold text-foreground uppercase tracking-wide mb-2">Description</h2>
-                <p className="text-sm text-muted-foreground leading-relaxed">{parsedContent.description}</p>
-              </div>
-            )}
-
-            {/* Features */}
-            {(standardExtras?.features || parsedContent.features).length > 0 && (
-              <div className="border-t border-border pt-4">
-                <h2 className="text-sm font-bold text-foreground uppercase tracking-wide mb-2">Features</h2>
-                <ul className="space-y-1.5">
-                  {(standardExtras?.features || parsedContent.features).map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <span className="w-1.5 h-1.5 rounded-full bg-header-primary shrink-0 mt-1.5" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Specs */}
-            {(standardExtras?.specs || parsedContent.specs).length > 0 && (
-              <div className="border-t border-border pt-4">
-                <h2 className="text-sm font-bold text-foreground uppercase tracking-wide mb-2">Specifications</h2>
-                <div className="border border-border rounded-lg overflow-hidden">
-                  {(standardExtras?.specs || parsedContent.specs).map((spec, i) => (
-                    <div key={i} className={`flex text-sm ${i % 2 === 0 ? 'bg-muted/30' : ''}`}>
-                      <span className="font-medium text-foreground px-3 py-2 w-1/3 border-r border-border">{spec.label}</span>
-                      <span className="text-muted-foreground px-3 py-2 flex-1">{spec.value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
+
+        {/* ── Full-width content: Description + Features side-by-side, Specs below ── */}
+        {(() => {
+          const descText = parsedContent.description || product.description || '';
+          const featuresList = standardExtras?.features || parsedContent.features;
+          const specsList = standardExtras?.specs || parsedContent.specs;
+          const hasContent = descText || featuresList.length > 0 || specsList.length > 0;
+          if (!hasContent) return null;
+          return (
+            <div className="mt-6 border border-border rounded-lg overflow-hidden">
+              {/* Top row: Description | Features */}
+              {(descText || featuresList.length > 0) && (
+                <div className={`grid grid-cols-1 ${descText && featuresList.length > 0 ? 'lg:grid-cols-2' : ''} divide-y lg:divide-y-0 lg:divide-x divide-border ${specsList.length > 0 ? 'border-b border-border' : ''}`}>
+                  {descText && (
+                    <div>
+                      <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
+                        <h2 className="text-xs font-bold text-foreground uppercase tracking-wide">Description</h2>
+                      </div>
+                      <p className="px-4 py-3 text-sm text-muted-foreground leading-relaxed">{descText}</p>
+                    </div>
+                  )}
+                  {featuresList.length > 0 && (
+                    <div>
+                      <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
+                        <h2 className="text-xs font-bold text-foreground uppercase tracking-wide">Features</h2>
+                      </div>
+                      <ul className="px-4 py-3 space-y-2">
+                        {featuresList.map((feature, i) => (
+                          <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                            <span className="w-1.5 h-1.5 rounded-full bg-header-primary shrink-0 mt-1.5" />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+              {/* Specs — full width, 2-column table */}
+              {specsList.length > 0 && (
+                <div>
+                  <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
+                    <h2 className="text-xs font-bold text-foreground uppercase tracking-wide">Specifications</h2>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 divide-x divide-border">
+                    {(() => {
+                      const half = Math.ceil(specsList.length / 2);
+                      return [specsList.slice(0, half), specsList.slice(half)].map((col, colIdx) => (
+                        <div key={colIdx}>
+                          {col.map((spec, i) => (
+                            <div key={i} className={`flex text-sm border-b border-border last:border-0 ${i % 2 === 0 ? 'bg-muted/20' : ''}`}>
+                              <span className="font-medium text-foreground px-3 py-2 w-2/5 border-r border-border shrink-0">{spec.label}</span>
+                              <span className="text-muted-foreground px-3 py-2 flex-1">{spec.value}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ));
+                    })()}
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })()}
 
         {/* Frequently Bought Together */}
         <BoughtWith products={allProducts} currentHandle={handle} />
