@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -33,13 +34,19 @@ const companyLinks = [
 
 export function Footer() {
   const [email, setEmail] = useState("");
+  const [agreed, setAgreed] = useState(false);
   const { toast } = useToast();
 
   const handleNewsletter = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
+    if (!agreed) {
+      toast({ title: "Please agree to the privacy policy", variant: "destructive" });
+      return;
+    }
     toast({ title: "Subscribed!", description: "You'll receive our latest deals and promos." });
     setEmail("");
+    setAgreed(false);
   };
 
   return (
@@ -127,6 +134,24 @@ export function Footer() {
                 <Mail className="w-4 h-4" />
               </Button>
             </form>
+            <label className="flex items-start gap-2 mt-3 cursor-pointer">
+              <Checkbox
+                checked={agreed}
+                onCheckedChange={(checked) => setAgreed(checked === true)}
+                className="mt-0.5 border-background/40 data-[state=checked]:bg-header-primary data-[state=checked]:border-header-primary"
+              />
+              <span className="text-xs text-background/60 leading-relaxed">
+                By checking this box, you agree to receive email notifications from Fasteners, Inc. for our newsletter and promotions.{" "}
+                <a
+                  href="https://www.fastenersinc.net/pages/privacy-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-header-primary transition-colors"
+                >
+                  Privacy Policy
+                </a>
+              </span>
+            </label>
             {/* Social */}
             <div className="flex items-center gap-4 mt-4">
               <a
