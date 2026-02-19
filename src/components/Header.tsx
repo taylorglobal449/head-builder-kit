@@ -483,12 +483,12 @@ export function Header() {
                   
                   {/* Mega Menu Dropdown */}
                   {activeCategoryDropdown === cat.name && cat.subcategories.length > 0 && (
-                    <div className="fixed left-0 right-0 top-auto mt-0 bg-white border-t border-b border-header-border shadow-xl z-50">
-                      <div className="max-w-[1600px] mx-auto px-6 py-8">
-                        <div className="grid grid-cols-5 gap-x-6 gap-y-6">
+                    <div className="absolute left-0 top-full mt-0 bg-white border border-header-border rounded-lg shadow-xl z-50 w-[700px] max-w-[90vw]">
+                      <div className="px-5 py-5">
+                        <div className="grid grid-cols-3 gap-x-5 gap-y-4">
                           {cat.subcategories.map((subcat) => (
-                            <div key={subcat.title} className="flex gap-3">
-                              <div className="w-16 h-16 bg-muted rounded flex items-center justify-center shrink-0 overflow-hidden">
+                            <div key={subcat.title} className="flex gap-2">
+                              <div className="w-10 h-10 bg-muted rounded flex items-center justify-center shrink-0 overflow-hidden">
                                 <img 
                                   src={subcategoryImages[subcat.title] || `https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop`}
                                   alt={subcat.title}
@@ -498,16 +498,16 @@ export function Header() {
                               <div className="flex-1">
                                 <Link 
                                   to={`/search?q=${encodeURIComponent(subcat.title.toLowerCase())}`}
-                                  className="text-header-primary font-bold text-sm uppercase mb-2 block hover:underline transition-colors"
+                                  className="text-header-primary font-bold text-xs uppercase mb-1 block hover:underline transition-colors"
                                 >
                                   {subcat.title}
                                 </Link>
-                                <ul className="space-y-1">
-                                  {subcat.items.slice(0, 4).map((item) => (
+                                <ul className="space-y-0.5">
+                                  {subcat.items.slice(0, 3).map((item) => (
                                     <li key={item}>
                                       <Link 
                                         to={`/search?q=${encodeURIComponent(item.toLowerCase())}`}
-                                        className="text-sm text-foreground hover:text-header-primary hover:underline transition-colors"
+                                        className="text-xs text-foreground hover:text-header-primary hover:underline transition-colors"
                                       >
                                         {item}
                                       </Link>
