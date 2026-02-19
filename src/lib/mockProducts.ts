@@ -1,4 +1,9 @@
 import type { ShopifyProduct } from './shopify/types';
+import dcb609cMain from '@/assets/deals/dewalt-batteries.jpg';
+import dcb609cAlt1 from '@/assets/deals/dewalt-flexvolt.jpg';
+import dcb609cAlt2 from '@/assets/deals/dewalt-kits.jpg';
+import dcb609cAlt3 from '@/assets/deals/dewalt-bare-tools.jpg';
+import dcb609cAlt4 from '@/assets/deals/dewalt-outdoor.jpg';
 
 // Extended product type with template info
 export interface QuantityDiscount {
@@ -52,11 +57,11 @@ PROFESSIONAL VALUE: Purchasing batteries in a 2-pack delivers significant saving
       },
       images: {
         edges: [
-          { node: { url: 'https://www.dewalt.com/sites/default/files/styles/product_large/public/products/power-tools/battery-packs-and-chargers/20v-60v-max-flexvolt-90ah-battery-2-pack-with-charger/DCB609C_1.jpg', altText: 'DCB609C - Main View' } },
-          { node: { url: 'https://www.dewalt.com/sites/default/files/styles/product_large/public/products/power-tools/battery-packs-and-chargers/20v-60v-max-flexvolt-90ah-battery-2-pack-with-charger/DCB609C_2.jpg', altText: 'DCB609C - Side View' } },
-          { node: { url: 'https://www.dewalt.com/sites/default/files/styles/product_large/public/products/power-tools/battery-packs-and-chargers/20v-60v-max-flexvolt-90ah-battery-2-pack-with-charger/DCB609C_3.jpg', altText: 'DCB609C - In Use' } },
-          { node: { url: 'https://www.dewalt.com/sites/default/files/styles/product_large/public/products/power-tools/battery-packs-and-chargers/20v-60v-max-flexvolt-90ah-battery-2-pack-with-charger/DCB609C_4.jpg', altText: 'DCB609C - Detail' } },
-          { node: { url: 'https://www.dewalt.com/sites/default/files/styles/product_large/public/products/power-tools/battery-packs-and-chargers/20v-60v-max-flexvolt-90ah-battery-2-pack-with-charger/DCB609C_5.jpg', altText: 'DCB609C - Charger' } }
+          { node: { url: dcb609cMain, altText: 'DCB609C - Main View' } },
+          { node: { url: dcb609cAlt1, altText: 'DCB609C - FLEXVOLT' } },
+          { node: { url: dcb609cAlt2, altText: 'DCB609C - Kit' } },
+          { node: { url: dcb609cAlt3, altText: 'DCB609C - Bare Tools' } },
+          { node: { url: dcb609cAlt4, altText: 'DCB609C - Outdoor' } }
         ]
       },
       variants: {
