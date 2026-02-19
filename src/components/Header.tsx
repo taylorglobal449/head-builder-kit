@@ -365,7 +365,7 @@ export function Header() {
         <div className="max-w-[1600px] mx-auto px-4">
           <div className="flex items-center">
             {/* Colored Nav Buttons - Single Line, No Wrap */}
-            <div className="flex items-center gap-px mr-1.5 shrink-0 pr-1.5 border-r border-header-border">
+            <div className="flex items-center gap-[3px] mr-1.5 shrink-0 pr-1.5 border-r border-header-border">
               {navButtons.map((btn) => {
                 const IconComponent = btn.icon;
                 return (
