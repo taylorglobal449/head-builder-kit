@@ -487,7 +487,41 @@ export default function ProductPage() {
                 {trustBadges}
               </div>
 
-              {/* ── Features (right col, below cart) ── */}
+              {/* ── Bulk Pricing (right col, below cart) ── */}
+              <div className="border border-border rounded-lg overflow-hidden">
+                <div className="bg-muted/50 px-4 py-2.5 border-b border-border flex items-center gap-2">
+                  <Package className="w-4 h-4 text-header-primary" />
+                  <span className="text-xs font-bold text-foreground uppercase tracking-wide">Bulk Pricing</span>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 divide-x divide-border">
+                  {activeDiscounts!.map((tier) => {
+                    const isActive = currentTier?.label === tier.label;
+                    return (
+                      <button
+                        key={tier.label}
+                        onClick={() => setQuantity(tier.minQty)}
+                        className={`px-4 py-3 text-center transition-colors ${
+                          isActive ? 'bg-header-primary/10' : 'hover:bg-muted/30'
+                        }`}
+                      >
+                        <div className={`text-xs font-semibold mb-1 ${isActive ? 'text-header-primary' : 'text-muted-foreground'}`}>
+                          {tier.label}
+                        </div>
+                        <div className={`text-lg font-black leading-none ${isActive ? 'text-header-primary' : 'text-foreground'}`}>
+                          ${tier.priceEach.toFixed(2)}
+                        </div>
+                        <div className="text-xs text-muted-foreground mt-0.5">each</div>
+                        {tier.discount ? (
+                          <div className="text-xs text-green-600 font-semibold mt-1">Save {tier.discount}%</div>
+                        ) : null}
+                        {isActive && <Check className="w-3 h-3 text-header-primary mx-auto mt-1" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Features (right col, below bulk pricing) ── */}
               {mockExtras?.features && (
                 <div className="border border-border rounded-lg overflow-hidden">
                   <div className="bg-muted/50 px-4 py-2.5 border-b border-border flex items-center gap-2">
@@ -515,40 +549,6 @@ export default function ProductPage() {
                   ))}
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* ── Full-width: Bulk Pricing table ── */}
-          <div className="mt-6 border border-border rounded-lg overflow-hidden">
-            <div className="bg-muted/50 px-4 py-2.5 border-b border-border flex items-center gap-2">
-              <Package className="w-4 h-4 text-header-primary" />
-              <span className="text-xs font-bold text-foreground uppercase tracking-wide">Bulk Pricing</span>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 divide-x divide-border">
-              {activeDiscounts!.map((tier) => {
-                const isActive = currentTier?.label === tier.label;
-                return (
-                  <button
-                    key={tier.label}
-                    onClick={() => setQuantity(tier.minQty)}
-                    className={`px-4 py-3 text-center transition-colors ${
-                      isActive ? 'bg-header-primary/10' : 'hover:bg-muted/30'
-                    }`}
-                  >
-                    <div className={`text-xs font-semibold mb-1 ${isActive ? 'text-header-primary' : 'text-muted-foreground'}`}>
-                      {tier.label}
-                    </div>
-                    <div className={`text-lg font-black leading-none ${isActive ? 'text-header-primary' : 'text-foreground'}`}>
-                      ${tier.priceEach.toFixed(2)}
-                    </div>
-                    <div className="text-xs text-muted-foreground mt-0.5">each</div>
-                    {tier.discount ? (
-                      <div className="text-xs text-green-600 font-semibold mt-1">Save {tier.discount}%</div>
-                    ) : null}
-                    {isActive && <Check className="w-3 h-3 text-header-primary mx-auto mt-1" />}
-                  </button>
-                );
-              })}
             </div>
           </div>
 
