@@ -19,6 +19,7 @@ import AccountPage from "./pages/AccountPage";
 import CartPage from "./pages/CartPage";
 import BrandsPage from "./pages/BrandsPage";
 import BrandPage from "./pages/BrandPage";
+import MilwaukeeBrandPage from "./pages/MilwaukeeBrandPage";
 import CloseoutsPage from "./pages/CloseoutsPage";
 import HotDealsPage from "./pages/HotDealsPage";
 import NewProductsPage from "./pages/NewProductsPage";
@@ -49,6 +50,7 @@ function AppContent() {
         <Route path="/new-products" element={<NewProductsPage />} />
         <Route path="/fasteners" element={<FastenersPage />} />
         <Route path="/brands" element={<BrandsPage />} />
+        <Route path="/brands/milwaukee" element={<MilwaukeeBrandPage />} />
         <Route path="/brands/:slug" element={<BrandPage />} />
         <Route path="/account" element={<AccountPage />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
