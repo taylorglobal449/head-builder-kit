@@ -85,6 +85,11 @@ export function ProductCard({ product }: ProductCardProps) {
           {dealBadge.label}
         </div>
       )}
+      {!dealBadge && hasDiscount && discountPercent > 0 && (
+        <div className="absolute top-2 left-2 z-10 bg-destructive text-destructive-foreground px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider">
+          {discountPercent}% Off
+        </div>
+      )}
 
       {/* Image */}
       <div className="relative aspect-square bg-white overflow-hidden">
