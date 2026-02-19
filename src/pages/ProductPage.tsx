@@ -670,7 +670,21 @@ export default function ProductPage() {
               {trustBadges}
             </div>
 
-            {/* ── Features (right col, below cart) ── */}
+            {/* ── Description (right col, below cart) ── */}
+            {(() => {
+              const descText = parsedContent.description || product.description || '';
+              if (!descText) return null;
+              return (
+                <div className="border border-border rounded-lg overflow-hidden">
+                  <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
+                    <h2 className="text-xs font-bold text-foreground uppercase tracking-wide">Description</h2>
+                  </div>
+                  <p className="px-4 py-3 text-sm text-muted-foreground leading-relaxed">{descText}</p>
+                </div>
+              );
+            })()}
+
+            {/* ── Features (right col, below description) ── */}
             {(() => {
               const featuresList = standardExtras?.features || parsedContent.features;
               if (!featuresList.length) return null;
@@ -687,20 +701,6 @@ export default function ProductPage() {
                       </li>
                     ))}
                   </ul>
-                </div>
-              );
-            })()}
-
-            {/* ── Description (right col, below features — sticky window ends here) ── */}
-            {(() => {
-              const descText = parsedContent.description || product.description || '';
-              if (!descText) return null;
-              return (
-                <div className="border border-border rounded-lg overflow-hidden">
-                  <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
-                    <h2 className="text-xs font-bold text-foreground uppercase tracking-wide">Description</h2>
-                  </div>
-                  <p className="px-4 py-3 text-sm text-muted-foreground leading-relaxed">{descText}</p>
                 </div>
               );
             })()}
