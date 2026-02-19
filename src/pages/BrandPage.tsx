@@ -52,11 +52,6 @@ export default function BrandPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[340px]">
               {/* Left: Brand Info */}
               <div className="flex flex-col justify-center px-6 lg:px-12 py-8 lg:py-12 relative z-10">
-                <img
-                  src={brand.logo}
-                  alt={brand.name}
-                  className="h-12 w-auto object-contain object-left mb-4 invert brightness-200"
-                />
                 <h1 className="text-3xl lg:text-4xl font-black text-white uppercase tracking-wide mb-2">
                   {brand.name} Tools
                 </h1>
