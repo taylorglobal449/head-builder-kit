@@ -29,36 +29,34 @@ export const TEST_PRODUCTS: MockShopifyProduct[] = [
   {
     node: {
       id: 'gid://shopify/Product/test-1',
-      title: 'Standard Product',
-      description: `The DEWALT DCF860B 20V MAX Brushless Cordless 3-Speed High Torque 1/4 in. Impact Driver delivers exceptional power and control for the most demanding fastening applications. This professional-grade tool is designed for contractors, electricians, plumbers, and serious DIY enthusiasts who need reliable performance day after day on the jobsite.
+      title: 'DEWALT FLEXVOLT 20V/60V MAX Battery, 9.0-Ah, 2-Pack (DCB609C)',
+      description: `The DEWALT DCB609C FLEXVOLT 20V/60V MAX 9.0Ah Battery 2-Pack delivers unprecedented runtime and power for demanding jobsite applications. These dual-voltage batteries automatically change voltage when you switch between 20V MAX and 60V MAX tools, giving you the flexibility to power your entire DEWALT cordless tool lineup with a single battery platform.
 
-POWERFUL PERFORMANCE: This impact driver features a brushless motor that delivers up to 1,825 in-lbs of torque, making it ideal for driving large fasteners into dense materials. The 3-speed settings allow you to match the speed and power to your specific application, giving you precise control whether you're working with delicate materials or driving lag bolts through doubled-up dimensional lumber.
+FLEXVOLT TECHNOLOGY: Each battery seamlessly shifts between 20V MAX and 60V MAX operation. In 20V MAX mode, these batteries deliver 9.0Ah of capacity for extended runtime on drills, impact drivers, and other compact tools. When placed in a 60V MAX tool such as a table saw, miter saw, or grinder, they deliver 3.0Ah of capacity at 60 volts for the power needed to run high-draw equipment cordlessly.
 
-PRECISION CONTROL: The variable speed trigger provides precise control over fastening speed, while the 3 LED lights illuminate your work area for improved visibility in dark spaces. The 1/4" hex quick-release chuck allows for quick and easy bit changes, keeping you productive on the jobsite. The all-metal transmission delivers added durability and ensures longer tool life even in the most punishing conditions.
+MAXIMUM RUNTIME: With 9.0Ah of capacity in 20V MAX mode, these batteries provide up to 8x the runtime of a standard compact 1.5Ah pack. For professionals who work full shifts without access to power, this means fewer battery swaps and less downtime. The high-capacity cells are engineered for sustained discharge, maintaining consistent power output even under heavy loads.
 
-ERGONOMIC DESIGN: The compact, lightweight design (only 5.1" front to back) reduces fatigue during extended use, while the overmolded grip provides comfort and control. The belt clip allows for convenient storage when not in use. The tool is balanced to minimize wrist strain during repeated overhead and horizontal driving tasks — a key consideration for professionals who use impact drivers for hours at a time.
+CONSTRUCTION-GRADE DURABILITY: The DCB609 batteries feature a rugged housing with integrated impact-resistant end caps and a hang hook for convenient storage. The 3-LED fuel gauge lets you check charge level at a glance without inserting the battery into a tool. Each cell is individually monitored by DEWALT's built-in battery management system to prevent overheating, over-discharge, and overload.
 
-DEWALT BUILD QUALITY: Built with the legendary DEWALT durability you expect, this tool is designed to withstand tough jobsite conditions. The brushless motor provides longer runtime and extended tool life compared to brushed motors. DEWALT tools are backed by a 3-year limited warranty, a 1-year free service contract, and a 90-day money-back guarantee, giving you the confidence to buy without risk.
+FAST CHARGING: Included in this pack is one DCB1106 charger capable of fully recharging a 9.0Ah battery in approximately 90 minutes. The charger features a diagnostics system with LED indicator that communicates battery charge status — charging, fully charged, or replace pack. It is compatible with all DEWALT 12V MAX, 20V MAX, and 60V MAX battery packs, consolidating your charging station into a single unit.
 
-BRUSHLESS MOTOR ADVANTAGE: Unlike traditional brushed motors, the DCF860B's brushless motor automatically adjusts power to match application demands. This results in up to 57% more runtime compared to brushed alternatives, significantly less heat generation, and a motor that simply lasts longer between servicing intervals. For contractors running multiple jobs daily, this translates directly to lower total cost of ownership and fewer tool replacements over time.
+SYSTEM COMPATIBILITY: These batteries are part of the DEWALT 20V MAX system — one of the largest cordless platforms in the world with over 300 products. Every DEWALT 20V MAX and 60V MAX tool, charger, and accessory is cross-compatible, protecting your investment as your tool collection grows. Whether you're running a framing nailer, a rotary hammer, or a portable power station, FLEXVOLT batteries deliver.
 
-BATTERY SYSTEM COMPATIBILITY: This tool is part of the DEWALT 20V MAX system — one of the largest cordless tool systems in the world with over 200 compatible tools, chargers, and battery packs. All DEWALT 20V MAX batteries are interchangeable across the entire platform, meaning your investment in batteries and chargers works across your entire tool fleet. Compatible batteries range from the compact 1.5Ah for light tasks up to the FLEXVOLT 6.0Ah for maximum runtime on demanding applications.
-
-Note: Bare tool only. Battery and charger sold separately. Recommended pairing: DCB205 5.0Ah Battery + DCB115 Charger for optimal performance.`,
+PROFESSIONAL VALUE: Purchasing batteries in a 2-pack delivers significant savings over buying individually. For crews and contractors outfitting multiple tools, this is the most cost-effective way to maintain all-day power across an entire cordless fleet. The included charger adds even more value by eliminating the need for a separate charger purchase.`,
       handle: 'stand-product',
       priceRange: {
-        minVariantPrice: { amount: '149.00', currencyCode: 'USD' }
+        minVariantPrice: { amount: '299.00', currencyCode: 'USD' }
       },
       compareAtPriceRange: {
-        minVariantPrice: { amount: '179.00', currencyCode: 'USD' }
+        minVariantPrice: { amount: '349.00', currencyCode: 'USD' }
       },
       images: {
         edges: [
-          { node: { url: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=800&h=800&fit=crop', altText: 'Stand Product - Main View' } },
-          { node: { url: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=800&h=800&fit=crop', altText: 'Stand Product - Side View' } },
-          { node: { url: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=800&h=800&fit=crop', altText: 'Stand Product - In Use' } },
-          { node: { url: 'https://images.unsplash.com/photo-1581147036324-c17ac41f3050?w=800&h=800&fit=crop', altText: 'Stand Product - Detail' } },
-          { node: { url: 'https://images.unsplash.com/photo-1426927308491-6380b6a9936f?w=800&h=800&fit=crop', altText: 'Stand Product - Accessories' } }
+          { node: { url: 'https://www.dewalt.com/sites/default/files/styles/product_large/public/products/power-tools/battery-packs-and-chargers/20v-60v-max-flexvolt-90ah-battery-2-pack-with-charger/DCB609C_1.jpg', altText: 'DCB609C - Main View' } },
+          { node: { url: 'https://www.dewalt.com/sites/default/files/styles/product_large/public/products/power-tools/battery-packs-and-chargers/20v-60v-max-flexvolt-90ah-battery-2-pack-with-charger/DCB609C_2.jpg', altText: 'DCB609C - Side View' } },
+          { node: { url: 'https://www.dewalt.com/sites/default/files/styles/product_large/public/products/power-tools/battery-packs-and-chargers/20v-60v-max-flexvolt-90ah-battery-2-pack-with-charger/DCB609C_3.jpg', altText: 'DCB609C - In Use' } },
+          { node: { url: 'https://www.dewalt.com/sites/default/files/styles/product_large/public/products/power-tools/battery-packs-and-chargers/20v-60v-max-flexvolt-90ah-battery-2-pack-with-charger/DCB609C_4.jpg', altText: 'DCB609C - Detail' } },
+          { node: { url: 'https://www.dewalt.com/sites/default/files/styles/product_large/public/products/power-tools/battery-packs-and-chargers/20v-60v-max-flexvolt-90ah-battery-2-pack-with-charger/DCB609C_5.jpg', altText: 'DCB609C - Charger' } }
         ]
       },
       variants: {
@@ -67,8 +65,8 @@ Note: Bare tool only. Battery and charger sold separately. Recommended pairing: 
             node: {
               id: 'gid://shopify/ProductVariant/test-1-1',
               title: 'Default Title',
-              price: { amount: '149.00', currencyCode: 'USD' },
-              compareAtPrice: { amount: '179.00', currencyCode: 'USD' },
+              price: { amount: '299.00', currencyCode: 'USD' },
+              compareAtPrice: { amount: '349.00', currencyCode: 'USD' },
               availableForSale: true,
               selectedOptions: [{ name: 'Title', value: 'Default Title' }]
             }
@@ -77,53 +75,53 @@ Note: Bare tool only. Battery and charger sold separately. Recommended pairing: 
       },
       options: [{ name: 'Title', values: ['Default Title'] }],
       vendor: 'DEWALT',
-      productType: 'Power Tools',
-      tags: ['power-tools', 'impact-driver', 'cordless', '20v']
+      productType: 'Batteries & Chargers',
+      tags: ['batteries', 'chargers', 'flexvolt', '20v', '60v', 'dewalt']
     },
     extras: {
       templateType: 'standard',
-      sku: 'DCF860B',
-      partNumber: 'DCF860B',
-      mfgPartNumber: 'DCF860B-US',
-      upc: '885911839266',
+      sku: 'DCB609C',
+      partNumber: 'DCB609C',
+      mfgPartNumber: 'DCB609C',
+      upc: '885911838504',
       features: [
-        'Brushless motor delivers up to 1,825 in-lbs of torque for the most demanding fastening applications',
-        '3-speed settings (0-1,000 / 0-2,800 / 0-3,250 RPM) for application versatility across material types',
-        'Variable speed trigger for precise control over fastening speed and depth',
-        '3 LED lights with 20-second delay after trigger release for hands-free visibility in dark spaces',
-        '1/4" hex quick-release chuck for fast and easy bit changes without additional tools',
-        'Compact, lightweight design at only 5.1" front to back to reduce fatigue during extended use',
-        'Overmolded comfort grip reduces vibration and improves control during sustained operation',
-        'All-metal transmission delivers added durability for longer tool life on the jobsite',
-        'Part of the DEWALT 20V MAX System — compatible with 200+ tools, chargers, and battery packs',
-        'Belt clip included for convenient hands-free carry between fastening tasks',
-        'Up to 57% more runtime vs. brushed competitors thanks to efficient brushless motor design',
-        'Withstands tough jobsite conditions including dust, debris, and drop impacts',
-        "Backed by DEWALT's 3-year limited warranty and 90-day money-back guarantee",
-        'Compatible with FLEXVOLT batteries for extended runtime on large-scale projects'
+        'FLEXVOLT dual-voltage technology automatically shifts between 20V MAX and 60V MAX',
+        '9.0Ah capacity in 20V MAX mode for up to 8x runtime vs. compact 1.5Ah packs',
+        '3.0Ah capacity in 60V MAX mode to power high-draw tools like table saws and miter saws',
+        'Includes DCB1106 charger — fully recharges a 9.0Ah battery in approximately 90 minutes',
+        'Built-in battery management system monitors each cell individually to prevent overheating, over-discharge, and overload',
+        '3-LED fuel gauge on each battery for at-a-glance charge status without inserting into a tool',
+        'Rugged housing with impact-resistant end caps withstands jobsite drops and abuse',
+        'Integrated hang hook on each battery for convenient storage on pegboards and racks',
+        'Compatible with the entire DEWALT 20V MAX and 60V MAX cordless tool platform — over 300 products',
+        'High-capacity cells engineered for sustained discharge maintain consistent power under heavy loads',
+        'Charger diagnostics LED communicates charge status, full charge, and replace-pack alerts',
+        'Charger compatible with all DEWALT 12V MAX, 20V MAX, and 60V MAX batteries',
+        '2-pack provides significant savings over purchasing batteries individually',
+        'Ideal for crews and contractors outfitting multiple tools for all-day cordless operation'
       ],
       includes: [
-        'DCF860B 20V MAX Brushless 1/4" Impact Driver',
-        'Belt Clip',
+        '(2) DCB609 FLEXVOLT 20V/60V MAX 9.0Ah Batteries',
+        '(1) DCB1106 Charger',
         'Documentation Kit'
       ],
       specs: [
-        { label: 'Motor Type', value: 'Brushless' },
-        { label: 'Max Torque', value: '1,825 in-lbs' },
-        { label: 'No-Load Speed', value: '0-1,000 / 0-2,800 / 0-3,250 RPM' },
-        { label: 'Impacts Per Minute', value: '0-1,500 / 0-2,900 / 0-3,800 IPM' },
-        { label: 'Chuck Size', value: '1/4" Hex Quick-Release' },
-        { label: 'Voltage', value: '20V MAX' },
-        { label: 'Tool Length', value: '5.1 in' },
-        { label: 'Weight (bare tool)', value: '2.0 lbs' },
-        { label: 'Battery System', value: 'DEWALT 20V MAX' },
-        { label: 'LED Lights', value: '3 LED with 20-second delay' },
-        { label: 'Speed Settings', value: '3-Speed' },
+        { label: 'Battery Chemistry', value: 'Lithium Ion' },
+        { label: 'Voltage', value: '20V MAX / 60V MAX' },
+        { label: 'Amp Hours (20V)', value: '9.0 Ah' },
+        { label: 'Amp Hours (60V)', value: '3.0 Ah' },
+        { label: 'Watt Hours', value: '180 Wh per battery' },
+        { label: 'Pack Quantity', value: '2 Batteries + 1 Charger' },
+        { label: 'Charger Model', value: 'DCB1106' },
+        { label: 'Charge Time (9.0Ah)', value: '~90 minutes' },
+        { label: 'Charger Input', value: '120V AC' },
+        { label: 'Fuel Gauge', value: '3-LED' },
+        { label: 'Battery Weight', value: '3.49 lbs each' },
+        { label: 'Platform Compatibility', value: '20V MAX & 60V MAX' },
         { label: 'Warranty', value: '3-Year Limited' },
-        { label: 'Country of Origin', value: 'China' },
-        { label: 'UPC', value: '885911839266' },
-        { label: 'Model #', value: 'DCF860B' },
-        { label: 'Power Source', value: 'Battery Powered' }
+        { label: 'Country of Origin', value: 'USA with global materials' },
+        { label: 'UPC', value: '885911838504' },
+        { label: 'Model #', value: 'DCB609C' }
       ]
     }
   },
