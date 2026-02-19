@@ -136,11 +136,6 @@ export function HeroSection({ products }: HeroSectionProps) {
                       </svg>
                     </div>
                   )}
-                  {hasDiscount && (
-                    <div className="absolute top-0 left-0 bg-header-primary text-primary-foreground text-[8px] font-bold px-1 rounded-br">
-                      {discountPercent}%
-                    </div>
-                  )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[10px] font-medium text-foreground line-clamp-2 leading-tight group-hover:text-header-primary transition-colors">
