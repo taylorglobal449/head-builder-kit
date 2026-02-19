@@ -302,7 +302,7 @@ export default function ProductPage() {
     <div className="flex items-center justify-center gap-4 pt-2 border-t border-border">
       <div className="flex items-center gap-1.5">
         <Truck className="w-4 h-4 text-header-primary shrink-0" />
-        <span className="text-xs text-muted-foreground">Free Shipping</span>
+        <span className="text-xs text-muted-foreground">Fast Shipping</span>
       </div>
       <div className="flex items-center gap-1.5">
         <Shield className="w-4 h-4 text-header-primary shrink-0" />
