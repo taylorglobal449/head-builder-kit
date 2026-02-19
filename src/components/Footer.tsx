@@ -63,7 +63,7 @@ export function Footer() {
   return (
     <footer className="bg-foreground text-background">
       {/* Main Footer */}
-      <div className="max-w-[1600px] mx-auto px-4 py-10">
+      <div className="max-w-[1600px] mx-auto px-4 py-6">
         <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr_1fr_1fr] gap-8">
           {/* Newsletter - First / Anchor */}
           <div>
