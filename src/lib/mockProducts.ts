@@ -1,9 +1,8 @@
 import type { ShopifyProduct } from './shopify/types';
-import dcb609cMain from '@/assets/deals/dewalt-batteries.jpg';
-import dcb609cAlt1 from '@/assets/deals/dewalt-flexvolt.jpg';
-import dcb609cAlt2 from '@/assets/deals/dewalt-kits.jpg';
-import dcb609cAlt3 from '@/assets/deals/dewalt-bare-tools.jpg';
-import dcb609cAlt4 from '@/assets/deals/dewalt-outdoor.jpg';
+import dcb609cMain from '@/assets/deals/dcb609c-main.png';
+import dcb609cAlt1 from '@/assets/deals/dcb609c-battery.png';
+import dcb609cAlt2 from '@/assets/deals/dcb609c-gauge.png';
+import dcb609cAlt3 from '@/assets/deals/dcb609c-side.png';
 
 // Extended product type with template info
 export interface QuantityDiscount {
@@ -58,10 +57,9 @@ PROFESSIONAL VALUE: Purchasing batteries in a 2-pack delivers significant saving
       images: {
         edges: [
           { node: { url: dcb609cMain, altText: 'DCB609C - Main View' } },
-          { node: { url: dcb609cAlt1, altText: 'DCB609C - FLEXVOLT' } },
-          { node: { url: dcb609cAlt2, altText: 'DCB609C - Kit' } },
-          { node: { url: dcb609cAlt3, altText: 'DCB609C - Bare Tools' } },
-          { node: { url: dcb609cAlt4, altText: 'DCB609C - Outdoor' } }
+          { node: { url: dcb609cAlt1, altText: 'DCB609C - Battery Close-up' } },
+          { node: { url: dcb609cAlt2, altText: 'DCB609C - Fuel Gauge' } },
+          { node: { url: dcb609cAlt3, altText: 'DCB609C - Side View' } }
         ]
       },
       variants: {
