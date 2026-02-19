@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -26,6 +26,7 @@ export default function ProductPage() {
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const imageColRef = useRef<HTMLDivElement>(null);
 
   const selectedVariantForSeo = product?.variants.edges[selectedVariantIndex]?.node;
   const productJsonLd = useMemo(() => {
@@ -406,8 +407,8 @@ export default function ProductPage() {
           {breadcrumb}
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10 items-start">
-            {/* Images — 2/5 width, sticky — releases naturally when right col ends */}
-            <div className="lg:col-span-2 lg:sticky lg:top-4">
+            {/* Images — 2/5 width, sticky — releases when right col ends */}
+            <div ref={imageColRef} className="lg:col-span-2 lg:sticky lg:top-4">
               {imageGallery}
             </div>
 
@@ -508,7 +509,11 @@ export default function ProductPage() {
                 <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
                   <span className="text-xs font-bold text-foreground uppercase tracking-wide">Description</span>
                 </div>
-                <p className="px-4 py-3 text-sm text-muted-foreground leading-relaxed">{product.description}</p>
+                <div className="px-4 py-3 space-y-3">
+                  {product.description.split(/\n\n+/).map((para, i) => (
+                    <p key={i} className="text-sm text-muted-foreground leading-relaxed">{para}</p>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -574,8 +579,8 @@ export default function ProductPage() {
         {breadcrumb}
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10 items-start">
-          {/* Images — 2/5 width, sticky — releases naturally when right col ends */}
-          <div className="lg:col-span-2 lg:sticky lg:top-4">
+          {/* Images — 2/5 width, sticky — releases when right col ends */}
+          <div ref={imageColRef} className="lg:col-span-2 lg:sticky lg:top-4">
             {imageGallery}
           </div>
 
@@ -672,14 +677,18 @@ export default function ProductPage() {
 
             {/* ── Description (right col, below cart) ── */}
             {(() => {
-              const descText = parsedContent.description || product.description || '';
+              const descText = standardExtras ? product.description : (parsedContent.description || product.description || '');
               if (!descText) return null;
               return (
                 <div className="border border-border rounded-lg overflow-hidden">
                   <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
                     <h2 className="text-xs font-bold text-foreground uppercase tracking-wide">Description</h2>
                   </div>
-                  <p className="px-4 py-3 text-sm text-muted-foreground leading-relaxed">{descText}</p>
+                  <div className="px-4 py-3 space-y-3">
+                    {descText.split(/\n\n+/).map((para, i) => (
+                      <p key={i} className="text-sm text-muted-foreground leading-relaxed">{para}</p>
+                    ))}
+                  </div>
                 </div>
               );
             })()}
