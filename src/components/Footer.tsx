@@ -10,6 +10,7 @@ const shopLinks = [
   { name: "New Arrivals", href: "https://www.fastenersinc.net/pages/search-results-page?collection=new-release" },
   { name: "Closeouts", href: "https://www.fastenersinc.net/pages/flash-sale-1" },
   { name: "Brands", href: "https://www.fastenersinc.net/pages/brands" },
+  { name: "Gift Cards", href: "https://www.fastenersinc.net/products/gift-card" },
 ];
 
 const supportLinks = [
@@ -17,7 +18,9 @@ const supportLinks = [
   { name: "Order Tracking", href: "/order-tracking" },
   { name: "Request a Quote", href: "/quote" },
   { name: "Sales Flyers", href: "/sales-flyers" },
-  { name: "FAQ", href: "https://www.fastenersinc.net/pages/faq" },
+  { name: "Shipping Policy", href: "https://www.fastenersinc.net/pages/shipping-policy" },
+  { name: "Refund Policy", href: "https://www.fastenersinc.net/pages/refund-policy" },
+  { name: "Receive Deals by Text", href: "https://www.fastenersinc.net/pages/receive-deals-by-text" },
 ];
 
 const companyLinks = [
@@ -25,6 +28,7 @@ const companyLinks = [
   { name: "Careers", href: "https://www.fastenersinc.net/pages/careers" },
   { name: "Store Locations", href: "/store-locator" },
   { name: "Events", href: "/events" },
+  { name: "Privacy Policy", href: "https://www.fastenersinc.net/pages/privacy-policy" },
 ];
 
 export function Footer() {
