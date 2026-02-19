@@ -64,7 +64,80 @@ export function Footer() {
     <footer className="bg-foreground text-background">
       {/* Main Footer */}
       <div className="max-w-[1600px] mx-auto px-4 py-10">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr_1fr_1fr] gap-8">
+          {/* Newsletter - First / Anchor */}
+          <div>
+            <h3 className="font-bold text-xs uppercase tracking-widest mb-3 text-header-primary">
+              Deals & Promos
+            </h3>
+            <p className="text-sm text-background/70 mb-3">
+              Receive updates on deals, promos, & new items.
+            </p>
+            <form onSubmit={handleNewsletter} className="flex gap-2">
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                required
+                maxLength={255}
+                className="h-9 bg-background/10 border-background/20 text-background placeholder:text-background/40 text-sm focus-visible:ring-header-primary"
+              />
+              <Button
+                type="submit"
+                size="sm"
+                className="h-9 bg-header-primary hover:bg-header-primary-hover text-white shrink-0 px-4"
+              >
+                Submit
+              </Button>
+            </form>
+            <label className="flex items-start gap-2 mt-3 cursor-pointer">
+              <Checkbox
+                checked={agreed}
+                onCheckedChange={(checked) => setAgreed(checked === true)}
+                className="mt-0.5 border-background/40 data-[state=checked]:bg-header-primary data-[state=checked]:border-header-primary"
+              />
+              <span className="text-xs text-background/60 leading-relaxed">
+                By checking this box, you agree to receive email notifications from Fasteners, Inc. for our newsletter and promotions.{" "}
+                <a
+                  href="https://www.fastenersinc.net/pages/privacy-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-header-primary transition-colors"
+                >
+                  Privacy Policy
+                </a>
+              </span>
+            </label>
+            {/* Social */}
+            <div className="flex items-center gap-4 mt-4">
+              <a
+                href="https://www.facebook.com/sacfasteners/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-background/60 hover:text-header-primary transition-colors"
+                aria-label="Facebook"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                </svg>
+              </a>
+              <a
+                href="https://www.instagram.com/sacfasteners/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-background/60 hover:text-header-primary transition-colors"
+                aria-label="Instagram"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
           {/* Categories */}
           <div>
             <h3 className="font-bold text-xs uppercase tracking-widest mb-3 text-header-primary">Categories</h3>
@@ -83,6 +156,7 @@ export function Footer() {
               ))}
             </ul>
           </div>
+
           {/* Shop */}
           <div>
             <h3 className="font-bold text-xs uppercase tracking-widest mb-3 text-header-primary">Shop</h3>
@@ -135,79 +209,6 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h3 className="font-bold text-xs uppercase tracking-widest mb-3 text-header-primary">
-              Deals & Promos
-            </h3>
-            <p className="text-sm text-background/70 mb-3">
-              Get updates on deals, promos & new items.
-            </p>
-            <form onSubmit={handleNewsletter} className="flex gap-2">
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your email"
-                required
-                maxLength={255}
-                className="h-9 bg-background/10 border-background/20 text-background placeholder:text-background/40 text-sm focus-visible:ring-header-primary"
-              />
-              <Button
-                type="submit"
-                size="sm"
-                className="h-9 bg-header-primary hover:bg-header-primary-hover text-white shrink-0 px-3"
-              >
-                <Mail className="w-4 h-4" />
-              </Button>
-            </form>
-            <label className="flex items-start gap-2 mt-3 cursor-pointer">
-              <Checkbox
-                checked={agreed}
-                onCheckedChange={(checked) => setAgreed(checked === true)}
-                className="mt-0.5 border-background/40 data-[state=checked]:bg-header-primary data-[state=checked]:border-header-primary"
-              />
-              <span className="text-xs text-background/60 leading-relaxed">
-                By checking this box, you agree to receive email notifications from Fasteners, Inc. for our newsletter and promotions.{" "}
-                <a
-                  href="https://www.fastenersinc.net/pages/privacy-policy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline hover:text-header-primary transition-colors"
-                >
-                  Privacy Policy
-                </a>
-              </span>
-            </label>
-            {/* Social */}
-            <div className="flex items-center gap-4 mt-4">
-              <a
-                href="https://www.facebook.com/sacfasteners/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-background/60 hover:text-header-primary transition-colors"
-                aria-label="Facebook"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                </svg>
-              </a>
-              <a
-                href="https://www.instagram.com/sacfasteners/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-background/60 hover:text-header-primary transition-colors"
-                aria-label="Instagram"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                </svg>
-              </a>
-            </div>
           </div>
         </div>
       </div>
