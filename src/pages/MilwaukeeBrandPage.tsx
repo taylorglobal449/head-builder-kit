@@ -5,16 +5,23 @@ import { ProductCard } from "@/components/products/ProductCard";
 import { useMockProducts } from "@/hooks/useMockProducts";
 import { ChevronRight } from "lucide-react";
 import milwaukeeLogo from "@/assets/brands/milwaukee.png";
+import bgM18 from "@/assets/brands/mke-bg-m18.jpg";
+import bgM12 from "@/assets/brands/mke-bg-m12.jpg";
+import bgHand from "@/assets/brands/mke-bg-hand.jpg";
+import bgAcc from "@/assets/brands/mke-bg-acc.jpg";
+import bgWear from "@/assets/brands/mke-bg-wear.jpg";
 
-const MKE_RED = "#db0032";
 const antonFont = { fontFamily: "'Anton', sans-serif" };
 
-const shopByLine = [
-  { name: "M18", subtitle: "Power Tools", href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20m18", large: true },
-  { name: "M12", subtitle: "Power Tools", href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20m12", large: true },
-  { name: "Hand Tools", subtitle: "", href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20hand%20tools", large: false },
-  { name: "Accessories", subtitle: "", href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20accessories", large: false },
-  { name: "Work Wear", subtitle: "", href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20safety", large: false },
+const lineCardsLarge = [
+  { name: "M18", subtitle: "Power Tools", bg: bgM18, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20m18" },
+  { name: "M12", subtitle: "Power Tools", bg: bgM12, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20m12" },
+];
+
+const lineCardsSmall = [
+  { name: "Hand Tools", bg: bgHand, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20hand%20tools" },
+  { name: "Accessories", bg: bgAcc, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20accessories" },
+  { name: "Work Wear", bg: bgWear, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20safety" },
 ];
 
 const categories = [
@@ -69,56 +76,84 @@ export default function MilwaukeeBrandPage() {
               Shop By Line.
             </h2>
 
-            {/* Top row: 2 large buttons (M18, M12) */}
+            {/* Top row: 2 large cards (M18, M12) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-              {shopByLine.filter(l => l.large).map((line) => (
+              {lineCardsLarge.map((line) => (
                 <a
                   key={line.name}
                   href={line.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative overflow-hidden rounded-lg bg-gradient-to-r from-[#2a2a2a] to-[#1a1a1a] border border-white/10 hover:border-[#db0032]/60 transition-all py-8 px-6 md:px-10 flex flex-col justify-center"
+                  className="group relative overflow-hidden rounded-md border-2 border-[#db0032] bg-black"
+                  style={{ aspectRatio: "16/8" }}
                 >
-                  <div className="flex items-baseline gap-3">
+                  {/* Dark bg with faded tool images */}
+                  <img src={line.bg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-40" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+
+                  {/* Content overlay */}
+                  <div className="relative h-full flex flex-col items-center justify-center text-center px-4 gap-3">
+                    {/* White rounded label with bold black text */}
+                    <div className="flex items-baseline gap-2">
+                      <div className="bg-white rounded-lg px-4 py-1.5">
+                        <span
+                          className="text-black text-4xl md:text-5xl uppercase"
+                          style={{ ...antonFont, fontStyle: "italic" }}
+                        >
+                          {line.name}
+                        </span>
+                      </div>
+                      <span
+                        className="text-white text-xl md:text-2xl uppercase"
+                        style={{ ...antonFont, fontStyle: "italic" }}
+                      >
+                        {line.subtitle}
+                      </span>
+                    </div>
+
+                    {/* Live SHOP NOW button */}
                     <span
-                      className="text-5xl md:text-6xl uppercase"
-                      style={{ ...antonFont, color: MKE_RED }}
+                      className="inline-flex items-center gap-1 px-5 py-1.5 bg-[#db0032] hover:bg-[#ff0038] text-white text-sm font-black uppercase tracking-wider rounded-sm transition-colors"
+                      style={antonFont}
                     >
-                      {line.name}
-                    </span>
-                    <span className="text-white text-xl md:text-2xl uppercase italic" style={antonFont}>
-                      {line.subtitle}
+                      Shop Now
+                      <ChevronRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
-                  <span className="mt-3 inline-flex items-center gap-1 text-white/70 text-xs font-bold uppercase tracking-widest group-hover:text-white transition-colors">
-                    Shop Now <ChevronRight className="w-3 h-3" />
-                  </span>
-                  {/* Decorative red line */}
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#db0032] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
                 </a>
               ))}
             </div>
 
-            {/* Bottom row: 3 smaller buttons */}
+            {/* Bottom row: 3 smaller cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {shopByLine.filter(l => !l.large).map((line) => (
+              {lineCardsSmall.map((line) => (
                 <a
                   key={line.name}
                   href={line.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative overflow-hidden rounded-lg bg-gradient-to-r from-[#2a2a2a] to-[#1a1a1a] border border-white/10 hover:border-[#db0032]/60 transition-all py-6 px-5 flex flex-col justify-center"
+                  className="group relative overflow-hidden rounded-md border-2 border-[#db0032] bg-black"
+                  style={{ aspectRatio: "16/8" }}
                 >
-                  <span
-                    className="text-white text-2xl md:text-3xl uppercase italic"
-                    style={antonFont}
-                  >
-                    {line.name}
-                  </span>
-                  <span className="mt-2 inline-flex items-center gap-1 text-white/60 text-xs font-bold uppercase tracking-widest group-hover:text-white transition-colors">
-                    Shop Now <ChevronRight className="w-3 h-3" />
-                  </span>
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#db0032] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                  <img src={line.bg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-30" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+
+                  <div className="relative h-full flex flex-col items-center justify-center text-center px-4 gap-2">
+                    <span
+                      className="text-white text-2xl md:text-3xl uppercase drop-shadow-lg"
+                      style={{ ...antonFont, fontStyle: "italic" }}
+                    >
+                      {line.name}
+                    </span>
+
+                    <span
+                      className="inline-flex items-center gap-1 px-4 py-1 bg-[#db0032] hover:bg-[#ff0038] text-white text-xs font-black uppercase tracking-wider rounded-sm transition-colors"
+                      style={antonFont}
+                    >
+                      Shop Now
+                      <ChevronRight className="w-3 h-3" />
+                    </span>
+                  </div>
                 </a>
               ))}
             </div>
@@ -128,7 +163,6 @@ export default function MilwaukeeBrandPage() {
         {/* ─── SHOP BY POWER TOOL CATEGORY ─── */}
         <section className="bg-black">
           <div className="max-w-[1600px] mx-auto px-4 py-8">
-            {/* Red banner heading */}
             <div className="bg-[#db0032] py-3 px-4 mb-6 rounded">
               <h2
                 className="text-2xl md:text-3xl text-white uppercase tracking-wide text-center"
@@ -147,7 +181,6 @@ export default function MilwaukeeBrandPage() {
                   rel="noopener noreferrer"
                   className="group relative bg-[#1a1a1a] rounded-lg overflow-hidden border border-white/10 hover:border-[#db0032] transition-all"
                 >
-                  {/* Placeholder area for future product image */}
                   <div className="aspect-square bg-[#222] flex items-center justify-center">
                     <span className="text-white/20 text-xs uppercase tracking-wider">Image Placeholder</span>
                   </div>
@@ -169,8 +202,8 @@ export default function MilwaukeeBrandPage() {
         <section>
           <div className="bg-[#db0032] py-3">
             <h2
-              className="text-2xl md:text-3xl text-white uppercase tracking-wide text-center italic"
-              style={antonFont}
+              className="text-2xl md:text-3xl text-white uppercase tracking-wide text-center"
+              style={{ ...antonFont, fontStyle: "italic" }}
             >
               New Products
             </h2>
@@ -188,7 +221,6 @@ export default function MilwaukeeBrandPage() {
             </div>
           </div>
 
-          {/* Dark footer with CTA */}
           <div className="bg-[#1a1a1a] py-10 text-center">
             <a
               href="https://www.fastenersinc.net/pages/milwaukee-tools"
