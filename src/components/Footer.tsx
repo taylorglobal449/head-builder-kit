@@ -5,6 +5,17 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+const categoryLinks = [
+  { name: "Power Tools", href: "https://www.fastenersinc.net/pages/search-results-page?collection=power-tools" },
+  { name: "Hand Tools", href: "https://www.fastenersinc.net/pages/search-results-page?q=hand%20tools" },
+  { name: "Fasteners", href: "https://www.fastenersinc.net/pages/search-results-page?q=Fasteners" },
+  { name: "Machine Tools", href: "https://www.fastenersinc.net/pages/search-results-page?q=machine%20tools" },
+  { name: "Outdoor Tools", href: "https://www.fastenersinc.net/pages/search-results-page?collection=outdoor-power-equipement" },
+  { name: "Safety & Workwear", href: "https://www.fastenersinc.net/pages/search-results-page?q=workwear" },
+  { name: "Storage & Workspace", href: "https://www.fastenersinc.net/pages/search-results-page?q=storage" },
+  { name: "Combo Kits", href: "https://www.fastenersinc.net/pages/search-results-page?collection=power-tool-combo-kits" },
+];
+
 const shopLinks = [
   { name: "All Products", href: "/products" },
   { name: "Hot Deals", href: "https://www.fastenersinc.net/pages/top-deals-promotions" },
@@ -53,7 +64,25 @@ export function Footer() {
     <footer className="bg-foreground text-background">
       {/* Main Footer */}
       <div className="max-w-[1600px] mx-auto px-4 py-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+          {/* Categories */}
+          <div>
+            <h3 className="font-bold text-xs uppercase tracking-widest mb-3 text-header-primary">Categories</h3>
+            <ul className="space-y-2">
+              {categoryLinks.map((link) => (
+                <li key={link.name}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-background/70 hover:text-header-primary transition-colors"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
           {/* Shop */}
           <div>
             <h3 className="font-bold text-xs uppercase tracking-widest mb-3 text-header-primary">Shop</h3>
