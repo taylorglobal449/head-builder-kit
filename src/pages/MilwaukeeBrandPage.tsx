@@ -14,6 +14,10 @@ import mkeCardAcc from "@/assets/brands/mke-card-acc.png";
 import mkeCardWear from "@/assets/brands/mke-card-wear.png";
 import mkeShopByCategory from "@/assets/brands/mke-shop-by-category.png";
 import mkeNewProducts from "@/assets/brands/mke-new-products.png";
+import mkeCatDrilling from "@/assets/brands/mke-cat-drilling.png";
+import mkeCatFastening from "@/assets/brands/mke-cat-fastening.png";
+import mkeCatCombo from "@/assets/brands/mke-cat-combo.png";
+import mkeCatLasers from "@/assets/brands/mke-cat-lasers.png";
 
 const lineCardsLarge = [
   { img: mkeCardM18, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20m18", alt: "M18 Power Tools" },
@@ -27,17 +31,17 @@ const lineCardsSmall = [
 ];
 
 const categories = [
-  { name: "Drilling", href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20drill" },
-  { name: "Fastening", href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20impact" },
-  { name: "Combo Kits", href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20combo%20kit" },
-  { name: "Lasers", href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20laser" },
-  { name: "Saws", href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20saw" },
-  { name: "Lighting", href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20light" },
-  { name: "Storage", href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20packout" },
-  { name: "Grinding", href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20grinder" },
+  { name: "Drilling", img: mkeCatDrilling, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20drill" },
+  { name: "Fastening", img: mkeCatFastening, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20impact" },
+  { name: "Combo Kits", img: mkeCatCombo, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20combo%20kit" },
+  { name: "Lasers", img: mkeCatLasers, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20laser" },
+  { name: "Saws", img: mkeCatDrilling, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20saw" },
+  { name: "Lighting", img: mkeCatFastening, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20light" },
+  { name: "Storage", img: mkeCatCombo, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20packout" },
+  { name: "Grinding", img: mkeCatLasers, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20grinder" },
 ];
 
-const antonFont = { fontFamily: "'Anton', sans-serif" };
+
 
 export default function MilwaukeeBrandPage() {
   const { products } = useMockProducts(10);
@@ -114,19 +118,9 @@ export default function MilwaukeeBrandPage() {
                   href={cat.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative bg-[#1a1a1a] rounded-lg overflow-hidden border border-white/10 hover:border-[#db0032] transition-all"
+                  className="block rounded-lg overflow-hidden border border-white/10 hover:border-[#db0032] transition-all"
                 >
-                  <div className="aspect-square bg-[#222] flex items-center justify-center">
-                    <span className="text-white/20 text-xs uppercase tracking-wider">Image Placeholder</span>
-                  </div>
-                  <div className="bg-[#db0032] py-2.5 px-3 group-hover:bg-[#ff0038] transition-colors">
-                    <span
-                      className="text-white text-sm md:text-base uppercase tracking-wide block text-center"
-                      style={antonFont}
-                    >
-                      {cat.name}
-                    </span>
-                  </div>
+                  <img src={cat.img} alt={cat.name} className="w-full h-auto" />
                 </a>
               ))}
             </div>
