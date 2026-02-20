@@ -70,28 +70,10 @@ const subcategoryImages: Record<string, string> = {
   "Turning Machines (Lathes)": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCPR320B_1_533x.jpg?v=1743796767",
   "Sawing Machines": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCCS623B_1_2324e9f7-217a-40d1-bb1d-ab86a9a1f6a9_533x.jpg?v=1743799921",
   "Specialty & Production Machines": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCL074_1_533x.jpg?v=1743798307",
-  // AIR TOOLS & COMPRESSORS
-  "Air Compressors": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCBL722B_1_d0317bde-d598-4751-9b9b-9f813d4dd11f_533x.jpg?v=1743799704",
-  "Pneumatic Fastening Tools": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCBL722B_1_d0317bde-d598-4751-9b9b-9f813d4dd11f_533x.jpg?v=1743799704",
-  "Pneumatic Cutting Tools": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCBL722B_1_d0317bde-d598-4751-9b9b-9f813d4dd11f_533x.jpg?v=1743799704",
-  "Pneumatic Grinding & Finishing": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCBL722B_1_d0317bde-d598-4751-9b9b-9f813d4dd11f_533x.jpg?v=1743799704",
-  "Air Tool Accessories": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCBL722B_1_d0317bde-d598-4751-9b9b-9f813d4dd11f_533x.jpg?v=1743799704",
-  // STORAGE & WORKSPACE
-  "Tool Storage": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCL074_1_533x.jpg?v=1743798307",
-  "Modular Storage Systems": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCL074_1_533x.jpg?v=1743798307",
-  "Mobile Storage & Carts": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCL074_1_533x.jpg?v=1743798307",
-  "Shop Equipment": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCL074_1_533x.jpg?v=1743798307",
-  // JOBSITE SUPPLIES
-  "Material Handling Equipment": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCST922B_1_93af2c19-25d8-4ff4-9731-df67f20326ce_533x.jpg?v=1743797474",
-  "Ladders & Access Equipment": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCST922B_1_93af2c19-25d8-4ff4-9731-df67f20326ce_533x.jpg?v=1743797474",
-  "Jobsite Consumables": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCST922B_1_93af2c19-25d8-4ff4-9731-df67f20326ce_533x.jpg?v=1743797474",
-  "Tapes, Adhesives & Sealants": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCST922B_1_93af2c19-25d8-4ff4-9731-df67f20326ce_533x.jpg?v=1743797474",
-  // STRUT extras
-  "Strut Washers": "https://www.fastenersinc.net/cdn/shop/products/s-l1600_6e7d97ff-caaa-4854-a41b-1e61c6b007ed_533x.jpg?v=1661451537",
-  "End Caps": "https://www.fastenersinc.net/cdn/shop/products/s-l1600_6e7d97ff-caaa-4854-a41b-1e61c6b007ed_533x.jpg?v=1661451537",
-  "Joining & Bracing": "https://www.fastenersinc.net/cdn/shop/products/s-l1600_6e7d97ff-caaa-4854-a41b-1e61c6b007ed_533x.jpg?v=1661451537",
-  "Strut Trolleys": "https://www.fastenersinc.net/cdn/shop/products/s-l1600_6e7d97ff-caaa-4854-a41b-1e61c6b007ed_533x.jpg?v=1661451537",
-  "Post Bases": "https://www.fastenersinc.net/cdn/shop/products/s-l1600_6e7d97ff-caaa-4854-a41b-1e61c6b007ed_533x.jpg?v=1661451537",
+  // OTHER
+  "Air Tools & Accessories": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCBL722B_1_d0317bde-d598-4751-9b9b-9f813d4dd11f_533x.jpg?v=1743799704",
+  "Storage & Workspace": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCL074_1_533x.jpg?v=1743798307",
+  "Jobsite Supplies & Material Handling": "https://www.fastenersinc.net/cdn/shop/files/Ecomm_Large-DCST922B_1_93af2c19-25d8-4ff4-9731-df67f20326ce_533x.jpg?v=1743797474",
 };
 
 const navCategories = [
@@ -99,32 +81,32 @@ const navCategories = [
     name: "POWER TOOLS",
     subcategories: [
       { title: "Drills & Fastening Tools", items: ["Drills", "Hammer Drills", "Impact Drivers", "Impact Wrenches", "Screw Guns"] },
-      { title: "Saws & Cutting Tools", items: ["Circular Saws", "Reciprocating Saws", "Jig Saws", "Miter Saws", "Track Saws", "Portable Band Saws", "Cut-Off Saws"] },
+      { title: "Saws & Cutting Tools", items: ["Circular Saws", "Reciprocating Saws", "Jig Saws", "Miter Saws", "Track Saws"] },
       { title: "Grinding, Sanding & Finishing", items: ["Angle Grinders", "Die Grinders", "Sanders", "Polishers", "Buffers"] },
       { title: "Outdoor Power Equipment", items: ["Pressure Washers", "Blowers", "String Trimmers", "Hedge Trimmers", "Chainsaws"] },
-      { title: "Specialty Power Tools", items: ["Oscillating Multi-Tools", "Heat Guns", "Power Planers", "Power Shears", "Power Nibblers", "Mixers", "Jump Starters"] },
+      { title: "Specialty Power Tools", items: ["Oscillating Multi-Tools", "Heat Guns", "Power Planers", "Power Shears", "Mixers"] },
       { title: "Power Tool Kits", items: ["Combo Kits"] },
-      { title: "Concrete & Masonry Tools", items: ["Rotary Hammers", "Demolition Hammers", "Concrete Breakers", "Electric Jackhammers", "Concrete Vibrators", "Concrete Mixers", "Rebar Cutters & Benders"] },
+      { title: "Concrete & Masonry Tools", items: ["Rotary Hammers", "Demolition Hammers", "Concrete Breakers", "Concrete Vibrators", "Rebar Cutters & Benders"] },
     ]
   },
   { 
     name: "HAND TOOLS",
     subcategories: [
       { title: "Striking Tools", items: ["Hammers", "Mallets", "Sledgehammers", "Dead Blow Hammers"] },
-      { title: "Wrenches & Ratcheting Tools", items: ["Combination Wrenches", "Open-End Wrenches", "Box-End Wrenches", "Adjustable Wrenches", "Ratcheting Wrenches", "Torque Wrenches"] },
-      { title: "Sockets & Accessories", items: ["Socket Sets", "Individual Sockets", "Extensions", "Adapters", "Universal Joints"] },
-      { title: "Pliers & Cutting Tools", items: ["Pliers", "Needle-Nose Pliers", "Slip-Joint Pliers", "Locking Pliers", "Wire Cutters", "Bolt Cutters"] },
+      { title: "Wrenches & Ratcheting Tools", items: ["Combination Wrenches", "Adjustable Wrenches", "Ratcheting Wrenches", "Torque Wrenches"] },
+      { title: "Sockets & Accessories", items: ["Socket Sets", "Individual Sockets", "Extensions", "Adapters"] },
+      { title: "Pliers & Cutting Tools", items: ["Pliers", "Needle-Nose Pliers", "Locking Pliers", "Wire Cutters", "Bolt Cutters"] },
       { title: "Screwdrivers & Hex Keys", items: ["Screwdrivers", "Nut Drivers", "Hex Keys", "Torx Keys"] },
-      { title: "Measuring & Layout Tools", items: ["Tape Measures", "Levels", "Squares", "Calipers", "Chalk lines", "Chalk", "Marking pencils", "Markers"] },
-      { title: "Clamping & Vises", items: ["Bar Clamps", "C-Clamps", "Spring Clamps", "Bench Vises", "Hand Vises"] },
+      { title: "Measuring & Layout Tools", items: ["Tape Measures", "Levels", "Squares", "Calipers", "Chalk Lines"] },
+      { title: "Clamping & Vises", items: ["Bar Clamps", "C-Clamps", "Spring Clamps", "Bench Vises"] },
       { title: "Cutting & Shaping Tools", items: ["Hand Saws", "Chisels", "Files", "Rasps", "Snips"] },
       { title: "Pry Bars & Lifting Tools", items: ["Pry Bars", "Wrecking Bars", "Crowbars", "Manual Jacks"] },
     ]
   },
   { 
-    name: "POWER TOOL ACCESSORIES",
+    name: "TOOL ACCESSORIES",
     subcategories: [
-      { title: "Blades & Abrasives", items: ["Circular Saw Blades", "Reciprocating Saw Blades", "Jig Saw Blades", "Band Saw Blades", "Grinding Wheels", "Cut-Off Wheels", "Sanding Discs", "Flap Discs", "Wire Wheels"] },
+      { title: "Blades & Abrasives", items: ["Circular Saw Blades", "Reciprocating Saw Blades", "Grinding Wheels", "Cut-Off Wheels", "Sanding Discs"] },
       { title: "Drilling Accessories", items: ["Twist Drill Bits", "Masonry Bits", "Step Bits", "Hole Saws", "Auger Bits"] },
       { title: "Fastening Accessories", items: ["Driver Bits", "Bit Holders", "Nut Setters", "Extensions"] },
       { title: "Batteries & Chargers", items: ["Tool Batteries", "Battery Chargers", "Power Cords & Adapters"] },
@@ -134,44 +116,29 @@ const navCategories = [
   {
     name: "FASTENERS",
     subcategories: [
-      { title: "Screws", items: ["Wood Screws", "Construction Screws", "Structural Screws", "Deck Screws", "Pocket-Hole Screws", "Drywall Screws", "Sheet Metal Screws", "Self-Drilling Screws (TEK)", "Machine Screws", "Lag Screws (Lag Bolts)", "Concrete Screws", "Security Screws", "Set Screws (Grub Screws)", "Trim / Finish Screws", "Cement Board Screws", "Roofing Screws", "Thread-Forming Screws", "Thread-Cutting Screws", "Screw Assortments & Kits"] },
-      { title: "Bolts", items: ["Hex Head Cap Screws / Hex Bolts", "Carriage Bolts", "Flange Bolts", "Structural Bolts", "Eye Bolts", "U-Bolts", "J-Bolts", "T-Bolts / T-Slot Bolts", "Anchor Bolts (Cast-In)", "Elevator Bolts", "Plow Bolts", "Shoulder Bolts", "Socket Head Cap Screws", "Button Head Socket Screws", "Flat Head Socket Screws", "Stud Bolts", "Bolt Assortments & Kits"] },
-      { title: "Nuts", items: ["Hex Nuts", "Heavy Hex Nuts", "Jam Nuts", "Lock Nuts - Nylon Insert", "Lock Nuts - All-Metal", "Flange Nuts", "Cap (Acorn) Nuts", "Coupling Nuts", "Wing Nuts", "Square Nuts", "T-Nuts", "Weld Nuts", "Rivet Nuts (Nutserts)", "Cage Nuts", "Thumb / Knurled Nuts", "Slotted / Castle Nuts"] },
-      { title: "Washers", items: ["Flat Washers", "Extra Thick Washers", "Fender Washers", "Split Lock Washers", "Tooth Lock Washers", "Sealing Washers", "Square Washers", "Dock / Plate Washers"] },
-      { title: "Concrete & Masonry Anchors", items: ["Wedge Anchors", "Sleeve Anchors", "Drop-In Anchors", "Hammer Drive Anchors", "Machine Screw Anchors", "Lag Shield Anchors", "Expansion Shields", "Strike Anchors", "Pin Drive Anchors"] },
-      { title: "Drywall & Hollow Wall Anchors", items: ["Toggle Bolts", "Strap Toggles", "Self-Drilling Drywall Anchors", "Hollow Wall Anchors"] },
-      { title: "Threaded Rod & Studs", items: ["Threaded Rod (All-Thread)", "Fully Threaded Studs", "ACME Rod", "Rod Couplers", "Threaded Rod Accessories"] },
-      { title: "Rivets", items: ["Blind Rivets", "Structural Blind Rivets", "Sealed / Closed-End Rivets", "Large Flange Rivets", "Multi-Grip Rivets", "Solid Rivets", "Drive Rivets", "Rivet Assortments"] },
-      { title: "Nails", items: ["Common Nails", "Box Nails", "Framing Nails", "Finish Nails", "Brad Nails", "Pin Nails", "Roofing Nails", "Concrete / Masonry Nails", "Joist Hanger Nails", "Coil Nails", "Collated Nails"] },
-      { title: "Construction & Structural Connectors", items: ["Joist Hangers", "Hurricane Ties", "Angles & Angle Brackets", "Straps & Ties", "Plates", "Post Bases", "Post Caps", "Holdowns", "Column Caps", "Rafter & Ridge Connectors", "Truss Connectors", "Deck Connectors", "Wood-to-Concrete Connectors"] },
-      { title: "Specialty & Miscellaneous Fasteners", items: ["Retaining Rings", "Cotter Pins", "Dowel Pins", "Spring Pins (Roll Pins)", "Clevis Pins", "Hitch Pins", "E-Clips / Snap Rings", "Clips & Retainers", "Concrete Pins (Powder-Actuated)", "Thread Inserts", "Spacers & Standoffs", "Miscellaneous Fastener Kits"] },
+      { title: "Screws", items: ["Wood Screws", "Machine Screws", "Sheet Metal Screws", "Self-Drilling Screws", "Lag Screws"] },
+      { title: "Bolts", items: ["Hex Bolts", "Carriage Bolts", "Flange Bolts", "Eye Bolts", "U-Bolts"] },
+      { title: "Nuts", items: ["Hex Nuts", "Lock Nuts", "Wing Nuts", "Flange Nuts", "Coupling Nuts"] },
+      { title: "Washers", items: ["Flat Washers", "Lock Washers", "Fender Washers", "Split Lock Washers"] },
+      { title: "Concrete & Masonry Anchors", items: ["Wedge Anchors", "Sleeve Anchors", "Drop-In Anchors", "Tapcon Screws"] },
+      { title: "Drywall & Hollow Wall Anchors", items: ["Toggle Bolts", "Molly Bolts", "Plastic Anchors", "Self-Drilling Anchors"] },
+      { title: "Threaded Rod & Studs", items: ["Threaded Rod", "Hanger Bolts", "Double-End Studs"] },
+      { title: "Rivets", items: ["Blind Rivets", "Solid Rivets", "Drive Rivets", "Rivet Nuts"] },
+      { title: "Nails", items: ["Common Nails", "Finish Nails", "Brad Nails", "Roofing Nails", "Framing Nails"] },
+      { title: "Construction & Structural Connectors", items: ["Joist Hangers", "Angle Brackets", "Post Bases", "Straps & Ties"] },
+      { title: "Specialty & Miscellaneous Fasteners", items: ["Pins", "Clips", "Retaining Rings", "Set Screws", "Thumb Screws"] },
     ],
-  },
-  {
-    name: "AIR TOOLS & COMPRESSORS",
-    subcategories: [
-      { title: "Air Compressors", items: ["Portable Air Compressors", "Stationary Air Compressors"] },
-      { title: "Pneumatic Fastening Tools", items: ["Air Nailers", "Air Staplers", "Air Impact Wrenches", "Air Ratchets", "Air Rivet Guns"] },
-      { title: "Pneumatic Cutting Tools", items: ["Air Cut-Off Tools", "Air Reciprocating Saws", "Air Shears", "Air Nibblers"] },
-      { title: "Pneumatic Grinding & Finishing", items: ["Air Die Grinders", "Air Angle Grinders", "Air Sanders", "Air Polishers"] },
-      { title: "Air Tool Accessories", items: ["Air Hoses", "Hose Reels", "Couplers & Fittings", "Regulators", "Filters", "Lubricators", "Blow Guns"] },
-    ]
   },
   { 
     name: "STRUT & ACCESSORIES",
     subcategories: [
-      { title: "Strut Channel", items: ["Standard Strut Channel", "Shallow Strut Channel", "Back-to-Back Strut Channel", "Double Strut Channel", "Solid (Plain) Strut Channel"] },
+      { title: "Strut Channel", items: ["Standard Strut Channel", "Shallow Strut Channel", "Back-to-Back Strut Channel", "Solid (Plain) Strut Channel"] },
       { title: "Angle & Flat Fittings", items: ["90° Angle Fittings", "Flat Plate Fittings", "Offset Fittings"] },
       { title: "Tee & Cross Fittings", items: ["Tee Fittings", "Cross Fittings", "Four-Hole Fittings"] },
       { title: "Structural Brackets", items: ["Corner Brackets", "Gussets", "Channel Brackets", "Mounting Plates"] },
       { title: "Beam & Structural Attachments", items: ["Beam Clamps", "Girder Clamps", "Structural Clips"] },
       { title: "Channel Nuts", items: ["Spring Channel Nuts", "Regular Channel Nuts", "Cone Channel Nuts", "Coil Channel Nuts"] },
-      { title: "Strut Washers", items: ["Strut Washers"] },
-      { title: "End Caps", items: ["Regular End Caps", "Low Profile End Caps"] },
-      { title: "Joining & Bracing", items: ["Splice Plates", "Channel Joiners", "Bracing Plates", "Seismic Bracing Components"] },
-      { title: "Pipe & Conduit Supports", items: ["Pipe Clamps", "Clevis Hangers", "Riser Clamps", "Conduit Clamps", "Strut-Mounted Conduit Hangers", "U-Bolt Assemblies"] },
-      { title: "Strut Trolleys", items: ["Strut Trolleys"] },
-      { title: "Post Bases", items: ["Post Bases"] },
+      { title: "Pipe & Conduit Supports", items: ["Pipe Clamps", "Clevis Hangers", "Riser Clamps", "Conduit Clamps"] },
     ]
   },
   { 
@@ -186,7 +153,7 @@ const navCategories = [
       { title: "Fall Protection", items: ["Safety Harnesses", "Lanyards", "Anchors", "Self-Retracting Lifelines"] },
       { title: "Respiratory Protection", items: ["Disposable Respirators", "Reusable Respirators", "Respirator Cartridges", "Filters"] },
       { title: "Jobsite Safety Equipment", items: ["Safety Cones", "Barricades", "Caution Tape", "Safety Signage"] },
-      { title: "Tool Carrying & Wearable Accessories", items: ["Tool Belts", "Tool Pouches", "Tool Holsters", "Tool Lanyards", "Suspenders"] },
+      { title: "Tool Carrying & Wearable Accessories", items: ["Tool Belts", "Tool Pouches", "Tool Holsters", "Tool Lanyards"] },
     ]
   },
   { 
@@ -203,21 +170,11 @@ const navCategories = [
     ]
   },
   { 
-    name: "STORAGE & WORKSPACE",
+    name: "OTHER",
     subcategories: [
-      { title: "Tool Storage", items: ["Toolboxes", "Tool Chests", "Tool Cabinets", "Small Parts Organizers", "Drawer Storage Units"] },
-      { title: "Modular Storage Systems", items: ["Stackable Tool Cases", "Rolling Base Units", "Modular Organizers", "System Mounting Plates", "System Rails & Accessories"] },
-      { title: "Mobile Storage & Carts", items: ["Tool Carts", "Service Carts", "Rolling Tool Cabinets", "Utility Carts"] },
-      { title: "Shop Equipment", items: ["Jobsite Lights", "Work Lights", "Tripod Lights", "Radios", "Fans", "Stands & Tripods"] },
-    ]
-  },
-  { 
-    name: "JOBSITE SUPPLIES",
-    subcategories: [
-      { title: "Material Handling Equipment", items: ["Hand Trucks", "Dollies", "Platform Carts", "Pallet Jacks", "Lifting Slings", "Hoists"] },
-      { title: "Ladders & Access Equipment", items: ["Step Ladders", "Extension Ladders", "Platform Ladders", "Folding Ladders"] },
-      { title: "Jobsite Consumables", items: ["Marking Paint (Spray)", "Lubricants", "Threadlock Compounds", "Cleaners & Degreasers", "Wipes"] },
-      { title: "Tapes, Adhesives & Sealants", items: ["Duct Tape", "Electrical Tape", "Construction Tape", "Adhesives", "Sealants"] },
+      { title: "Air Tools & Accessories", items: ["Air Compressors", "Portable Air Compressors", "Air Nailers", "Air Impact Wrenches", "Air Die Grinders", "Air Sanders", "Air Hoses", "Couplers & Fittings"] },
+      { title: "Storage & Workspace", items: ["Toolboxes", "Tool Chests", "Tool Cabinets", "Tool Carts", "Modular Organizers", "Workbenches", "Jobsite Lights", "Radios"] },
+      { title: "Jobsite Supplies & Material Handling", items: ["Hand Trucks", "Dollies", "Pallet Jacks", "Hoists", "Step Ladders", "Extension Ladders", "Lubricants", "Cleaners & Degreasers", "Duct Tape", "Adhesives"] },
     ]
   },
 ];
@@ -265,12 +222,6 @@ const shopAllDropdown = [
   { name: "Machine Tools", href: "https://www.fastenersinc.net/pages/search-results-page?q=machine%20tools" },
   { name: "Outdoor Power", href: "https://www.fastenersinc.net/pages/search-results-page?collection=outdoor-power-equipement" },
   { name: "Combo Kits", href: "https://www.fastenersinc.net/pages/search-results-page?collection=power-tool-combo-kits" },
-];
-
-const shopAllOther = [
-  { name: "Air Tools & Compressors", href: "https://www.fastenersinc.net/pages/search-results-page?q=air%20tools" },
-  { name: "Jobsite Supplies", href: "https://www.fastenersinc.net/pages/search-results-page?q=jobsite%20supplies" },
-  { name: "Strut & Accessories", href: "https://www.fastenersinc.net/pages/search-results-page?q=strut" },
 ];
 
 const brandsDropdown = [
@@ -485,16 +436,6 @@ export function Header() {
                               </a>
                             </li>
                           ))}
-                          <li className="border-t border-header-border mt-1 pt-1">
-                            <span className="block px-4 py-1.5 text-xs font-bold text-muted-foreground uppercase tracking-wide">Other</span>
-                          </li>
-                          {shopAllOther.map((item) => (
-                            <li key={item.name}>
-                              <a href={item.href} className="block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-header-primary">
-                                {item.name}
-                              </a>
-                            </li>
-                          ))}
                         </ul>
                       </div>
                     )}
@@ -525,9 +466,9 @@ export function Header() {
               })}
             </div>
 
-            {/* Category Links with Red Triangle Arrows - Bold (show top 8 in nav bar) */}
+            {/* Category Links with Red Triangle Arrows - Bold */}
             <div className="flex items-center">
-              {navCategories.slice(0, 8).map((cat) => (
+              {navCategories.map((cat) => (
                 <div
                   key={cat.name}
                   className="relative"
@@ -546,73 +487,45 @@ export function Header() {
           </div>
 
           {/* Mega Menu Dropdown - spans full nav width */}
-          {activeCategoryDropdown && navCategories.find(c => c.name === activeCategoryDropdown)?.subcategories.length! > 0 && (() => {
-            const subcats = navCategories.find(c => c.name === activeCategoryDropdown)!.subcategories;
-            // Smart column packing: distribute subcategories into columns balanced by total item weight
-            const NUM_COLS = 4;
-            const columns: typeof subcats[] = Array.from({ length: NUM_COLS }, () => []);
-            const colWeights: number[] = new Array(NUM_COLS).fill(0);
-            // Sort subcats by item count descending for better packing
-            const sorted = [...subcats].sort((a, b) => (b.items.length + 1) - (a.items.length + 1));
-            for (const subcat of sorted) {
-              // Find lightest column
-              let minIdx = 0;
-              for (let i = 1; i < NUM_COLS; i++) {
-                if (colWeights[i] < colWeights[minIdx]) minIdx = i;
-              }
-              columns[minIdx].push(subcat);
-              colWeights[minIdx] += subcat.items.length + 1.5; // +1.5 for header weight
-            }
-            // Re-sort each column to match original order
-            const orderMap = new Map(subcats.map((s, i) => [s.title, i]));
-            columns.forEach(col => col.sort((a, b) => (orderMap.get(a.title) ?? 0) - (orderMap.get(b.title) ?? 0)));
-            // Remove empty columns
-            const usedColumns = columns.filter(col => col.length > 0);
-
-            return (
-              <div className="absolute left-0 right-0 top-full bg-white border border-header-border rounded-b-lg shadow-xl z-50 max-h-[420px] overflow-y-auto">
-                <div className="px-5 py-5">
-                  <div className={`grid gap-x-5`} style={{ gridTemplateColumns: `repeat(${usedColumns.length}, 1fr)` }}>
-                    {usedColumns.map((col, colIdx) => (
-                      <div key={colIdx} className="space-y-4">
-                        {col.map((subcat) => (
-                          <div key={subcat.title} className="flex gap-2">
-                            <div className="w-10 h-10 bg-muted rounded flex items-center justify-center shrink-0 overflow-hidden">
-                              <img 
-                                src={subcategoryImages[subcat.title] || `https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop`}
-                                alt={subcat.title}
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                            <div className="flex-1">
-                              <Link 
-                                to={`/search?q=${encodeURIComponent(subcat.title.toLowerCase())}`}
-                                className="text-header-primary font-bold text-xs uppercase mb-1 block hover:underline transition-colors"
-                              >
-                                {subcat.title}
-                              </Link>
-                              <ul className="space-y-0.5">
-                                {subcat.items.map((item) => (
-                                  <li key={item}>
-                                    <Link 
-                                      to={`/search?q=${encodeURIComponent(item.toLowerCase())}`}
-                                      className="text-xs text-foreground hover:text-header-primary hover:underline transition-colors"
-                                    >
-                                      {item}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          </div>
-                        ))}
+          {activeCategoryDropdown && navCategories.find(c => c.name === activeCategoryDropdown)?.subcategories.length! > 0 && (
+            <div className="absolute left-0 right-0 top-full bg-white border border-header-border rounded-b-lg shadow-xl z-50 max-h-[420px] overflow-y-auto">
+              <div className="px-5 py-5">
+                <div className="grid grid-cols-4 gap-x-5 gap-y-4">
+                  {navCategories.find(c => c.name === activeCategoryDropdown)!.subcategories.map((subcat) => (
+                    <div key={subcat.title} className="flex gap-2">
+                      <div className="w-10 h-10 bg-muted rounded flex items-center justify-center shrink-0 overflow-hidden">
+                        <img 
+                          src={subcategoryImages[subcat.title] || `https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop`}
+                          alt={subcat.title}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                    ))}
-                  </div>
+                      <div className="flex-1">
+                        <Link 
+                          to={`/search?q=${encodeURIComponent(subcat.title.toLowerCase())}`}
+                          className="text-header-primary font-bold text-xs uppercase mb-1 block hover:underline transition-colors"
+                        >
+                          {subcat.title}
+                        </Link>
+                        <ul className="space-y-0.5">
+                          {subcat.items.slice(0, 3).map((item) => (
+                            <li key={item}>
+                              <Link 
+                                to={`/search?q=${encodeURIComponent(item.toLowerCase())}`}
+                                className="text-xs text-foreground hover:text-header-primary hover:underline transition-colors"
+                              >
+                                {item}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            );
-          })()}
+            </div>
+          )}
         </div>
       </nav>
 
