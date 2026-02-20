@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { dealBanners, brandTabs } from "@/lib/dealData";
+import { dealBanners, brandTabs, type DealBanner } from "@/lib/dealData";
 import { FlameKindling, Percent, Gift, Timer } from "lucide-react";
 import hotDealsBanner from "@/assets/banners/hot-deals-banner.jpg";
 
@@ -103,13 +103,13 @@ export default function HotDealsPage() {
                 href={banner.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow"
+                className="group block rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow"
               >
-                <div className="aspect-square overflow-hidden">
+                <div className="overflow-hidden">
                   <img
                     src={banner.image}
                     alt={banner.title}
-                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
+                    className="w-full h-auto object-contain group-hover:scale-[1.03] transition-transform duration-300"
                   />
                 </div>
               </a>
