@@ -75,7 +75,7 @@ export default function HotDealsPage() {
         {/* Brand Filter Tabs */}
         <div className="sticky top-0 z-30 bg-background border-b border-border shadow-sm">
           <div className="max-w-[1600px] mx-auto px-4">
-            <div className="flex items-center gap-2 py-3">
+            <div className="flex items-center gap-2 py-3 overflow-x-auto no-scrollbar">
               <span className="text-sm font-bold text-foreground uppercase tracking-wide mr-2">Filter:</span>
               {brandTabs.map((tab) => (
                 <button
