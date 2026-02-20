@@ -511,35 +511,21 @@ export function Header() {
 
             {/* Category Links with Red Triangle Arrows - Bold */}
             <div className="flex items-center">
-              {navCategories.map((cat) => {
-                const shortNames: Record<string, string> = {
-                  "POWER TOOLS": "POWER",
-                  "HAND TOOLS": "HAND",
-                  "POWER TOOL ACCESSORIES": "ACCESSORIES",
-                  "FASTENERS": "FASTENERS",
-                  "AIR TOOLS & COMPRESSORS": "AIR TOOLS",
-                  "STRUT & ACCESSORIES": "STRUT",
-                  "SAFETY & WORKWEAR": "SAFETY",
-                  "MACHINE TOOLS": "MACHINE",
-                  "STORAGE & WORKSPACE": "STORAGE",
-                  "JOBSITE SUPPLIES": "JOBSITE",
-                };
-                return (
-                  <div
-                    key={cat.name}
-                    className="relative"
-                    onMouseEnter={() => setActiveCategoryDropdown(cat.name)}
+              {navCategories.map((cat) => (
+                <div
+                  key={cat.name}
+                  className="relative"
+                  onMouseEnter={() => setActiveCategoryDropdown(cat.name)}
+                >
+                  <Link
+                    to={`/search?q=${encodeURIComponent(cat.name.toLowerCase())}`}
+                    className="flex items-center gap-0.5 px-1.5 py-2 text-[13px] font-bold text-header-text hover:text-header-primary transition-colors whitespace-nowrap"
                   >
-                    <Link
-                      to={`/search?q=${encodeURIComponent(cat.name.toLowerCase())}`}
-                      className="flex items-center gap-0 px-[3px] py-2 text-[12px] font-bold text-header-text hover:text-header-primary transition-colors whitespace-nowrap"
-                    >
-                      {shortNames[cat.name] || cat.name}
-                      <ThickArrow className="text-header-primary w-[7px] h-[5px] ml-[2px]" />
-                    </Link>
-                  </div>
-                );
-              })}
+                    {cat.name}
+                    <ThickArrow className="text-header-primary" />
+                  </Link>
+                </div>
+              ))}
             </div>
           </div>
 
