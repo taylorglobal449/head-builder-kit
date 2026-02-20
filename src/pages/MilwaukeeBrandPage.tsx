@@ -5,6 +5,7 @@ import { ProductCard } from "@/components/products/ProductCard";
 import { useMockProducts } from "@/hooks/useMockProducts";
 import { ChevronRight } from "lucide-react";
 import milwaukeeLogo from "@/assets/brands/milwaukee.png";
+import mkeHeroBanner from "@/assets/brands/mke-hero-banner.png";
 import mkeShopByLine from "@/assets/brands/mke-shop-by-line.png";
 import mkeCardM18 from "@/assets/brands/mke-card-m18.png";
 import mkeCardM12 from "@/assets/brands/mke-card-m12.png";
@@ -59,14 +60,9 @@ export default function MilwaukeeBrandPage() {
           </nav>
         </div>
 
-        {/* Hero — dark bg, logo centered */}
-        <section className="bg-black py-10">
-          <div className="w-[80%] mx-auto flex flex-col items-center text-center">
-            <img src={milwaukeeLogo} alt="Milwaukee" className="h-16 md:h-20 object-contain mb-3 brightness-0 invert" />
-            <p className="text-white/50 text-sm max-w-lg">
-              Nothing But Heavy Duty — Industry-leading M18 &amp; M12 cordless systems, hand tools, and accessories.
-            </p>
-          </div>
+        {/* Hero Banner */}
+        <section>
+          <img src={mkeHeroBanner} alt="Milwaukee — Nothing But Heavy Duty" className="w-full h-auto" />
         </section>
 
         {/* ─── SHOP BY LINE ─── */}
