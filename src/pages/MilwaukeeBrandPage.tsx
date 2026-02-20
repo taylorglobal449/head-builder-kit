@@ -5,23 +5,24 @@ import { ProductCard } from "@/components/products/ProductCard";
 import { useMockProducts } from "@/hooks/useMockProducts";
 import { ChevronRight } from "lucide-react";
 import milwaukeeLogo from "@/assets/brands/milwaukee.png";
-import bgM18 from "@/assets/brands/mke-bg-m18.jpg";
-import bgM12 from "@/assets/brands/mke-bg-m12.jpg";
-import bgHand from "@/assets/brands/mke-bg-hand.jpg";
-import bgAcc from "@/assets/brands/mke-bg-acc.jpg";
-import bgWear from "@/assets/brands/mke-bg-wear.jpg";
-
-const antonFont = { fontFamily: "'Anton', sans-serif" };
+import mkeShopByLine from "@/assets/brands/mke-shop-by-line.png";
+import mkeCardM18 from "@/assets/brands/mke-card-m18.png";
+import mkeCardM12 from "@/assets/brands/mke-card-m12.png";
+import mkeCardHand from "@/assets/brands/mke-card-hand.png";
+import mkeCardAcc from "@/assets/brands/mke-card-acc.png";
+import mkeCardWear from "@/assets/brands/mke-card-wear.png";
+import mkeShopByCategory from "@/assets/brands/mke-shop-by-category.png";
+import mkeNewProducts from "@/assets/brands/mke-new-products.png";
 
 const lineCardsLarge = [
-  { name: "M18", subtitle: "Power Tools", bg: bgM18, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20m18" },
-  { name: "M12", subtitle: "Power Tools", bg: bgM12, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20m12" },
+  { img: mkeCardM18, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20m18", alt: "M18 Power Tools" },
+  { img: mkeCardM12, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20m12", alt: "M12 Power Tools" },
 ];
 
 const lineCardsSmall = [
-  { name: "Hand Tools", bg: bgHand, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20hand%20tools" },
-  { name: "Accessories", bg: bgAcc, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20accessories" },
-  { name: "Work Wear", bg: bgWear, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20safety" },
+  { img: mkeCardHand, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20hand%20tools", alt: "Hand Tools" },
+  { img: mkeCardAcc, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20accessories", alt: "Accessories" },
+  { img: mkeCardWear, href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20safety", alt: "Work Wear" },
 ];
 
 const categories = [
@@ -34,6 +35,8 @@ const categories = [
   { name: "Storage", href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20packout" },
   { name: "Grinding", href: "https://www.fastenersinc.net/pages/search-results-page?q=milwaukee%20grinder" },
 ];
+
+const antonFont = { fontFamily: "'Anton', sans-serif" };
 
 export default function MilwaukeeBrandPage() {
   const { products } = useMockProducts(10);
@@ -69,91 +72,34 @@ export default function MilwaukeeBrandPage() {
         {/* ─── SHOP BY LINE ─── */}
         <section className="bg-[#1a1a1a]">
           <div className="w-[80%] mx-auto py-8">
-            <h2
-              className="text-3xl md:text-4xl text-white uppercase tracking-wide mb-6 text-center"
-              style={antonFont}
-            >
-              Shop By Line.
-            </h2>
+            <img src={mkeShopByLine} alt="Shop By Line" className="w-full max-w-2xl mx-auto mb-6" />
 
-            {/* Top row: 2 large cards (M18, M12) */}
+            {/* Top row: 2 large cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-              {lineCardsLarge.map((line) => (
+              {lineCardsLarge.map((card) => (
                 <a
-                  key={line.name}
-                  href={line.href}
+                  key={card.alt}
+                  href={card.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative overflow-hidden rounded-md border-2 border-[#db0032] bg-black"
-                  style={{ aspectRatio: "16/8" }}
+                  className="block rounded-md overflow-hidden hover:opacity-90 transition-opacity"
                 >
-                  {/* Dark bg with faded tool images */}
-                  <img src={line.bg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-40" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-
-                  {/* Content overlay */}
-                  <div className="relative h-full flex flex-col items-center justify-center text-center px-4 gap-3">
-                    {/* White rounded label with bold black text */}
-                    <div className="flex items-baseline gap-2">
-                      <div className="bg-white rounded-lg px-4 py-1.5">
-                        <span
-                          className="text-black text-4xl md:text-5xl uppercase"
-                          style={{ ...antonFont, fontStyle: "italic" }}
-                        >
-                          {line.name}
-                        </span>
-                      </div>
-                      <span
-                        className="text-white text-xl md:text-2xl uppercase"
-                        style={{ ...antonFont, fontStyle: "italic" }}
-                      >
-                        {line.subtitle}
-                      </span>
-                    </div>
-
-                    {/* Live SHOP NOW button */}
-                    <span
-                      className="inline-flex items-center gap-1 px-5 py-1.5 bg-[#db0032] hover:bg-[#ff0038] text-white text-sm font-black uppercase tracking-wider rounded-sm transition-colors"
-                      style={antonFont}
-                    >
-                      Shop Now
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    </span>
-                  </div>
+                  <img src={card.img} alt={card.alt} className="w-full h-auto" />
                 </a>
               ))}
             </div>
 
             {/* Bottom row: 3 smaller cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {lineCardsSmall.map((line) => (
+              {lineCardsSmall.map((card) => (
                 <a
-                  key={line.name}
-                  href={line.href}
+                  key={card.alt}
+                  href={card.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative overflow-hidden rounded-md border-2 border-[#db0032] bg-black"
-                  style={{ aspectRatio: "16/8" }}
+                  className="block rounded-md overflow-hidden hover:opacity-90 transition-opacity"
                 >
-                  <img src={line.bg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-30" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-
-                  <div className="relative h-full flex flex-col items-center justify-center text-center px-4 gap-2">
-                    <span
-                      className="text-white text-2xl md:text-3xl uppercase drop-shadow-lg"
-                      style={{ ...antonFont, fontStyle: "italic" }}
-                    >
-                      {line.name}
-                    </span>
-
-                    <span
-                      className="inline-flex items-center gap-1 px-4 py-1 bg-[#db0032] hover:bg-[#ff0038] text-white text-xs font-black uppercase tracking-wider rounded-sm transition-colors"
-                      style={antonFont}
-                    >
-                      Shop Now
-                      <ChevronRight className="w-3 h-3" />
-                    </span>
-                  </div>
+                  <img src={card.img} alt={card.alt} className="w-full h-auto" />
                 </a>
               ))}
             </div>
@@ -163,14 +109,7 @@ export default function MilwaukeeBrandPage() {
         {/* ─── SHOP BY POWER TOOL CATEGORY ─── */}
         <section className="bg-black">
           <div className="w-[80%] mx-auto py-8">
-            <div className="bg-[#db0032] py-3 px-4 mb-6 rounded">
-              <h2
-                className="text-2xl md:text-3xl text-white uppercase tracking-wide text-center"
-                style={antonFont}
-              >
-                Shop By Power Tool Category.
-              </h2>
-            </div>
+            <img src={mkeShopByCategory} alt="Shop By Power Tool Category" className="w-full mb-6 rounded" />
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {categories.map((cat) => (
@@ -200,14 +139,7 @@ export default function MilwaukeeBrandPage() {
 
         {/* ─── NEW PRODUCTS ─── */}
         <section>
-          <div className="bg-[#db0032] py-3">
-            <h2
-              className="text-2xl md:text-3xl text-white uppercase tracking-wide text-center"
-              style={{ ...antonFont, fontStyle: "italic" }}
-            >
-              New Products
-            </h2>
-          </div>
+          <img src={mkeNewProducts} alt="New Products" className="w-full" />
 
           <div className="bg-white">
             <div className="w-[80%] mx-auto py-8">
