@@ -48,12 +48,12 @@ export default function SalesFlyersPage() {
       <Header />
 
       {/* Hero */}
-      <section className="bg-foreground text-background py-10">
+      <section className="py-10">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-3xl md:text-4xl font-extrabold uppercase tracking-tight">
+          <h1 className="text-3xl md:text-4xl font-extrabold uppercase tracking-tight text-foreground">
             Sales Flyers & Catalogs
           </h1>
-          <p className="mt-2 text-sm md:text-base max-w-2xl mx-auto opacity-80">
+          <p className="mt-2 text-sm md:text-base max-w-2xl mx-auto text-muted-foreground">
             Check out our latest in-store and online deals. View any flyer online or download the PDF to browse at your convenience.
           </p>
         </div>
