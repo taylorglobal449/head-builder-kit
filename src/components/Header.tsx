@@ -530,45 +530,73 @@ export function Header() {
           </div>
 
           {/* Mega Menu Dropdown - spans full nav width */}
-          {activeCategoryDropdown && navCategories.find(c => c.name === activeCategoryDropdown)?.subcategories.length! > 0 && (
-            <div className="absolute left-0 right-0 top-full bg-white border border-header-border rounded-b-lg shadow-xl z-50 max-h-[420px] overflow-y-auto">
-              <div className="px-5 py-5">
-                <div className="grid grid-cols-4 gap-x-5 gap-y-4">
-                  {navCategories.find(c => c.name === activeCategoryDropdown)!.subcategories.map((subcat) => (
-                    <div key={subcat.title} className="flex gap-2">
-                      <div className="w-10 h-10 bg-muted rounded flex items-center justify-center shrink-0 overflow-hidden">
-                        <img 
-                          src={subcategoryImages[subcat.title] || `https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop`}
-                          alt={subcat.title}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <Link 
-                          to={`/search?q=${encodeURIComponent(subcat.title.toLowerCase())}`}
-                          className="text-header-primary font-bold text-xs uppercase mb-1 block hover:underline transition-colors"
-                        >
-                          {subcat.title}
-                        </Link>
-                        <ul className="space-y-0.5">
-                          {subcat.items.map((item) => (
-                            <li key={item}>
+          {activeCategoryDropdown && navCategories.find(c => c.name === activeCategoryDropdown)?.subcategories.length! > 0 && (() => {
+            const subcats = navCategories.find(c => c.name === activeCategoryDropdown)!.subcategories;
+            // Smart column packing: distribute subcategories into columns balanced by total item weight
+            const NUM_COLS = 4;
+            const columns: typeof subcats[] = Array.from({ length: NUM_COLS }, () => []);
+            const colWeights: number[] = new Array(NUM_COLS).fill(0);
+            // Sort subcats by item count descending for better packing
+            const sorted = [...subcats].sort((a, b) => (b.items.length + 1) - (a.items.length + 1));
+            for (const subcat of sorted) {
+              // Find lightest column
+              let minIdx = 0;
+              for (let i = 1; i < NUM_COLS; i++) {
+                if (colWeights[i] < colWeights[minIdx]) minIdx = i;
+              }
+              columns[minIdx].push(subcat);
+              colWeights[minIdx] += subcat.items.length + 1.5; // +1.5 for header weight
+            }
+            // Re-sort each column to match original order
+            const orderMap = new Map(subcats.map((s, i) => [s.title, i]));
+            columns.forEach(col => col.sort((a, b) => (orderMap.get(a.title) ?? 0) - (orderMap.get(b.title) ?? 0)));
+            // Remove empty columns
+            const usedColumns = columns.filter(col => col.length > 0);
+
+            return (
+              <div className="absolute left-0 right-0 top-full bg-white border border-header-border rounded-b-lg shadow-xl z-50 max-h-[420px] overflow-y-auto">
+                <div className="px-5 py-5">
+                  <div className={`grid gap-x-5`} style={{ gridTemplateColumns: `repeat(${usedColumns.length}, 1fr)` }}>
+                    {usedColumns.map((col, colIdx) => (
+                      <div key={colIdx} className="space-y-4">
+                        {col.map((subcat) => (
+                          <div key={subcat.title} className="flex gap-2">
+                            <div className="w-10 h-10 bg-muted rounded flex items-center justify-center shrink-0 overflow-hidden">
+                              <img 
+                                src={subcategoryImages[subcat.title] || `https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop`}
+                                alt={subcat.title}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div className="flex-1">
                               <Link 
-                                to={`/search?q=${encodeURIComponent(item.toLowerCase())}`}
-                                className="text-xs text-foreground hover:text-header-primary hover:underline transition-colors"
+                                to={`/search?q=${encodeURIComponent(subcat.title.toLowerCase())}`}
+                                className="text-header-primary font-bold text-xs uppercase mb-1 block hover:underline transition-colors"
                               >
-                                {item}
+                                {subcat.title}
                               </Link>
-                            </li>
-                          ))}
-                        </ul>
+                              <ul className="space-y-0.5">
+                                {subcat.items.map((item) => (
+                                  <li key={item}>
+                                    <Link 
+                                      to={`/search?q=${encodeURIComponent(item.toLowerCase())}`}
+                                      className="text-xs text-foreground hover:text-header-primary hover:underline transition-colors"
+                                    >
+                                      {item}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
         </div>
       </nav>
 
