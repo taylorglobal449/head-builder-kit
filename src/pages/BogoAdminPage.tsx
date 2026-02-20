@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
-import { Trash2, Upload, RefreshCw, AlertCircle } from "lucide-react";
+import { Trash2, RefreshCw, Plus, ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -13,15 +12,22 @@ import { SEO } from "@/components/SEO";
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
-interface BogoDeal {
+interface RuleItem {
   id: string;
-  buy_sku: string;
-  buy_title: string | null;
-  free_sku: string;
-  free_title: string | null;
-  free_variant_id: string | null;
+  sku: string;
+  item_type: string;
+  retail_price: number | null;
+}
+
+interface BogoRule {
+  id: string;
+  name: string;
+  qty_needed: number;
+  qty_given: number;
   active: boolean;
   created_at: string;
+  buy_items: RuleItem[];
+  free_items: RuleItem[];
 }
 
 async function bogoFetch(method: string, body?: any) {
@@ -37,185 +43,250 @@ async function bogoFetch(method: string, body?: any) {
   return res.json();
 }
 
-const SAMPLE_CSV = `buy_sku,buy_title,free_sku,free_title
-ABC-123,DeWalt Drill Kit,ABC-123-FREE,DeWalt Drill Kit (Free)
-XYZ-456,Milwaukee Impact,XYZ-456-FREE,Milwaukee Impact (Free)`;
-
 export default function BogoAdminPage() {
-  const [deals, setDeals] = useState<BogoDeal[]>([]);
-  const [csvText, setCsvText] = useState("");
+  const [rules, setRules] = useState<BogoRule[]>([]);
   const [loading, setLoading] = useState(false);
-  const [importing, setImporting] = useState(false);
-  const [search, setSearch] = useState("");
+  const [expandedRule, setExpandedRule] = useState<string | null>(null);
 
-  const loadDeals = async () => {
+  // New rule form
+  const [showCreate, setShowCreate] = useState(false);
+  const [newName, setNewName] = useState("Buy 1, get 1 of your choice free");
+  const [newQtyNeeded, setNewQtyNeeded] = useState(1);
+  const [newQtyGiven, setNewQtyGiven] = useState(1);
+  const [newBuySkus, setNewBuySkus] = useState("");
+  const [newFreeSkus, setNewFreeSkus] = useState("");
+  const [creating, setCreating] = useState(false);
+
+  const loadRules = async () => {
     setLoading(true);
     try {
       const data = await bogoFetch("GET");
-      if (Array.isArray(data)) setDeals(data);
+      if (Array.isArray(data)) setRules(data);
     } catch {
-      toast.error("Failed to load deals");
+      toast.error("Failed to load rules");
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => { loadDeals(); }, []);
+  useEffect(() => { loadRules(); }, []);
 
-  const handleImport = async () => {
-    if (!csvText.trim()) { toast.error("Paste your CSV data first"); return; }
-    setImporting(true);
+  const handleCreate = async () => {
+    if (!newBuySkus.trim() || !newFreeSkus.trim()) {
+      toast.error("Paste buy SKUs and free SKUs");
+      return;
+    }
+    setCreating(true);
     try {
-      const result = await bogoFetch("POST", { csvText });
+      const result = await bogoFetch("POST", {
+        name: newName,
+        qty_needed: newQtyNeeded,
+        qty_given: newQtyGiven,
+        buy_skus: newBuySkus,
+        free_skus: newFreeSkus,
+      });
       if (result.error) { toast.error(result.error); return; }
-      toast.success(`Imported ${result.imported} BOGO deals`);
-      setCsvText("");
-      loadDeals();
+      toast.success(`Rule created with ${result.items_added} items`);
+      setNewName("Buy 1, get 1 of your choice free");
+      setNewQtyNeeded(1);
+      setNewQtyGiven(1);
+      setNewBuySkus("");
+      setNewFreeSkus("");
+      setShowCreate(false);
+      loadRules();
     } catch {
-      toast.error("Import failed");
+      toast.error("Failed to create rule");
     } finally {
-      setImporting(false);
+      setCreating(false);
     }
   };
 
-  const toggleActive = async (deal: BogoDeal) => {
+  const toggleActive = async (rule: BogoRule) => {
     try {
-      await bogoFetch("PATCH", { id: deal.id, active: !deal.active });
-      setDeals(d => d.map(dd => dd.id === deal.id ? { ...dd, active: !dd.active } : dd));
+      await bogoFetch("PATCH", { id: rule.id, active: !rule.active });
+      setRules(r => r.map(rr => rr.id === rule.id ? { ...rr, active: !rr.active } : rr));
     } catch {
       toast.error("Failed to update");
     }
   };
 
-  const deleteDeal = async (id: string) => {
+  const deleteRule = async (id: string) => {
+    if (!confirm("Delete this BOGO rule and all its items?")) return;
     try {
       await bogoFetch("DELETE", { id });
-      setDeals(d => d.filter(dd => dd.id !== id));
-      toast.success("Deal removed");
+      setRules(r => r.filter(rr => rr.id !== id));
+      toast.success("Rule deleted");
     } catch {
       toast.error("Failed to delete");
     }
   };
 
   const clearAll = async () => {
-    if (!confirm("Delete ALL BOGO deals? This cannot be undone.")) return;
+    if (!confirm("Delete ALL BOGO rules? This cannot be undone.")) return;
     try {
       await bogoFetch("DELETE", { clearAll: true });
-      setDeals([]);
-      toast.success("All deals cleared");
+      setRules([]);
+      toast.success("All rules cleared");
     } catch {
       toast.error("Failed to clear");
     }
   };
-
-  const filtered = deals.filter(d =>
-    !search || d.buy_sku.toLowerCase().includes(search.toLowerCase()) ||
-    d.free_sku.toLowerCase().includes(search.toLowerCase()) ||
-    d.buy_title?.toLowerCase().includes(search.toLowerCase()) ||
-    d.free_title?.toLowerCase().includes(search.toLowerCase())
-  );
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SEO title="BOGO Admin" description="Manage Buy One Get One deals" />
       <Header />
 
-      <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-8">
-        <h1 className="text-2xl font-bold text-foreground mb-6">BOGO Deal Manager</h1>
-
-        {/* CSV Import Section */}
-        <div className="bg-card border border-border rounded-lg p-6 mb-8">
-          <h2 className="text-lg font-semibold text-foreground mb-2">Import Deals (CSV)</h2>
-          <p className="text-sm text-muted-foreground mb-3">
-            Paste CSV data below. Format: <code className="bg-muted px-1.5 py-0.5 rounded text-xs">buy_sku, buy_title, free_sku, free_title</code>
-          </p>
-
-          <div className="flex items-center gap-2 mb-3">
-            <AlertCircle className="h-4 w-4 text-muted-foreground" />
-            <span className="text-xs text-muted-foreground">Header row is optional and will be skipped automatically</span>
-          </div>
-
-          <Textarea
-            value={csvText}
-            onChange={e => setCsvText(e.target.value)}
-            placeholder={SAMPLE_CSV}
-            className="font-mono text-sm min-h-[160px] mb-4"
-          />
-
-          <div className="flex gap-3">
-            <Button onClick={handleImport} disabled={importing || !csvText.trim()}>
-              <Upload className="h-4 w-4 mr-2" />
-              {importing ? "Importing..." : "Import Deals"}
+      <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold text-foreground">BOGO Deal Manager</h1>
+          <div className="flex gap-2">
+            <Button variant="outline" size="icon" onClick={loadRules} disabled={loading}>
+              <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
             </Button>
-            <Button variant="outline" onClick={() => setCsvText(SAMPLE_CSV)}>
-              Load Sample
-            </Button>
+            {rules.length > 0 && (
+              <Button variant="destructive" size="sm" onClick={clearAll}>Clear All</Button>
+            )}
           </div>
         </div>
 
-        {/* Deals Table */}
-        <div className="bg-card border border-border rounded-lg p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-foreground">
-              Active Deals ({deals.filter(d => d.active).length} / {deals.length})
-            </h2>
-            <div className="flex gap-2">
-              <Input
-                placeholder="Search SKU or title..."
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                className="w-64"
-              />
-              <Button variant="outline" size="icon" onClick={loadDeals} disabled={loading}>
-                <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
-              </Button>
-              {deals.length > 0 && (
-                <Button variant="destructive" size="sm" onClick={clearAll}>
-                  Clear All
-                </Button>
-              )}
+        {/* Create New Rule */}
+        <div className="bg-card border border-border rounded-lg mb-6">
+          <button
+            onClick={() => setShowCreate(!showCreate)}
+            className="w-full flex items-center justify-between p-4 text-left"
+          >
+            <div className="flex items-center gap-2">
+              <Plus className="h-5 w-5 text-primary" />
+              <span className="font-semibold text-foreground">Create New BOGO Rule</span>
             </div>
-          </div>
+            {showCreate ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          </button>
 
-          {filtered.length === 0 ? (
-            <p className="text-muted-foreground text-center py-8">
-              {deals.length === 0 ? "No BOGO deals yet. Import some above!" : "No matches found."}
-            </p>
-          ) : (
-            <div className="overflow-auto max-h-[500px]">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Buy SKU</TableHead>
-                    <TableHead>Buy Title</TableHead>
-                    <TableHead>Free SKU</TableHead>
-                    <TableHead>Free Title</TableHead>
-                    <TableHead className="text-center">Active</TableHead>
-                    <TableHead className="w-12"></TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filtered.map(deal => (
-                    <TableRow key={deal.id} className={!deal.active ? "opacity-50" : ""}>
-                      <TableCell className="font-mono text-sm">{deal.buy_sku}</TableCell>
-                      <TableCell className="text-sm">{deal.buy_title || "—"}</TableCell>
-                      <TableCell className="font-mono text-sm">{deal.free_sku}</TableCell>
-                      <TableCell className="text-sm">{deal.free_title || "—"}</TableCell>
-                      <TableCell className="text-center">
-                        <Switch checked={deal.active} onCheckedChange={() => toggleActive(deal)} />
-                      </TableCell>
-                      <TableCell>
-                        <Button variant="ghost" size="icon" onClick={() => deleteDeal(deal.id)}>
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+          {showCreate && (
+            <div className="px-4 pb-4 space-y-4 border-t border-border pt-4">
+              <div>
+                <label className="text-sm font-medium text-foreground">Rule Name</label>
+                <Input value={newName} onChange={e => setNewName(e.target.value)} className="mt-1" />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-foreground">Qty Needed (Buy)</label>
+                  <Input
+                    type="number" min={1} value={newQtyNeeded}
+                    onChange={e => setNewQtyNeeded(parseInt(e.target.value) || 1)}
+                    className="mt-1"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">How many the customer must buy</p>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-foreground">Qty Given (Free)</label>
+                  <Input
+                    type="number" min={1} value={newQtyGiven}
+                    onChange={e => setNewQtyGiven(parseInt(e.target.value) || 1)}
+                    className="mt-1"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">How many free items they get</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-foreground">Buy These (paste SKUs)</label>
+                  <Textarea
+                    value={newBuySkus}
+                    onChange={e => setNewBuySkus(e.target.value)}
+                    placeholder={"2785-20,349\n2882-20,279\n2886-20,329"}
+                    className="mt-1 font-mono text-sm min-h-[140px]"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">One per line: SKU or SKU,price</p>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-foreground">Get These Free (paste SKUs)</label>
+                  <Textarea
+                    value={newFreeSkus}
+                    onChange={e => setNewFreeSkus(e.target.value)}
+                    placeholder={"48-11-1865,FREE ($199)\n2888-20,FREE ($279)"}
+                    className="mt-1 font-mono text-sm min-h-[140px]"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">One per line: SKU or SKU,price</p>
+                </div>
+              </div>
+
+              <Button onClick={handleCreate} disabled={creating || !newBuySkus.trim() || !newFreeSkus.trim()}>
+                {creating ? "Creating..." : "Create Rule"}
+              </Button>
             </div>
           )}
         </div>
+
+        {/* Existing Rules */}
+        {rules.length === 0 ? (
+          <p className="text-muted-foreground text-center py-12">
+            No BOGO rules yet. Create one above!
+          </p>
+        ) : (
+          <div className="space-y-4">
+            {rules.map(rule => (
+              <div key={rule.id} className={`bg-card border border-border rounded-lg ${!rule.active ? "opacity-50" : ""}`}>
+                <div className="flex items-center justify-between p-4">
+                  <button
+                    onClick={() => setExpandedRule(expandedRule === rule.id ? null : rule.id)}
+                    className="flex-1 text-left"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div>
+                        <h3 className="font-semibold text-foreground">{rule.name}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Buy {rule.qty_needed} from {rule.buy_items.length} items → Get {rule.qty_given} from {rule.free_items.length} items free
+                        </p>
+                      </div>
+                    </div>
+                  </button>
+                  <div className="flex items-center gap-3">
+                    <Switch checked={rule.active} onCheckedChange={() => toggleActive(rule)} />
+                    <Button variant="ghost" size="icon" onClick={() => deleteRule(rule.id)}>
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
+                    {expandedRule === rule.id ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                  </div>
+                </div>
+
+                {expandedRule === rule.id && (
+                  <div className="px-4 pb-4 border-t border-border pt-3 grid grid-cols-2 gap-4">
+                    <div>
+                      <h4 className="text-sm font-semibold text-foreground mb-2">
+                        Buy Items ({rule.buy_items.length})
+                      </h4>
+                      <div className="bg-muted rounded p-3 max-h-[200px] overflow-auto">
+                        {rule.buy_items.map(item => (
+                          <div key={item.id} className="flex justify-between text-sm py-0.5">
+                            <span className="font-mono">{item.sku}</span>
+                            {item.retail_price && <span className="text-muted-foreground">${item.retail_price}</span>}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-foreground mb-2">
+                        Free Items ({rule.free_items.length})
+                      </h4>
+                      <div className="bg-muted rounded p-3 max-h-[200px] overflow-auto">
+                        {rule.free_items.map(item => (
+                          <div key={item.id} className="flex justify-between text-sm py-0.5">
+                            <span className="font-mono">{item.sku}</span>
+                            {item.retail_price && <span className="text-muted-foreground">${item.retail_price}</span>}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </main>
 
       <Footer />

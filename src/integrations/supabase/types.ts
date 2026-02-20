@@ -50,6 +50,71 @@ export type Database = {
         }
         Relationships: []
       }
+      bogo_rule_items: {
+        Row: {
+          created_at: string
+          id: string
+          item_type: string
+          retail_price: number | null
+          rule_id: string
+          sku: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          item_type: string
+          retail_price?: number | null
+          rule_id: string
+          sku: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          item_type?: string
+          retail_price?: number | null
+          rule_id?: string
+          sku?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bogo_rule_items_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "bogo_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bogo_rules: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          name: string
+          qty_given: number
+          qty_needed: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          name: string
+          qty_given?: number
+          qty_needed?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          name?: string
+          qty_given?: number
+          qty_needed?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
