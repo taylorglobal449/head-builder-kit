@@ -29,12 +29,12 @@ const deals: DealCard[] = [
     linkUrl: "/brands/milwaukee"
   },
   {
-    brand: "Metabo HPT",
-    brandColor: "bg-green-600",
-    title: "FREE 2PK SAWHORSES",
-    description: "with select Metabo HPT miter saw",
-    imageUrl: "https://images.unsplash.com/photo-1586864387789-628af9feed72?w=300&auto=format&fit=crop&q=60",
-    linkUrl: "/brands/metabo"
+    brand: "BOGO",
+    brandColor: "bg-purple-600",
+    title: "BUY 1, GET 1 FREE",
+    description: "Buy a qualifying tool & choose a FREE item. Select deals available now!",
+    imageUrl: "https://images.unsplash.com/photo-1581783898377-1c85bf937427?w=300&auto=format&fit=crop&q=60",
+    linkUrl: "/admin/bogo"
   },
   {
     brand: "DEWALT",

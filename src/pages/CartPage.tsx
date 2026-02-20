@@ -26,10 +26,8 @@ export default function CartPage() {
   }, [syncCart]);
 
   const handleCheckout = () => {
-    const checkoutUrl = getCheckoutUrl();
-    if (checkoutUrl) {
-      window.open(checkoutUrl, "_blank");
-    }
+    // Checkout disabled while store is under construction
+    return;
   };
 
   return (
@@ -171,18 +169,11 @@ export default function CartPage() {
 
                 <Button
                   onClick={handleCheckout}
-                  className="w-full bg-header-primary hover:bg-header-primary-hover text-white font-bold uppercase"
+                  className="w-full bg-muted text-muted-foreground cursor-not-allowed"
                   size="lg"
-                  disabled={items.length === 0 || isLoading || isSyncing}
+                  disabled
                 >
-                  {isLoading || isSyncing ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <>
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Checkout
-                    </>
-                  )}
+                  Checkout Coming Soon
                 </Button>
 
                 <p className="text-xs text-center text-muted-foreground">

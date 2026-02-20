@@ -29,11 +29,8 @@ export function CartDrawer() {
   };
 
   const handleCheckout = () => {
-    const checkoutUrl = getCheckoutUrl();
-    if (checkoutUrl) {
-      window.open(checkoutUrl, '_blank');
-      setIsOpen(false);
-    }
+    // Checkout disabled while store is under construction
+    return;
   };
 
   return (
@@ -142,18 +139,11 @@ export function CartDrawer() {
                 </div>
                 <Button 
                   onClick={handleCheckout} 
-                  className="w-full bg-header-primary hover:bg-header-primary-hover" 
+                  className="w-full bg-muted text-muted-foreground cursor-not-allowed" 
                   size="lg" 
-                  disabled={items.length === 0 || isLoading || isSyncing}
+                  disabled
                 >
-                  {isLoading || isSyncing ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <>
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Checkout
-                    </>
-                  )}
+                  Checkout Coming Soon
                 </Button>
                 <p className="text-xs text-center text-muted-foreground">
                   Secure checkout powered by Shopify
