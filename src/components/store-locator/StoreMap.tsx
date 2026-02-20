@@ -66,7 +66,12 @@ export function StoreMap({ stores, selectedStoreId, onSelectStore }: StoreMapPro
     const map = L.map(containerRef.current, {
       center: [39.5, -121.5],
       zoom: 6,
-      scrollWheelZoom: true,
+      scrollWheelZoom: false,
+      zoomControl: false,
+      doubleClickZoom: false,
+      boxZoom: false,
+      keyboard: false,
+      dragging: true,
     });
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -76,10 +81,15 @@ export function StoreMap({ stores, selectedStoreId, onSelectStore }: StoreMapPro
 
     mapRef.current = map;
 
-    // Fit bounds to all stores
+    // Fit bounds to all stores and lock max zoom out
     if (physicalStores.length > 0) {
       const bounds = L.latLngBounds(physicalStores.map((s) => [s.lat, s.lng] as L.LatLngTuple));
       map.fitBounds(bounds, { padding: [40, 40] });
+      // After fitting, lock this as the min zoom (max zoom-out)
+      setTimeout(() => {
+        const initialZoom = map.getZoom();
+        map.setMinZoom(initialZoom);
+      }, 100);
     }
 
     return () => {
@@ -110,6 +120,12 @@ export function StoreMap({ stores, selectedStoreId, onSelectStore }: StoreMapPro
       // Extract short name (e.g. "San Leandro" from "Fasteners Inc San Leandro")
       const shortName = store.name.replace(/^(Fasteners Inc\s*|Redding Fasteners|Red Bluff Fasteners|Reno Fasteners)/i, '').trim() || store.name;
 
+      // Offset Anderson left so it doesn't overlap with Redding
+      const tooltipDirection: L.Direction =
+        store.id === "anderson" ? "left" : "right";
+      const tooltipOffset: L.PointExpression =
+        store.id === "anderson" ? [-12, -14] : [12, -14];
+
       const marker = L.marker([store.lat, store.lng], { icon })
         .addTo(map)
         .bindPopup(
@@ -117,8 +133,8 @@ export function StoreMap({ stores, selectedStoreId, onSelectStore }: StoreMapPro
         )
         .bindTooltip(store.name, {
           permanent: true,
-          direction: "right",
-          offset: [12, -14],
+          direction: tooltipDirection,
+          offset: tooltipOffset,
           className: "store-label-tooltip",
         });
 
@@ -127,15 +143,29 @@ export function StoreMap({ stores, selectedStoreId, onSelectStore }: StoreMapPro
     });
   }, [physicalStores, selectedStoreId, onSelectStore]);
 
-  // Fly to selected store
+  // Fly to selected store, or reset to overview
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !selectedStoreId) return;
-    const store = physicalStores.find((s) => s.id === selectedStoreId);
-    if (store) {
-      map.flyTo([store.lat, store.lng], 12, { duration: 0.8 });
+    if (!map) return;
+    if (selectedStoreId) {
+      const store = physicalStores.find((s) => s.id === selectedStoreId);
+      if (store) {
+        map.flyTo([store.lat, store.lng], 12, { duration: 0.8 });
+      }
+    } else if (physicalStores.length > 0) {
+      const bounds = L.latLngBounds(physicalStores.map((s) => [s.lat, s.lng] as L.LatLngTuple));
+      map.flyToBounds(bounds, { padding: [40, 40], duration: 0.8 });
     }
   }, [selectedStoreId, physicalStores]);
 
-  return <div ref={containerRef} className="w-full h-full z-0" />;
+  return (
+    <div className="relative w-full h-full">
+      <div ref={containerRef} className="w-full h-full z-0" />
+      {!selectedStoreId && (
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-foreground/80 text-background text-xs font-semibold px-3 py-1.5 rounded-full pointer-events-none z-[1000]">
+          Click a store to zoom in
+        </div>
+      )}
+    </div>
+  );
 }
