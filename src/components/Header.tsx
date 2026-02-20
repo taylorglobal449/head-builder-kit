@@ -263,10 +263,14 @@ const shopAllDropdown = [
   { name: "Storage & Workspace", href: "https://www.fastenersinc.net/pages/search-results-page?q=storage" },
   { name: "Safety & Workwear", href: "https://www.fastenersinc.net/pages/search-results-page?q=workwear" },
   { name: "Machine Tools", href: "https://www.fastenersinc.net/pages/search-results-page?q=machine%20tools" },
-  { name: "Air Tools & Compressors", href: "https://www.fastenersinc.net/pages/search-results-page?q=air%20tools" },
-  { name: "Jobsite Supplies", href: "https://www.fastenersinc.net/pages/search-results-page?q=jobsite%20supplies" },
   { name: "Outdoor Power", href: "https://www.fastenersinc.net/pages/search-results-page?collection=outdoor-power-equipement" },
   { name: "Combo Kits", href: "https://www.fastenersinc.net/pages/search-results-page?collection=power-tool-combo-kits" },
+];
+
+const shopAllOther = [
+  { name: "Air Tools & Compressors", href: "https://www.fastenersinc.net/pages/search-results-page?q=air%20tools" },
+  { name: "Jobsite Supplies", href: "https://www.fastenersinc.net/pages/search-results-page?q=jobsite%20supplies" },
+  { name: "Strut & Accessories", href: "https://www.fastenersinc.net/pages/search-results-page?q=strut" },
 ];
 
 const brandsDropdown = [
@@ -475,6 +479,16 @@ export function Header() {
                       <div className="absolute left-0 top-full mt-0 bg-white border border-header-border rounded-lg shadow-xl z-50 min-w-[200px]">
                         <ul className="py-2">
                           {shopAllDropdown.map((item) => (
+                            <li key={item.name}>
+                              <a href={item.href} className="block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-header-primary">
+                                {item.name}
+                              </a>
+                            </li>
+                          ))}
+                          <li className="border-t border-header-border mt-1 pt-1">
+                            <span className="block px-4 py-1.5 text-xs font-bold text-muted-foreground uppercase tracking-wide">Other</span>
+                          </li>
+                          {shopAllOther.map((item) => (
                             <li key={item.name}>
                               <a href={item.href} className="block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-header-primary">
                                 {item.name}
