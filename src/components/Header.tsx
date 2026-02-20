@@ -389,8 +389,10 @@ export function Header() {
       </div>
 
       {/* Navigation Bar - Single Line, Seamless White */}
-      <nav className="bg-white border-b border-header-border hidden lg:block relative z-[40]">
-        <div className="max-w-[1600px] mx-auto px-4">
+      <nav className="bg-white border-b border-header-border hidden lg:block relative z-[40]"
+        onMouseLeave={() => setActiveCategoryDropdown(null)}
+      >
+        <div className="max-w-[1600px] mx-auto px-4 relative">
           <div className="flex items-center">
             {/* Colored Nav Buttons - Single Line, No Wrap */}
             <div className="flex items-center gap-[3px] mr-1.5 shrink-0 pr-1.5 border-r border-header-border">
@@ -400,7 +402,7 @@ export function Header() {
                   <div 
                     key={btn.name} 
                     className="relative"
-                    onMouseEnter={() => btn.hasDropdown && setActiveDropdown(btn.name)}
+                    onMouseEnter={() => { btn.hasDropdown && setActiveDropdown(btn.name); setActiveCategoryDropdown(null); }}
                     onMouseLeave={() => setActiveDropdown(null)}
                   >
                     {(btn as any).internal ? (
@@ -471,7 +473,6 @@ export function Header() {
                   key={cat.name}
                   className="relative"
                   onMouseEnter={() => setActiveCategoryDropdown(cat.name)}
-                  onMouseLeave={() => setActiveCategoryDropdown(null)}
                 >
                   <Link
                     to={`/search?q=${encodeURIComponent(cat.name.toLowerCase())}`}
@@ -480,51 +481,51 @@ export function Header() {
                     {cat.name}
                     <ThickArrow className="text-header-primary" />
                   </Link>
-                  
-                  {/* Mega Menu Dropdown */}
-                  {activeCategoryDropdown === cat.name && cat.subcategories.length > 0 && (
-                    <div className="absolute left-0 top-full mt-0 bg-white border border-header-border rounded-lg shadow-xl z-50 w-[700px] max-w-[90vw]">
-                      <div className="px-5 py-5">
-                        <div className="grid grid-cols-3 gap-x-5 gap-y-4">
-                          {cat.subcategories.map((subcat) => (
-                            <div key={subcat.title} className="flex gap-2">
-                              <div className="w-10 h-10 bg-muted rounded flex items-center justify-center shrink-0 overflow-hidden">
-                                <img 
-                                  src={subcategoryImages[subcat.title] || `https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop`}
-                                  alt={subcat.title}
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                              <div className="flex-1">
-                                <Link 
-                                  to={`/search?q=${encodeURIComponent(subcat.title.toLowerCase())}`}
-                                  className="text-header-primary font-bold text-xs uppercase mb-1 block hover:underline transition-colors"
-                                >
-                                  {subcat.title}
-                                </Link>
-                                <ul className="space-y-0.5">
-                                  {subcat.items.slice(0, 3).map((item) => (
-                                    <li key={item}>
-                                      <Link 
-                                        to={`/search?q=${encodeURIComponent(item.toLowerCase())}`}
-                                        className="text-xs text-foreground hover:text-header-primary hover:underline transition-colors"
-                                      >
-                                        {item}
-                                      </Link>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  )}
                 </div>
               ))}
             </div>
           </div>
+
+          {/* Mega Menu Dropdown - spans full nav width */}
+          {activeCategoryDropdown && navCategories.find(c => c.name === activeCategoryDropdown)?.subcategories.length! > 0 && (
+            <div className="absolute left-0 right-0 top-full bg-white border border-header-border rounded-b-lg shadow-xl z-50 max-h-[420px] overflow-y-auto">
+              <div className="px-5 py-5">
+                <div className="grid grid-cols-4 gap-x-5 gap-y-4">
+                  {navCategories.find(c => c.name === activeCategoryDropdown)!.subcategories.map((subcat) => (
+                    <div key={subcat.title} className="flex gap-2">
+                      <div className="w-10 h-10 bg-muted rounded flex items-center justify-center shrink-0 overflow-hidden">
+                        <img 
+                          src={subcategoryImages[subcat.title] || `https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=120&h=120&fit=crop`}
+                          alt={subcat.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <Link 
+                          to={`/search?q=${encodeURIComponent(subcat.title.toLowerCase())}`}
+                          className="text-header-primary font-bold text-xs uppercase mb-1 block hover:underline transition-colors"
+                        >
+                          {subcat.title}
+                        </Link>
+                        <ul className="space-y-0.5">
+                          {subcat.items.slice(0, 3).map((item) => (
+                            <li key={item}>
+                              <Link 
+                                to={`/search?q=${encodeURIComponent(item.toLowerCase())}`}
+                                className="text-xs text-foreground hover:text-header-primary hover:underline transition-colors"
+                              >
+                                {item}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
 
