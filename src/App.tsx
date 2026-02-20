@@ -27,6 +27,7 @@ import FastenersPage from "./pages/FastenersPage";
 import RefundPolicyPage from "./pages/RefundPolicyPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import ShippingPolicyPage from "./pages/ShippingPolicyPage";
+import AboutUsPage from "./pages/AboutUsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -56,6 +57,7 @@ function AppContent() {
         <Route path="/brands/milwaukee" element={<MilwaukeeBrandPage />} />
         <Route path="/brands/:slug" element={<BrandPage />} />
         <Route path="/account" element={<AccountPage />} />
+        <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/refund-policy" element={<RefundPolicyPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/shipping-policy" element={<ShippingPolicyPage />} />

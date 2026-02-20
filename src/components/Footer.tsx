@@ -34,8 +34,8 @@ const supportLinks = [
 ];
 
 const companyLinks = [
-  { name: "About Us", href: "https://www.fastenersinc.net/pages/about-us" },
-  { name: "Careers", href: "https://www.fastenersinc.net/pages/careers" },
+  { name: "About Us", href: "/about-us" },
+  { name: "Careers", href: "https://workforcenow.cloud.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=664f8670-4e1d-443d-92bd-c6b9ff954e19&ccId=19000101_000001&lang=en_US" },
   { name: "Store Locations", href: "/store-locator" },
   { name: "Events", href: "/events" },
   { name: "Shipping Policy", href: "/shipping-policy" },
