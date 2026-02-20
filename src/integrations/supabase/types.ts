@@ -14,7 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bogo_deals: {
+        Row: {
+          active: boolean
+          buy_sku: string
+          buy_title: string | null
+          created_at: string
+          free_sku: string
+          free_title: string | null
+          free_variant_id: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          buy_sku: string
+          buy_title?: string | null
+          created_at?: string
+          free_sku: string
+          free_title?: string | null
+          free_variant_id?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          buy_sku?: string
+          buy_title?: string | null
+          created_at?: string
+          free_sku?: string
+          free_title?: string | null
+          free_variant_id?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
