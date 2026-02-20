@@ -38,9 +38,9 @@ const companyLinks = [
   { name: "Careers", href: "https://www.fastenersinc.net/pages/careers" },
   { name: "Store Locations", href: "/store-locator" },
   { name: "Events", href: "/events" },
-  { name: "Shipping Policy", href: "https://www.fastenersinc.net/pages/shipping-policy" },
-  { name: "Refund Policy", href: "https://www.fastenersinc.net/pages/refund-policy" },
-  { name: "Privacy Policy", href: "https://www.fastenersinc.net/pages/privacy-policy" },
+  { name: "Shipping Policy", href: "/shipping-policy" },
+  { name: "Refund Policy", href: "/refund-policy" },
+  { name: "Privacy Policy", href: "/privacy-policy" },
 ];
 
 export function Footer() {
@@ -99,12 +99,10 @@ export function Footer() {
               />
               <span className="text-xs text-background/60 leading-relaxed">
                 By checking this box, you agree to receive email notifications from Fasteners, Inc. for our newsletter and promotions.{" "}
-                <a
-                  href="https://www.fastenersinc.net/pages/privacy-policy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline hover:text-header-primary transition-colors"
-                >
+                  <a
+                    href="/privacy-policy"
+                    className="underline hover:text-header-primary transition-colors"
+                  >
                   Privacy Policy
                 </a>
               </span>

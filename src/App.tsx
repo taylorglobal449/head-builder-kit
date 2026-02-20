@@ -24,6 +24,9 @@ import CloseoutsPage from "./pages/CloseoutsPage";
 import HotDealsPage from "./pages/HotDealsPage";
 import NewProductsPage from "./pages/NewProductsPage";
 import FastenersPage from "./pages/FastenersPage";
+import RefundPolicyPage from "./pages/RefundPolicyPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import ShippingPolicyPage from "./pages/ShippingPolicyPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -53,6 +56,9 @@ function AppContent() {
         <Route path="/brands/milwaukee" element={<MilwaukeeBrandPage />} />
         <Route path="/brands/:slug" element={<BrandPage />} />
         <Route path="/account" element={<AccountPage />} />
+        <Route path="/refund-policy" element={<RefundPolicyPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/shipping-policy" element={<ShippingPolicyPage />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
