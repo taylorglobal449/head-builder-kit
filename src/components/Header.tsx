@@ -263,6 +263,8 @@ const shopAllDropdown = [
   { name: "Storage & Workspace", href: "https://www.fastenersinc.net/pages/search-results-page?q=storage" },
   { name: "Safety & Workwear", href: "https://www.fastenersinc.net/pages/search-results-page?q=workwear" },
   { name: "Machine Tools", href: "https://www.fastenersinc.net/pages/search-results-page?q=machine%20tools" },
+  { name: "Air Tools & Compressors", href: "https://www.fastenersinc.net/pages/search-results-page?q=air%20tools" },
+  { name: "Jobsite Supplies", href: "https://www.fastenersinc.net/pages/search-results-page?q=jobsite%20supplies" },
   { name: "Outdoor Power", href: "https://www.fastenersinc.net/pages/search-results-page?collection=outdoor-power-equipement" },
   { name: "Combo Kits", href: "https://www.fastenersinc.net/pages/search-results-page?collection=power-tool-combo-kits" },
 ];
@@ -509,9 +511,9 @@ export function Header() {
               })}
             </div>
 
-            {/* Category Links with Red Triangle Arrows - Bold */}
+            {/* Category Links with Red Triangle Arrows - Bold (show top 8 in nav bar) */}
             <div className="flex items-center">
-              {navCategories.map((cat) => (
+              {navCategories.slice(0, 8).map((cat) => (
                 <div
                   key={cat.name}
                   className="relative"
