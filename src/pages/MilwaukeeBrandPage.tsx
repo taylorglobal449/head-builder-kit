@@ -44,7 +44,7 @@ export default function MilwaukeeBrandPage() {
 
       <main>
         {/* Breadcrumb */}
-        <div className="max-w-[1600px] mx-auto px-4 pt-4 pb-2">
+        <div className="w-[80%] mx-auto pt-4 pb-2">
           <nav>
             <ol className="flex items-center gap-2 text-sm text-muted-foreground">
               <li><Link to="/" className="hover:text-header-primary">Home</Link></li>
@@ -58,7 +58,7 @@ export default function MilwaukeeBrandPage() {
 
         {/* Hero — dark bg, logo centered */}
         <section className="bg-black py-10">
-          <div className="max-w-[1600px] mx-auto px-4 flex flex-col items-center text-center">
+          <div className="w-[80%] mx-auto flex flex-col items-center text-center">
             <img src={milwaukeeLogo} alt="Milwaukee" className="h-16 md:h-20 object-contain mb-3 brightness-0 invert" />
             <p className="text-white/50 text-sm max-w-lg">
               Nothing But Heavy Duty — Industry-leading M18 &amp; M12 cordless systems, hand tools, and accessories.
@@ -68,7 +68,7 @@ export default function MilwaukeeBrandPage() {
 
         {/* ─── SHOP BY LINE ─── */}
         <section className="bg-[#1a1a1a]">
-          <div className="max-w-[1600px] mx-auto px-4 py-8">
+          <div className="w-[80%] mx-auto py-8">
             <h2
               className="text-3xl md:text-4xl text-white uppercase tracking-wide mb-6 text-center"
               style={antonFont}
@@ -162,7 +162,7 @@ export default function MilwaukeeBrandPage() {
 
         {/* ─── SHOP BY POWER TOOL CATEGORY ─── */}
         <section className="bg-black">
-          <div className="max-w-[1600px] mx-auto px-4 py-8">
+          <div className="w-[80%] mx-auto py-8">
             <div className="bg-[#db0032] py-3 px-4 mb-6 rounded">
               <h2
                 className="text-2xl md:text-3xl text-white uppercase tracking-wide text-center"
@@ -210,7 +210,7 @@ export default function MilwaukeeBrandPage() {
           </div>
 
           <div className="bg-white">
-            <div className="max-w-[1600px] mx-auto px-4 py-8">
+            <div className="w-[80%] mx-auto py-8">
               <div className="flex gap-4 overflow-x-auto pb-2" style={{ scrollbarWidth: "thin" }}>
                 {products.slice(0, 8).map((product) => (
                   <div key={product.node.id} className="min-w-[200px] max-w-[220px] flex-shrink-0">
