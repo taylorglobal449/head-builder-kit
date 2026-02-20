@@ -95,8 +95,8 @@ export default function HotDealsPage() {
         </div>
 
         {/* Deal Banner Grid */}
-        <div className="max-w-[1600px] mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="max-w-[80%] mx-auto py-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {filteredBanners.map((banner) => (
               <a
                 key={banner.id}
