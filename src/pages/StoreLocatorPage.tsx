@@ -346,32 +346,30 @@ export default function StoreLocatorPage() {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-2xl md:text-3xl font-extrabold uppercase tracking-tight mb-6">
-          Store Locator
-        </h1>
-        {/* Search */}
-        <div className="mb-6 flex gap-3 max-w-md">
-          <Input
-            placeholder="Search by city, state, or zip..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="flex-1"
-          />
-          {search && (
-            <Button variant="outline" size="sm" onClick={() => setSearch("")}>
-              Clear
-            </Button>
-          )}
-        </div>
-
+      <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="grid lg:grid-cols-[400px_1fr] gap-6">
           {/* Store List */}
           <div>
-            <div className="bg-foreground text-background px-4 py-2 rounded-t-md font-bold text-sm uppercase tracking-wide">
-              Store List ({filteredStores.length} locations)
+            {/* Title + Search row */}
+            <div className="flex items-center gap-3 mb-3">
+              <h1 className="text-xl md:text-2xl font-extrabold uppercase tracking-tight whitespace-nowrap">
+                Store Locator
+              </h1>
+              <div className="flex gap-2 flex-1">
+                <Input
+                  placeholder="Search city, state, or zip..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="flex-1"
+                />
+                {search && (
+                  <Button variant="outline" size="sm" onClick={() => setSearch("")}>
+                    Clear
+                  </Button>
+                )}
+              </div>
             </div>
-            <ScrollArea className="h-[700px] border border-t-0 rounded-b-md">
+            <ScrollArea className="h-[calc(100vh-180px)] border rounded-md">
               <div className="divide-y divide-border">
                 {filteredStores.map((store) => (
                   <div
