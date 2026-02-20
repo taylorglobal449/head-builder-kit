@@ -451,7 +451,7 @@ export function Header() {
                     {(btn as any).internal ? (
                       <Link
                         to={btn.href}
-                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[13px] font-bold px-1 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-0.5`}
+                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[11px] font-bold px-1 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-0.5`}
                       >
                         <IconComponent className="w-3.5 h-3.5" />
                         {btn.name}
@@ -460,7 +460,7 @@ export function Header() {
                     ) : (
                       <a
                         href={btn.href}
-                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[13px] font-bold px-1 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-0.5`}
+                        className={`${btn.color} ${btn.hoverColor} ${btn.textColor} text-[11px] font-bold px-1 py-1 rounded transition-colors duration-300 whitespace-nowrap flex items-center gap-0.5`}
                       >
                         <IconComponent className="w-3.5 h-3.5" />
                         {btn.name}
@@ -510,22 +510,37 @@ export function Header() {
             </div>
 
             {/* Category Links with Red Triangle Arrows - Bold */}
-            <div className="flex items-center">
-              {navCategories.map((cat) => (
-                <div
-                  key={cat.name}
-                  className="relative"
-                  onMouseEnter={() => setActiveCategoryDropdown(cat.name)}
-                >
-                  <Link
-                    to={`/search?q=${encodeURIComponent(cat.name.toLowerCase())}`}
-                    className="flex items-center gap-0.5 px-1.5 py-2 text-[13px] font-bold text-header-text hover:text-header-primary transition-colors whitespace-nowrap"
+            <div className="flex items-center overflow-x-auto scrollbar-hide">
+              {navCategories.map((cat) => {
+                // Shorter display names for nav bar to fit all 10 categories
+                const shortNames: Record<string, string> = {
+                  "POWER TOOLS": "POWER TOOLS",
+                  "HAND TOOLS": "HAND TOOLS",
+                  "POWER TOOL ACCESSORIES": "ACCESSORIES",
+                  "FASTENERS": "FASTENERS",
+                  "AIR TOOLS & COMPRESSORS": "AIR TOOLS",
+                  "STRUT & ACCESSORIES": "STRUT",
+                  "SAFETY & WORKWEAR": "SAFETY",
+                  "MACHINE TOOLS": "MACHINE TOOLS",
+                  "STORAGE & WORKSPACE": "STORAGE",
+                  "JOBSITE SUPPLIES": "JOBSITE",
+                };
+                return (
+                  <div
+                    key={cat.name}
+                    className="relative"
+                    onMouseEnter={() => setActiveCategoryDropdown(cat.name)}
                   >
-                    {cat.name}
-                    <ThickArrow className="text-header-primary" />
-                  </Link>
-                </div>
-              ))}
+                    <Link
+                      to={`/search?q=${encodeURIComponent(cat.name.toLowerCase())}`}
+                      className="flex items-center gap-0.5 px-[3px] py-2 text-[11px] font-bold text-header-text hover:text-header-primary transition-colors whitespace-nowrap"
+                    >
+                      {shortNames[cat.name] || cat.name}
+                      <ThickArrow className="text-header-primary" />
+                    </Link>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
