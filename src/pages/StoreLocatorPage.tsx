@@ -346,19 +346,10 @@ export default function StoreLocatorPage() {
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* Hero */}
-      <section className="bg-foreground text-background py-10">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-3xl md:text-4xl font-extrabold uppercase tracking-tight">
-            Store Locator
-          </h1>
-          <p className="mt-2 text-sm md:text-base max-w-2xl mx-auto opacity-80">
-            Find a Fasteners Inc location near you. We have 9 retail stores across California, Oregon & Nevada — plus nationwide online sales.
-          </p>
-        </div>
-      </section>
-
       <div className="max-w-7xl mx-auto px-4 py-8">
+        <h1 className="text-2xl md:text-3xl font-extrabold uppercase tracking-tight mb-6">
+          Store Locator
+        </h1>
         {/* Search */}
         <div className="mb-6 flex gap-3 max-w-md">
           <Input
