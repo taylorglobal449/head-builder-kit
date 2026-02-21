@@ -29,6 +29,7 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import ShippingPolicyPage from "./pages/ShippingPolicyPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import BogoAdminPage from "./pages/BogoAdminPage";
+import BogoDealsPage from "./pages/BogoDealsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -63,6 +64,7 @@ function AppContent() {
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/shipping-policy" element={<ShippingPolicyPage />} />
         <Route path="/admin/bogo" element={<BogoAdminPage />} />
+        <Route path="/deals/bogo" element={<BogoDealsPage />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
