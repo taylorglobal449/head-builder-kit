@@ -34,7 +34,7 @@ const deals: DealCard[] = [
     title: "BUY 1, GET 1 FREE",
     description: "Buy a qualifying tool & choose a FREE item. Select deals available now!",
     imageUrl: "https://images.unsplash.com/photo-1581783898377-1c85bf937427?w=300&auto=format&fit=crop&q=60",
-    linkUrl: "/admin/bogo"
+    linkUrl: "/deals/bogo"
   },
   {
     brand: "DEWALT",
