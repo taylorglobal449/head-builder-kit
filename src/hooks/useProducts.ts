@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fetchProducts, fetchProductByHandle } from '@/lib/shopify/api';
 import type { ShopifyProduct } from '@/lib/shopify/types';
-import { TEST_PRODUCTS } from '@/lib/mockProducts';
+import { MOCK_PRODUCTS } from '@/lib/mockProducts';
 
 export function useProducts(first: number = 20, query?: string) {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
@@ -48,7 +48,7 @@ export function useProduct(handle: string) {
         setProduct(response.data.product);
       } else {
         // Fallback to mock/test products for demo handles
-        const mockProduct = TEST_PRODUCTS.find(p => p.node.handle === handle);
+        const mockProduct = MOCK_PRODUCTS.find(p => p.node.handle === handle);
         if (mockProduct) {
           setProduct(mockProduct.node as ShopifyProduct['node']);
         } else {
