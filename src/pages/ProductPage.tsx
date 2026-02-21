@@ -11,6 +11,7 @@ import { Loader2, ShoppingCart, ChevronLeft, ChevronRight, Minus, Plus, Truck, S
 import { toast } from "sonner";
 import { RecentlyViewed } from "@/components/product/RecentlyViewed";
 import { BoughtWith } from "@/components/product/BoughtWith";
+import { BogoBanner } from "@/components/product/BogoBanner";
 import { SEO } from "@/components/SEO";
 import { TEST_PRODUCTS, type MockShopifyProduct } from "@/lib/mockProducts";
 
@@ -538,6 +539,9 @@ export default function ProductPage() {
                 </div>
               )}
 
+              {/* ── BOGO Banner ── */}
+              <BogoBanner productHandle={handle} productSku={selectedVariant?.sku} />
+
               {/* ── Description (right col, below features) ── */}
               <div className="border border-border rounded-lg overflow-hidden">
                 <div className="bg-muted/50 px-4 py-2.5 border-b border-border">
@@ -674,6 +678,9 @@ export default function ProductPage() {
               </Button>
               {trustBadges}
             </div>
+
+            {/* ── BOGO Banner ── */}
+            <BogoBanner productHandle={handle} productSku={selectedVariant?.sku} />
 
             {/* ── Description (right col, below cart) ── */}
             {(() => {
